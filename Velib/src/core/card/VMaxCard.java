@@ -1,19 +1,7 @@
 package core.card;
 
-public class VMaxCard implements Card {
-	private int timeCredit; 
-	
+public class VMaxCard extends Card {	
 	public VMaxCard(){
-		this.timeCredit = 0;
+		super();
 	}
-	
-	@Override
-	public void addTimeCredit(int timeCredit) {
-		this.timeCredit += timeCredit;
-	}
-	
-	public int getTimeCredit() {
-		return timeCredit;
-	}
-
 }

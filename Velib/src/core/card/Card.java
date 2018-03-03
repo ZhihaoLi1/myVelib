@@ -4,6 +4,14 @@ package core.card;
  * @author animato
  *
  */
-public interface Card {
-	public void addTimeCredit( int timeCredit );
+public abstract class Card {
+	int timeCredit; 
+	
+	public void addTimeCredit( int timeCredit ) {
+		this.timeCredit += timeCredit;
+	};
+	
+	public int getTimeCredit() {
+		return timeCredit;
+	}
 }
