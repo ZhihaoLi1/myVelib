@@ -1,5 +1,6 @@
 package core.bike;
 
-public interface Bike {
+import core.station.IDGenerator;
 
+public interface Bike {
 }
