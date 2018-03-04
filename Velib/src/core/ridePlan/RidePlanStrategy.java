@@ -1,5 +1,6 @@
 package core.ridePlan;
 
+import core.User;
 import core.point.Point;
 import core.station.Station;
 

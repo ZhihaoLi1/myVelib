@@ -19,7 +19,7 @@ public class Network implements RidePlanStrategy {
 	}
 	
 	@Override
-	public Station[] planRide(Point source, Point destination) {
+	public RidePlan planRide(Point source, Point destination, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
