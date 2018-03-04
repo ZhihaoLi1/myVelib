@@ -1,6 +1,7 @@
 package core.station;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
@@ -13,16 +14,34 @@ public abstract class Station extends Observable  {
 	private ArrayList<ParkingSlot> parkingSlots; 
 	private Point coordinates;
 	private Boolean online;
-	private Set<User> observers; 
-	private int lastParkingSlotId;
+	private Set<User> observers = new HashSet<User>(); 
 	// Statistics
-	private int totalRentals;
-	private int totalReturns;
+	private int totalRentals = 0;
+	private int totalReturns = 0;
 
-	public Station() {
-		
+	
+	public Station(int numberOfParkingSlots, Point coordinates, Boolean online) {
+		super();
+		this.id = StationIDGenerator.getInstance().getNextIDNumber();
+		for (int i=0; i < numberOfParkingSlots; i++) {
+			this.parkingSlots.add(new ParkingSlot());
+		}
+		this.coordinates = coordinates;
+		this.online = online;
 	}
 	
+
+	public Station(int numberOfParkingSlots, Point coordinates) {
+		super();
+		this.id = StationIDGenerator.getInstance().getNextIDNumber();
+		for (int i=0; i < numberOfParkingSlots; i++) {
+			this.parkingSlots.add(new ParkingSlot());
+		}
+		this.coordinates = coordinates;
+		this.online = true;
+	}
+	
+
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
 	public abstract void returnBike(Bike bike);
 	
