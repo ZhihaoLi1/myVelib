@@ -11,8 +11,8 @@ public class IDGeneratorTest {
 	 */
 	@Test
 	public void testGenerator() {
-		StationIDGenerator gen1 = StationIDGenerator.getInstance();
-		StationIDGenerator gen2 = StationIDGenerator.getInstance();
+		IDGenerator gen1 = IDGenerator.getInstance();
+		IDGenerator gen2 = IDGenerator.getInstance();
 		
 		for(int i=1;i<5;i++){
 			assertEquals(gen1.getNextIDNumber(), i*2 - 1);

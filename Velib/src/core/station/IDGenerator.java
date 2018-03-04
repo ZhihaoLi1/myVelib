@@ -1,14 +1,14 @@
 package core.station;
 
-public class StationIDGenerator {
-	private static StationIDGenerator instance = null;
+public class IDGenerator {
+	private static IDGenerator instance = null;
 	private int counter = 0; 
 	
 	
 	
-	public static StationIDGenerator getInstance() {
+	public static IDGenerator getInstance() {
 		if (instance == null) {
-			instance = new StationIDGenerator();
+			instance = new IDGenerator();
 		}
 		return instance;
 	}
