@@ -10,7 +10,7 @@ import core.bike.Bike;
 import core.point.Point;
 
 public abstract class Station extends Observable  {
-	private int id;
+	private final int id;
 	private ArrayList<ParkingSlot> parkingSlots; 
 	private Point coordinates;
 	private Boolean online;
@@ -22,7 +22,7 @@ public abstract class Station extends Observable  {
 	
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online) {
 		super();
-		this.id = StationIDGenerator.getInstance().getNextIDNumber();
+		this.id = IDGenerator.getInstance().getNextIDNumber();
 		for (int i=0; i < numberOfParkingSlots; i++) {
 			this.parkingSlots.add(new ParkingSlot());
 		}
@@ -33,7 +33,7 @@ public abstract class Station extends Observable  {
 
 	public Station(int numberOfParkingSlots, Point coordinates) {
 		super();
-		this.id = StationIDGenerator.getInstance().getNextIDNumber();
+		this.id = IDGenerator.getInstance().getNextIDNumber();
 		for (int i=0; i < numberOfParkingSlots; i++) {
 			this.parkingSlots.add(new ParkingSlot());
 		}
@@ -41,6 +41,18 @@ public abstract class Station extends Observable  {
 		this.online = true;
 	}
 	
+	/**
+	 * Adds a bike to the first empty slot that it finds
+	 * TODO Make thread safe ? 
+	 * @param b
+	 */
+	public void addBike(Bike b) {
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			if (parkingSlots.get(i).getBike() == null) {
+				parkingSlots.get(i).setBike(b);
+			}
+		}
+	}
 
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
 	public abstract void returnBike(Bike bike);
@@ -66,11 +78,7 @@ public abstract class Station extends Observable  {
 			user.update(this, null);
 		}
 	}
-	
-	public void createParkingSlot() {
 		
-	}
-	
 	/**
 	 * Calculate occupation rate
 	 * Out of order parking slots are ignored
@@ -85,4 +93,39 @@ public abstract class Station extends Observable  {
 	public void displayBalance() {
 		
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+
+	public ArrayList<ParkingSlot> getParkingSlots() {
+		return parkingSlots;
+	}
+
+
+	public Point getCoordinates() {
+		return coordinates;
+	}
+
+
+	public Boolean getOnline() {
+		return online;
+	}
+
+
+	public Set<User> getObservers() {
+		return observers;
+	}
+
+
+	public int getTotalRentals() {
+		return totalRentals;
+	}
+
+
+	public int getTotalReturns() {
+		return totalReturns;
+	}
+
 }
