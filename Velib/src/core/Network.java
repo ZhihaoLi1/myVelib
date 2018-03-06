@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
@@ -57,25 +58,75 @@ public class Network implements RidePlanStrategy {
 			}
 		}
 		
+		
 		// create a bike , add it to a random station
 		// Some are mech, some are elec
+		Set<Integer> keys = this.stations.keySet();
+		
+		
+		System.out.println(keys.toString());
+
 		int totalNumberOfParkingSlots = numberOfParkingSlotsPerStation.stream().mapToInt(Integer::intValue).sum();
-		for (int i=0; i < totalNumberOfParkingSlots*percentageOfBikes; i++) {
-			if (i < totalNumberOfParkingSlots*percentageOfBikes*percentageOfElecBikes) {
-				Bike b = new ElecBike();
-				this.stations.get(ThreadLocalRandom.current().nextInt(0, numberOfStations)).addBike(b);
-			} else {
-				Bike b = new MechBike();
-				this.stations.get(ThreadLocalRandom.current().nextInt(0, numberOfStations)).addBike(b);
+		int totalNumberOfBikes = (int) (totalNumberOfParkingSlots*percentageOfBikes);
+		for (Station station : this.stations.values()) {
+			for (int i=0; i<station.getParkingSlots().size(); i++ ) {
+				// TODO FINISH SETUP
 			}
 		}
-
 	}
 	
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getSide() {
+		return side;
+	}
+
+	public void setSide(double side) {
+		this.side = side;
+	}
+
+	public HashMap<Integer, Station> getStations() {
+		return stations;
+	}
+
+	public void setStations(HashMap<Integer, Station> stations) {
+		this.stations = stations;
+	}
+
+	public HashMap<Integer, User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(HashMap<Integer, User> users) {
+		this.users = users;
+	}
+
+	public HashMap<User, BikeRental> getUserRentals() {
+		return userRentals;
+	}
+
+	public void setUserRentals(HashMap<User, BikeRental> userRentals) {
+		this.userRentals = userRentals;
+	}
+
+	public HashMap<User, RidePlan> getUserRidePlans() {
+		return userRidePlans;
+	}
+
+	public void setUserRidePlans(HashMap<User, RidePlan> userRidePlans) {
+		this.userRidePlans = userRidePlans;
 	}
 	
 }

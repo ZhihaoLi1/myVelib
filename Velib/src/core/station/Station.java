@@ -11,7 +11,7 @@ import core.point.Point;
 
 public abstract class Station extends Observable  {
 	private final int id;
-	private ArrayList<ParkingSlot> parkingSlots; 
+	private ArrayList<ParkingSlot> parkingSlots = new ArrayList<ParkingSlot>(); 
 	private Point coordinates;
 	private Boolean online;
 	private Set<User> observers = new HashSet<User>(); 
@@ -45,13 +45,31 @@ public abstract class Station extends Observable  {
 	 * Adds a bike to the first empty slot that it finds
 	 * TODO Make thread safe ? 
 	 * @param b
+	 * @return boolean 
+	 * True if bike is added
+	 * False if parkingSlots are full
 	 */
-	public void addBike(Bike b) {
+	public boolean addBike(Bike b) {
 		for (int i = 0; i<parkingSlots.size(); i++) {
-			if (parkingSlots.get(i).getBike() == null) {
+			if (!parkingSlots.get(i).hasBike()) {
 				parkingSlots.get(i).setBike(b);
+				return true;
 			}
 		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return true if full
+	 */
+	public Boolean isFull() {
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			if (!parkingSlots.get(i).hasBike()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 

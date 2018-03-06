@@ -18,7 +18,11 @@ public class ParkingSlot {
 	public void setWorking(Boolean working) {
 		this.working = working;
 	}
-
+	
+	public Boolean hasBike() {
+		return bike != null;
+	}
+	
 	public Bike getBike() {
 		return bike;
 	}
