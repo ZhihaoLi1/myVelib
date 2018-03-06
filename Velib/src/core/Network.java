@@ -25,7 +25,6 @@ public class Network implements RidePlanStrategy {
 	private HashMap<User, BikeRental> userRentals = new HashMap<User, BikeRental>();
 	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
 	
-	
 	/**
 	 * Creates the network 
 	 * => stations, parking slots and bikes
@@ -33,10 +32,11 @@ public class Network implements RidePlanStrategy {
 	 * @param name
 	 * @param numberOfStations
 	 * @param numberOfParkingSlotsPerStation
-	 * @param side
+	 * @param side in km
 	 * @param percentageOfBikes
 	 * @param percentageOfPlusStations
 	 * @param percentageOfElecBikes
+	 * @throws Exception 
 	 */
 	public Network(String name, int numberOfStations, ArrayList<Integer> numberOfParkingSlotsPerStation, double side, 
 			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes ) {
@@ -49,12 +49,17 @@ public class Network implements RidePlanStrategy {
 			double x = ThreadLocalRandom.current().nextDouble(0, side);
 			double y = ThreadLocalRandom.current().nextDouble(0, side);
 			Point coordinates = new Point(x, y);
+			Station s;
 			if (i < numberOfStations*percentageOfPlusStations) {
-				Station s = new PlusStation(numberOfParkingSlotsPerStation.get(i), coordinates);
-				this.stations.put(s.getId(), s);
+				s = new PlusStation(numberOfParkingSlotsPerStation.get(i), coordinates);
 			} else {
-				Station s = new StandardStation(numberOfParkingSlotsPerStation.get(i), coordinates);
-				this.stations.put(s.getId(), s);
+				s = new StandardStation(numberOfParkingSlotsPerStation.get(i), coordinates);
+			}
+			try {
+				this.addStation(s);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -74,9 +79,20 @@ public class Network implements RidePlanStrategy {
 			}
 		}
 	}
-	
+		
+	public Network() {
+	}
+
+	public void addStation(Station station) throws Exception {
+		if(station == null) {
+			throw new Exception("Station is null in addStation");
+		}
+		// verify that the coordinates of station is within the network. 
+		this.stations.put(station.getId(), station);
+	}
+		
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user) {
+	public RidePlan planRide(Point source, Point destination, User user, String policy, String bikeType) {
 		// TODO Auto-generated method stub
 		return null;
 	}

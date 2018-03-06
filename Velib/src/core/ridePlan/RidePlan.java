@@ -13,15 +13,33 @@ public class RidePlan {
 	private Station sourceStation;
 	private Station destinationStation;
 	private String policy;
+	private String bikeType;
 	
-	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, String policy) {
+	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, String policy, String bikeType) {
 		super();
 		this.source = source;
 		this.destination = destination;
 		this.sourceStation = sourceStation;
 		this.destinationStation = destinationStation;
 		this.policy = policy;
+		this.bikeType = bikeType;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof RidePlan) {
+			RidePlan rp = (RidePlan) o;
+			if(this.source.equals(rp.getSource())
+			&& this.destination.equals(rp.getDestination())
+			&& this.sourceStation.equals(rp.getSourceStation())
+			&& this.destinationStation.equals(rp.getDestinationStation())
+			&& this.policy.equals(rp.policy)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Point getSource() {
 		return source;
 	}
