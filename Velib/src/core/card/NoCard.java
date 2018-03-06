@@ -2,7 +2,7 @@ package core.card;
 
 public class NoCard extends Card {
 	
-	NoCard(){
+	public NoCard(){
 		super();
 	}
 	

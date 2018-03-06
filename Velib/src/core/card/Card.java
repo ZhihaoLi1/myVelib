@@ -7,6 +7,10 @@ package core.card;
 public abstract class Card {
 	int timeCredit; 
 	
+	public Card() {
+		timeCredit = 0;
+	}
+	
 	public void addTimeCredit( int timeCredit ) {
 		this.timeCredit += timeCredit;
 	};
