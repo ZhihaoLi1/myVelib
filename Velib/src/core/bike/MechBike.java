@@ -9,4 +9,8 @@ public class MechBike implements Bike {
 	public MechBike(){
 		id = IDGenerator.getInstance().getNextIDNumber();
 	}
+
+	public int getId() {
+		return id;
+	}
 }
