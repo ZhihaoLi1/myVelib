@@ -11,23 +11,23 @@ public abstract class Card {
 		timeCredit = 0;
 	}
 	
-	public void addTimeCredit( int timeCredit ) {
+	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException {
 		if (timeCredit >  0) {
 			this.timeCredit += timeCredit;
 		} else {
-			System.out.println("Please add positive time credit. To remove time credit use removeTimeCreditMethod");
+			throw new NegativeTimeCreditGivenException(timeCredit);
 		}
 	};
 
-	public void removeTimeCredit( int timeCredit ) {
+	public void removeTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException, NegativeTimeCreditLeftException {
 		if (timeCredit >  0) {
 			if (this.timeCredit < timeCredit) {
-				System.out.println("Not enought time credit left. Remaining time credit = " + this.timeCredit);
+				throw new NegativeTimeCreditLeftException(timeCredit);
 			} else {
 				this.timeCredit -= timeCredit;
 			}
 		} else {
-			System.out.println("Please remove positive time credit. To add time credit use addTimeCreditMethod");
+			throw new NegativeTimeCreditGivenException(timeCredit);
 		}
 	};
 
