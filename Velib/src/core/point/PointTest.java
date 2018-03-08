@@ -13,4 +13,10 @@ public class PointTest {
 		assertEquals(a.distance(b), 3.162, 0.01);
 	}
 
+	@Test
+	public void equalsTest() {
+		Point a = new Point(1,1);
+		Point b = new Point(1,1);
+		assertEquals(a,b);
+	}
 }
