@@ -12,9 +12,25 @@ public abstract class Card {
 	}
 	
 	public void addTimeCredit( int timeCredit ) {
-		this.timeCredit += timeCredit;
+		if (timeCredit >  0) {
+			this.timeCredit += timeCredit;
+		} else {
+			System.out.println("Please add positive time credit. To remove time credit use removeTimeCreditMethod");
+		}
 	};
-	
+
+	public void removeTimeCredit( int timeCredit ) {
+		if (timeCredit >  0) {
+			if (this.timeCredit < timeCredit) {
+				System.out.println("Not enought time credit left. Remaining time credit = " + this.timeCredit);
+			} else {
+				this.timeCredit -= timeCredit;
+			}
+		} else {
+			System.out.println("Please remove positive time credit. To add time credit use addTimeCreditMethod");
+		}
+	};
+
 	public int getTimeCredit() {
 		return timeCredit;
 	}
