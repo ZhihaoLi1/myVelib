@@ -4,12 +4,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import core.card.Card;
+import core.card.NoCard;
 import core.point.Point;
+import core.station.IDGenerator;
 
 public class User implements Observer {
-	private int id; 
+	private final int id; 
 	private String name; 
-	private Point coordinate;
+	private Point coordinates;
 	private Card card;
 	
 	// Statistics of user 
@@ -18,8 +20,20 @@ public class User implements Observer {
 	private int totalCharges;
 	private int totalTimeSpent; // in minutes
 	
-	public User(String name, Point coordinates, Card card){
-		
+	public User(String name) {
+		id = IDGenerator.getInstance().getNextIDNumber();
+		this.card = new NoCard();
+	}
+	
+	public User(String name, Card card) {
+		id = IDGenerator.getInstance().getNextIDNumber();
+		this.card = card;
+	}
+
+	public User(String name, Point coordinates, Card card) {
+		id = IDGenerator.getInstance().getNextIDNumber();
+		this.coordinates = coordinates;
+		this.card = card;
 	}
 
 	/**
@@ -45,12 +59,12 @@ public class User implements Observer {
 		this.name = name;
 	}
 
-	public Point getCoordinate() {
-		return coordinate;
+	public Point getCoordinates() {
+		return coordinates;
 	}
 
-	public void setCoordinate(Point coordinate) {
-		this.coordinate = coordinate;
+	public void setCoordinates(Point coordinates) {
+		this.coordinates = coordinates;
 	}
 
 	public Card getCard() {
