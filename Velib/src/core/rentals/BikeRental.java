@@ -16,18 +16,20 @@ public class BikeRental implements Visitable{
 	
 	private Bike bike;
 	private Date rentDate;
+	private Date returnDate;
 	private User user;
 	
 	public BikeRental(Bike bike, Date rentDate, User user){
 		this.bike = bike;
 		this.rentDate = rentDate;
 		this.user = user;
+		this.rentDate = null;
 	}
 
 	// Passes information to visitor to calculate final cost. 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public double accept(Visitor visitor) {
+		return visitor.visit(this);
 	}
 
 	public Bike getBike() {
@@ -44,6 +46,14 @@ public class BikeRental implements Visitable{
 
 	public void setRentDate(Date rentDate) {
 		this.rentDate = rentDate;
+	}
+	
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
 	}
 
 	public User getUser() {
