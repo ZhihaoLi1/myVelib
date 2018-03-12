@@ -32,6 +32,14 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_06kF4B18EeiXtfvko22UtQ" name="totalTimeSpent" visibility="private">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
     </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_AmM9oCMPEei208QAV-wg1g" name="rental" visibility="private" type="_49NfEB5EEeifK9AiyA8KnA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AmM9oSMPEei208QAV-wg1g" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AmM9oiMPEei208QAV-wg1g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_YYSSwCMPEei208QAV-wg1g" name="rental" type="_49NfEB5EEeifK9AiyA8KnA" association="_YYQdkCMPEei208QAV-wg1g">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YYS50CMPEei208QAV-wg1g"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YYS50SMPEei208QAV-wg1g" value="1"/>
+    </ownedAttribute>
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_3xLBQB1pEeiqPZcfH4EsOA" client="_6UjUIBogEeirWtz6voJnbw" supplier="_vYgtMB1pEeiqPZcfH4EsOA" contract="_vYgtMB1pEeiqPZcfH4EsOA"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_FVXwoB1rEeiqPZcfH4EsOA" name="update">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_FVXwoR1rEeiqPZcfH4EsOA" name="station" type="_yBbx4B1WEeiqPZcfH4EsOA"/>
@@ -70,9 +78,12 @@
       </ownedParameter>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_yQvZQBohEeirWtz6voJnbw" name="Card">
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_CyvkMB1dEeiqPZcfH4EsOA" name="addTimeCredit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_HJbQkB1dEeiqPZcfH4EsOA" name="timeCredit">
+  <packagedElement xmi:type="uml:Interface" xmi:id="_yQvZQBohEeirWtz6voJnbw" name="CardVisitor">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_iycE0CMMEei208QAV-wg1g" name="visit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_iycE0SMMEei208QAV-wg1g" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_nBK5oCMNEei208QAV-wg1g" name="addTimeCredit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_nBK5oSMNEei208QAV-wg1g" name="timeCredit">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedParameter>
     </ownedOperation>
@@ -84,34 +95,27 @@
     </ownedAttribute>
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_pYuEIBorEeirWtz6voJnbw" client="_Bw_bEBoiEeirWtz6voJnbw" supplier="__iKMABohEeirWtz6voJnbw" contract="__iKMABohEeirWtz6voJnbw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_eUYw0BonEeirWtz6voJnbw" name="NoCard">
+  <packagedElement xmi:type="uml:Class" xmi:id="_eUYw0BonEeirWtz6voJnbw" name="NoCardVisitor">
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_o1gmMBonEeirWtz6voJnbw" client="_eUYw0BonEeirWtz6voJnbw" supplier="_yQvZQBohEeirWtz6voJnbw" contract="_yQvZQBohEeirWtz6voJnbw"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_OZYQIB1dEeiqPZcfH4EsOA" name="addTimeCredit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_OZYQIR1dEeiqPZcfH4EsOA" name="timeCredit">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Q6zfcCMNEei208QAV-wg1g" name="visit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Q6zfcSMNEei208QAV-wg1g" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_nilkoCMNEei208QAV-wg1g" name="addTimeCredit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_nilkoSMNEei208QAV-wg1g" name="timeCredit">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedParameter>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_fk-2ABonEeirWtz6voJnbw" name="VLibreCard">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_i8zVEB1WEeiqPZcfH4EsOA" name="timeCredit" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-    </ownedAttribute>
-    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_sPcWcBonEeirWtz6voJnbw" client="_fk-2ABonEeirWtz6voJnbw" supplier="_yQvZQBohEeirWtz6voJnbw" contract="_yQvZQBohEeirWtz6voJnbw"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_OsnVMB1dEeiqPZcfH4EsOA" name="addTimeCredit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_OsnVMR1dEeiqPZcfH4EsOA" name="timeCredit">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
+  <packagedElement xmi:type="uml:Class" xmi:id="_fk-2ABonEeirWtz6voJnbw" name="VLibreCardVisitor">
+    <generalization xmi:type="uml:Generalization" xmi:id="_OBuZgCMNEei208QAV-wg1g" general="_9sc0MCMMEei208QAV-wg1g"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_RNfx8CMNEei208QAV-wg1g" name="visit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_RNfx8SMNEei208QAV-wg1g" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_hCShgBonEeirWtz6voJnbw" name="VMaxCard">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_l5xcgB1WEeiqPZcfH4EsOA" name="timeCredit" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-    </ownedAttribute>
-    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_qtnXUBonEeirWtz6voJnbw" client="_hCShgBonEeirWtz6voJnbw" supplier="_yQvZQBohEeirWtz6voJnbw" contract="_yQvZQBohEeirWtz6voJnbw"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_PbyIUB1dEeiqPZcfH4EsOA" name="addTimeCredit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_PbyIUR1dEeiqPZcfH4EsOA" name="timeCredit">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
+  <packagedElement xmi:type="uml:Class" xmi:id="_hCShgBonEeirWtz6voJnbw" name="VMaxCardVisitor">
+    <generalization xmi:type="uml:Generalization" xmi:id="_NTid0CMNEei208QAV-wg1g" general="_9sc0MCMMEei208QAV-wg1g"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_RXZU0CMNEei208QAV-wg1g" name="visit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_RXZU0SMNEei208QAV-wg1g" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_VRBdcBooEeirWtz6voJnbw" memberEnd="_VRJZQBooEeirWtz6voJnbw _VRTKQBooEeirWtz6voJnbw">
@@ -137,7 +141,7 @@
     </ownedAttribute>
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_Vc_5cB5FEeifK9AiyA8KnA" client="_45PLsBorEeirWtz6voJnbw" supplier="_49NfEB5EEeifK9AiyA8KnA" contract="_49NfEB5EEeifK9AiyA8KnA"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_WvKE4B5FEeifK9AiyA8KnA" name="accept" visibility="public">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_WvKE4R5FEeifK9AiyA8KnA" name="visitor" type="_ncpyYB5EEeifK9AiyA8KnA"/>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_WvKE4R5FEeifK9AiyA8KnA" name="visitor" type="_yQvZQBohEeirWtz6voJnbw"/>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_yBbx4B1WEeiqPZcfH4EsOA" name="Station" isAbstract="true">
@@ -249,14 +253,6 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="__DWMYx1_EeimD7SrxqXUUg" name="stationfactory" type="_8JoCsB1-EeimD7SrxqXUUg" association="__DWMYB1_EeimD7SrxqXUUg">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__DWzcB1_EeimD7SrxqXUUg" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__DWzcR1_EeimD7SrxqXUUg" value="1"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_pI7RgB5FEeifK9AiyA8KnA" name="visitor" type="_ncpyYB5EEeifK9AiyA8KnA" association="_pI2ZAB5FEeifK9AiyA8KnA">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pI74kB5FEeifK9AiyA8KnA"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pI8foB5FEeifK9AiyA8KnA" value="1"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_rtwlwR5FEeifK9AiyA8KnA" name="visitable" type="_49NfEB5EEeifK9AiyA8KnA" association="_rtvXoB5FEeifK9AiyA8KnA">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rtwlwh5FEeifK9AiyA8KnA"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rtxM0B5FEeifK9AiyA8KnA" value="*"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_ynCf0B5HEeifK9AiyA8KnA" name="userRentals" visibility="private" type="_45PLsBorEeirWtz6voJnbw">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1othEB5HEeifK9AiyA8KnA"/>
@@ -545,33 +541,35 @@
     </eAnnotations>
     <ownedEnd xmi:type="uml:Property" xmi:id="__DWzch1_EeimD7SrxqXUUg" name="network" type="_JbcBYB1bEeiqPZcfH4EsOA" association="__DWMYB1_EeimD7SrxqXUUg"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_TQIOsB5EEeifK9AiyA8KnA" name="ConcreteRentalVisitor">
-    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_uZx8kB5EEeifK9AiyA8KnA" client="_TQIOsB5EEeifK9AiyA8KnA" supplier="_ncpyYB5EEeifK9AiyA8KnA" contract="_ncpyYB5EEeifK9AiyA8KnA"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_frGhoB5EEeifK9AiyA8KnA" name="visit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_jKzisB5EEeifK9AiyA8KnA" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
-    </ownedOperation>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_ncpyYB5EEeifK9AiyA8KnA" name="Visitor">
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_pyb-AB5EEeifK9AiyA8KnA" name="visit">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_pyb-AR5EEeifK9AiyA8KnA" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
-    </ownedOperation>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_49NfEB5EEeifK9AiyA8KnA" name="Visitable">
+  <packagedElement xmi:type="uml:Interface" xmi:id="_49NfEB5EEeifK9AiyA8KnA" name="Rental">
     <ownedOperation xmi:type="uml:Operation" xmi:id="_7bzocB5EEeifK9AiyA8KnA" name="accept" visibility="public">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_CAuuAB5FEeifK9AiyA8KnA" name="visitor" type="_ncpyYB5EEeifK9AiyA8KnA"/>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_nvz2YCMPEei208QAV-wg1g" name="visitor" type="_yQvZQBohEeirWtz6voJnbw"/>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Association" xmi:id="_pI2ZAB5FEeifK9AiyA8KnA" memberEnd="_pI7RgB5FEeifK9AiyA8KnA _pI8foR5FEeifK9AiyA8KnA">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pI41QB5FEeifK9AiyA8KnA" source="org.eclipse.papyrus">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pI5cUB5FEeifK9AiyA8KnA" key="nature" value="UML_Nature"/>
-    </eAnnotations>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_pI8foR5FEeifK9AiyA8KnA" name="network" type="_JbcBYB1bEeiqPZcfH4EsOA" association="_pI2ZAB5FEeifK9AiyA8KnA"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_9sc0MCMMEei208QAV-wg1g" name="CardWithTimeCreditVisitor" isAbstract="true">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="__z0JUCMMEei208QAV-wg1g" name="timeCredit" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_VOm28CMNEei208QAV-wg1g" client="_9sc0MCMMEei208QAV-wg1g" supplier="_yQvZQBohEeirWtz6voJnbw" contract="_yQvZQBohEeirWtz6voJnbw"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_AN-VwCMNEei208QAV-wg1g" name="addTimeCredit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_AN-VwSMNEei208QAV-wg1g" name="timeCredit">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_FOd0ICMNEei208QAV-wg1g" name="removeTimeCredit">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_FOd0ISMNEei208QAV-wg1g" name="timeCredit">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_c57j4CMNEei208QAV-wg1g" name="visit" isAbstract="true">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_c57j4SMNEei208QAV-wg1g" name="rental" type="_45PLsBorEeirWtz6voJnbw"/>
+    </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Association" xmi:id="_rtvXoB5FEeifK9AiyA8KnA" visibility="public" memberEnd="_rtwlwR5FEeifK9AiyA8KnA _rtxM0R5FEeifK9AiyA8KnA">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_rtv-sB5FEeifK9AiyA8KnA" source="org.eclipse.papyrus">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_rtwlwB5FEeifK9AiyA8KnA" key="nature" value="UML_Nature"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_YYQdkCMPEei208QAV-wg1g" memberEnd="_YYSSwCMPEei208QAV-wg1g _YYS50iMPEei208QAV-wg1g">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_YYRrsCMPEei208QAV-wg1g" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_YYRrsSMPEei208QAV-wg1g" key="nature" value="UML_Nature"/>
     </eAnnotations>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_rtxM0R5FEeifK9AiyA8KnA" name="network" type="_JbcBYB1bEeiqPZcfH4EsOA" association="_rtvXoB5FEeifK9AiyA8KnA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_YYS50iMPEei208QAV-wg1g" name="user" type="_6UjUIBogEeirWtz6voJnbw" association="_YYQdkCMPEei208QAV-wg1g"/>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_6XrN0B_4EeiavoZQ4tUkrw">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6X0-0B_4EeiavoZQ4tUkrw" source="http://www.eclipse.org/uml2/2.0.0/UML">
