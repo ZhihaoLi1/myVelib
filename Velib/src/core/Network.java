@@ -12,11 +12,12 @@ import core.point.Point;
 import core.rentals.BikeRental;
 import core.ridePlan.RidePlan;
 import core.ridePlan.RidePlanStrategy;
+import core.ridePlan.ShortestPlan;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
 
-public class Network implements RidePlanStrategy {
+public class Network {
 	
 	private String name;
 	private double side;
@@ -91,9 +92,15 @@ public class Network implements RidePlanStrategy {
 		this.stations.put(station.getId(), station);
 	}
 		
-	@Override
 	public RidePlan planRide(Point source, Point destination, User user, String policy, String bikeType) {
-		// TODO Auto-generated method stub
+		try {
+			switch(policy) {
+			case "shortest":
+				return new ShortestPlan().planRide(source, destination, user, policy, bikeType, stations);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
