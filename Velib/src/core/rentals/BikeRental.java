@@ -1,9 +1,11 @@
 package core.rentals;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import core.User;
 import core.bike.Bike;
+import core.card.CardVisitor;
+import core.card.InvalidBikeTypeException;
+import core.card.InvalidDatesException;
 
 /**
  * Contains information of a rental
@@ -12,23 +14,21 @@ import core.bike.Bike;
  * @author animato
  *
  */
-public class BikeRental implements Visitable{
+public class BikeRental implements Rental {
 	
 	private Bike bike;
-	private Date rentDate;
-	private Date returnDate;
-	private User user;
+	private LocalDateTime rentDate;
+	private LocalDateTime returnDate;
 	
-	public BikeRental(Bike bike, Date rentDate, User user){
+	public BikeRental(Bike bike, LocalDateTime rentDate) {
 		this.bike = bike;
 		this.rentDate = rentDate;
-		this.user = user;
-		this.rentDate = null;
+		this.returnDate = null;
 	}
 
 	// Passes information to visitor to calculate final cost. 
 	@Override
-	public double accept(Visitor visitor) {
+	public double accept(CardVisitor visitor) throws InvalidBikeTypeException, InvalidDatesException {
 		return visitor.visit(this);
 	}
 
@@ -40,27 +40,24 @@ public class BikeRental implements Visitable{
 		this.bike = bike;
 	}
 
-	public Date getRentDate() {
+	public LocalDateTime getRentDate() {
 		return rentDate;
 	}
 
-	public void setRentDate(Date rentDate) {
+	public void setRentDate(LocalDateTime rentDate) {
 		this.rentDate = rentDate;
 	}
 	
-	public Date getReturnDate() {
+	public LocalDateTime getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(Date returnDate) {
+	public void setReturnDate(LocalDateTime returnDate) {
 		this.returnDate = returnDate;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	
+	@Override
+	public String toString() {
+		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate + "]";
 	}
 }
