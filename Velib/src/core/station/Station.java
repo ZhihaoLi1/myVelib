@@ -7,6 +7,8 @@ import java.util.Set;
 
 import core.User;
 import core.bike.Bike;
+import core.bike.ElecBike;
+import core.bike.MechBike;
 import core.point.Point;
 
 public abstract class Station extends Observable  {
@@ -41,6 +43,18 @@ public abstract class Station extends Observable  {
 		this.online = true;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Station) {
+			Station s = (Station) o;
+			if (s.getId() == this.id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * Adds a bike to the first empty slot that it finds
 	 * TODO Make thread safe ? 
@@ -53,6 +67,10 @@ public abstract class Station extends Observable  {
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			if (!parkingSlots.get(i).hasBike()) {
 				parkingSlots.get(i).setBike(b);
+				// if the station is full after adding the bike, notification should be sent to users
+				if(isFull()) {
+					notifyObservers();
+				}
 				return true;
 			}
 		}
@@ -70,6 +88,32 @@ public abstract class Station extends Observable  {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @return true if there is elec bike
+	 */
+	public Boolean hasElecBike() {
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			if (parkingSlots.get(i).hasBike() && parkingSlots.get(i).getBike() instanceof ElecBike) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return true if there is mech bike
+	 */
+	public Boolean hasMechBike() {
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			if (parkingSlots.get(i).hasBike() && parkingSlots.get(i).getBike() instanceof MechBike) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
@@ -131,6 +175,11 @@ public abstract class Station extends Observable  {
 		return online;
 	}
 
+	public void setOnline(boolean online) {
+		if (!online)
+			notifyObservers();
+		this.online = online;
+	}
 
 	public Set<User> getObservers() {
 		return observers;

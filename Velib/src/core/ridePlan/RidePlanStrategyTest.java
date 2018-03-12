@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import core.Network;
 import core.User;
+import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -25,37 +26,35 @@ public class RidePlanStrategyTest {
 	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
 	// Create plus source stations 
-	static Station plusSourceStation = new PlusStation(10, new Point(0,0.1));
-	// Create standard source stations 
-	static Station standardSourceStation = new StandardStation(10, new Point(0.1,0));
-	// Create plus dest stations 
-	static Station plusDestStation = new PlusStation(10, new Point(9.5,9));
+	static Station sourceStation = new StandardStation(10, new Point(0,0.1));
 	// Create standard dest stations 
-	static Station standardDestStation = new StandardStation(10, new Point(9, 9.5));
+	static Station destStation = new StandardStation(10, new Point(9, 9.5));
 	// Create empty nearest to starting point 
 	static Station emptySourceStation = new StandardStation(10, new Point(9, 9.5));
+	// Create elec station nearest to starting point 
+	static Station elecSourceStation = new StandardStation(10, new Point(9, 9.5));
 	// Create full destination station
-	static Station fullSourceStation = new StandardStation(10, new Point(9, 9.5));	
+	static Station fullDestStation = new StandardStation(10, new Point(9, 9.5));	
 
     @BeforeClass
     public static void initialize() {
 		try {
 			// Plus and Standard destinations are the same distance away
-			n.addStation(plusSourceStation);
-			n.addStation(standardSourceStation);
-			n.addStation(plusDestStation);
-			n.addStation(standardDestStation);
+			n.addStation(sourceStation);
+			n.addStation(destStation);
+			n.addStation(emptySourceStation);
+			n.addStation(fullDestStation);
+			n.addStation(elecSourceStation);
 			
-			// add one bike to all stations : They are all Mechanical. 
-			plusSourceStation.addBike(new MechBike());
-			standardSourceStation.addBike(new MechBike());			
-			standardDestStation.addBike(new MechBike());
-			plusDestStation.addBike(new MechBike());			
+			// add one bike to source and destination stations : They are all Mechanical. 
+			sourceStation.addBike(new MechBike());
+			destStation.addBike(new MechBike());			
 			
 			// fill full station
-			while(fullSourceStation.addBike(new MechBike())) {				
+			while(fullDestStation.addBike(new MechBike())) {				
 			}
-			
+			// elecSourceStation only has elec bikes
+			elecSourceStation.addBike(new ElecBike());
 			// empty source station doesn't have any bikes
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,25 +64,30 @@ public class RidePlanStrategyTest {
 
 	@Test
 	/**
-	 * Choose the right station
-	 * Avoid plus stations 
 	 * Choose a source station with at least a bike
 	 * Choose a dest station that is not full
 	 */
-	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "avoidPlus", "Mech");
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, standardSourceStation, standardDestStation, "avoidPlus", "Mech");
-		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
+	public void ChooseNotEmptySourceAndNotFullDestWhenPlanningRide() {
+		RidePlan ap = n.planRide(source, destination, bob, "avoidPlus", "Mech");
+		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, "avoidPlus", "Mech");
+		assertTrue(ap.equals(apRidePlan));
+		
+		RidePlan pp = n.planRide(source, destination, bob, "preferPlus", "Mech");
+		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, "preferPlus", "Mech");
+		assertTrue(pp.equals(ppRidePlan));
+		
+		RidePlan s = n.planRide(source, destination, bob, "shortest", "Mech");
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, "shortest", "Mech");
+		assertTrue(s.equals(sRidePlan));
+		
+		RidePlan f = n.planRide(source, destination, bob, "fastest", "Mech");
+		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, "fastest", "Mech");
+		assertTrue(f.equals(fRidePlan));
+		
+		RidePlan u = n.planRide(source, destination, bob, "uniform", "Mech");
+		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation, "uniform", "Mech");
+		assertTrue(u.equals(uRidePlan));
+		
+		
 	}
-
-	@Test
-	/**
-	 * Choose the right station and the right bike
-	 */
-	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "preferPlus", "Mech");
-		RidePlan preferPlusRidePlan = new RidePlan(source, destination, plusSourceStation, plusDestStation, "preferPlus", "Mech");
-		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
-	}
-
 }
