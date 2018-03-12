@@ -254,10 +254,6 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__DWzcB1_EeimD7SrxqXUUg" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__DWzcR1_EeimD7SrxqXUUg" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_ynCf0B5HEeifK9AiyA8KnA" name="userRentals" visibility="private" type="_45PLsBorEeirWtz6voJnbw">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1othEB5HEeifK9AiyA8KnA"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1oyZkB5HEeifK9AiyA8KnA" value="*"/>
-    </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_JLbSwB5IEeifK9AiyA8KnA" name="userRidePlans" visibility="private" type="_oO0zEB18EeimD7SrxqXUUg">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_O3_0AB5IEeifK9AiyA8KnA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O4FTkB5IEeifK9AiyA8KnA" value="*"/>

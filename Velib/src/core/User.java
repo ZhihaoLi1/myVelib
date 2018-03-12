@@ -3,8 +3,8 @@ package core;
 import java.util.Observable;
 import java.util.Observer;
 
-import core.card.Card;
-import core.card.NoCard;
+import core.card.CardVisitor;
+import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.IDGenerator;
 
@@ -12,7 +12,7 @@ public class User implements Observer {
 	private final int id; 
 	private String name; 
 	private Point coordinates;
-	private Card card;
+	private CardVisitor card;
 	
 	// Statistics of user 
 	private int totalRides;
@@ -22,15 +22,15 @@ public class User implements Observer {
 	
 	public User(String name) {
 		id = IDGenerator.getInstance().getNextIDNumber();
-		this.card = new NoCard();
+		this.card = new NoCardVisitor();
 	}
 	
-	public User(String name, Card card) {
+	public User(String name, CardVisitor card) {
 		id = IDGenerator.getInstance().getNextIDNumber();
 		this.card = card;
 	}
 
-	public User(String name, Point coordinates, Card card) {
+	public User(String name, Point coordinates, CardVisitor card) {
 		id = IDGenerator.getInstance().getNextIDNumber();
 		this.coordinates = coordinates;
 		this.card = card;
@@ -67,11 +67,11 @@ public class User implements Observer {
 		this.coordinates = coordinates;
 	}
 
-	public Card getCard() {
+	public CardVisitor getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(CardVisitor card) {
 		this.card = card;
 	}
 

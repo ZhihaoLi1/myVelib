@@ -582,10 +582,6 @@
         <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_QDtV4B1bEeiqPZcfH4EsOA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_QEMeER1bEeiqPZcfH4EsOA"/>
       </children>
-      <children xmi:type="notation:Shape" xmi:id="_ypFHMB5HEeifK9AiyA8KnA" type="Property_ClassAttributeLabel">
-        <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_ynCf0B5HEeifK9AiyA8KnA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_ypFHMR5HEeifK9AiyA8KnA"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_JNP3sB5IEeifK9AiyA8KnA" type="Property_ClassAttributeLabel">
         <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_JLbSwB5IEeifK9AiyA8KnA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_JNP3sR5IEeifK9AiyA8KnA"/>
@@ -776,7 +772,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pi-ZER1wEeiqPZcfH4EsOA"/>
     </children>
     <element xmi:type="uml:Class" href="myVelibUMLModel.uml#_pi8j0B1wEeiqPZcfH4EsOA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pi9x8R1wEeiqPZcfH4EsOA" x="-360" y="1180" width="140" height="140"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pi9x8R1wEeiqPZcfH4EsOA" x="-440" y="1180" width="140" height="140"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_Ca-0YB1xEeiqPZcfH4EsOA" type="Class_Shape">
     <children xmi:type="notation:DecorationNode" xmi:id="_Ca-0Yh1xEeiqPZcfH4EsOA" type="Class_NameLabel"/>
@@ -806,7 +802,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Ca_bfh1xEeiqPZcfH4EsOA"/>
     </children>
     <element xmi:type="uml:Class" href="myVelibUMLModel.uml#_Ca7KAB1xEeiqPZcfH4EsOA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Ca-0YR1xEeiqPZcfH4EsOA" x="-200" y="1180" width="140" height="140"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Ca-0YR1xEeiqPZcfH4EsOA" x="-220" y="1180" width="140" height="140"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_gW9DcB1yEeiqPZcfH4EsOA" type="Class_Shape">
     <children xmi:type="notation:DecorationNode" xmi:id="_gW9qgB1yEeiqPZcfH4EsOA" type="Class_NameLabel"/>
