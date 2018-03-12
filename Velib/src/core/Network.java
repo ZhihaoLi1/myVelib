@@ -96,7 +96,7 @@ public class Network {
 		try {
 			switch(policy) {
 			case "shortest":
-				return new ShortestPlan().planRide(source, destination, user, policy, bikeType, stations);
+				return new ShortestPlan().planRide(source, destination, user, bikeType, stations);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

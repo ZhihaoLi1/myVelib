@@ -16,7 +16,7 @@ import core.station.Station;
 public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String policy, String bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, HashMap<Integer, Station> stations) throws Exception {
 		
 		Station sourceStation = null;
 		Station destStation = null;

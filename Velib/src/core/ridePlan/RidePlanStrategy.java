@@ -7,5 +7,5 @@ import core.point.Point;
 import core.station.Station;
 
 public interface RidePlanStrategy {
-	public RidePlan planRide(Point source, Point destination, User user, String policy, String bikeType, HashMap<Integer, Station> stations) throws Exception;
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, HashMap<Integer, Station> stations) throws Exception;
 }
