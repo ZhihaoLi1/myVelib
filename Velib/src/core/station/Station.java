@@ -53,6 +53,10 @@ public abstract class Station extends Observable  {
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			if (!parkingSlots.get(i).hasBike()) {
 				parkingSlots.get(i).setBike(b);
+				// if the station is full after adding the bike, notification should be sent to users
+				if(isFull()) {
+					notifyObservers();
+				}
 				return true;
 			}
 		}
@@ -131,6 +135,11 @@ public abstract class Station extends Observable  {
 		return online;
 	}
 
+	public void setOnline(boolean online) {
+		if (!online)
+			notifyObservers();
+		this.online = online;
+	}
 
 	public Set<User> getObservers() {
 		return observers;
