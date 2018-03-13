@@ -9,7 +9,11 @@ import core.point.Point;
 import core.station.Station;
 
 /**
- * Total distance between source -> source station -> destination station -> destination is the shortest
+ * source and destination stations are chosen so that the total distance
+ * of the trip, including the walking distance (to reach the source station from the
+ * starting point and to reach the destination point from the destination station) is
+ * minimal.
+ * tl;dr = Total distance between source -> source station -> destination station -> destination is the shortest
  * @author animato
  *
  */
@@ -20,11 +24,14 @@ public class ShortestPlan implements RidePlanStrategy {
 		
 		Station sourceStation = null;
 		Station destStation = null;
-		double minimumDistance = 1000000000; // FIXME
+		
+		if (stations.isEmpty()) throw new Exception("No stations are found.");
+
+		double minimumDistance = Double.MAX_VALUE; 
+		
 		// different possible pairs 
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 			// source station
-		    Integer stationId1 = entry.getKey();
 		    Station s1 = entry.getValue();
 		    if(bikeType == "elec") {
 			    if(!s1.hasElecBike()) continue;
@@ -33,7 +40,6 @@ public class ShortestPlan implements RidePlanStrategy {
 		    }
 			for (Map.Entry<Integer, Station> entry2 : stations.entrySet()) {
 				// dest Station 				
-			    Integer stationId2 = entry2.getKey();
 			    Station s2 = entry2.getValue();
 			    if (!s2.equals(s1) && !s2.isFull()) {
 				    double totalDistance = 0;

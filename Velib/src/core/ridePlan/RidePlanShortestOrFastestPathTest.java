@@ -7,9 +7,8 @@ import org.junit.Test;
 
 import core.Network;
 import core.User;
-import core.bike.ElecBike;
 import core.bike.MechBike;
-import core.card.NoCard;
+import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.StandardStation;
 import core.station.Station;
@@ -22,7 +21,7 @@ public class RidePlanShortestOrFastestPathTest {
 	Point source = new Point(0,0);
 	Point destination = new Point(10,10);
 	// Create User
-	User bob = new User("bob", new Point(0,0), new NoCard());
+	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
 	// Create source stations 
 	static Station sourceStationS = new StandardStation(10, new Point(2,2));
