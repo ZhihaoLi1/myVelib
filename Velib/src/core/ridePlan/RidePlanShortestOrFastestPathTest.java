@@ -61,10 +61,6 @@ public class RidePlanShortestOrFastestPathTest {
 	public void chooseCorrectStationsWhenPlanningShortestRide() {		
 		RidePlan s = n.planRide(source, destination, bob, "shortest", "Mech");
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "shortest", "Mech");
-		System.out.println(s.getSourceStation().getId());
-		System.out.println(s.getDestinationStation().getId());
-		System.out.println(sourceStationS.getId());
-		System.out.println(destStationS.getId());
 		assertTrue(s.equals(sRidePlan));
 	}
 

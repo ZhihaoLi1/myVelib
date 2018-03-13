@@ -10,6 +10,9 @@ import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.point.Point;
 import core.rentals.BikeRental;
+import core.ridePlan.AvoidPlusPlan;
+import core.ridePlan.FastestPlan;
+import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.RidePlanStrategy;
 import core.ridePlan.ShortestPlan;
@@ -97,6 +100,12 @@ public class Network {
 			switch(policy) {
 			case "shortest":
 				return new ShortestPlan().planRide(source, destination, user, bikeType, stations);
+			case "fastest":
+				return new FastestPlan().planRide(source, destination, user, bikeType, stations);
+			case "avoidPlus":
+				return new AvoidPlusPlan().planRide(source, destination, user, bikeType, stations);
+			case "preferPlus":
+				return new PreferPlusPlan().planRide(source, destination, user, bikeType, stations);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

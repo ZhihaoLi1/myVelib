@@ -2,7 +2,6 @@ package core.ridePlan;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import core.User;
 import core.point.Point;

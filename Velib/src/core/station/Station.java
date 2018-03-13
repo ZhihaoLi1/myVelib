@@ -116,6 +116,22 @@ public abstract class Station extends Observable  {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param bikeType
+	 * @return
+	 */
+	public boolean hasCorrectBikeType(String bikeType) {
+		switch(bikeType) {
+		case "elec":
+			return hasElecBike();
+		case "mech":
+			return hasMechBike();
+		default:
+			return false;
+		}
+	}
+
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
 	public abstract void returnBike(Bike bike);
 	
@@ -194,5 +210,4 @@ public abstract class Station extends Observable  {
 	public int getTotalReturns() {
 		return totalReturns;
 	}
-
 }

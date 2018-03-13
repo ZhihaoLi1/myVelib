@@ -6,6 +6,11 @@ import core.User;
 import core.point.Point;
 import core.station.Station;
 
+/**
+ * avoid “plus” stations: with this policy the destination station cannot be a “plus” station
+ * @author animato
+ *
+ */
 public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override

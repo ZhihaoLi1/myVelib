@@ -70,4 +70,12 @@ public class RidePlan {
 	public void setPolicy(String policy) {
 		this.policy = policy;
 	}
+
+	public String getBikeType() {
+		return bikeType;
+	}
+
+	public void setBikeType(String bikeType) {
+		this.bikeType = bikeType;
+	}
 }

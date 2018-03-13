@@ -1,6 +1,5 @@
 package core.ridePlan;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +32,8 @@ public class ShortestPlan implements RidePlanStrategy {
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 			// source station
 		    Station s1 = entry.getValue();
-		    if(bikeType == "elec") {
-			    if(!s1.hasElecBike()) continue;
-		    } else if(bikeType == "mech") {
-			    if(!s1.hasMechBike()) continue;
-		    }
-			for (Map.Entry<Integer, Station> entry2 : stations.entrySet()) {
+		    if(!s1.hasCorrectBikeType(bikeType)) continue;
+		    for (Map.Entry<Integer, Station> entry2 : stations.entrySet()) {
 				// dest Station 				
 			    Station s2 = entry2.getValue();
 			    if (!s2.equals(s1) && !s2.isFull()) {
