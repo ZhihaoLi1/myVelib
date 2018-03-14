@@ -32,6 +32,7 @@ public class ShortestPlan implements RidePlanStrategy {
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 			// source station
 		    Station s1 = entry.getValue();
+		    System.out.println(s1.hasCorrectBikeType(bikeType));
 		    if(!s1.hasCorrectBikeType(bikeType)) continue;
 		    for (Map.Entry<Integer, Station> entry2 : stations.entrySet()) {
 				// dest Station 				

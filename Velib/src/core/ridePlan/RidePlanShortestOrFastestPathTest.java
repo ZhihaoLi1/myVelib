@@ -59,18 +59,14 @@ public class RidePlanShortestOrFastestPathTest {
 	 * Choose a the source station as source station and dest station as dest station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {		
-		RidePlan s = n.planRide(source, destination, bob, "shortest", "Mech");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "shortest", "Mech");
+		RidePlan s = n.planRide(source, destination, bob, "shortest", "mech");
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "shortest", "mech");
 		assertTrue(s.equals(sRidePlan));
 	}
 
 	public void chooseCorrectStationsWhenPlanningFastestRide() {		
-		RidePlan s = n.planRide(source, destination, bob, "shortest", "Mech");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "shortest", "Mech");
-		System.out.println(s.getSourceStation().getId());
-		System.out.println(s.getDestinationStation().getId());
-		System.out.println(sourceStationS.getId());
-		System.out.println(destStationS.getId());
+		RidePlan s = n.planRide(source, destination, bob, "shortest", "mech");
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "shortest", "mech");
 		assertTrue(s.equals(sRidePlan));
 	}
 

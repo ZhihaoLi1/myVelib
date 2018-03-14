@@ -24,12 +24,10 @@ public class RidePlanPlusStationsTest {
 	// Create User
 	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
-	// Create plus source stations 
-	static Station plusSourceStation = new PlusStation(10, new Point(0,0.1));
-	// Create standard source stations 
-	static Station standardSourceStation = new StandardStation(10, new Point(0.1,0));
+	// Create source stations 
+	static Station sourceStation = new PlusStation(10, new Point(0,0.1));
 	// Create plus dest stations 
-	static Station plusDestStation = new PlusStation(10, new Point(9.5,9));
+	static Station plusDestStation = new PlusStation(10, new Point(9,9.8));
 	// Create standard dest stations 
 	static Station standardDestStation = new StandardStation(10, new Point(9, 9.5));
 
@@ -37,14 +35,12 @@ public class RidePlanPlusStationsTest {
     public static void initialize() {
 		try {
 			// Plus and Standard destinations are the same distance away
-			n.addStation(plusSourceStation);
-			n.addStation(standardSourceStation);
+			n.addStation(sourceStation);
 			n.addStation(plusDestStation);
 			n.addStation(standardDestStation);
 			
 			// add one bike to all stations : They are all Mechanical. 
-			plusSourceStation.addBike(new MechBike());
-			standardSourceStation.addBike(new MechBike());			
+			sourceStation.addBike(new MechBike());
 			standardDestStation.addBike(new MechBike());
 			plusDestStation.addBike(new MechBike());			
 			
@@ -60,8 +56,8 @@ public class RidePlanPlusStationsTest {
 	 * Avoid plus stations 
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "avoidPlus", "Mech");
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, standardSourceStation, standardDestStation, "avoidPlus", "Mech");
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, "avoidPlus", "mech");
+		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation, "avoidPlus", "mech");
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -70,8 +66,12 @@ public class RidePlanPlusStationsTest {
 	 * Choose the right station
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "preferPlus", "Mech");
-		RidePlan preferPlusRidePlan = new RidePlan(source, destination, plusSourceStation, plusDestStation, "preferPlus", "Mech");
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, "preferPlus", "mech");
+		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation, "preferPlus", "mech");
+		System.out.println(bobRidePlan.getSourceStation().getId());
+		System.out.println(bobRidePlan.getDestinationStation().getId());
+		System.out.println(sourceStation.getId());
+		System.out.println(standardDestStation.getId());
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

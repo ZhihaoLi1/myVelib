@@ -30,7 +30,7 @@ public class PreferPlusPlan implements RidePlanStrategy{
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 		    Station s = entry.getValue();
 		    double sourceDistance = s.getCoordinates().distance(source);
-		    double destinationDistance = s.getCoordinates().distance(source);
+		    double destinationDistance = s.getCoordinates().distance(destination);
 		    if (sourceDistance < minimumSourceDistance && s.hasCorrectBikeType(bikeType)) {
 	    				sourceStation = s;
 	    				minimumSourceDistance = sourceDistance;
@@ -45,7 +45,6 @@ public class PreferPlusPlan implements RidePlanStrategy{
 			throw new Exception("No appropriate stations found !");
 		}
 
-		
 		// find plus station for destination 
 		double minimumPlusDestDistance = 0.1*minimumDestDistance;
 		Station plusDestStation = null;
