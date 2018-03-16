@@ -13,6 +13,7 @@ import core.rentals.BikeRental;
 import core.ridePlan.AvoidPlusPlan;
 import core.ridePlan.FastestPlan;
 import core.ridePlan.PreferPlusPlan;
+import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.RidePlanStrategy;
 import core.ridePlan.ShortestPlan;
@@ -106,6 +107,8 @@ public class Network {
 				return new AvoidPlusPlan().planRide(source, destination, user, bikeType, stations);
 			case "preferPlus":
 				return new PreferPlusPlan().planRide(source, destination, user, bikeType, stations);
+			case "preserveUniformity":
+				return new PreserveUniformityPlan().planRide(source, destination, user, bikeType, stations);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -96,7 +96,8 @@ public abstract class Station extends Observable  {
 	 */
 	public Boolean hasElecBike() {
 		for (int i = 0; i<parkingSlots.size(); i++) {
-			if (parkingSlots.get(i).hasBike() && parkingSlots.get(i).getBike() instanceof ElecBike) {
+			ParkingSlot ps = parkingSlots.get(i);
+			if (ps.hasBike() && ps.getBike() instanceof ElecBike && ps.getWorking()) {
 				return true;
 			}
 		}
@@ -109,7 +110,8 @@ public abstract class Station extends Observable  {
 	 */
 	public Boolean hasMechBike() {
 		for (int i = 0; i<parkingSlots.size(); i++) {
-			if (parkingSlots.get(i).hasBike() && parkingSlots.get(i).getBike() instanceof MechBike) {
+			ParkingSlot ps = parkingSlots.get(i);
+			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
 				return true;
 			}
 		}
@@ -131,6 +133,40 @@ public abstract class Station extends Observable  {
 			return false;
 		}
 	}
+	
+	public int getNumberOfMechBikes() {
+		int t = 0;
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			ParkingSlot ps = parkingSlots.get(i);
+			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
+				t += 1;
+			}
+		}
+		return t;
+	}
+	
+	public int getNumberOfElecBikes() {
+		int t = 0;
+		for (int i = 0; i<parkingSlots.size(); i++) {
+			ParkingSlot ps = parkingSlots.get(i);
+			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
+				t += 1;
+			}
+		}
+		return t;
+	}
+	
+	public int getNumberOfBikes(String bikeType) {
+		switch(bikeType) {
+		case "elec":
+			return getNumberOfElecBikes();
+		case "mech":
+			return getNumberOfMechBikes();
+		default:
+			return 0;
+		}
+	}
+
 
 	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
 	public abstract void returnBike(Bike bike);
