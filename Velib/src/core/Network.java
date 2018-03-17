@@ -88,32 +88,49 @@ public class Network {
 	public Network() {
 	}
 
-	public void addStation(Station station) throws Exception {
+	/**
+	 * 
+	 * @param station
+	 * @throws NullPointerException if station is null
+	 */
+	public void addStation(Station station) throws NullPointerException {
 		if(station == null) {
-			throw new Exception("Station is null in addStation");
+			throw new NullPointerException("Station is null in addStation");
 		}
 		// verify that the coordinates of station is within the network. 
 		this.stations.put(station.getId(), station);
 	}
-		
-	public RidePlan planRide(Point source, Point destination, User user, String policy, String bikeType) {
+
+	public RidePlan planRide(Point source, Point destination, User user, PolicyName policy, BikeType bikeType) {
+		if(source == null || destination == null || user == null || policy == null || bikeType == null) 
+			throw new NullPointerException("All input values of planRide must not be null");
+		RidePlan rp=null;
 		try {
 			switch(policy) {
-			case "shortest":
-				return new ShortestPlan().planRide(source, destination, user, bikeType, stations);
-			case "fastest":
-				return new FastestPlan().planRide(source, destination, user, bikeType, stations);
-			case "avoidPlus":
-				return new AvoidPlusPlan().planRide(source, destination, user, bikeType, stations);
-			case "preferPlus":
-				return new PreferPlusPlan().planRide(source, destination, user, bikeType, stations);
-			case "preserveUniformity":
-				return new PreserveUniformityPlan().planRide(source, destination, user, bikeType, stations);
+			case SHORTEST:
+				rp = new ShortestPlan().planRide(source, destination, user, bikeType, stations);
+				break;
+			case FASTEST:
+				rp = new FastestPlan().planRide(source, destination, user, bikeType, stations);
+				break;
+			case AVOID_PLUS:
+				rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, stations);
+				break;
+			case PREFER_PLUS:
+				rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, stations);
+				break;
+			case PRESERVE_UNIFORMITY:
+				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, stations);
+				break;
+			default:
+				throw new Exception("policy not found");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		// add user to list of observers in concerned destination stations 
+		rp.getDestinationStation().addObserver(user);
+		return rp;	
 	}
 
 	public String getName() {
