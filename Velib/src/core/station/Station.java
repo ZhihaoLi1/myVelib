@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
+import core.BikeType;
 import core.User;
 import core.bike.Bike;
 import core.bike.ElecBike;
@@ -123,11 +124,11 @@ public abstract class Station extends Observable  {
 	 * @param bikeType
 	 * @return
 	 */
-	public boolean hasCorrectBikeType(String bikeType) {
+	public boolean hasCorrectBikeType(BikeType bikeType) {
 		switch(bikeType) {
-		case "elec":
+		case ELEC:
 			return hasElecBike();
-		case "mech":
+		case MECH:
 			return hasMechBike();
 		default:
 			return false;
@@ -156,11 +157,11 @@ public abstract class Station extends Observable  {
 		return t;
 	}
 	
-	public int getNumberOfBikes(String bikeType) {
+	public int getNumberOfBikes(BikeType bikeType) {
 		switch(bikeType) {
-		case "elec":
+		case ELEC:
 			return getNumberOfElecBikes();
-		case "mech":
+		case MECH:
 			return getNumberOfMechBikes();
 		default:
 			return 0;
@@ -173,7 +174,7 @@ public abstract class Station extends Observable  {
 	
 	public void addObserver(User user) {
 		if(this.observers.add(user)) {
-			System.out.println("User " + user.getName() + "is observing station S" + this.id);		
+			System.out.println("User " + user.getName() + " is observing station S" + this.id);		
 		} else {
 			System.out.println("User is already observing this station S" + this.id);
 		}
