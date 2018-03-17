@@ -6,6 +6,7 @@ import java.util.Observer;
 import core.card.CardVisitor;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.rentals.BikeRental;
 import core.station.IDGenerator;
 
 public class User implements Observer {
@@ -13,6 +14,7 @@ public class User implements Observer {
 	private String name; 
 	private Point coordinates;
 	private CardVisitor card;
+	private BikeRental bikeRental;
 	
 	// Statistics of user 
 	private int totalRides;
@@ -104,6 +106,14 @@ public class User implements Observer {
 
 	public void setTotalTimeSpent(int totalTimeSpent) {
 		this.totalTimeSpent = totalTimeSpent;
+	}
+
+	public BikeRental getBikeRental() {
+		return bikeRental;
+	}
+
+	public void setBikeRental(BikeRental bikeRental) {
+		this.bikeRental = bikeRental;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package core;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -17,6 +18,7 @@ import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.RidePlanStrategy;
 import core.ridePlan.ShortestPlan;
+import core.station.ParkingSlot;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
@@ -133,6 +135,34 @@ public class Network {
 		return rp;	
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @param stationId
+	 * @param bikeType
+	 * @throws Exception if user already has a bike rental, if station is offline, if no appropriate bike is found in the station.
+	 */
+	public void rent(int userId, int stationId, String bikeType) throws Exception {
+		// find user 
+		User user = users.get(userId);
+		// find station
+		Station s = stations.get(stationId);
+		if (user == null || s == null) throw new NullPointerException("No user or station found given Id.");
+		// verify if user does not already have a rental 
+		if (user.getBikeRental() != null) throw new Exception("User already has an ongoing bike rental! ");
+		// ensure that only one user can access the station at the same time
+		BikeType bt = BikeType.valueOf(bikeType);
+		
+		Bike b = null;
+		synchronized(s) {
+			b = s.rentBike(bt);
+		}
+		// if no bike is found
+		if (b == null) throw new Exception("Bike of the correct kind is not found in station");
+		user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
+		
+	}
+	
 	public String getName() {
 		return name;
 	}

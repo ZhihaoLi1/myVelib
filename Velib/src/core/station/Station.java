@@ -1,5 +1,6 @@
 package core.station;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Observable;
@@ -11,6 +12,7 @@ import core.bike.Bike;
 import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.point.Point;
+import core.rentals.BikeRental;
 
 public abstract class Station extends Observable  {
 	private final int id;
@@ -139,8 +141,27 @@ public abstract class Station extends Observable  {
 		}
 	}
 
-
-	public abstract void rentBike(Bike bike); // you don't need the type ? just need instanceof 
+	/**
+	 * 
+	 * @param bikeType
+	 * @return
+	 * @throws Exception when station is offline
+	 */
+	public Bike rentBike(BikeType bikeType) throws Exception {
+		// verify if station is online 
+		if (!this.online) throw new Exception("Station is offline");
+		// find appropriate bike in station;
+		Bike b = null;
+		
+		for(ParkingSlot ps: this.getParkingSlots()) {
+			if (ps.getWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
+				b = ps.getBike();
+				break;
+			}
+		}
+		
+		return b;
+	}
 	public abstract void returnBike(Bike bike);
 	
 	public void addObserver(User user) {
