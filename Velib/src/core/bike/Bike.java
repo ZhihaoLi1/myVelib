@@ -1,6 +1,7 @@
 package core.bike;
 
-import core.station.IDGenerator;
+import core.BikeType;
 
 public interface Bike {
+	public BikeType getType();
 }

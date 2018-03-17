@@ -91,33 +91,6 @@ public abstract class Station extends Observable  {
 		return true;
 	}
 
-	/**
-	 * 
-	 * @return true if there is elec bike
-	 */
-	public Boolean hasElecBike() {
-		for (int i = 0; i<parkingSlots.size(); i++) {
-			ParkingSlot ps = parkingSlots.get(i);
-			if (ps.hasBike() && ps.getBike() instanceof ElecBike && ps.getWorking()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * 
-	 * @return true if there is mech bike
-	 */
-	public Boolean hasMechBike() {
-		for (int i = 0; i<parkingSlots.size(); i++) {
-			ParkingSlot ps = parkingSlots.get(i);
-			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * 
@@ -125,14 +98,12 @@ public abstract class Station extends Observable  {
 	 * @return
 	 */
 	public boolean hasCorrectBikeType(BikeType bikeType) {
-		switch(bikeType) {
-		case ELEC:
-			return hasElecBike();
-		case MECH:
-			return hasMechBike();
-		default:
-			return false;
+		for (ParkingSlot ps : parkingSlots) {
+			if (ps.hasBike() && ps.getBike().getType() == bikeType && ps.getWorking()) {
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	public int getNumberOfMechBikes() {
