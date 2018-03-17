@@ -1,5 +1,7 @@
 package core.ridePlan;
 
+import core.BikeType;
+import core.PolicyName;
 import core.point.Point;
 import core.station.Station;
 
@@ -12,10 +14,10 @@ public class RidePlan {
 	private Point destination;
 	private Station sourceStation;
 	private Station destinationStation;
-	private String policy;
-	private String bikeType;
+	private PolicyName policy;
+	private BikeType bikeType;
 	
-	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, String policy, String bikeType) {
+	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, PolicyName policy, BikeType bikeType) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -64,18 +66,20 @@ public class RidePlan {
 	public void setDestinationStation(Station destinationStation) {
 		this.destinationStation = destinationStation;
 	}
-	public String getPolicy() {
+
+	public PolicyName getPolicy() {
 		return policy;
 	}
-	public void setPolicy(String policy) {
+
+	public void setPolicy(PolicyName policy) {
 		this.policy = policy;
 	}
 
-	public String getBikeType() {
+	public BikeType getBikeType() {
 		return bikeType;
 	}
 
-	public void setBikeType(String bikeType) {
+	public void setBikeType(BikeType bikeType) {
 		this.bikeType = bikeType;
 	}
 }

@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import core.BikeType;
 import core.Network;
+import core.PolicyName;
 import core.User;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
@@ -59,14 +61,15 @@ public class RidePlanShortestOrFastestPathTest {
 	 * Choose a the source station as source station and dest station as dest station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {		
-		RidePlan s = n.planRide(source, destination, bob, "shortest", "mech");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "shortest", "mech");
+		RidePlan s = n.planRide(source, destination, bob, PolicyName.SHORTEST, BikeType.MECH);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, PolicyName.SHORTEST, BikeType.MECH);
 		assertTrue(s.equals(sRidePlan));
 	}
-
+	
+	@Test
 	public void chooseCorrectStationsWhenPlanningFastestRide() {		
-		RidePlan s = n.planRide(source, destination, bob, "shortest", "mech");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "shortest", "mech");
+		RidePlan s = n.planRide(source, destination, bob, PolicyName.FASTEST, BikeType.MECH);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, PolicyName.FASTEST, BikeType.MECH);
 		assertTrue(s.equals(sRidePlan));
 	}
 

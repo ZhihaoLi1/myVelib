@@ -3,6 +3,8 @@ package core.ridePlan;
 import java.util.HashMap;
 import java.util.Map;
 
+import core.BikeType;
+import core.PolicyName;
 import core.User;
 import core.point.Point;
 import core.station.Station;
@@ -18,14 +20,16 @@ import core.station.Station;
 public class FastestPlan implements RidePlanStrategy{
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
-		if(bikeType == "elec") {
+		switch(bikeType) {
+		case ELEC:
 			bikeSpeed = 20;
-		} else if (bikeType == "mech") {
+		case MECH:
 			bikeSpeed = 15;
 		}
+
 		if (stations.isEmpty()) throw new Exception("No stations are found.");
 		
 		Station sourceStation = null;
@@ -33,18 +37,13 @@ public class FastestPlan implements RidePlanStrategy{
 		Double minimumTime = Double.MAX_VALUE; //hours
 		
 		// different possible pairs 
-		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
+		for (Station s1 : stations.values()) {
 			// source station
-		    Station s1 = entry.getValue();
-		    if(bikeType == "elec") {
-			    if(!s1.hasElecBike()) continue;
-		    } else if(bikeType == "mech") {
-			    if(!s1.hasMechBike()) continue;
-		    }
-			for (Map.Entry<Integer, Station> entry2 : stations.entrySet()) {
+			if (!s1.getOnline() || !s1.hasCorrectBikeType(bikeType)) continue;
+			for (Station s2 : stations.values()) {
 				// dest Station 				
-			    Station s2 = entry2.getValue();
-			    if (!s2.equals(s1) && !s2.isFull()) {
+				if(!s2.getOnline()) continue;
+				if (!s2.equals(s1) && !s2.isFull()) {
 				    double totalTime = 0;
 				    totalTime += s1.getCoordinates().distance(source)/walkingSpeed;
 				    totalTime += s1.getCoordinates().distance(s2.getCoordinates())/bikeSpeed;
@@ -62,7 +61,7 @@ public class FastestPlan implements RidePlanStrategy{
 		if (sourceStation == null || destStation == null) {
 			throw new Exception("No appropriate stations found !");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, "fastest", bikeType);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType);
 	}
 
 }

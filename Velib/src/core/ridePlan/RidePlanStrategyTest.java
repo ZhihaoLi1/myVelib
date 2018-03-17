@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import core.BikeType;
 import core.Network;
+import core.PolicyName;
 import core.User;
 import core.bike.ElecBike;
 import core.bike.MechBike;
@@ -30,11 +32,11 @@ public class RidePlanStrategyTest {
 	// Create standard dest stations 
 	static Station destStation = new StandardStation(10, new Point(9, 9.5));
 	// Create empty nearest to starting point 
-	static Station emptySourceStation = new StandardStation(10, new Point(9, 9.5));
+	static Station emptySourceStation = new StandardStation(10, new Point(0, 0.02));
 	// Create elec station nearest to starting point 
-	static Station elecSourceStation = new StandardStation(10, new Point(9, 9.5));
+	static Station elecSourceStation = new StandardStation(10, new Point(0, 0.01));
 	// Create full destination station
-	static Station fullDestStation = new StandardStation(10, new Point(9, 9.5));	
+	static Station fullDestStation = new StandardStation(10, new Point(9, 9.9));	
 
     @BeforeClass
     public static void initialize() {
@@ -68,24 +70,24 @@ public class RidePlanStrategyTest {
 	 * Choose a dest station that is not full
 	 */
 	public void ChooseNotEmptySourceAndNotFullDestWhenPlanningRide() {
-		RidePlan ap = n.planRide(source, destination, bob, "avoidPlus", "Mech");
-		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, "avoidPlus", "Mech");
+		RidePlan ap = n.planRide(source, destination, bob, PolicyName.AVOID_PLUS, BikeType.MECH);
+		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, BikeType.MECH);
 		assertTrue(ap.equals(apRidePlan));
 		
-		RidePlan pp = n.planRide(source, destination, bob, "preferPlus", "Mech");
-		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, "preferPlus", "Mech");
+		RidePlan pp = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, BikeType.MECH);
 		assertTrue(pp.equals(ppRidePlan));
 		
-		RidePlan s = n.planRide(source, destination, bob, "shortest", "Mech");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, "shortest", "Mech");
+		RidePlan s = n.planRide(source, destination, bob, PolicyName.SHORTEST, BikeType.MECH);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, BikeType.MECH);
 		assertTrue(s.equals(sRidePlan));
 		
-		RidePlan f = n.planRide(source, destination, bob, "fastest", "Mech");
-		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, "fastest", "Mech");
+		RidePlan f = n.planRide(source, destination, bob, PolicyName.FASTEST, BikeType.MECH);
+		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, BikeType.MECH);
 		assertTrue(f.equals(fRidePlan));
 		
-		RidePlan u = n.planRide(source, destination, bob, "uniform", "Mech");
-		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation, "uniform", "Mech");
+		RidePlan u = n.planRide(source, destination, bob, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
+		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
 		assertTrue(u.equals(uRidePlan));
 		
 		

@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import core.BikeType;
 import core.Network;
+import core.PolicyName;
 import core.User;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
@@ -68,8 +70,8 @@ public class RidePlanUniformityTest {
 	 * Choose the right stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "preserveUniformity", "mech");
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation, "preserveUniformity", "mech");
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
+		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 }

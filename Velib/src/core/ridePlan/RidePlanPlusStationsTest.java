@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import core.BikeType;
 import core.Network;
+import core.PolicyName;
 import core.User;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
@@ -56,8 +58,8 @@ public class RidePlanPlusStationsTest {
 	 * Avoid plus stations 
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "avoidPlus", "mech");
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation, "avoidPlus", "mech");
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.AVOID_PLUS, BikeType.MECH);
+		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation, PolicyName.AVOID_PLUS, BikeType.MECH);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -66,12 +68,8 @@ public class RidePlanPlusStationsTest {
 	 * Choose the right station
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, "preferPlus", "mech");
-		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation, "preferPlus", "mech");
-		System.out.println(bobRidePlan.getSourceStation().getId());
-		System.out.println(bobRidePlan.getDestinationStation().getId());
-		System.out.println(sourceStation.getId());
-		System.out.println(standardDestStation.getId());
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, BikeType.MECH);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

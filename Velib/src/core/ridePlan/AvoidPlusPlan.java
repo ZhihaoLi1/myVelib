@@ -3,6 +3,8 @@ package core.ridePlan;
 import java.util.HashMap;
 import java.util.Map;
 
+import core.BikeType;
+import core.PolicyName;
 import core.User;
 import core.point.Point;
 import core.station.PlusStation;
@@ -19,7 +21,7 @@ import core.station.Station;
 public class AvoidPlusPlan implements RidePlanStrategy{
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
 		Station sourceStation = null;
 		Station destStation = null;
 		
@@ -31,7 +33,7 @@ public class AvoidPlusPlan implements RidePlanStrategy{
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 		    Station s = entry.getValue();
 		    double sourceDistance = s.getCoordinates().distance(source);
-		    double destinationDistance = s.getCoordinates().distance(source);
+		    double destinationDistance = s.getCoordinates().distance(destination);
 		    if (sourceDistance < minimumSourceDistance && s.hasCorrectBikeType(bikeType)) {
 	    				sourceStation = s;
 	    				minimumSourceDistance = sourceDistance;
@@ -46,5 +48,5 @@ public class AvoidPlusPlan implements RidePlanStrategy{
 			throw new Exception("No appropriate stations found !");
 		}
 		
-		return new RidePlan(source, destination, sourceStation, destStation, "avoidPlus", bikeType);	}
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType);	}
 }
