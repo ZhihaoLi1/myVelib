@@ -21,19 +21,18 @@ public class User implements Observer {
 	private int totalTimeSpent; // in minutes
 	
 	public User(String name) {
-		id = IDGenerator.getInstance().getNextIDNumber();
-		this.card = new NoCardVisitor();
+		this(name, null, new NoCardVisitor());
 	}
 	
 	public User(String name, CardVisitor card) {
-		id = IDGenerator.getInstance().getNextIDNumber();
-		this.card = card;
+		this(name, null, card);
 	}
 
 	public User(String name, Point coordinates, CardVisitor card) {
 		id = IDGenerator.getInstance().getNextIDNumber();
 		this.coordinates = coordinates;
 		this.card = card;
+		this.name = name;
 	}
 
 	/**
