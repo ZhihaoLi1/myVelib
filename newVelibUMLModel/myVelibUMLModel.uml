@@ -20,18 +20,6 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_aFqTQB1sEeiqPZcfH4EsOA" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_aFqTQR1sEeiqPZcfH4EsOA" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_kd2b0B18EeiXtfvko22UtQ" name="totalRides" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_qwk-IB18EeiXtfvko22UtQ" name="totalTimeCredits" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_vsQ1AB18EeiXtfvko22UtQ" name="totalCharges" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_06kF4B18EeiXtfvko22UtQ" name="totalTimeSpent" visibility="private">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-    </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_AmM9oCMPEei208QAV-wg1g" name="rental" visibility="private" type="_49NfEB5EEeifK9AiyA8KnA">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AmM9oSMPEei208QAV-wg1g" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AmM9oiMPEei208QAV-wg1g" value="1"/>
@@ -566,6 +554,34 @@
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_YYRrsSMPEei208QAV-wg1g" key="nature" value="UML_Nature"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:Property" xmi:id="_YYS50iMPEei208QAV-wg1g" name="user" type="_6UjUIBogEeirWtz6voJnbw" association="_YYQdkCMPEei208QAV-wg1g"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_s6DkkCncEei3zq-uOo66Ag" name="UserStats">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_uNY0sCncEei3zq-uOo66Ag" name="totalTimeSpent" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_uNZbwCncEei3zq-uOo66Ag" name="totalTimeCredits" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_uNZbwSncEei3zq-uOo66Ag" name="totalRides" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_uNaC0CncEei3zq-uOo66Ag" name="totalCharges" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_MLXEUCndEei3zq-uOo66Ag" name="parkingSlotStatus" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_cFcF8CneEei3zq-uOo66Ag" name="parkingSlotId" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_n4ZWoCneEei3zq-uOo66Ag" name="startDate" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_8KGDUCngEei3zq-uOo66Ag" name="status" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EEnumerator"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_imCdcCnkEei3zq-uOo66Ag" name="endDate" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_6XrN0B_4EeiavoZQ4tUkrw">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6X0-0B_4EeiavoZQ4tUkrw" source="http://www.eclipse.org/uml2/2.0.0/UML">
