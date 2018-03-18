@@ -123,7 +123,7 @@ public abstract class Station extends Observable  {
 		int t = 0;
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			ParkingSlot ps = parkingSlots.get(i);
-			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
+			if (ps.hasBike() && ps.getBike() instanceof ElecBike && ps.getWorking()) {
 				t += 1;
 			}
 		}
@@ -187,6 +187,16 @@ public abstract class Station extends Observable  {
 		for (User user : observers) {
 			user.update(this, null);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		String s = "StationId: " + this.id + "\n";
+		s += "ParkingSlots: " + this.parkingSlots.toString() + "\n";
+		s += "Coordinates: " + this.coordinates.toString() + "\n";
+		s += "Online: " + this.online;
+		return s;
+		
 	}
 		
 	/**

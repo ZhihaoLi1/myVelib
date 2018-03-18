@@ -103,6 +103,10 @@ public class Network {
 		this.stations.put(station.getId(), station);
 	}
 
+	public void addUser(User user) throws NullPointerException {
+		if(user == null) throw new NullPointerException("User is null in addUser");
+		this.users.put(user.getId(), user);
+	}
 	public RidePlan planRide(Point source, Point destination, User user, PolicyName policy, BikeType bikeType) {
 		if(source == null || destination == null || user == null || policy == null || bikeType == null) 
 			throw new NullPointerException("All input values of planRide must not be null");

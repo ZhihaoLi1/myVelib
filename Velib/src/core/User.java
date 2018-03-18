@@ -112,7 +112,7 @@ public class User implements Observer {
 		return bikeRental;
 	}
 
-	public void setBikeRental(BikeRental bikeRental) {
+	public void setBikeRental(BikeRental bikeRental) throws Exception {
 		if (this.bikeRental != null) throw new Exception("User already has a ongoing bike rental");
 		this.bikeRental = bikeRental;
 		
@@ -120,6 +120,10 @@ public class User implements Observer {
 	
 	public void resetBikeRental() {
 		this.bikeRental = null;
+	}
+
+	public int getId() {
+		return id;
 	}
 	
 }

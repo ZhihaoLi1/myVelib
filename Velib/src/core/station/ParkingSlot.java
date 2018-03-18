@@ -11,6 +11,13 @@ public class ParkingSlot {
 		this.id = IDGenerator.getInstance().getNextIDNumber();
 	}
 
+	@Override
+	public String toString() {
+		if (bike == null) {
+			return "parkingSlotId: " + this.id + " has no bike and is working " + this.working + "\n";
+		}
+		return "parkingSlotId: " + this.id + "has bike of type" + this.bike.getType().toString() + " and is working " + this.working + "\n";
+	}
 	public Boolean getWorking() {
 		return working;
 	}
