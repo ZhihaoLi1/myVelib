@@ -21,10 +21,8 @@ public abstract class Station extends Observable  {
 	private Boolean online;
 	private Set<User> observers = new HashSet<User>(); 
 	// Statistics
-	private int totalRentals = 0;
-	private int totalReturns = 0;
+	private StationStats stats;
 
-	
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online) {
 		super();
 		this.id = IDGenerator.getInstance().getNextIDNumber();
@@ -62,14 +60,15 @@ public abstract class Station extends Observable  {
 	 * Adds a bike to the first empty slot that it finds
 	 * TODO Make thread safe ? 
 	 * @param b
+	 * @param date
 	 * @return boolean 
 	 * True if bike is added
 	 * False if parkingSlots are full
 	 */
-	public boolean addBike(Bike b) {
+	public boolean addBike(Bike b, LocalDateTime date) throws Exception {
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			if (!parkingSlots.get(i).hasBike()) {
-				parkingSlots.get(i).setBike(b);
+				parkingSlots.get(i).setBike(b, date);
 				// if the station is full after adding the bike, notification should be sent to users
 				if(isFull()) {
 					notifyObservers();
@@ -93,7 +92,6 @@ public abstract class Station extends Observable  {
 		return true;
 	}
 
-
 	/**
 	 * 
 	 * @param bikeType
@@ -101,7 +99,7 @@ public abstract class Station extends Observable  {
 	 */
 	public boolean hasCorrectBikeType(BikeType bikeType) {
 		for (ParkingSlot ps : parkingSlots) {
-			if (ps.hasBike() && ps.getBike().getType() == bikeType && ps.getWorking()) {
+			if (ps.hasBike() && ps.getBike().getType() == bikeType && ps.isWorking()) {
 				return true;
 			}
 		}
@@ -112,7 +110,7 @@ public abstract class Station extends Observable  {
 		int t = 0;
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			ParkingSlot ps = parkingSlots.get(i);
-			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.getWorking()) {
+			if (ps.hasBike() && ps.getBike() instanceof MechBike && ps.isWorking()) {
 				t += 1;
 			}
 		}
@@ -123,7 +121,7 @@ public abstract class Station extends Observable  {
 		int t = 0;
 		for (int i = 0; i<parkingSlots.size(); i++) {
 			ParkingSlot ps = parkingSlots.get(i);
-			if (ps.hasBike() && ps.getBike() instanceof ElecBike && ps.getWorking()) {
+			if (ps.hasBike() && ps.getBike() instanceof ElecBike && ps.isWorking()) {
 				t += 1;
 			}
 		}
@@ -147,7 +145,7 @@ public abstract class Station extends Observable  {
 	 * @return
 	 * @throws Exception when station is offline
 	 */
-	public Bike rentBike(BikeType bikeType) throws Exception {
+	public Bike rentBike(BikeType bikeType, LocalDateTime date) throws Exception {
 		// verify if station is online 
 		if (!this.online) throw new Exception("Station is offline");
 		// find appropriate bike in station;
@@ -157,7 +155,7 @@ public abstract class Station extends Observable  {
 			if (ps.getWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
 				b = ps.getBike();
 				// FIXME locking ps ? 
-				ps.setBike(null);
+				ps.setBike(null, date);
 				break;
 			}
 		}
@@ -203,15 +201,19 @@ public abstract class Station extends Observable  {
 	 * Calculate occupation rate
 	 * Out of order parking slots are ignored
 	 */
-	public void computeOccupationRate() {
-		
+	public double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+		return stats.getOccupationRate(startDate, endDate);
+	}
+	
+	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+		return "Occupation rate between " + startDate + " and " + endDate + ": " + computeOccupationRate(startDate, endDate); 
 	}
 	
 	/**
 	 * Display Statistics of station
 	 */
-	public void displayBalance() {
-		
+	public String displayStats() {
+		return "Station [id: " + this.id + ", " + stats.toString() +  "]";
 	}
 	
 	public int getId() {
@@ -242,14 +244,10 @@ public abstract class Station extends Observable  {
 	public Set<User> getObservers() {
 		return observers;
 	}
-
-
-	public int getTotalRentals() {
-		return totalRentals;
-	}
-
-
-	public int getTotalReturns() {
-		return totalReturns;
+	
+	public static void main(String[] args) {
+		Station st = new StandardStation(10, new Point(0,0));
+		
+		System.out.println(st.displayStats());
 	}
 }

@@ -2,6 +2,8 @@ package core.station;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,8 +29,13 @@ public class StationRentTest {
 	@BeforeClass
 	public static void fillStationAndNetwork() {
 		// add bikes to stations 
-		s.addBike(new MechBike());
-		s.addBike(new ElecBike());
+		try {
+			s.addBike(new MechBike(), LocalDateTime.now());
+			s.addBike(new ElecBike(), LocalDateTime.now());
+		} catch (Exception e) {
+			fail("Exception was thrown");
+		}
+
 		
 		// add user and station to network
 		n.addUser(bob);
