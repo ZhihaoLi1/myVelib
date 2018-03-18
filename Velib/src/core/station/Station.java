@@ -156,12 +156,15 @@ public abstract class Station extends Observable  {
 		for(ParkingSlot ps: this.getParkingSlots()) {
 			if (ps.getWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
 				b = ps.getBike();
+				// FIXME locking ps ? 
+				ps.setBike(null);
 				break;
 			}
 		}
 		
 		return b;
 	}
+	
 	public abstract void returnBike(Bike bike);
 	
 	public void addObserver(User user) {

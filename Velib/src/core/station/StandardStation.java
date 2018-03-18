@@ -13,11 +13,6 @@ public class StandardStation extends Station {
 		super(numberOfParkingSlots, coordinates, online);
 	}
 
-	@Override
-	public void rentBike(Bike bike) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void returnBike(Bike bike) {
