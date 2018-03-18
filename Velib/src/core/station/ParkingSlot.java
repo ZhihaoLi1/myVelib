@@ -20,18 +20,8 @@ public class ParkingSlot {
 		this.setStatus(ParkingSlotStatusName.FREE, LocalDateTime.MIN);
 	}
 
-<<<<<<< a1838e979e3a987e586e5a244e45c3cd031f2ec7
-	@Override
-	public String toString() {
-		if (bike == null) {
-			return "parkingSlotId: " + this.id + " has no bike and is working " + this.working + "\n";
-		}
-		return "parkingSlotId: " + this.id + "has bike of type" + this.bike.getType().toString() + " and is working " + this.working + "\n";
-	}
-	public Boolean getWorking() {
-=======
+
 	public Boolean isWorking() {
->>>>>>> Refactor(Station, ParkingSlot): Refactor to use stats classes
 		return working;
 	}
 

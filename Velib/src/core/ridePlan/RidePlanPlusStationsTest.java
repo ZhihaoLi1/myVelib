@@ -2,6 +2,8 @@ package core.ridePlan;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -42,9 +44,9 @@ public class RidePlanPlusStationsTest {
 			n.addStation(standardDestStation);
 			
 			// add one bike to all stations : They are all Mechanical. 
-			sourceStation.addBike(new MechBike());
-			standardDestStation.addBike(new MechBike());
-			plusDestStation.addBike(new MechBike());			
+			sourceStation.addBike(new MechBike(), LocalDateTime.now());
+			standardDestStation.addBike(new MechBike(), LocalDateTime.now());
+			plusDestStation.addBike(new MechBike(), LocalDateTime.now());			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

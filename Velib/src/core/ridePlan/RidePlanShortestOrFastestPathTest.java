@@ -2,6 +2,8 @@ package core.ridePlan;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -45,10 +47,10 @@ public class RidePlanShortestOrFastestPathTest {
 			n.addStation(destStationF);
 			
 			// add one bike to source and destination stations : They are all Mechanical. 
-			sourceStationS.addBike(new MechBike());
-			destStationS.addBike(new MechBike());
-			sourceStationF.addBike(new MechBike());
-			destStationF.addBike(new MechBike());
+			sourceStationS.addBike(new MechBike(), LocalDateTime.now());
+			destStationS.addBike(new MechBike(), LocalDateTime.now());
+			sourceStationF.addBike(new MechBike(), LocalDateTime.now());
+			destStationF.addBike(new MechBike(), LocalDateTime.now());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

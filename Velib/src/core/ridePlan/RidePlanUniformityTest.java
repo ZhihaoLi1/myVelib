@@ -2,6 +2,8 @@ package core.ridePlan;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,17 +49,17 @@ public class RidePlanUniformityTest {
 			n.addStation(fullerDestStation);
 			
 			// add bikes to all stations : They are all Mechanical. 
-			emptierSourceStation.addBike(new MechBike());
+			emptierSourceStation.addBike(new MechBike(), LocalDateTime.now());
 			
-			fullerSourceStation.addBike(new MechBike());
-			fullerSourceStation.addBike(new MechBike());
-			fullerSourceStation.addBike(new MechBike());
+			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
 			
-			emptierDestStation.addBike(new MechBike());
+			emptierDestStation.addBike(new MechBike(), LocalDateTime.now());
 			
-			fullerDestStation.addBike(new MechBike());
-			fullerDestStation.addBike(new MechBike());
-			fullerDestStation.addBike(new MechBike());
+			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

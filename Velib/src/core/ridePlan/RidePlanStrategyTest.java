@@ -2,6 +2,8 @@ package core.ridePlan;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -49,14 +51,14 @@ public class RidePlanStrategyTest {
 			n.addStation(elecSourceStation);
 			
 			// add one bike to source and destination stations : They are all Mechanical. 
-			sourceStation.addBike(new MechBike());
-			destStation.addBike(new MechBike());			
+			sourceStation.addBike(new MechBike(), LocalDateTime.now());
+			destStation.addBike(new MechBike(), LocalDateTime.now());			
 			
 			// fill full station
-			while(fullDestStation.addBike(new MechBike())) {				
+			while(fullDestStation.addBike(new MechBike(), LocalDateTime.now())) {				
 			}
 			// elecSourceStation only has elec bikes
-			elecSourceStation.addBike(new ElecBike());
+			elecSourceStation.addBike(new ElecBike(), LocalDateTime.now());
 			// empty source station doesn't have any bikes
 		} catch (Exception e) {
 			e.printStackTrace();
