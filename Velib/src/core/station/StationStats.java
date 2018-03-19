@@ -6,11 +6,22 @@ import java.time.temporal.ChronoUnit;
 import core.point.Point;
 import core.utils.DateParser;
 
+/**
+ * Collects stats about a given station.
+ * 
+ * Also in charge of computing the station's occupation rate.
+ * 
+ * @author matto
+ */
 public class StationStats {
 	private Station station;
 	private int totalRentals = 0;
 	private int totalReturns = 0;
 	
+	/**
+	 * Creates a stats object for a given station
+	 * @param station - The station these stats are about
+	 */
 	public StationStats(Station station) {
 		this.station = station;
 	}
