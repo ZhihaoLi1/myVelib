@@ -11,6 +11,11 @@ import core.bike.MechBike;
 import core.rentals.BikeRental;
 import core.utils.DateParser;
 
+/**
+ * Implementation of CardVisitor for users with a VLibreCard.
+ * 
+ * @author matto
+ */
 public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 
 	public VLibreCardVisitor(){

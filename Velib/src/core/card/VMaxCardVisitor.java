@@ -7,6 +7,11 @@ import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.rentals.BikeRental;
 
+/**
+ * Implementation of CardVisitor for users with a VMax card.
+ * 
+ * @author matto
+ */
 public class VMaxCardVisitor extends CardWithTimeCreditVisitor {	
 
 	public VMaxCardVisitor(){

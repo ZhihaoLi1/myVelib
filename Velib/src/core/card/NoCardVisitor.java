@@ -7,6 +7,11 @@ import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.rentals.BikeRental;
 
+/**
+ * Implementation of CardVisitor for users without any card.
+ * 
+ * @author matto
+ */
 public class NoCardVisitor implements CardVisitor {
 
 	public NoCardVisitor(){

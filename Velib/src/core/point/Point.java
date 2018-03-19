@@ -1,5 +1,11 @@
 package core.point;
 
+/**
+ * Represents the coordinates (in a 2D plane) of a point
+ * 
+ * @author matto
+ *
+ */
 public class Point {
 	private double x;
 	private double y;

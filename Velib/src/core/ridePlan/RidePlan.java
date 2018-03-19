@@ -5,7 +5,7 @@ import core.PolicyName;
 import core.point.Point;
 import core.station.Station;
 
-/*
+/**
  * A copy of the results of a planned ride by the network
  * 
  */
