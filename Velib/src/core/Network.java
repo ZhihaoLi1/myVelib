@@ -158,7 +158,7 @@ public class Network {
 			// verify if user does not already have a rental 
 			if (user.getBikeRental() != null) throw new Exception("User already has an ongoing bike rental! ");
 			synchronized(s) {
-				b = s.rentBike(bt);
+				b = s.rentBike(bt, LocalDateTime.now());
 				// if no bike is found
 				if (b == null) throw new Exception("Bike of the correct kind is not found in station");
 				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
