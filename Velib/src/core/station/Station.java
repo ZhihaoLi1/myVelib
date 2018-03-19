@@ -39,6 +39,7 @@ public abstract class Station extends Observable {
 	 * Create a station with the given number of parking slots, coordinates and online status
 	 * @param numberOfParkingSlots
 	 * @param coordinates
+	 * @param online
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online) {
 		super();
@@ -54,7 +55,6 @@ public abstract class Station extends Observable {
 	 * Create a station with the given number of parking slots, coordinates. By default, online status is true
 	 * @param numberOfParkingSlots
 	 * @param coordinates
-	 * @param online
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates) {
 		this(numberOfParkingSlots, coordinates, true);
@@ -154,7 +154,7 @@ public abstract class Station extends Observable {
 	/**
 	 * Returns a bike at a given time
 	 * The returning of the bike is different given the station type (take into consideration the timeCredit or not), so this is an abstract method
-	 * @param bike - the bike which is returned
+	 * @param bikeRental - the bike which is returned
 	 * @param date - the date at which the bike is returned
 	 * FIXME Only addTimeCredit should be abstract, and separated from this method
 	 */
@@ -226,7 +226,7 @@ public abstract class Station extends Observable {
 	/**
 	 * Gives a String representation of the statistics of the occupation rate over a given time period
 	 * @param startDate 
-	 * @param
+	 * @param endDate
 	 */
 	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
 		return "Occupation rate between " + startDate + " and " + endDate + ": " + computeOccupationRate(startDate, endDate); 
@@ -234,6 +234,7 @@ public abstract class Station extends Observable {
 	
 	/**
 	 * Gives a String representation of the statistics of the station (total returns and rentals)
+	 * @return String - representing the stats
 	 */
 	public String displayStats() {
 		return "Station [id: " + this.id + ", " + stats.toString() +  "]";

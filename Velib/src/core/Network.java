@@ -33,8 +33,7 @@ public class Network {
 	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
 	
 	/**
-	 * Creates the network 
-	 * => stations, parking slots and bikes
+	 * Creates the network (stations, parking slots and bikes)
 	 * 
 	 * @param name
 	 * @param numberOfStations
@@ -43,7 +42,6 @@ public class Network {
 	 * @param percentageOfBikes
 	 * @param percentageOfPlusStations
 	 * @param percentageOfElecBikes
-	 * @throws Exception 
 	 */
 	public Network(String name, int numberOfStations, ArrayList<Integer> numberOfParkingSlotsPerStation, double side, 
 			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes ) {
