@@ -13,7 +13,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	
 	// Getters / Setters
 	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException {
-		if (timeCredit >  0) {
+		if (timeCredit >=  0) {
 			this.timeCredit += timeCredit;
 		} else {
 			throw new NegativeTimeCreditGivenException(timeCredit);
@@ -21,7 +21,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	};
 
 	public void removeTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException, NegativeTimeCreditLeftException {
-		if (timeCredit >  0) {
+		if (timeCredit >=  0) {
 			if (this.timeCredit < timeCredit) {
 				throw new NegativeTimeCreditLeftException(timeCredit);
 			} else {

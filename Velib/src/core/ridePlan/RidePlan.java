@@ -27,21 +27,6 @@ public class RidePlan {
 		this.bikeType = bikeType;
 	}
 	
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof RidePlan) {
-			RidePlan rp = (RidePlan) o;
-			if(this.source.equals(rp.getSource())
-			&& this.destination.equals(rp.getDestination())
-			&& this.sourceStation.equals(rp.getSourceStation())
-			&& this.destinationStation.equals(rp.getDestinationStation())
-			&& this.policy.equals(rp.policy)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public Point getSource() {
 		return source;
 	}
@@ -81,5 +66,20 @@ public class RidePlan {
 
 	public void setBikeType(BikeType bikeType) {
 		this.bikeType = bikeType;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof RidePlan) {
+			RidePlan rp = (RidePlan) o;
+			if(this.source.equals(rp.getSource())
+			&& this.destination.equals(rp.getDestination())
+			&& this.sourceStation.equals(rp.getSourceStation())
+			&& this.destinationStation.equals(rp.getDestinationStation())
+			&& this.policy.equals(rp.policy)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

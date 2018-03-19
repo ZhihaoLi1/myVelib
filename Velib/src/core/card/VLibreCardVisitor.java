@@ -47,9 +47,13 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 		if (bike instanceof MechBike) {
 			// Check if we can lower the price using the time credit
 			try {
-				while ((nMinutes / 60 > 0) && (nMinutes % 60) <= getTimeCredit()) {
+				if ((nMinutes / 60 > 0) && (nMinutes % 60) <= getTimeCredit()) {
 					removeTimeCredit((int) (nMinutes % 60));
 					nMinutes -= (nMinutes % 60);
+				}
+				while ((nMinutes / 60 > 0 && getTimeCredit() >= 60)) {
+					removeTimeCredit(60);
+					nMinutes -= 60;
 				}
 			} catch (NegativeTimeCreditGivenException e) {
 				;
@@ -64,14 +68,18 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 		} else if (bike instanceof ElecBike) {
 			// Check if we can lower the price using the time credit
 			try {
-				while ((nMinutes % 60) <= getTimeCredit()) {
+				if ((nMinutes % 60) <= getTimeCredit()) {
 					removeTimeCredit((int) (nMinutes % 60));
 					nMinutes -= (nMinutes % 60);
 				}
+				while ((nMinutes > 0 && getTimeCredit() >= 60)) {
+					removeTimeCredit(60);
+					nMinutes -= 60;
+				}
 			} catch (NegativeTimeCreditGivenException e) {
-				;
+				System.out.println("NegativeTimeCreditGivenException");
 			} catch (NegativeTimeCreditLeftException e) {
-				;
+				System.out.println("NegativeTimeCreditLeftException");
 			}
 			if (nMinutes == 0) {
 				return 0;
@@ -85,27 +93,4 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 			throw new InvalidBikeTypeException(bike);
 		}
 	}	
-	
-	public static void main(String[] args) {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-		try {
-			vLibreCard.addTimeCredit(85);
-		} catch (NegativeTimeCreditGivenException e) {
-			;
-		}
-		Bike mBike = new ElecBike();
-		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
-		BikeRental mRental = new BikeRental(mBike, rentDate);
-
-		mRental.setReturnDate(DateParser.parse("01/01/2000 02:30:00"));
-		
-		try {
-			System.out.println(mRental.accept(vLibreCard));
-			System.out.println(vLibreCard.getTimeCredit());
-		} catch (InvalidBikeTypeException e) {
-			fail("Invalid bike type given to visitor");
-		} catch (InvalidDatesException e) {
-			fail("Invalid dates given to visitor");
-		}
-	}
 }

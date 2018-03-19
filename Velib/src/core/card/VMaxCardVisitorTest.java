@@ -92,6 +92,11 @@ public class VMaxCardVisitorTest {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 10);
+			
+			vMaxCard.addTimeCredit(60);
+			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
+			assertTrue(mRental.accept(vMaxCard) == 0);
+			assertTrue(vMaxCard.getTimeCredit() == 0);
 		} catch (InvalidBikeTypeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
@@ -116,7 +121,11 @@ public class VMaxCardVisitorTest {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 50);
-
+			
+			vMaxCard.addTimeCredit(60);
+			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
+			assertTrue(eRental.accept(vMaxCard) == 0);
+			assertTrue(vMaxCard.getTimeCredit() == 0);
 		} catch (InvalidBikeTypeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
