@@ -3,6 +3,11 @@ package core.bike;
 import core.BikeType;
 import core.station.IDGenerator;
 
+/**
+ * Implementation of an mechanical bike
+ * 
+ * @author matto
+ */
 public class MechBike implements Bike {
 	
 	private final int id; 
