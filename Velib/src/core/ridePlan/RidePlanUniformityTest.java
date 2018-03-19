@@ -15,7 +15,6 @@ import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.PlusStation;
-import core.station.StandardStation;
 import core.station.Station;
 
 public class RidePlanUniformityTest {

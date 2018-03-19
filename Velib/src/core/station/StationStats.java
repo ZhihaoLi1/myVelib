@@ -26,7 +26,14 @@ public class StationStats {
 		this.station = station;
 	}
 	
-	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+	/**
+	 * Calculates the occupation rate of a station for a given time period
+	 * @param startDate 
+	 * @param endDate
+	 * @return the occupation rate of the station
+	 * @throws NullPointerException if the startDate or endDate is null
+	 */
+	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
 		double totalTimeOccupied = 0;
 		for (ParkingSlot parkingSlot: station.getParkingSlots()) {
 			totalTimeOccupied += parkingSlot.getOccupationRate(startDate, endDate);
@@ -55,35 +62,4 @@ public class StationStats {
 	public String toString() {
 		return "total rentals: " + this.totalRentals + ", total returns: " + this.totalReturns;
 	}
-	
-	public static void main(String[] args) {
-		Station st = new StandardStation(10, new Point(0,0));
-		StationStats ssm = null;
-		ssm = new StationStats(st);
-		
-		LocalDateTime t1 = DateParser.parse("01/01/2000 00:00:00");
-		LocalDateTime t2 = DateParser.parse("01/01/2000 00:59:00");
-		
-		ParkingSlotStatus s;
-		
-		s = new ParkingSlotStatus(ParkingSlotStatusName.OUT_OF_ORDER, DateParser.parse("31/12/1999 23:15:00"));
-		s.setEndDate(DateParser.parse("01/01/2000 00:05:00"));
-		System.out.println(s);
-		st.getParkingSlots().get(0).setStatus(ParkingSlotStatusName.OUT_OF_ORDER, DateParser.parse("31/12/1999 23:15:00"));
-		st.getParkingSlots().get(0).setStatus(ParkingSlotStatusName.FREE, DateParser.parse("01/01/2000 00:05:00"));
-		st.getParkingSlots().get(0).setStatus(ParkingSlotStatusName.OCCUPIED, DateParser.parse("01/01/2000 00:24:10"));
-		st.getParkingSlots().get(0).setStatus(ParkingSlotStatusName.OUT_OF_ORDER, DateParser.parse("01/01/2000 00:39:26"));
-		st.getParkingSlots().get(0).setStatus(ParkingSlotStatusName.FREE, DateParser.parse("01/01/2000 01:04:00"));
-		
-		st.getParkingSlots().get(1).setStatus(ParkingSlotStatusName.OUT_OF_ORDER, DateParser.parse("31/12/1999 23:15:00"));
-		st.getParkingSlots().get(1).setStatus(ParkingSlotStatusName.FREE, DateParser.parse("01/01/2000 00:05:00"));
-		st.getParkingSlots().get(1).setStatus(ParkingSlotStatusName.OCCUPIED, DateParser.parse("01/01/2000 00:24:10"));
-		st.getParkingSlots().get(1).setStatus(ParkingSlotStatusName.OUT_OF_ORDER, DateParser.parse("01/01/2000 00:39:26"));
-		st.getParkingSlots().get(1).setStatus(ParkingSlotStatusName.FREE, DateParser.parse("01/01/2000 01:04:00"));
-
-		System.out.println(ssm.getOccupationRate(t1, t2));
-	}
-
-
-
 }

@@ -86,7 +86,7 @@ public class ParkingSlot {
 		this.statusHistory.add(this.currentStatus);
 	}
 	
-	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
 		double totalOccupiedTime = 0;
 		for (ParkingSlotStatus status: statusHistory) {
 			totalOccupiedTime += calculateEffectiveTimeInSpan(status, startDate, endDate) * status.getStatusName().getOccupationRate();
@@ -95,7 +95,7 @@ public class ParkingSlot {
 		return totalOccupiedTime;
 	}
 	
-	private double calculateEffectiveTimeInSpan(ParkingSlotStatus status, LocalDateTime startDate, LocalDateTime endDate) {
+	private double calculateEffectiveTimeInSpan(ParkingSlotStatus status, LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
 		LocalDateTime effectiveStartDate;
 		LocalDateTime effectiveEndDate;
 

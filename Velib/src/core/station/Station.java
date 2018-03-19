@@ -57,24 +57,7 @@ public abstract class Station extends Observable {
 	 * @param online
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates) {
-		super();
-		this.id = IDGenerator.getInstance().getNextIDNumber();
-		for (int i=0; i < numberOfParkingSlots; i++) {
-			this.parkingSlots.add(new ParkingSlot());
-		}
-		this.coordinates = coordinates;
-		this.online = true;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof Station) {
-			Station s = (Station) o;
-			if (s.getId() == this.id) {
-				return true;
-			}
-		}
-		return false;
+		this(numberOfParkingSlots, coordinates, true);
 	}
 		
 	/**
@@ -84,15 +67,18 @@ public abstract class Station extends Observable {
 	 * @param date     - the date at which the bike is added
 	 * @return boolean - true if bike was added, false if not
 	 */
-	public boolean addBike(Bike b, LocalDateTime date) throws Exception {
+	public boolean addBike(Bike b, LocalDateTime date) {
 		for (int i = 0; i<parkingSlots.size(); i++) {
-			if (!parkingSlots.get(i).hasBike()) {
+			try {
+				// Throws Exception if bike couldn't be set
 				parkingSlots.get(i).setBike(b, date);
-				// if the station is full after adding the bike, notification should be sent to users
+				// If the station is full after adding the bike, notification should be sent to users
 				if(isFull()) {
 					notifyObservers();
 				}
 				return true;
+			} catch (Exception e) {
+				continue;
 			}
 		}
 		return false;
