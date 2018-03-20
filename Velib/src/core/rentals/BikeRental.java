@@ -16,8 +16,8 @@ import core.card.InvalidDatesException;
  */
 public class BikeRental implements Rental {
 	
-	private Bike bike;
-	private LocalDateTime rentDate;
+	private final Bike bike;
+	private final LocalDateTime rentDate;
 	private LocalDateTime returnDate;
 	
 	public BikeRental(Bike bike, LocalDateTime rentDate) {
@@ -36,16 +36,8 @@ public class BikeRental implements Rental {
 		return bike;
 	}
 
-	public void setBike(Bike bike) {
-		this.bike = bike;
-	}
-
 	public LocalDateTime getRentDate() {
 		return rentDate;
-	}
-
-	public void setRentDate(LocalDateTime rentDate) {
-		this.rentDate = rentDate;
 	}
 	
 	public LocalDateTime getReturnDate() {

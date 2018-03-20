@@ -89,8 +89,8 @@ public abstract class Station extends Observable {
 	 * @return boolean - true if station is full, false if not
 	 */
 	public Boolean isFull() {
-		for (int i = 0; i<parkingSlots.size(); i++) {
-			if (!parkingSlots.get(i).hasBike()) {
+		for (ParkingSlot ps: parkingSlots) {
+			if (ps.isWorking() && !ps.hasBike()) {
 				return false;
 			}
 		}
@@ -157,8 +157,19 @@ public abstract class Station extends Observable {
 	 * @param bikeRental - the bike which is returned
 	 * @param date - the date at which the bike is returned
 	 * FIXME Only addTimeCredit should be abstract, and separated from this method
+	 * @throws Exception when station is full
 	 */
-	public abstract void returnBike(BikeRental bikeRental, LocalDateTime date);
+	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws Exception {
+		if (this.isFull()) throw new Exception("Station is too full to return bike");
+		// loop over stations and place bike the first empty slot 
+		for(ParkingSlot ps: parkingSlots) {
+			if(ps.isWorking() && !ps.hasBike()) {
+				ps.setBike(bikeRental.getBike(), bikeRental.getReturnDate());
+				break;
+			}
+		}
+		
+	};
 	
 	/**
 	 * Add user to the list of observers of the station

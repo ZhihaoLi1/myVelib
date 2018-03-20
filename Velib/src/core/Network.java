@@ -31,7 +31,7 @@ public class Network {
 	private HashMap<Integer, User> users = new HashMap<Integer, User>() ;
 	private HashMap<User, BikeRental> userRentals = new HashMap<User, BikeRental>();
 	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
-	
+	private int bonusTimeCredit = 5;
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
@@ -144,7 +144,7 @@ public class Network {
 	 * @param bikeType
 	 * @throws Exception if user already has a bike rental, if station is offline, if no appropriate bike is found in the station.
 	 */
-	public void rent(int userId, int stationId, String bikeType) throws Exception {
+	public void rentBike(int userId, int stationId, String bikeType) throws Exception {
 		// find user 
 		User user = users.get(userId);
 		// find station
@@ -163,6 +163,38 @@ public class Network {
 				if (b == null) throw new Exception("Bike of the correct kind is not found in station");
 				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param stationId
+	 * @param returnDate
+	 * @throws Exception when station is full
+	 */
+	public double returnBike(int userId, int stationId, LocalDateTime returnDate) throws Exception {
+		// find user 
+		User user = users.get(userId);
+		// find station
+		Station s = stations.get(stationId);
+		if (user == null || s == null) throw new NullPointerException("No user or station found given Id.");
+		// the same user cannot return more than one bike at the same time. 
+		synchronized(user) {
+			// make sure user has a rental 
+			BikeRental br = user.getBikeRental();
+			if (br == null) throw new NullPointerException("User does not have a bikeRental");
+			br.setReturnDate(returnDate);
+			// 2 users cannot return a bike at the same time at a specific station
+			synchronized(s) {
+				s.returnBike(br, returnDate);
+			}
+			// add time credit if return station is a plus station 
+			if (s instanceof PlusStation) {
+				user.getCard().addTimeCredit(this.bonusTimeCredit);
+			}
+			// calculate price
+			return user.getCard().visit(br);
 		}
 	}
 	
