@@ -87,6 +87,7 @@ public class RidePlan {
 			&& this.destination.equals(rp.getDestination())
 			&& this.sourceStation.equals(rp.getSourceStation())
 			&& this.destinationStation.equals(rp.getDestinationStation())
+			&& this.network.equals(rp.getNetwork())
 			&& this.policy.equals(rp.policy)) {
 				return true;
 			}

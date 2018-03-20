@@ -134,6 +134,7 @@ public class Network {
 		}
 		// add user to list of observers in concerned destination stations 
 		rp.getDestinationStation().addObserver(user);
+		user.setRidePlan(rp);
 		return rp;	
 	}
 
@@ -197,6 +198,17 @@ public class Network {
 			return user.getCard().visit(br);
 		}
 	}
+	
+	/**
+	 * Send to CLI that station is full, and a ridePlan is cancelled
+	 * @param user
+	 * @param s
+	 * @return
+	 */
+	public String notifyStationFull(Station s) {
+		return "Station with id " + s.getId() + " is full and your ride plan is cancelled. Please create a new one";
+	}
+
 	
 	public String getName() {
 		return name;

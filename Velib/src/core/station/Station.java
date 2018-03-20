@@ -162,12 +162,7 @@ public abstract class Station extends Observable {
 	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws Exception {
 		if (this.isFull()) throw new Exception("Station is too full to return bike");
 		// loop over stations and place bike the first empty slot 
-		for(ParkingSlot ps: parkingSlots) {
-			if(ps.isWorking() && !ps.hasBike()) {
-				ps.setBike(bikeRental.getBike(), bikeRental.getReturnDate());
-				break;
-			}
-		}
+		addBike(bikeRental.getBike(), LocalDateTime.now());
 		
 	};
 	

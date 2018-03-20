@@ -7,7 +7,9 @@ import core.card.CardVisitor;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.rentals.BikeRental;
+import core.ridePlan.RidePlan;
 import core.station.IDGenerator;
+import core.station.Station;
 
 public class User implements Observer {
 	private final int id; 
@@ -15,7 +17,7 @@ public class User implements Observer {
 	private Point coordinates;
 	private CardVisitor card;
 	private BikeRental bikeRental;
-	
+	private RidePlan ridePlan;
 	// Statistics of user 
 	private int totalRides;
 	private int totalTimeCredits;
@@ -39,10 +41,12 @@ public class User implements Observer {
 
 	/**
 	 * Notify user if given station is no longer online / no more parking slots left
+	 * user then tells the network send notification to CLI
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-	
+		if (!(o instanceof Station)) throw new IllegalArgumentException("user update needs station as observable input.");
+		this.ridePlan.getNetwork().notifyStationFull((Station) o);
 	}
 
 	/**
@@ -120,6 +124,14 @@ public class User implements Observer {
 	
 	public void resetBikeRental() {
 		this.bikeRental = null;
+	}
+
+	public RidePlan getRidePlan() {
+		return ridePlan;
+	}
+
+	public void setRidePlan(RidePlan ridePlan) {
+		this.ridePlan = ridePlan;
 	}
 
 	public int getId() {
