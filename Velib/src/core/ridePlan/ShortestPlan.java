@@ -51,6 +51,6 @@ public class ShortestPlan implements RidePlanStrategy {
 		if (sourceStation == null || destStation == null) {
 			throw new Exception("No appropriate stations found !");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, null);
 	}
 }

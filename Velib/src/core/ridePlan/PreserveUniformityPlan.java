@@ -79,7 +79,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		if (fullerSourceStation != null) sourceStation = fullerSourceStation; 
 		if (emptierDestStation != null) destStation = emptierDestStation;
 
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, bikeType);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, bikeType, null);
 	}
 
 }

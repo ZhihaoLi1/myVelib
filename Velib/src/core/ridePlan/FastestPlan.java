@@ -61,7 +61,7 @@ public class FastestPlan implements RidePlanStrategy{
 		if (sourceStation == null || destStation == null) {
 			throw new Exception("No appropriate stations found !");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType, null);
 	}
 
 }

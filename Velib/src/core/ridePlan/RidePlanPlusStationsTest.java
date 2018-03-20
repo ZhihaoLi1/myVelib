@@ -61,7 +61,7 @@ public class RidePlanPlusStationsTest {
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.AVOID_PLUS, BikeType.MECH);
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation, PolicyName.AVOID_PLUS, BikeType.MECH);
+		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation, PolicyName.AVOID_PLUS, BikeType.MECH, null);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -71,7 +71,7 @@ public class RidePlanPlusStationsTest {
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);
-		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, BikeType.MECH, null);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

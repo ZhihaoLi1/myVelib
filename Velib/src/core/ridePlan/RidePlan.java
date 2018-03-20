@@ -1,6 +1,7 @@
 package core.ridePlan;
 
 import core.BikeType;
+import core.Network;
 import core.PolicyName;
 import core.point.Point;
 import core.station.Station;
@@ -16,8 +17,9 @@ public class RidePlan {
 	private Station destinationStation;
 	private PolicyName policy;
 	private BikeType bikeType;
+	private Network network;
 	
-	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, PolicyName policy, BikeType bikeType) {
+	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, PolicyName policy, BikeType bikeType, Network network) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -25,6 +27,7 @@ public class RidePlan {
 		this.destinationStation = destinationStation;
 		this.policy = policy;
 		this.bikeType = bikeType;
+		this.setNetwork(network);
 	}
 	
 	public Point getSource() {
@@ -66,6 +69,14 @@ public class RidePlan {
 
 	public void setBikeType(BikeType bikeType) {
 		this.bikeType = bikeType;
+	}
+	
+	public Network getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(Network network) {
+		this.network = network;
 	}
 	
 	@Override

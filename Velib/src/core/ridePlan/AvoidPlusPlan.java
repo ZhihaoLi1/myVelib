@@ -48,5 +48,5 @@ public class AvoidPlusPlan implements RidePlanStrategy{
 			throw new Exception("No appropriate stations found !");
 		}
 		
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType);	}
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType, null);	}
 }

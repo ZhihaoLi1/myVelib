@@ -63,9 +63,9 @@ public class PreferPlusPlan implements RidePlanStrategy{
 		}
 		
 		if (plusDestStation == null) {
-			return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, bikeType);
+			return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, bikeType, null);
 		} else {
-			return new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, bikeType);
+			return new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, bikeType, null);
 		}
 	}
 
