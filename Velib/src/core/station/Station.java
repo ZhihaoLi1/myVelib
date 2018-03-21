@@ -54,6 +54,7 @@ public abstract class Station extends Observable {
 		this.coordinates = coordinates;
 		this.online = online;
 		this.bonusTimeCreditOnReturn = bonusTimeCreditOnReturn;
+		this.stats = new StationStats(this);
 	}
 	
 	/**
