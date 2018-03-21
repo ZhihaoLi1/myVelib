@@ -16,9 +16,7 @@ import core.ridePlan.FastestPlan;
 import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
-import core.ridePlan.RidePlanStrategy;
 import core.ridePlan.ShortestPlan;
-import core.station.ParkingSlot;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
@@ -76,15 +74,30 @@ public class Network {
 		
 		System.out.println(keys.toString());
 
+		/**
+		 * Place bikes into stations
+		 * List of stations that are not full
+		 * Iterate over total number of bikes and assign a bike to a random station that is not full
+		 * Each time a station is full, remove it from the list
+		 */
 		int totalNumberOfParkingSlots = numberOfParkingSlotsPerStation.stream().mapToInt(Integer::intValue).sum();
 		int totalNumberOfBikes = (int) (totalNumberOfParkingSlots*percentageOfBikes);
-		for (Station station : this.stations.values()) {
-			for (int i=0; i<station.getParkingSlots().size(); i++ ) {
-				// TODO FINISH SETUP
+		ArrayList<Station> notEmptyStations = new ArrayList<Station>(this.stations.values());
+		
+		for (int i=0; i<totalNumberOfBikes; i++) {
+			int randomNum = ThreadLocalRandom.current().nextInt(0, notEmptyStations.size());
+			if (i < totalNumberOfBikes*percentageOfElecBikes) {
+				notEmptyStations.get(randomNum).addBike(new ElecBike(), LocalDateTime.now());
+			} else {
+				notEmptyStations.get(randomNum).addBike(new MechBike(), LocalDateTime.now());
+			}
+			if (notEmptyStations.get(randomNum).isFull()) {
+				notEmptyStations.remove(randomNum);
 			}
 		}
 	}
-		
+	
+	
 	public Network() {
 	}
 
