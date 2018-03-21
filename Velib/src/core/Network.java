@@ -29,7 +29,7 @@ public class Network {
 	private HashMap<Integer, User> users = new HashMap<Integer, User>() ;
 	private HashMap<User, BikeRental> userRentals = new HashMap<User, BikeRental>();
 	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
-	private int bonusTimeCredit = 5;
+
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
@@ -204,9 +204,7 @@ public class Network {
 				s.returnBike(br, returnDate);
 			}
 			// add time credit if return station is a plus station 
-			if (s instanceof PlusStation) {
-				user.getCard().addTimeCredit(this.bonusTimeCredit);
-			}
+			user.getCard().addTimeCredit(s.getBonusTimeCreditOnReturn());
 			// calculate price
 			return user.getCard().visit(br);
 		}

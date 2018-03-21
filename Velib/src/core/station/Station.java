@@ -23,6 +23,9 @@ import core.rentals.BikeRental;
 public abstract class Station extends Observable {
 	private final int id;
 	
+	// time credit added to card to a bike is returned to this station.
+	private final int bonusTimeCreditOnReturn;
+	
 	// A station has multiple parking slots
 	private ArrayList<ParkingSlot> parkingSlots = new ArrayList<ParkingSlot>(); 
 	
@@ -40,8 +43,9 @@ public abstract class Station extends Observable {
 	 * @param numberOfParkingSlots
 	 * @param coordinates
 	 * @param online
+	 * @param bonusTimeCreditOnReturn TODO
 	 */
-	public Station(int numberOfParkingSlots, Point coordinates, Boolean online) {
+	public Station(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
 		super();
 		this.id = IDGenerator.getInstance().getNextIDNumber();
 		for (int i=0; i < numberOfParkingSlots; i++) {
@@ -49,6 +53,7 @@ public abstract class Station extends Observable {
 		}
 		this.coordinates = coordinates;
 		this.online = online;
+		this.bonusTimeCreditOnReturn = bonusTimeCreditOnReturn;
 	}
 	
 	/**
@@ -56,8 +61,8 @@ public abstract class Station extends Observable {
 	 * @param numberOfParkingSlots
 	 * @param coordinates
 	 */
-	public Station(int numberOfParkingSlots, Point coordinates) {
-		this(numberOfParkingSlots, coordinates, true);
+	public Station(int numberOfParkingSlots, Point coordinates, int bonusTimeCreditOnReturn) {
+		this(numberOfParkingSlots, coordinates, true, bonusTimeCreditOnReturn);
 	}
 		
 	/**
@@ -278,8 +283,9 @@ public abstract class Station extends Observable {
 	}
 	
 	public static void main(String[] args) {
-		Station st = new StandardStation(10, new Point(0,0));
-		
-		System.out.println(st.displayStats());
+	}
+
+	public int getBonusTimeCreditOnReturn() {
+		return bonusTimeCreditOnReturn;
 	}
 }
