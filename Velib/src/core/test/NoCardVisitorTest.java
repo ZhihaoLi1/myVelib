@@ -1,4 +1,4 @@
-package core.card;
+package core.test;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,9 @@ import org.junit.Test;
 import core.bike.Bike;
 import core.bike.ElecBike;
 import core.bike.MechBike;
+import core.card.InvalidBikeTypeException;
+import core.card.InvalidDatesException;
+import core.card.NoCardVisitor;
 import core.rentals.BikeRental;
 import core.utils.DateParser;
 

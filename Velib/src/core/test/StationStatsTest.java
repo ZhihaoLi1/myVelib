@@ -1,4 +1,4 @@
-package core.station;
+package core.test;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import core.bike.MechBike;
 import core.point.Point;
+import core.station.StandardStation;
+import core.station.Station;
+import core.station.StationStats;
 import core.utils.DateParser;
 
 public class StationStatsTest {

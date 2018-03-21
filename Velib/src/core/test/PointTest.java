@@ -1,8 +1,10 @@
-package core.point;
+package core.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import core.point.Point;
 
 public class PointTest {
 

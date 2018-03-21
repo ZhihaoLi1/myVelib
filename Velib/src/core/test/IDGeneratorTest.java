@@ -1,8 +1,10 @@
-package core.station;
+package core.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import core.station.IDGenerator;
 
 public class IDGeneratorTest {
 

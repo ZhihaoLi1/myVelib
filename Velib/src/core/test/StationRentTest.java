@@ -1,4 +1,4 @@
-package core.station;
+package core.test;
 
 import static org.junit.Assert.*;
 
@@ -14,6 +14,8 @@ import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.station.PlusStation;
+import core.station.Station;
 
 public class StationRentTest {
 	

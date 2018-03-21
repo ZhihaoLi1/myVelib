@@ -1,4 +1,4 @@
-package core.ridePlan;
+package core.test;
 
 import static org.junit.Assert.*;
 
@@ -15,6 +15,7 @@ import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.ridePlan.RidePlan;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;

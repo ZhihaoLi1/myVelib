@@ -1,8 +1,11 @@
-package core.bike;
+package core.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import core.bike.ElecBike;
+import core.bike.MechBike;
 
 public class BikeTest {
 
