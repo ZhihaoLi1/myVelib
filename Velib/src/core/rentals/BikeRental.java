@@ -19,6 +19,7 @@ public class BikeRental implements Rental {
 	private final Bike bike;
 	private final LocalDateTime rentDate;
 	private LocalDateTime returnDate;
+	private int timeSpent; // in minutes
 	
 	public BikeRental(Bike bike, LocalDateTime rentDate) {
 		this.bike = bike;
@@ -51,5 +52,13 @@ public class BikeRental implements Rental {
 	@Override
 	public String toString() {
 		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate + "]";
+	}
+
+	public int getTimeSpent() {
+		return timeSpent;
+	}
+
+	public void setTimeSpent(int timeSpent) {
+		this.timeSpent = timeSpent;
 	}
 }

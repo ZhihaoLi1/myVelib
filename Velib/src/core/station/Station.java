@@ -288,4 +288,8 @@ public abstract class Station extends Observable {
 	public int getBonusTimeCreditOnReturn() {
 		return bonusTimeCreditOnReturn;
 	}
+	
+	public StationStats getStats() {
+		return stats;
+	}
 }

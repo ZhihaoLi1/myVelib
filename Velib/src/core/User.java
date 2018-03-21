@@ -18,11 +18,7 @@ public class User implements Observer {
 	private CardVisitor card;
 	private BikeRental bikeRental;
 	private RidePlan ridePlan;
-	// Statistics of user 
-	private int totalRides;
-	private int totalTimeCredits;
-	private int totalCharges;
-	private int totalTimeSpent; // in minutes
+	private UserStats stats;
 	
 	public User(String name) {
 		this(name, null, new NoCardVisitor());
@@ -37,6 +33,7 @@ public class User implements Observer {
 		this.coordinates = coordinates;
 		this.card = card;
 		this.name = name;
+		this.stats = new UserStats();
 	}
 
 	/**
@@ -80,38 +77,6 @@ public class User implements Observer {
 		this.card = card;
 	}
 
-	public int getTotalRides() {
-		return totalRides;
-	}
-
-	public void incrementTotalRides() {
-		this.totalRides += 1;
-	}
-
-	public int getTotalTimeCredits() {
-		return totalTimeCredits;
-	}
-
-	public void addTotalTimeCredits(int timeCredits) {
-		this.totalTimeCredits += timeCredits;
-	}
-
-	public int getTotalCharges() {
-		return totalCharges;
-	}
-
-	public void addTotalCharges(int charges) {
-		this.totalCharges += charges;
-	}
-
-	public int getTotalTimeSpent() {
-		return totalTimeSpent;
-	}
-
-	public void setTotalTimeSpent(int totalTimeSpent) {
-		this.totalTimeSpent = totalTimeSpent;
-	}
-
 	public BikeRental getBikeRental() {
 		return bikeRental;
 	}
@@ -136,6 +101,14 @@ public class User implements Observer {
 
 	public int getId() {
 		return id;
+	}
+
+	public UserStats getStats() {
+		return stats;
+	}
+
+	public void setStats(UserStats stats) {
+		this.stats = stats;
 	}
 	
 }

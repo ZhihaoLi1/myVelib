@@ -176,6 +176,8 @@ public class Network {
 				// if no bike is found
 				if (b == null) throw new Exception("Bike of the correct kind is not found in station");
 				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
+				// increment station statistics 
+				s.getStats().incrementTotalRentals();
 			}
 		}
 	}
@@ -187,7 +189,7 @@ public class Network {
 	 * @param returnDate
 	 * @throws Exception when station is full
 	 */
-	public double returnBike(int userId, int stationId, LocalDateTime returnDate) throws Exception {
+	public double returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) throws Exception {
 		// find user 
 		User user = users.get(userId);
 		// find station
@@ -199,14 +201,25 @@ public class Network {
 			BikeRental br = user.getBikeRental();
 			if (br == null) throw new NullPointerException("User does not have a bikeRental");
 			br.setReturnDate(returnDate);
+			br.setTimeSpent(timeSpent);
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized(s) {
 				s.returnBike(br, returnDate);
+				// increment station statistics
+				s.getStats().incrementTotalReturns();
 			}
 			// add time credit if return station is a plus station 
 			user.getCard().addTimeCredit(s.getBonusTimeCreditOnReturn());
+			user.getStats().addTotalTimeCredits(s.getBonusTimeCreditOnReturn());
+
 			// calculate price
-			return user.getCard().visit(br);
+			double price = user.getCard().visit(br);
+			user.getStats().addTotalCharges(price);
+			
+			user.getStats().incrementTotalRides();
+			user.getStats().setTotalTimeSpent(br.getTimeSpent());;
+			
+			return price;
 		}
 	}
 	
