@@ -94,7 +94,7 @@ public class VLibreCardVisitorTest {
 			assertTrue(mRental.accept(vLibreCard) == 0);
 			assertTrue(vLibreCard.getTimeCredit() == 10);
 			
-			vLibreCard.addTimeCredit(60);
+			vLibreCard.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(mRental.accept(vLibreCard) == 0);
 			assertTrue(vLibreCard.getTimeCredit() == 0);

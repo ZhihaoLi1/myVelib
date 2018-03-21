@@ -98,7 +98,7 @@ public class VMaxCardVisitorTest {
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 10);
 			
-			vMaxCard.addTimeCredit(60);
+			vMaxCard.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 0);
@@ -127,7 +127,7 @@ public class VMaxCardVisitorTest {
 			assertTrue(eRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 50);
 			
-			vMaxCard.addTimeCredit(60);
+			vMaxCard.addTimeCredit(10);
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 0);
