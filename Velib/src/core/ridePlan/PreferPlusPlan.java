@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.BikeType;
+import core.Network;
 import core.PolicyName;
 import core.User;
 import core.point.Point;
@@ -20,7 +21,7 @@ import core.station.Station;
 public class PreferPlusPlan implements RidePlanStrategy{
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations, Network n) throws Exception {
 		Station sourceStation = null;
 		Station destStation = null;
 		
@@ -63,9 +64,9 @@ public class PreferPlusPlan implements RidePlanStrategy{
 		}
 		
 		if (plusDestStation == null) {
-			return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, bikeType, null);
+			return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, bikeType, n);
 		} else {
-			return new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, bikeType, null);
+			return new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, bikeType, n);
 		}
 	}
 

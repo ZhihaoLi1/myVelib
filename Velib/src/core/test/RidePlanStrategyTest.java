@@ -74,23 +74,23 @@ public class RidePlanStrategyTest {
 	 */
 	public void ChooseNotEmptySourceAndNotFullDestWhenPlanningRide() {
 		RidePlan ap = n.planRide(source, destination, bob, PolicyName.AVOID_PLUS, BikeType.MECH);
-		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, BikeType.MECH, null);
+		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, BikeType.MECH, n);
 		assertTrue(ap.equals(apRidePlan));
 		
 		RidePlan pp = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);
-		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, BikeType.MECH, null);
+		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, BikeType.MECH, n);
 		assertTrue(pp.equals(ppRidePlan));
 		
 		RidePlan s = n.planRide(source, destination, bob, PolicyName.SHORTEST, BikeType.MECH);
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, BikeType.MECH, null);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, BikeType.MECH, n);
 		assertTrue(s.equals(sRidePlan));
 		
 		RidePlan f = n.planRide(source, destination, bob, PolicyName.FASTEST, BikeType.MECH);
-		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, BikeType.MECH, null);
+		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, BikeType.MECH, n);
 		assertTrue(f.equals(fRidePlan));
 		
 		RidePlan u = n.planRide(source, destination, bob, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
-		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, null);
+		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, n);
 		assertTrue(u.equals(uRidePlan));
 		
 		

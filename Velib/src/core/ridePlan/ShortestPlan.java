@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.BikeType;
+import core.Network;
 import core.PolicyName;
 import core.User;
 import core.point.Point;
@@ -21,7 +22,7 @@ import core.station.Station;
 public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations, Network n) throws Exception {
 		
 		Station sourceStation = null;
 		Station destStation = null;
@@ -51,6 +52,6 @@ public class ShortestPlan implements RidePlanStrategy {
 		if (sourceStation == null || destStation == null) {
 			throw new Exception("No appropriate stations found !");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, null);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, n);
 	}
 }

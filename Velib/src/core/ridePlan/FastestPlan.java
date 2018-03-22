@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.BikeType;
+import core.Network;
 import core.PolicyName;
 import core.User;
 import core.point.Point;
@@ -20,7 +21,7 @@ import core.station.Station;
 public class FastestPlan implements RidePlanStrategy{
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations, Network n) throws Exception {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		switch(bikeType) {
@@ -61,7 +62,7 @@ public class FastestPlan implements RidePlanStrategy{
 		if (sourceStation == null || destStation == null) {
 			throw new Exception("No appropriate stations found !");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType, null);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType, n);
 	}
 
 }

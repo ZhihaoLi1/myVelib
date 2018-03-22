@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.BikeType;
+import core.Network;
 import core.PolicyName;
 import core.User;
 import core.point.Point;
@@ -26,7 +27,7 @@ import core.station.Station;
 public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, HashMap<Integer, Station> stations, Network n) throws Exception {
 		// find the closest stations 
 		Station sourceStation = null;
 		Station destStation = null;
@@ -79,7 +80,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		if (fullerSourceStation != null) sourceStation = fullerSourceStation; 
 		if (emptierDestStation != null) destStation = emptierDestStation;
 
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, bikeType, null);
+		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, bikeType, n);
 	}
 
 }

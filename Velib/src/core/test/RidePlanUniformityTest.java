@@ -73,7 +73,7 @@ public class RidePlanUniformityTest {
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
-		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, null);
+		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation, PolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 }

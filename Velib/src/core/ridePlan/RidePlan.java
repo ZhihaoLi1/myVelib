@@ -27,7 +27,7 @@ public class RidePlan {
 		this.destinationStation = destinationStation;
 		this.policy = policy;
 		this.bikeType = bikeType;
-		this.setNetwork(network);
+		this.network = network;
 	}
 	
 	public Point getSource() {
