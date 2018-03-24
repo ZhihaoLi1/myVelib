@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import core.bike.Bike;
 import core.card.CardVisitor;
-import core.card.InvalidBikeTypeException;
+import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 
 /**
@@ -29,7 +29,7 @@ public class BikeRental implements Rental {
 
 	// Passes information to visitor to calculate final cost. 
 	@Override
-	public double accept(CardVisitor visitor) throws InvalidBikeTypeException, InvalidDatesException {
+	public double accept(CardVisitor visitor) throws InvalidBikeException, InvalidDatesException {
 		return visitor.visit(this);
 	}
 

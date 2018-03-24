@@ -98,7 +98,7 @@ public class VLibreCardVisitorTest {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(mRental.accept(vLibreCard) == 0);
 			assertTrue(vLibreCard.getTimeCredit() == 0);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
@@ -127,7 +127,7 @@ public class VLibreCardVisitorTest {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(eRental.accept(vLibreCard) == 0);
 			assertTrue(vLibreCard.getTimeCredit() == 0);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
@@ -140,14 +140,19 @@ public class VLibreCardVisitorTest {
 	public void whenInvalidDatesAreGivenThenThrowException() {
 		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
 		
-		Bike mBike = new MechBike();
+		Bike mBike = null;
+		try {
+			mBike = new BikeFactory().createBike(BikeType.MECH);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental rental = new BikeRental(mBike, null);
 		try {
 			rental.accept(vLibreCard);
 			fail("Visitor should have thrown InvalidDatesException");
 		} catch (InvalidDatesException e) {
 			assertTrue(true);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Visitor should have thrown InvalidDatesException");
 		}
 	}
@@ -165,7 +170,7 @@ public class VLibreCardVisitorTest {
 			fail("Should have thrown InvalidBikeTypeException");
 		} catch (InvalidDatesException e) {
 			fail("Should have thrown InvalidBikeTypeException");
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			assertTrue(true);
 		}
 	}

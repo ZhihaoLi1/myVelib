@@ -32,7 +32,7 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
 	 * @throws InvalidBikeTypeException if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException if invalid rent of return dates are given
 	 */
-	public double visit(BikeRental rental) throws InvalidBikeTypeException, InvalidDatesException {
+	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
 		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
 			throw new InvalidDatesException(rental.getRentDate(), rental.getReturnDate());
@@ -60,7 +60,7 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
 			}
 			return (nMinutes - 60) / 60 + ((nMinutes % 60 == 0) ? 0 : 1);
 		} else {
-			throw new InvalidBikeTypeException(bike);
+			throw new InvalidBikeException(bike);
 		}
 	}	
 }

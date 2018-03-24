@@ -6,10 +6,13 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import core.BikeType;
 import core.bike.Bike;
+import core.bike.BikeFactory;
 import core.bike.ElecBike;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
-import core.card.InvalidBikeTypeException;
+import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 import core.card.NegativeTimeCreditGivenException;
 import core.card.NegativeTimeCreditLeftException;
@@ -102,7 +105,7 @@ public class VMaxCardVisitorTest {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 0);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
@@ -131,7 +134,7 @@ public class VMaxCardVisitorTest {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 0);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
@@ -144,14 +147,19 @@ public class VMaxCardVisitorTest {
 	public void whenInvalidDatesAreGivenThenThrowException() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
 		
-		Bike mBike = new MechBike();
+		Bike mBike = null;
+		try {
+			mBike = new BikeFactory().createBike(BikeType.MECH);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental rental = new BikeRental(mBike, null);
 		try {
 			rental.accept(vMaxCard);
 			fail("Visitor should have thrown InvalidDatesException");
 		} catch (InvalidDatesException e) {
 			assertTrue(true);
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			fail("Visitor should have thrown InvalidDatesException");
 		}
 	}
@@ -169,7 +177,7 @@ public class VMaxCardVisitorTest {
 			fail("Should have thrown InvalidBikeTypeException");
 		} catch (InvalidDatesException e) {
 			fail("Should have thrown InvalidBikeTypeException");
-		} catch (InvalidBikeTypeException e) {
+		} catch (InvalidBikeException e) {
 			assertTrue(true);
 		}
 	}

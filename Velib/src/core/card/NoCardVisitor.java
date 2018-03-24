@@ -44,7 +44,7 @@ public class NoCardVisitor implements CardVisitor {
 		} else if (bike instanceof ElecBike) {
 			return 2 * (nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
 		} else {
-			throw new InvalidBikeTypeException(bike);
+			throw new InvalidBikeException(bike);
 		}
 	}
 	
