@@ -4,13 +4,13 @@ import core.station.ParkingSlot;
 
 // FIXME: Javadoc
 public class OngoingBikeRentalException extends Exception {
-	private final ParkingSlot parkingSlot;
+	private final User user;
 
-	public OngoingBikeRentalException(ParkingSlot parkingSlot) {
-		this.parkingSlot = parkingSlot;
+	public OngoingBikeRentalException(User user) {
+		this.user = user;
 	}
 
-	public ParkingSlot getParkingSlot() {
-		return parkingSlot;
+	public User getUser() {
+		return user;
 	}
 }

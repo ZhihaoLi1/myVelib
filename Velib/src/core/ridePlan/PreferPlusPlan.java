@@ -47,7 +47,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFound(stations, PolicyName.PREFER_PLUS);
+			throw new NoValidStationFoundException(stations, PolicyName.PREFER_PLUS);
 		}
 
 		// find plus station for destination

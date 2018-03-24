@@ -6,11 +6,11 @@ import core.PolicyName;
 import core.station.Station;
 
 // FIXME: Javadoc, override getMessage()
-public class NoValidStationFound extends Exception {
+public class NoValidStationFoundException extends Exception {
 	private final HashMap<Integer, Station>  stations;
 	private final PolicyName policyName;
 
-	public NoValidStationFound(HashMap<Integer, Station> stations, PolicyName policyName) {
+	public NoValidStationFoundException(HashMap<Integer, Station> stations, PolicyName policyName) {
 		this.stations = stations;
 		this.policyName = policyName;
 	}
