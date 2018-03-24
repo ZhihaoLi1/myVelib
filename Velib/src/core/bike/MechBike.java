@@ -13,7 +13,7 @@ public class MechBike implements Bike {
 	private final int id; 
 	private final BikeType type = BikeType.MECH; 
 
-	public MechBike(){
+	protected MechBike(){
 		id = IDGenerator.getInstance().getNextIDNumber();
 	}
 

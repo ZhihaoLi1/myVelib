@@ -13,7 +13,7 @@ public class ElecBike implements Bike {
 	private final int id; 
 	private final BikeType type = BikeType.ELEC; 
 	
-	public ElecBike(){
+	protected ElecBike(){
 		id = IDGenerator.getInstance().getNextIDNumber();
 	}
 
