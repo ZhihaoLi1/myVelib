@@ -38,15 +38,17 @@ public class NoCardVisitor implements CardVisitor {
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
 		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
-			throw new InvalidDatesException(rental.getRentDate(), rental.getReturnDate());
+			throw new InvalidDatesException(rental);
 		}
+		
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
+		
 		if (bike instanceof MechBike) {
 			return nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1);
 		} else if (bike instanceof ElecBike) {
 			return 2 * (nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
 		} else {
-			throw new InvalidBikeException(bike);
+			throw new InvalidBikeException(rental);
 		}
 	}
 

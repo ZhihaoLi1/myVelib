@@ -1,22 +1,22 @@
 package core.card;
 
-import core.bike.Bike;
+import core.rentals.BikeRental;
 
 // FIXME: Javadoc
 public class InvalidBikeException extends Exception {
 
-	private final Bike bike;
+	private final BikeRental bikeRental;
 
-	public InvalidBikeException(Bike bike) {
-		this.bike = bike;
+	public InvalidBikeException(BikeRental bikeRental) {
+		this.bikeRental = bikeRental;
 	}
 
-	public Bike getBike() {
-		return bike;
+	public BikeRental getBikeRental() {
+		return bikeRental;
 	}
 	
 	@Override
 	public String getMessage() {
-		return "The price of the given bike cannot be computed: " + bike; 
+		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid bike)";
 	}
 }

@@ -44,23 +44,19 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
 		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
-			throw new InvalidDatesException(rental.getRentDate(), rental.getReturnDate());
+			throw new InvalidDatesException(rental);
 		}
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
 
 		if (bike instanceof MechBike) {
 			// Check if we can lower the price using the time credit
-			try {
-				if ((nMinutes / 60 > 0) && (nMinutes % 60) <= getTimeCredit()) {
-					removeTimeCredit((int) (nMinutes % 60));
-					nMinutes -= (nMinutes % 60);
-				}
-				while ((nMinutes / 60 > 0 && getTimeCredit() >= 60)) {
-					removeTimeCredit(60);
-					nMinutes -= 60;
-				}
-			} catch (NegativeTimeCreditLeftException e) {
-				;
+			if ((nMinutes / 60 > 0) && (nMinutes % 60) <= getTimeCredit()) {
+				removeTimeCredit((int) (nMinutes % 60));
+				nMinutes -= (nMinutes % 60);
+			}
+			while ((nMinutes / 60 > 0 && getTimeCredit() >= 60)) {
+				removeTimeCredit(60);
+				nMinutes -= 60;
 			}
 			if (nMinutes <= 60) {
 				return 0;
@@ -69,17 +65,13 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 
 		} else if (bike instanceof ElecBike) {
 			// Check if we can lower the price using the time credit
-			try {
-				if ((nMinutes % 60) <= getTimeCredit()) {
-					removeTimeCredit((int) (nMinutes % 60));
-					nMinutes -= (nMinutes % 60);
-				}
-				while ((nMinutes > 0 && getTimeCredit() >= 60)) {
-					removeTimeCredit(60);
-					nMinutes -= 60;
-				}
-			} catch (NegativeTimeCreditLeftException e) {
-				System.out.println("NegativeTimeCreditLeftException");
+			if ((nMinutes % 60) <= getTimeCredit()) {
+				removeTimeCredit((int) (nMinutes % 60));
+				nMinutes -= (nMinutes % 60);
+			}
+			while ((nMinutes > 0 && getTimeCredit() >= 60)) {
+				removeTimeCredit(60);
+				nMinutes -= 60;
 			}
 			if (nMinutes == 0) {
 				return 0;
@@ -90,7 +82,7 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 			return 1 + 2 * ((nMinutes - 60) / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
 
 		} else {
-			throw new InvalidBikeException(bike);
+			throw new InvalidBikeException(rental);
 		}
 	}
 }

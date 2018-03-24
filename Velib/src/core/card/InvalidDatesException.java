@@ -1,23 +1,29 @@
 package core.card;
 
-import java.time.LocalDateTime;
+import core.rentals.BikeRental;
 
-// FIXME: Javadoc
+/**
+ * Exception thrown when one of the dates of a bikeRental is incorrect for price
+ * calculation.
+ * 
+ * @author matto
+ *
+ */
 public class InvalidDatesException extends Exception {
 
-	private final LocalDateTime rentDate;
-	private final LocalDateTime returnDate;
+	private final BikeRental bikeRental;
 
-	public InvalidDatesException(LocalDateTime rentDate, LocalDateTime returnDate) {
-		this.rentDate = rentDate;
-		this.returnDate = returnDate;
+	public InvalidDatesException(BikeRental bikeRental) {
+		this.bikeRental = bikeRental;
 	}
 
-	public LocalDateTime getRentDate() {
-		return rentDate;
+	public BikeRental getBikeRental() {
+		return bikeRental;
 	}
 
-	public LocalDateTime getReturnDate() {
-		return returnDate;
+	@Override
+	public String getMessage() {
+		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid dates)";
 	}
+
 }

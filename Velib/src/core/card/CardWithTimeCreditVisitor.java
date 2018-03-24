@@ -37,11 +37,14 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 		}
 	};
 
-	public void removeTimeCredit(int timeCredit)
-			throws NegativeTimeCreditLeftException {
+	/**
+	 * Tries to remove timeCredit time from the card.
+	 * @param timeCredit
+	 */
+	public void removeTimeCredit(int timeCredit) {
 		if (timeCredit >= 0) {
 			if (this.timeCredit < timeCredit) {
-				throw new NegativeTimeCreditLeftException(timeCredit);
+				throw new IllegalArgumentException("The given time credit to remove: " + timeCredit + "is higher than this card's time credit: " + this.timeCredit);
 			} else {
 				this.timeCredit -= timeCredit;
 			}

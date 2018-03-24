@@ -12,7 +12,6 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
-import core.card.NegativeTimeCreditLeftException;
 import core.card.VMaxCardVisitor;
 import core.rentals.BikeRental;
 import core.utils.DateParser;
@@ -49,8 +48,6 @@ public class VMaxCardVisitorTest {
 			fail("Should have thrown IllegalArgumentException exception");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
-		} catch (NegativeTimeCreditLeftException e) {
-			fail("Should have thrown IllegalArgumentException exception");
 		}
 	}
 
@@ -66,8 +63,6 @@ public class VMaxCardVisitorTest {
 			vMaxCard.removeTimeCredit(20);
 			fail("Should have thrown IllegalArgumentException exception");
 		} catch (IllegalArgumentException e) {
-			fail("Should have thrown IllegalArgumentException exception");
-		} catch (NegativeTimeCreditLeftException e) {
 			assertTrue(true);
 		}
 	}
@@ -182,9 +177,9 @@ public class VMaxCardVisitorTest {
 
 		try {
 			rental.accept(vMaxCard);
-			fail("Should have thrown InvalidBikeTypeException");
+			fail("Should have thrown InvalidBikeException");
 		} catch (InvalidDatesException e) {
-			fail("Should have thrown InvalidBikeTypeException");
+			fail("Should have thrown InvalidBikeException");
 		} catch (InvalidBikeException e) {
 			assertTrue(true);
 		}
