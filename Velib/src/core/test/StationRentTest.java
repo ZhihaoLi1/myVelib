@@ -11,39 +11,37 @@ import core.BikeType;
 import core.Network;
 import core.User;
 import core.bike.BikeFactory;
-import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
-import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
-import core.station.PlusStation;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
 
+// FIXME: Comments
 public class StationRentTest {
-	
+
 	// create a network
 	static Network n = new Network();
 	// Create User
-	static User bob = new User("bob", new Point(0,0), new NoCardVisitor());
-	
+	static User bob = new User("bob", new Point(0, 0), new NoCardVisitor());
+
 	static StationFactory stationFactory = new StationFactory();
 	static BikeFactory bikeFactory = new BikeFactory();
 	// Stations
 	static Station s;
 	static Station emptyS;
-	
+
 	@BeforeClass
 	public static void fillStationAndNetwork() {
 		try {
-			s = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.1), true);
-			emptyS = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.2), true);
-    	} catch (InvalidStationTypeException e) {
-    		fail("InvalidStationTypeException was thrown");
-    	}
-		// add bikes to stations 
+			s = stationFactory.createStation(StationType.PLUS, 10, new Point(0, 0.1), true);
+			emptyS = stationFactory.createStation(StationType.PLUS, 10, new Point(0, 0.2), true);
+		} catch (InvalidStationTypeException e) {
+			fail("InvalidStationTypeException was thrown");
+		}
+		// add bikes to stations
 		try {
 			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
@@ -53,18 +51,17 @@ public class StationRentTest {
 			fail("Exception was thrown");
 		}
 
-		
 		// add user and station to network
 		n.addUser(bob);
 		n.addStation(s);
 		n.addStation(emptyS);
 	}
-	
-	@Test (expected = Exception.class)
+
+	@Test(expected = Exception.class)
 	public void errorWhenRentBikefromEmptyStation() throws Exception {
 		n.rentBike(bob.getId(), emptyS.getId(), "MECH");
 	}
-	
+
 	@Test
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
 		int mechBikes = s.getNumberOfBikes(BikeType.MECH);

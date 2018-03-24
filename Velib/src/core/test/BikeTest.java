@@ -7,34 +7,32 @@ import org.junit.Test;
 import core.BikeType;
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
-import core.bike.MechBike;
 
+// FIXME: Comments
 public class BikeTest {
 
 	/**
-	 * Different id = different bikes. 
-	 * Same Id, same bike
+	 * Different id = different bikes. Same Id, same bike
 	 */
 	@Test
 	public void testEquals() {
 		BikeFactory bikeFactory = new BikeFactory();
-		
+
 		try {
 			Bike eb = bikeFactory.createBike(BikeType.ELEC);
 			Bike eb2 = bikeFactory.createBike(BikeType.ELEC);
-			
+
 			assertTrue(eb.equals(eb));
 			assertTrue(!eb.equals(eb2));
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
-		
+
 		try {
 			Bike mb = bikeFactory.createBike(BikeType.MECH);
 			Bike mb2 = bikeFactory.createBike(BikeType.MECH);
-			
+
 			assertTrue(mb.equals(mb));
 			assertTrue(!mb.equals(mb2));
 		} catch (InvalidBikeTypeException e) {
@@ -42,10 +40,8 @@ public class BikeTest {
 		}
 	}
 
-
 	/**
-	 * Different id = different bikes. 
-	 * Same Id, same bike
+	 * Different id = different bikes. Same Id, same bike
 	 */
 	@Test
 	public void testHashCodes() {
@@ -54,16 +50,16 @@ public class BikeTest {
 		try {
 			Bike eb = bikeFactory.createBike(BikeType.ELEC);
 			Bike eb2 = bikeFactory.createBike(BikeType.ELEC);
-			
+
 			assertTrue(eb.hashCode() != eb2.hashCode());
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
-		
+
 		try {
 			Bike mb = bikeFactory.createBike(BikeType.MECH);
 			Bike mb2 = bikeFactory.createBike(BikeType.MECH);
-			
+
 			assertTrue(mb.hashCode() != mb2.hashCode());
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");

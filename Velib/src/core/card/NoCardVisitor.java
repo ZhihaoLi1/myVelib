@@ -14,23 +14,23 @@ import core.rentals.BikeRental;
  */
 public class NoCardVisitor implements CardVisitor {
 
-	public NoCardVisitor(){
+	public NoCardVisitor() {
 		super();
 	}
-	
+
 	/**
-	 * Calculates the price of the bike rental passed as a parameter.
-	 * <br>
-	 * Without a card, the price is as follows:
-	 * <br>
-	 * - 1€/hour for mechanical bikes
-	 * <br>
+	 * Calculates the price of the bike rental passed as a parameter. <br>
+	 * Without a card, the price is as follows: <br>
+	 * - 1€/hour for mechanical bikes <br>
 	 * - 2€/hour for electrical bikes
 	 * 
-	 * @param rental - the BikeRental whose price is being calculated
+	 * @param rental
+	 *            - the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
-	 * @throws InvalidBikeTypeException if an unidentified type of bike (or null) is given
-	 * @throws InvalidDatesException if invalid rent of return dates are given
+	 * @throws InvalidBikeTypeException
+	 *             if an unidentified type of bike (or null) is given
+	 * @throws InvalidDatesException
+	 *             if invalid rent of return dates are given
 	 */
 	@Override
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
@@ -47,12 +47,12 @@ public class NoCardVisitor implements CardVisitor {
 			throw new InvalidBikeException(bike);
 		}
 	}
-	
+
 	// Getters / Setters
 	public int getTimeCredit() {
 		return 0;
 	}
-	
+
 	@Override
 	public void addTimeCredit(int timeCredit) {
 		// do nothing

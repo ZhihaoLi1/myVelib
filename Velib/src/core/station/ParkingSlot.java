@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import core.bike.Bike;
 
+// FIXME: Javadoc
 public class ParkingSlot {
 	private final int id;
 	private Boolean working = true;
@@ -14,29 +15,28 @@ public class ParkingSlot {
 	private ArrayList<ParkingSlotStatus> statusHistory;
 	private boolean hasChanged = false;
 
-	public ParkingSlot(){
+	public ParkingSlot() {
 		this.id = IDGenerator.getInstance().getNextIDNumber();
 		this.statusHistory = new ArrayList<ParkingSlotStatus>();
 		this.setStatus(ParkingSlotStatusName.FREE, LocalDateTime.MIN);
 	}
-
 
 	public Boolean isWorking() {
 		return working;
 	}
 
 	public void setWorking(Boolean working, LocalDateTime date) {
-		if(working != this.working) {
+		if (working != this.working) {
 			this.hasChanged = true;
 		}
 		this.working = working;
 		changeStatus(date);
 	}
-	
+
 	public Boolean hasBike() {
 		return bike != null;
 	}
-	
+
 	public Bike getBike() {
 		return bike;
 	}
@@ -53,66 +53,68 @@ public class ParkingSlot {
 	public int getId() {
 		return id;
 	}
-	
+
 	public ParkingSlotStatus getCurrentStatus() {
 		return currentStatus;
 	}
-	
+
 	public ParkingSlotStatusName calculateStatusName() {
 		if (!isWorking()) {
 			return ParkingSlotStatusName.OUT_OF_ORDER;
 		}
-		
+
 		if (hasBike()) {
 			return ParkingSlotStatusName.OCCUPIED;
 		}
-		
+
 		return ParkingSlotStatusName.FREE;
 	}
-	
+
 	public void changeStatus(LocalDateTime date) {
 		if (hasChanged) {
 			setStatus(calculateStatusName(), date);
 			hasChanged = false;
 		}
 	}
-	
+
 	public void setStatus(ParkingSlotStatusName newStatusName, LocalDateTime date) {
 		if (this.currentStatus != null) {
 			this.currentStatus.setEndDate(date);
 		}
-		
+
 		this.currentStatus = new ParkingSlotStatus(newStatusName, date);
 		this.statusHistory.add(this.currentStatus);
 	}
-	
+
 	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
 		double totalOccupiedTime = 0;
-		for (ParkingSlotStatus status: statusHistory) {
-			totalOccupiedTime += calculateEffectiveTimeInSpan(status, startDate, endDate) * status.getStatusName().getOccupationRate();
+		for (ParkingSlotStatus status : statusHistory) {
+			totalOccupiedTime += calculateEffectiveTimeInSpan(status, startDate, endDate)
+					* status.getStatusName().getOccupationRate();
 		}
-		
+
 		return totalOccupiedTime;
 	}
-	
-	private double calculateEffectiveTimeInSpan(ParkingSlotStatus status, LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
+
+	private double calculateEffectiveTimeInSpan(ParkingSlotStatus status, LocalDateTime startDate,
+			LocalDateTime endDate) throws NullPointerException {
 		LocalDateTime effectiveStartDate;
 		LocalDateTime effectiveEndDate;
 
 		if (status == null) {
 			throw new NullPointerException("Invalid status");
 		}
-		
+
 		if (startDate == null || endDate == null) {
 			throw new NullPointerException("Wrong date given");
 		}
-			
+
 		if (status.getStartDate().compareTo(startDate) <= 0) {
 			effectiveStartDate = startDate;
 		} else {
 			effectiveStartDate = status.getStartDate();
 		}
-		
+
 		if (status.getEndDate() == null) {
 			effectiveEndDate = endDate;
 		} else {
@@ -122,7 +124,7 @@ public class ParkingSlot {
 				effectiveEndDate = endDate;
 			}
 		}
-		
+
 		return Math.max(effectiveStartDate.until(effectiveEndDate, ChronoUnit.SECONDS), 0);
 	}
 }

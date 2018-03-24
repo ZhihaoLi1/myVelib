@@ -18,15 +18,16 @@ import core.station.StationFactory;
 import core.station.StationType;
 import core.utils.DateParser;
 
+// FIXME: Comments
 public class LeastOccupiedSortTest {
 
 	@Test
 	public void testSort() {
 		ArrayList<Station> stations = new ArrayList<Station>();
 		SortingStrategy leastOccupiedSort = new LeastOccupiedSort();
-		
+
 		assertTrue(stations.equals(leastOccupiedSort.sort(stations)));
-		
+
 		StationFactory stationFactory = new StationFactory();
 		Station station1 = null, station2 = null, station3 = null;
 		try {
@@ -40,7 +41,7 @@ public class LeastOccupiedSortTest {
 		stations.add(station1);
 		stations.add(station2);
 		stations.add(station3);
-		
+
 		System.out.println(stations.size());
 		BikeFactory bikeFactory = new BikeFactory();
 		try {
@@ -55,8 +56,8 @@ public class LeastOccupiedSortTest {
 		expectedStations.add(station3);
 		expectedStations.add(station1);
 		expectedStations.add(station2);
-		
-		assertTrue(expectedStations.equals(leastOccupiedSort.sort(stations)));	
+
+		assertTrue(expectedStations.equals(leastOccupiedSort.sort(stations)));
 	}
 
 }

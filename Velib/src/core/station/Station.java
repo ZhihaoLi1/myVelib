@@ -22,33 +22,35 @@ import core.rentals.BikeRental;
  */
 public abstract class Station extends Observable {
 	private final int id;
-	
+
 	// time credit added to card to a bike is returned to this station.
 	private final int bonusTimeCreditOnReturn;
-	
+
 	// A station has multiple parking slots
-	private ArrayList<ParkingSlot> parkingSlots = new ArrayList<ParkingSlot>(); 
-	
+	private ArrayList<ParkingSlot> parkingSlots = new ArrayList<ParkingSlot>();
+
 	private Point coordinates;
 	private Boolean online;
-	
+
 	// Observers
-	private Set<User> observers = new HashSet<User>(); 
-	
+	private Set<User> observers = new HashSet<User>();
+
 	// Statistics
 	private StationStats stats;
 
 	/**
-	 * Create a station with the given number of parking slots, coordinates and online status
+	 * Create a station with the given number of parking slots, coordinates and
+	 * online status
+	 * 
 	 * @param numberOfParkingSlots
 	 * @param coordinates
 	 * @param online
-	 * @param bonusTimeCreditOnReturn TODO
+	 * @param bonusTimeCreditOnReturn
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
 		super();
 		this.id = IDGenerator.getInstance().getNextIDNumber();
-		for (int i=0; i < numberOfParkingSlots; i++) {
+		for (int i = 0; i < numberOfParkingSlots; i++) {
 			this.parkingSlots.add(new ParkingSlot());
 		}
 		this.coordinates = coordinates;
@@ -56,21 +58,24 @@ public abstract class Station extends Observable {
 		this.bonusTimeCreditOnReturn = bonusTimeCreditOnReturn;
 		this.stats = new StationStats(this);
 	}
-		
+
 	/**
-	 * Adds a bike to the first empty slot that it finds
-	 * TODO Make thread safe ? 
-	 * @param b        - the bike to add
-	 * @param date     - the date at which the bike is added
+	 * Adds a bike to the first empty slot that it finds TODO Make thread safe ?
+	 * 
+	 * @param b
+	 *            - the bike to add
+	 * @param date
+	 *            - the date at which the bike is added
 	 * @return boolean - true if bike was added, false if not
 	 */
 	public boolean addBike(Bike b, LocalDateTime date) {
-		for (int i = 0; i<parkingSlots.size(); i++) {
+		for (int i = 0; i < parkingSlots.size(); i++) {
 			try {
 				// Throws Exception if bike couldn't be set
 				parkingSlots.get(i).setBike(b, date);
-				// If the station is full after adding the bike, notification should be sent to users
-				if(isFull()) {
+				// If the station is full after adding the bike, notification should be sent to
+				// users
+				if (isFull()) {
 					notifyObservers();
 				}
 				return true;
@@ -80,13 +85,14 @@ public abstract class Station extends Observable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Tells if the station is full
+	 * 
 	 * @return boolean - true if station is full, false if not
 	 */
 	public Boolean isFull() {
-		for (ParkingSlot ps: parkingSlots) {
+		for (ParkingSlot ps : parkingSlots) {
 			if (ps.isWorking() && !ps.hasBike()) {
 				return false;
 			}
@@ -96,7 +102,9 @@ public abstract class Station extends Observable {
 
 	/**
 	 * Tells if station has a bike of the given type
-	 * @param bikeType - the type of bike we want to check
+	 * 
+	 * @param bikeType
+	 *            - the type of bike we want to check
 	 * @return boolean - true if a bike of type bikeType is present, false if not
 	 */
 	public boolean hasCorrectBikeType(BikeType bikeType) {
@@ -107,15 +115,17 @@ public abstract class Station extends Observable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Gives the number of bikes in the station of the given bikeType
-	 * @param bikeType - the type of bike we want to check
-	 * @return int     - the number of bikes in the station of the given bikeType
+	 * 
+	 * @param bikeType
+	 *            - the type of bike we want to check
+	 * @return int - the number of bikes in the station of the given bikeType
 	 */
 	public int getNumberOfBikes(BikeType bikeType) {
 		int t = 0;
-		for (int i = 0; i<parkingSlots.size(); i++) {
+		for (int i = 0; i < parkingSlots.size(); i++) {
 			ParkingSlot ps = parkingSlots.get(i);
 			if (ps.hasBike() && ps.getBike().getType() == bikeType && ps.isWorking()) {
 				t += 1;
@@ -126,67 +136,80 @@ public abstract class Station extends Observable {
 
 	/**
 	 * Rents a bike of the given bike type at a given time
+	 * 
 	 * @param bikeType
 	 * @return
-	 * @throws Exception when station is offline
+	 * @throws Exception
+	 *             when station is offline
 	 */
 	public Bike rentBike(BikeType bikeType, LocalDateTime date) throws Exception {
-		// verify if station is online 
-		if (!this.online) throw new Exception("Station is offline");
+		// verify if station is online
+		if (!this.online)
+			throw new Exception("Station is offline");
 		// find appropriate bike in station;
 		Bike b = null;
-		
-		for(ParkingSlot ps: this.getParkingSlots()) {
+
+		for (ParkingSlot ps : this.getParkingSlots()) {
 			if (ps.isWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
 				b = ps.getBike();
-				// FIXME locking ps ? 
+				// FIXME locking ps ?
 				ps.setBike(null, date);
 				break;
 			}
 		}
-		
+
 		return b;
 	}
-	
+
 	/**
-	 * Returns a bike at a given time
-	 * The returning of the bike is different given the station type (take into consideration the timeCredit or not), so this is an abstract method
-	 * @param bikeRental - the bike which is returned
-	 * @param date - the date at which the bike is returned
-	 * FIXME Only addTimeCredit should be abstract, and separated from this method
-	 * @throws Exception when station is full
+	 * Returns a bike at a given time The returning of the bike is different given
+	 * the station type (take into consideration the timeCredit or not), so this is
+	 * an abstract method
+	 * 
+	 * @param bikeRental
+	 *            - the bike which is returned
+	 * @param date
+	 *            - the date at which the bike is returned FIXME Only addTimeCredit
+	 *            should be abstract, and separated from this method
+	 * @throws Exception
+	 *             when station is full
 	 */
 	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws Exception {
-		if (this.isFull()) throw new Exception("Station is too full to return bike");
-		// loop over stations and place bike the first empty slot 
+		if (this.isFull())
+			throw new Exception("Station is too full to return bike");
+		// loop over stations and place bike the first empty slot
 		addBike(bikeRental.getBike(), LocalDateTime.now());
-		
+
 	};
-	
+
 	/**
 	 * Add user to the list of observers of the station
-	 * @param user - the observer user to add
+	 * 
+	 * @param user
+	 *            - the observer user to add
 	 */
 	public void addObserver(User user) {
-		if(this.observers.add(user)) {
-			System.out.println("User " + user.getName() + " is observing station S" + this.id);		
+		if (this.observers.add(user)) {
+			System.out.println("User " + user.getName() + " is observing station S" + this.id);
 		} else {
 			System.out.println("User is already observing this station S" + this.id);
 		}
 	}
-	
+
 	/**
 	 * Remove user to the list of observers of the station
-	 * @param user - the observer user to remove
+	 * 
+	 * @param user
+	 *            - the observer user to remove
 	 */
 	public void deleteObserver(User user) {
-		if(this.observers.remove(user)) {
+		if (this.observers.remove(user)) {
 			System.out.println("User " + user.getName() + "stopped observing this station" + this.id);
 		} else {
 			System.out.println("User is not observing this station S" + this.id);
 		}
 	}
-	
+
 	/**
 	 * Notify all observers
 	 */
@@ -195,7 +218,7 @@ public abstract class Station extends Observable {
 			user.update(this, null);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "StationId: " + this.id + "\n";
@@ -203,12 +226,12 @@ public abstract class Station extends Observable {
 		s += "Coordinates: " + this.coordinates.toString() + "\n";
 		s += "Online: " + this.online;
 		return s;
-		
+
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Station) {
+		if (o instanceof Station) {
 			Station s = (Station) o;
 			if (s.getId() == this.id) {
 				return true;
@@ -216,49 +239,51 @@ public abstract class Station extends Observable {
 		}
 		return false;
 	}
-		
+
 	/**
 	 * Calculate occupation rate over a given time period
+	 * 
 	 * @param startDate
 	 * @param endDate
 	 */
 	public double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
 		return stats.getOccupationRate(startDate, endDate);
 	}
-	
+
 	/**
-	 * Gives a String representation of the statistics of the occupation rate over a given time period
-	 * @param startDate 
+	 * Gives a String representation of the statistics of the occupation rate over a
+	 * given time period
+	 * 
+	 * @param startDate
 	 * @param endDate
 	 */
 	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
-		return "Occupation rate between " + startDate + " and " + endDate + ": " + computeOccupationRate(startDate, endDate); 
+		return "Occupation rate between " + startDate + " and " + endDate + ": "
+				+ computeOccupationRate(startDate, endDate);
 	}
-	
+
 	/**
-	 * Gives a String representation of the statistics of the station (total returns and rentals)
+	 * Gives a String representation of the statistics of the station (total returns
+	 * and rentals)
+	 * 
 	 * @return String - representing the stats
 	 */
 	public String displayStats() {
-		return "Station [id: " + this.id + ", " + stats.toString() +  "]";
+		return "Station [id: " + this.id + ", " + stats.toString() + "]";
 	}
-	
-	
+
 	// Getters / Setters
 	public int getId() {
 		return id;
 	}
 
-
 	public ArrayList<ParkingSlot> getParkingSlots() {
 		return parkingSlots;
 	}
 
-
 	public Point getCoordinates() {
 		return coordinates;
 	}
-
 
 	public Boolean getOnline() {
 		return online;
@@ -277,7 +302,7 @@ public abstract class Station extends Observable {
 	public int getBonusTimeCreditOnReturn() {
 		return bonusTimeCreditOnReturn;
 	}
-	
+
 	public StationStats getStats() {
 		return stats;
 	}

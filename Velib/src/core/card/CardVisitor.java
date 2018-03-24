@@ -3,8 +3,8 @@ package core.card;
 import core.rentals.BikeRental;
 
 /**
- * Represents a card with which a user can pay and accumulate time credit.
- * Is the visitor of the visitor pattern used to calculate the price of a rental.
+ * Represents a card with which a user can pay and accumulate time credit. Is
+ * the visitor of the visitor pattern used to calculate the price of a rental.
  * The visitable is a Rental.
  * 
  * @author matto
@@ -12,5 +12,6 @@ import core.rentals.BikeRental;
  */
 public interface CardVisitor {
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
+
 	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException;
 }

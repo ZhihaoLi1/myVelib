@@ -12,33 +12,35 @@ import core.rentals.BikeRental;
  * 
  * @author matto
  */
-public class VMaxCardVisitor extends CardWithTimeCreditVisitor {	
+public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
 
-	public VMaxCardVisitor(){
+	public VMaxCardVisitor() {
 		super();
 	}
 
-	@Override
 	/**
-	 * Calculates the price of the bike rental passed as a parameter.
-	 * <br>
-	 * With a VMax card, the price is as follows:
-	 * <br>
-	 * - 0€ for the first hour then 1€/hour for any bike
-	 * <br>
-	 * Before returning the price to pay, we try to use the card's time credit as much as possible to lower the price.
-	 * @param rental - the BikeRental whose price is being calculated
+	 * Calculates the price of the bike rental passed as a parameter. <br>
+	 * With a VMax card, the price is as follows: <br>
+	 * - 0€ for the first hour then 1€/hour for any bike <br>
+	 * Before returning the price to pay, we try to use the card's time credit as
+	 * much as possible to lower the price.
+	 * 
+	 * @param rental
+	 *            - the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
-	 * @throws InvalidBikeTypeException if an unidentified type of bike (or null) is given
-	 * @throws InvalidDatesException if invalid rent of return dates are given
+	 * @throws InvalidBikeTypeException
+	 *             if an unidentified type of bike (or null) is given
+	 * @throws InvalidDatesException
+	 *             if invalid rent of return dates are given
 	 */
+	@Override
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
 		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
 			throw new InvalidDatesException(rental.getRentDate(), rental.getReturnDate());
 		}
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
-		
+
 		if (bike instanceof MechBike || bike instanceof ElecBike) {
 			// Check if we can lower the price using the time credit
 			try {
@@ -62,5 +64,5 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
 		} else {
 			throw new InvalidBikeException(bike);
 		}
-	}	
+	}
 }

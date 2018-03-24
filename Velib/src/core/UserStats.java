@@ -1,7 +1,8 @@
 package core;
 
+// FIXME: Javadoc
 public class UserStats {
-	// Statistics of user 
+	// Statistics of user
 	private int totalRides;
 	private int totalTimeCredits;
 	private double totalCharges;
@@ -13,7 +14,7 @@ public class UserStats {
 		totalCharges = 0;
 		totalTimeSpent = 0;
 	}
-	
+
 	public int getTotalRides() {
 		return totalRides;
 	}

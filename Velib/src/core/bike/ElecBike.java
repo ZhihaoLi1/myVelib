@@ -9,11 +9,11 @@ import core.station.IDGenerator;
  * @author matto
  */
 public class ElecBike implements Bike {
-	
-	private final int id; 
-	private final BikeType type = BikeType.ELEC; 
-	
-	protected ElecBike(){
+
+	private final int id;
+	private final BikeType type = BikeType.ELEC;
+
+	protected ElecBike() {
 		id = IDGenerator.getInstance().getNextIDNumber();
 	}
 
@@ -35,5 +35,5 @@ public class ElecBike implements Bike {
 	public BikeType getType() {
 		return type;
 	}
-	
+
 }

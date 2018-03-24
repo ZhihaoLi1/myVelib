@@ -12,9 +12,10 @@ public class ParkingSlotStatus {
 	private final ParkingSlotStatusName statusName;
 	private final LocalDateTime startDate;
 	private LocalDateTime endDate;
-	
+
 	/**
 	 * Initializes the status at the given time
+	 * 
 	 * @param statusName
 	 * @param startDate
 	 */
@@ -22,25 +23,26 @@ public class ParkingSlotStatus {
 		this.statusName = statusName;
 		this.startDate = startDate;
 	}
-	
+
 	public ParkingSlotStatusName getStatusName() {
 		return statusName;
 	}
-	
+
 	public LocalDateTime getStartDate() {
 		return startDate;
 	}
-	
+
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}
-	
+
 	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ParkngSlotStatus [status: " + this.statusName + ", startDate: " + this.startDate + ", endDate: " + this.endDate + "]";
+		return "ParkngSlotStatus [status: " + this.statusName + ", startDate: " + this.startDate + ", endDate: "
+				+ this.endDate + "]";
 	}
 }

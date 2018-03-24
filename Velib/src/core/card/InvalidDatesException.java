@@ -2,11 +2,12 @@ package core.card;
 
 import java.time.LocalDateTime;
 
+// FIXME: Javadoc
 public class InvalidDatesException extends Exception {
 
 	private final LocalDateTime rentDate;
 	private final LocalDateTime returnDate;
-	
+
 	public InvalidDatesException(LocalDateTime rentDate, LocalDateTime returnDate) {
 		this.rentDate = rentDate;
 		this.returnDate = returnDate;
@@ -15,7 +16,7 @@ public class InvalidDatesException extends Exception {
 	public LocalDateTime getRentDate() {
 		return rentDate;
 	}
-	
+
 	public LocalDateTime getReturnDate() {
 		return returnDate;
 	}

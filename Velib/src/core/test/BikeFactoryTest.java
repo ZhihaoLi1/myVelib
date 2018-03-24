@@ -11,6 +11,7 @@ import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 
+// FIXME: Comments
 public class BikeFactoryTest {
 
 	@Test

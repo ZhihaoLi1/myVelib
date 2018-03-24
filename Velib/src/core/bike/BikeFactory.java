@@ -11,9 +11,12 @@ public class BikeFactory {
 	
 	/**
 	 * Creates and returns a Bike corresponding to the given type
-	 * @param bikeType - the type of bike to create
+	 * 
+	 * @param bikeType
+	 *            - the type of bike to create
 	 * @return a Bike
-	 * @throws InvalidBikeTypeException if the given type is not recognized as a valid bike type
+	 * @throws InvalidBikeTypeException
+	 *             if the given type is not recognized as a valid bike type
 	 */
 	public Bike createBike(BikeType bikeType) throws InvalidBikeTypeException {
 		if (bikeType == null) {

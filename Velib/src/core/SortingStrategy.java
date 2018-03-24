@@ -6,6 +6,7 @@ import core.station.Station;
 
 /**
  * Interface for defining sorting strategies for stations
+ * 
  * @author matto
  *
  */

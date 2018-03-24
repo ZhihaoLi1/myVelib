@@ -9,9 +9,7 @@ import org.junit.Test;
 import core.BikeType;
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
-import core.bike.MechBike;
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 import core.card.NegativeTimeCreditGivenException;
@@ -24,8 +22,9 @@ import core.utils.DateParser;
  * @author matto
  *
  */
+// FIXME: Comments
 public class VMaxCardVisitorTest {
-	
+
 	@Test
 	public void testAddTimeCredit() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
@@ -36,7 +35,7 @@ public class VMaxCardVisitorTest {
 		}
 		assertEquals(vMaxCard.getTimeCredit(), 10);
 	}
-	
+
 	@Test
 	public void whenNegativeTimeCreditGivenThenThrowException() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
@@ -55,7 +54,7 @@ public class VMaxCardVisitorTest {
 			fail("Should have thrown NegativeTimeCreditGivenException exception");
 		}
 	}
-	
+
 	@Test
 	public void whenNegativeTimeCreditLeftThenThrowException() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
@@ -73,15 +72,15 @@ public class VMaxCardVisitorTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testGetTimeCredit() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
 		assertEquals(vMaxCard.getTimeCredit(), 0);
 	}
-	
+
 	@Test
-	public void testVisit() {		
+	public void testVisit() {
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
@@ -96,16 +95,16 @@ public class VMaxCardVisitorTest {
 		try {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
 			assertTrue(mRental.accept(vMaxCard) == 1);
-			
+
 			vMaxCard.addTimeCredit(40);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 40);
-			
+
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 10);
-			
+
 			vMaxCard.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(mRental.accept(vMaxCard) == 0);
@@ -126,11 +125,11 @@ public class VMaxCardVisitorTest {
 			fail("InvalidBikeTypeException thrown");
 		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
-		
+
 		try {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
 			assertTrue(eRental.accept(vMaxCard) == 1);
-			
+
 			vMaxCard.addTimeCredit(80);
 			eRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
@@ -139,7 +138,7 @@ public class VMaxCardVisitorTest {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
 			assertTrue(vMaxCard.getTimeCredit() == 50);
-			
+
 			vMaxCard.addTimeCredit(10);
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
 			assertTrue(eRental.accept(vMaxCard) == 0);
@@ -152,11 +151,11 @@ public class VMaxCardVisitorTest {
 			fail("NegativeTimeCreditGivenException thrown when it shouldn't have");
 		}
 	}
-	
+
 	@Test
 	public void whenInvalidDatesAreGivenThenThrowException() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
-		
+
 		Bike mBike = null;
 		try {
 			mBike = new BikeFactory().createBike(BikeType.MECH);
@@ -173,11 +172,11 @@ public class VMaxCardVisitorTest {
 			fail("Visitor should have thrown InvalidDatesException");
 		}
 	}
-	
+
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
-		
+
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 		BikeRental rental = new BikeRental(null, rentDate);
 		rental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));

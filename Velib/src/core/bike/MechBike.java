@@ -9,11 +9,11 @@ import core.station.IDGenerator;
  * @author matto
  */
 public class MechBike implements Bike {
-	
-	private final int id; 
-	private final BikeType type = BikeType.MECH; 
 
-	protected MechBike(){
+	private final int id;
+	private final BikeType type = BikeType.MECH;
+
+	protected MechBike() {
 		id = IDGenerator.getInstance().getNextIDNumber();
 	}
 

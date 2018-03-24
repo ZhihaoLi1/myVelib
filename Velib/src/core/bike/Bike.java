@@ -4,6 +4,7 @@ import core.BikeType;
 
 /**
  * Bike interface
+ * 
  * @author matto
  *
  */

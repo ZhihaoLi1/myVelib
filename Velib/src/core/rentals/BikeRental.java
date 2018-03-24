@@ -8,26 +8,25 @@ import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 
 /**
- * Contains information of a rental
- * Bike, date of rent, and user who rented it. 
+ * Contains information of a rental Bike, date of rent, and user who rented it.
  * 
  * @author animato
  *
  */
 public class BikeRental implements Rental {
-	
+
 	private final Bike bike;
 	private final LocalDateTime rentDate;
 	private LocalDateTime returnDate;
 	private int timeSpent; // in minutes
-	
+
 	public BikeRental(Bike bike, LocalDateTime rentDate) {
 		this.bike = bike;
 		this.rentDate = rentDate;
 		this.returnDate = null;
 	}
 
-	// Passes information to visitor to calculate final cost. 
+	// Passes information to visitor to calculate final cost.
 	@Override
 	public double accept(CardVisitor visitor) throws InvalidBikeException, InvalidDatesException {
 		return visitor.visit(this);
@@ -40,7 +39,7 @@ public class BikeRental implements Rental {
 	public LocalDateTime getRentDate() {
 		return rentDate;
 	}
-	
+
 	public LocalDateTime getReturnDate() {
 		return returnDate;
 	}
@@ -48,7 +47,7 @@ public class BikeRental implements Rental {
 	public void setReturnDate(LocalDateTime returnDate) {
 		this.returnDate = returnDate;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate + "]";

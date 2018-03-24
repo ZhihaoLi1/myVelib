@@ -10,10 +10,11 @@ package core.station;
  */
 public class IDGenerator {
 	private static IDGenerator instance = null;
-	private int counter = 0; 
-	
+	private int counter = 0;
+
 	/**
 	 * Gets the current instance of IDGenerator, or creates it if it does not exist
+	 * 
 	 * @return the IDGenerator
 	 */
 	public static IDGenerator getInstance() {
@@ -22,9 +23,9 @@ public class IDGenerator {
 		}
 		return instance;
 	}
-	
+
 	public int getNextIDNumber() {
-		counter ++;
+		counter++;
 		return counter;
 	}
 }

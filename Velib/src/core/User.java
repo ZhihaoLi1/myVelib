@@ -11,19 +11,20 @@ import core.ridePlan.RidePlan;
 import core.station.IDGenerator;
 import core.station.Station;
 
+// FIXME: Javadoc
 public class User implements Observer {
-	private final int id; 
-	private String name; 
+	private final int id;
+	private String name;
 	private Point coordinates;
 	private CardVisitor card;
 	private BikeRental bikeRental;
 	private RidePlan ridePlan;
 	private UserStats stats;
-	
+
 	public User(String name) {
 		this(name, null, new NoCardVisitor());
 	}
-	
+
 	public User(String name, CardVisitor card) {
 		this(name, null, card);
 	}
@@ -42,7 +43,8 @@ public class User implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (!(o instanceof Station)) throw new IllegalArgumentException("user update needs station as observable input.");
+		if (!(o instanceof Station))
+			throw new IllegalArgumentException("user update needs station as observable input.");
 		Station s = (Station) o;
 		this.ridePlan.getNetwork().notifyStationFull(s);
 		// remove from list of observers in station
@@ -52,12 +54,12 @@ public class User implements Observer {
 	}
 
 	/**
-	 * Display statistics of user 
+	 * Display statistics of user
 	 */
 	public void displayBalance() {
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -87,11 +89,12 @@ public class User implements Observer {
 	}
 
 	public void setBikeRental(BikeRental bikeRental) throws Exception {
-		if (this.bikeRental != null) throw new Exception("User already has a ongoing bike rental");
+		if (this.bikeRental != null)
+			throw new Exception("User already has a ongoing bike rental");
 		this.bikeRental = bikeRental;
-		
+
 	}
-	
+
 	public void resetBikeRental() {
 		this.bikeRental = null;
 	}
@@ -115,5 +118,5 @@ public class User implements Observer {
 	public void setStats(UserStats stats) {
 		this.stats = stats;
 	}
-	
+
 }
