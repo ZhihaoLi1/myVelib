@@ -163,6 +163,7 @@ public class Network {
 	 *             if user already has a bike rental, if station is offline, if no
 	 *             appropriate bike is found in the station.
 	 */
+	// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
 	public void rentBike(int userId, int stationId, String bikeType) throws Exception {
 		// find user
 		User user = users.get(userId);
@@ -177,14 +178,20 @@ public class Network {
 		synchronized (user) {
 			// verify if user does not already have a rental
 			if (user.getBikeRental() != null)
-				throw new Exception("User already has an ongoing bike rental! ");
+				// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
+				throw new OngoingBikeRentalException(user);
 			synchronized (s) {
+				// FIXME: This might need refactoring. At this point, the user might have a
+				// rental, but the bike will still be taken from the station, which is a problem
+				// I think the user should be passed to s.rentBike.
 				b = s.rentBike(bt, LocalDateTime.now());
 				// if no bike is found
 				if (b == null)
-					throw new Exception("Bike of the correct kind is not found in station");
+					// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
+					throw new NoValidBikeFoundException(user, s, bt);
 				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
 				// increment station statistics
+				// FIXME: This should happen in the station
 				s.getStats().incrementTotalRentals();
 			}
 		}
@@ -204,12 +211,14 @@ public class Network {
 		// find station
 		Station s = stations.get(stationId);
 		if (user == null || s == null)
+			// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
 			throw new NullPointerException("No user or station found given Id.");
 		// the same user cannot return more than one bike at the same time.
 		synchronized (user) {
 			// make sure user has a rental
 			BikeRental br = user.getBikeRental();
 			if (br == null)
+				// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
 				throw new NullPointerException("User does not have a bikeRental");
 			br.setReturnDate(returnDate);
 			br.setTimeSpent(timeSpent);
@@ -229,7 +238,7 @@ public class Network {
 
 			user.getStats().incrementTotalRides();
 			user.getStats().setTotalTimeSpent(br.getTimeSpent());
-			;
+			// FIXME: Forgot to reset the user's bikeRental?
 
 			return price;
 		}
@@ -290,6 +299,7 @@ public class Network {
 	 * @throws NullPointerException
 	 *             if station is null
 	 */
+	// FIXME: Shouldn't this be a private method?
 	public void addStation(Station station) throws NullPointerException {
 		if (station == null) {
 			throw new NullPointerException("Station is null in addStation");
@@ -297,7 +307,8 @@ public class Network {
 		// verify that the coordinates of station is within the network.
 		this.stations.put(station.getId(), station);
 	}
-
+	
+	// FIXME: Shouldn't this be a private method?
 	public void addUser(User user) throws NullPointerException {
 		if (user == null)
 			throw new NullPointerException("User is null in addUser");
