@@ -59,8 +59,6 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 					removeTimeCredit(60);
 					nMinutes -= 60;
 				}
-			} catch (NegativeTimeCreditGivenException e) {
-				;
 			} catch (NegativeTimeCreditLeftException e) {
 				;
 			}
@@ -80,8 +78,6 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
 					removeTimeCredit(60);
 					nMinutes -= 60;
 				}
-			} catch (NegativeTimeCreditGivenException e) {
-				System.out.println("NegativeTimeCreditGivenException");
 			} catch (NegativeTimeCreditLeftException e) {
 				System.out.println("NegativeTimeCreditLeftException");
 			}

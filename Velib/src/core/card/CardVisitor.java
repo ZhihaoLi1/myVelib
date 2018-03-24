@@ -25,5 +25,5 @@ public interface CardVisitor {
 	 */
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
-	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException;
+	public void addTimeCredit(int timeCredit);
 }

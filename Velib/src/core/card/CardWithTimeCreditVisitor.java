@@ -29,16 +29,16 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	public abstract double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
 	// Getters / Setters
-	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException {
+	public void addTimeCredit(int timeCredit) {
 		if (timeCredit >= 0) {
 			this.timeCredit += timeCredit;
 		} else {
-			throw new NegativeTimeCreditGivenException(timeCredit);
+			throw new IllegalArgumentException("The given time credit to add is negative: " + timeCredit);
 		}
 	};
 
 	public void removeTimeCredit(int timeCredit)
-			throws NegativeTimeCreditGivenException, NegativeTimeCreditLeftException {
+			throws NegativeTimeCreditLeftException {
 		if (timeCredit >= 0) {
 			if (this.timeCredit < timeCredit) {
 				throw new NegativeTimeCreditLeftException(timeCredit);
@@ -46,7 +46,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 				this.timeCredit -= timeCredit;
 			}
 		} else {
-			throw new NegativeTimeCreditGivenException(timeCredit);
+			throw new IllegalArgumentException("The given time credit to remove is negative: " + timeCredit);
 		}
 	};
 

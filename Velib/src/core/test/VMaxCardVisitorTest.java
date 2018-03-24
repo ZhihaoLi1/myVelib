@@ -12,7 +12,6 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
-import core.card.NegativeTimeCreditGivenException;
 import core.card.NegativeTimeCreditLeftException;
 import core.card.VMaxCardVisitor;
 import core.rentals.BikeRental;
@@ -30,8 +29,8 @@ public class VMaxCardVisitorTest {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
 		try {
 			vMaxCard.addTimeCredit(10);
-		} catch (NegativeTimeCreditGivenException e) {
-			fail("NegativeTimeCreditGivenException thrown when it shouldn't have");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 		assertEquals(vMaxCard.getTimeCredit(), 10);
 	}
@@ -41,17 +40,17 @@ public class VMaxCardVisitorTest {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
 		try {
 			vMaxCard.addTimeCredit(-10);
-			fail("Should have thrown NegativeTimeCreditGivenException exception");
-		} catch (NegativeTimeCreditGivenException e) {
+			fail("Should have thrown IllegalArgumentException exception");
+		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		try {
 			vMaxCard.removeTimeCredit(-10);
-			fail("Should have thrown NegativeTimeCreditGivenException exception");
-		} catch (NegativeTimeCreditGivenException e) {
+			fail("Should have thrown IllegalArgumentException exception");
+		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		} catch (NegativeTimeCreditLeftException e) {
-			fail("Should have thrown NegativeTimeCreditGivenException exception");
+			fail("Should have thrown IllegalArgumentException exception");
 		}
 	}
 
@@ -60,14 +59,14 @@ public class VMaxCardVisitorTest {
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
 		try {
 			vMaxCard.addTimeCredit(10);
-		} catch (NegativeTimeCreditGivenException e) {
-			fail("NegativeTimeCreditGivenException thrown when it shouldn't have");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 		try {
 			vMaxCard.removeTimeCredit(20);
-			fail("Should have thrown NegativeTimeCreditLeftException exception");
-		} catch (NegativeTimeCreditGivenException e) {
-			fail("Should have thrown NegativeTimeCreditLeftException exception");
+			fail("Should have thrown IllegalArgumentException exception");
+		} catch (IllegalArgumentException e) {
+			fail("Should have thrown IllegalArgumentException exception");
 		} catch (NegativeTimeCreditLeftException e) {
 			assertTrue(true);
 		}
@@ -113,8 +112,8 @@ public class VMaxCardVisitorTest {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
-		} catch (NegativeTimeCreditGivenException e) {
-			fail("NegativeTimeCreditGivenException thrown when it shouldn't have");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 
 		vMaxCard = new VMaxCardVisitor();
@@ -147,8 +146,8 @@ public class VMaxCardVisitorTest {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
-		} catch (NegativeTimeCreditGivenException e) {
-			fail("NegativeTimeCreditGivenException thrown when it shouldn't have");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 	}
 
