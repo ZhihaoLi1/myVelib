@@ -19,12 +19,12 @@ import core.station.Station;
  * @author animato
  *
  */
-// FIXME: Reorganize Javadoc
 public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
-			HashMap<Integer, Station> stations, Network n) throws Exception {
+			Network n) throws Exception {
+		HashMap<Integer,Station> stations = n.getStations();
 
 		Station sourceStation = null;
 		Station destStation = null;

@@ -128,19 +128,19 @@ public class Network {
 		try {
 			switch (policy) {
 			case SHORTEST:
-				rp = new ShortestPlan().planRide(source, destination, user, bikeType, stations, this);
+				rp = new ShortestPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			case FASTEST:
-				rp = new FastestPlan().planRide(source, destination, user, bikeType, stations, this);
+				rp = new FastestPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			case AVOID_PLUS:
-				rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, stations, this);
+				rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			case PREFER_PLUS:
-				rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, stations, this);
+				rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			case PRESERVE_UNIFORMITY:
-				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, stations, this);
+				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			default:
 				throw new Exception("policy not found");

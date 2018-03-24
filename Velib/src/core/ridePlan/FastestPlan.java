@@ -18,13 +18,11 @@ import core.station.Station;
  * @author animato
  *
  */
-// FIXME: Reorganize Javadoc
-
 public class FastestPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
-			HashMap<Integer, Station> stations, Network n) throws Exception {
+			Network n) throws Exception {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		switch (bikeType) {
@@ -33,6 +31,8 @@ public class FastestPlan implements RidePlanStrategy {
 		case MECH:
 			bikeSpeed = 15;
 		}
+		
+		HashMap<Integer,Station> stations = n.getStations();
 
 		Station sourceStation = null;
 		Station destStation = null;

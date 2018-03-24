@@ -26,12 +26,14 @@ import core.station.Station;
  * @author animato
  *
  */
-// FIXME: Reorganize Javadoc
 public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
-			HashMap<Integer, Station> stations, Network n) throws Exception {
+			Network n) throws Exception {
+
+		HashMap<Integer,Station> stations = n.getStations();
+
 		// find the closest stations
 		Station sourceStation = null;
 		Station destStation = null;
