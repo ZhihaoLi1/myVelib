@@ -14,27 +14,22 @@ import core.rentals.BikeRental;
 public class StandardStation extends Station {
 
 	/**
-	 * Create a station with the given number of parking slots, coordinates and online status
+	 * Create a station with the given number of parking slots and coordinates. By default, online status is true.
 	 * @param numberOfParkingSlots
 	 * @param coordinates
 	 */
-	public StandardStation(int numberOfParkingSlots, Point coordinates, int bonusTimeCreditOnReturn) {
-		super(numberOfParkingSlots, coordinates, bonusTimeCreditOnReturn);
+	protected StandardStation(int numberOfParkingSlots, Point coordinates) {
+		super(numberOfParkingSlots, coordinates, true, 0);
 	}
 	
-	// default bonus time credit on return for standard station is 0
-	public StandardStation(int numberOfParkingSlots, Point coordinates) {
-		super(numberOfParkingSlots, coordinates, 0);
-	}
-
 	/**
-	 * Create a station with the given number of parking slots, coordinates. By default, online status is true
+	 * Create a station with the given number of parking slots, coordinates. Default bonus time credit on return for standard station is 0
 	 * @param numberOfParkingSlots
 	 * @param coordinates
 	 * @param online
 	 */
-	public StandardStation(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
-		super(numberOfParkingSlots, coordinates, online, bonusTimeCreditOnReturn);
+	protected StandardStation(int numberOfParkingSlots, Point coordinates, Boolean online) {
+		super(numberOfParkingSlots, coordinates, online, 0);
 	}
 
 

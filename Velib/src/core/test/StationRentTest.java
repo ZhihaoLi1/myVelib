@@ -16,8 +16,11 @@ import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.station.InvalidStationTypeException;
 import core.station.PlusStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class StationRentTest {
 	
@@ -26,14 +29,21 @@ public class StationRentTest {
 	// Create User
 	static User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
+	static StationFactory stationFactory = new StationFactory();
+	static BikeFactory bikeFactory = new BikeFactory();
 	// Stations
-	static Station s = new PlusStation(10, new Point(0,0.1));
-	static Station emptyS = new PlusStation(10, new Point(0,0.2));
+	static Station s;
+	static Station emptyS;
 	
 	@BeforeClass
 	public static void fillStationAndNetwork() {
+		try {
+			s = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.1), true);
+			emptyS = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.2), true);
+    	} catch (InvalidStationTypeException e) {
+    		fail("InvalidStationTypeException was thrown");
+    	}
 		// add bikes to stations 
-		BikeFactory bikeFactory = new BikeFactory();
 		try {
 			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());

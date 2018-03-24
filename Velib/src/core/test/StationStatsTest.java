@@ -2,6 +2,7 @@ package core.test;
 
 import static org.junit.Assert.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import core.BikeType;
@@ -9,16 +10,30 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.point.Point;
+import core.station.InvalidStationTypeException;
 import core.station.StandardStation;
 import core.station.Station;
+import core.station.StationFactory;
 import core.station.StationStats;
+import core.station.StationType;
 import core.utils.DateParser;
 
 public class StationStatsTest {
 
+	static StationFactory stationFactory = new StationFactory();
+	static Station station;
+	
+	@BeforeClass
+	public static void createStation() {
+		try {
+			station = stationFactory.createStation(StationType.STANDARD, 2, new Point(0,0), true);
+    	} catch (InvalidStationTypeException e) {
+    		fail("InvalidStationTypeException was thrown");
+    	}
+	}
+	
 	@Test
 	public void testGetOccupationRate() {
-		Station station = new StandardStation(2, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"), DateParser.parse("01/01/2000 09:00:00")) == 0);
@@ -52,7 +67,6 @@ public class StationStatsTest {
 	
 	@Test
 	public void whenGivenNullDateThenThrowException() {
-		Station station = new StandardStation(2, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		try {
@@ -72,7 +86,6 @@ public class StationStatsTest {
 
 	@Test
 	public void testGetTotalRentals() {
-		Station station = new StandardStation(1, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		assertTrue(stats.getTotalRentals() == 0);
@@ -80,7 +93,6 @@ public class StationStatsTest {
 
 	@Test
 	public void testIncrementTotalRentals() {
-		Station station = new StandardStation(1, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		stats.incrementTotalRentals();
@@ -93,7 +105,6 @@ public class StationStatsTest {
 
 	@Test
 	public void testGetTotalReturns() {
-		Station station = new StandardStation(1, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		assertTrue(stats.getTotalRentals() == 0);	
@@ -101,7 +112,6 @@ public class StationStatsTest {
 
 	@Test
 	public void testIncrementTotalReturns() {
-		Station station = new StandardStation(1, new Point(0,0));
 		StationStats stats = new StationStats(station);
 		
 		stats.incrementTotalReturns();

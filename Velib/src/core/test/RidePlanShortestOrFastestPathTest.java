@@ -17,8 +17,11 @@ import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.ridePlan.RidePlan;
+import core.station.InvalidStationTypeException;
 import core.station.StandardStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class RidePlanShortestOrFastestPathTest {
 
@@ -30,19 +33,22 @@ public class RidePlanShortestOrFastestPathTest {
 	// Create User
 	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
-	// Create source stations 
-	static Station sourceStationS = new StandardStation(10, new Point(2,2));
-	// Create dest stations 
-	static Station destStationS = new StandardStation(10, new Point(8, 8));
+	static StationFactory stationFactory = new StationFactory();
+	static BikeFactory bikeFactory = new BikeFactory();
 
-	// Create plus source stations 
-	static Station sourceStationF = new StandardStation(10, new Point(0,2));
-	// Create standard dest stations 
-	static Station destStationF = new StandardStation(10, new Point(8,10));
+	static Station sourceStationS, destStationS, sourceStationF, destStationF;
 
     @BeforeClass
     public static void initialize() {
-		BikeFactory bikeFactory = new BikeFactory();
+		try {
+			sourceStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(2,2), true);
+			destStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(8,8), true);
+			sourceStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(0,2), true);
+			destStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(0,10), true);
+    	} catch (InvalidStationTypeException e) {
+    		fail("InvalidStationTypeException was thrown");
+    	}
+    	
 		try {
 
 			n.addStation(sourceStationS);

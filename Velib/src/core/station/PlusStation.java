@@ -17,24 +17,19 @@ public class PlusStation extends Station {
 	 * Create a station with the given number of parking slots, coordinates and online status
 	 * @param numberOfParkingSlots
 	 * @param coordinates
-	 */
-	public PlusStation(int numberOfParkingSlots, Point coordinates, int bonusTimeCreditOnReturn) {
-		super(numberOfParkingSlots, coordinates, bonusTimeCreditOnReturn);
-	}
-
-	/**
-	 * Create a station with the given number of parking slots, coordinates. By default, online status is true
-	 * @param numberOfParkingSlots
-	 * @param coordinates
 	 * @param online
 	 */
-	public PlusStation(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
-		super(numberOfParkingSlots, coordinates, online, bonusTimeCreditOnReturn);
+	protected PlusStation(int numberOfParkingSlots, Point coordinates, Boolean online) {
+		super(numberOfParkingSlots, coordinates, true, 5);
 	}
-
-	// By default bonus time credit on return for plus stations are 5 
-	public PlusStation(int numberOfParkingSlots, Point coordinates) {
-		super(numberOfParkingSlots, coordinates, 5);
+	
+	/**
+	 * Create a station with the given number of parking slots, coordinates. By default, online status is true and bonus time credit on return for plus stations is 5. 
+	 * @param numberOfParkingSlots
+	 * @param coordinates
+*	 */
+	protected PlusStation(int numberOfParkingSlots, Point coordinates) {
+		super(numberOfParkingSlots, coordinates, true, 5);
 	}
 
 	@Override

@@ -18,9 +18,12 @@ import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.ridePlan.RidePlan;
+import core.station.InvalidStationTypeException;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class RidePlanStrategyTest {
 	
@@ -32,21 +35,31 @@ public class RidePlanStrategyTest {
 	// Create User
 	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
-	// Create plus source stations 
-	static Station sourceStation = new StandardStation(10, new Point(0,0.1));
-	// Create standard dest stations 
-	static Station destStation = new StandardStation(10, new Point(9, 9.5));
+	static StationFactory stationFactory = new StationFactory();
+	static BikeFactory bikeFactory = new BikeFactory();
+	// Create standard source station
+	static Station sourceStation;
+	// Create standard dest station
+	static Station destStation;
 	// Create empty nearest to starting point 
-	static Station emptySourceStation = new StandardStation(10, new Point(0, 0.02));
+	static Station emptySourceStation;
 	// Create elec station nearest to starting point 
-	static Station elecSourceStation = new StandardStation(10, new Point(0, 0.01));
+	static Station elecSourceStation;
 	// Create full destination station
-	static Station fullDestStation = new StandardStation(10, new Point(9, 9.9));	
+	static Station fullDestStation;	
 
     @BeforeClass
     public static void initialize() {
-		BikeFactory bikeFactory = new BikeFactory();
-
+		try {
+			sourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0,0.1), true);
+			destStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(9,9.5), true);
+			emptySourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0,0.02), true);
+			elecSourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0,0.01), true);
+			fullDestStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(9,9.9), true);
+    	} catch (InvalidStationTypeException e) {
+    		fail("InvalidStationTypeException was thrown");
+    	}
+		
 		try {
 			// Plus and Standard destinations are the same distance away
 			n.addStation(sourceStation);

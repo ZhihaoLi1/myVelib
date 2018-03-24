@@ -56,15 +56,6 @@ public abstract class Station extends Observable {
 		this.bonusTimeCreditOnReturn = bonusTimeCreditOnReturn;
 		this.stats = new StationStats(this);
 	}
-	
-	/**
-	 * Create a station with the given number of parking slots, coordinates. By default, online status is true
-	 * @param numberOfParkingSlots
-	 * @param coordinates
-	 */
-	public Station(int numberOfParkingSlots, Point coordinates, int bonusTimeCreditOnReturn) {
-		this(numberOfParkingSlots, coordinates, true, bonusTimeCreditOnReturn);
-	}
 		
 	/**
 	 * Adds a bike to the first empty slot that it finds

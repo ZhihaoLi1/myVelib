@@ -17,8 +17,11 @@ import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.ridePlan.RidePlan;
+import core.station.InvalidStationTypeException;
 import core.station.PlusStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class RidePlanUniformityTest {
 	
@@ -30,20 +33,30 @@ public class RidePlanUniformityTest {
 	// Create User
 	User bob = new User("bob", new Point(0,0), new NoCardVisitor());
 	
+	static StationFactory stationFactory = new StationFactory();
+	static BikeFactory bikeFactory = new BikeFactory();
 	// 1 bike 
-	static Station emptierSourceStation = new PlusStation(10, new Point(0,0.1));
+	static Station emptierSourceStation;
 	// 1 bike
-	static Station emptierDestStation = new PlusStation(10, new Point(9,9.8));
+	static Station emptierDestStation;
 	
 	// 3 bikes
-	static Station fullerSourceStation = new PlusStation(10, new Point(0,0.11));
+	static Station fullerSourceStation;
 	
 	// 3 bikes
-	static Station fullerDestStation = new PlusStation(10, new Point(9,9.7));
+	static Station fullerDestStation;
 
 	@BeforeClass
     public static void initialize() {
-		BikeFactory bikeFactory = new BikeFactory();
+		try {
+			emptierSourceStation = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.1), true);
+			emptierDestStation = stationFactory.createStation(StationType.PLUS, 10, new Point(9,9.8), true);
+			fullerSourceStation = stationFactory.createStation(StationType.PLUS, 10, new Point(0,0.11), true);
+			fullerDestStation = stationFactory.createStation(StationType.PLUS, 10, new Point(9,9.7), true);
+    	} catch (InvalidStationTypeException e) {
+    		fail("InvalidStationTypeException was thrown");
+    	}
+		
 		try {
 			// Plus and Standard destinations are the same distance away
 			n.addStation(emptierSourceStation);

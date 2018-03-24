@@ -17,9 +17,12 @@ import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.ShortestPlan;
+import core.station.InvalidStationTypeException;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class Network {
 	
@@ -52,12 +55,19 @@ public class Network {
 			double x = ThreadLocalRandom.current().nextDouble(0, side);
 			double y = ThreadLocalRandom.current().nextDouble(0, side);
 			Point coordinates = new Point(x, y);
-			Station s;
-			if (i < numberOfStations*percentageOfPlusStations) {
-				s = new PlusStation(numberOfParkingSlotsPerStation.get(i), coordinates);
-			} else {
-				s = new StandardStation(numberOfParkingSlotsPerStation.get(i), coordinates);
+			
+			StationFactory stationFactory = new StationFactory();
+			Station s = null;
+			try {
+				if (i < numberOfStations*percentageOfPlusStations) {
+					s = stationFactory.createStation(StationType.PLUS, numberOfParkingSlotsPerStation.get(i), coordinates, true);
+				} else {
+					s = stationFactory.createStation(StationType.STANDARD, numberOfParkingSlotsPerStation.get(i), coordinates, true);
+				}
+			} catch (InvalidStationTypeException e) {
+				e.printStackTrace();
 			}
+			
 			try {
 				this.addStation(s);
 			} catch (Exception e) {
@@ -103,28 +113,12 @@ public class Network {
 			}
 		}
 	}
-	
-	
+
+
 	public Network() {
 	}
 
-	/**
-	 * 
-	 * @param station
-	 * @throws NullPointerException if station is null
-	 */
-	public void addStation(Station station) throws NullPointerException {
-		if(station == null) {
-			throw new NullPointerException("Station is null in addStation");
-		}
-		// verify that the coordinates of station is within the network. 
-		this.stations.put(station.getId(), station);
-	}
 
-	public void addUser(User user) throws NullPointerException {
-		if(user == null) throw new NullPointerException("User is null in addUser");
-		this.users.put(user.getId(), user);
-	}
 	public RidePlan planRide(Point source, Point destination, User user, PolicyName policy, BikeType bikeType) {
 		if(source == null || destination == null || user == null || policy == null || bikeType == null) 
 			throw new NullPointerException("All input values of planRide must not be null");
@@ -269,24 +263,30 @@ public class Network {
 		return users;
 	}
 
-	public void setUsers(HashMap<Integer, User> users) {
-		this.users = users;
-	}
-
 	public HashMap<User, BikeRental> getUserRentals() {
 		return userRentals;
-	}
-
-	public void setUserRentals(HashMap<User, BikeRental> userRentals) {
-		this.userRentals = userRentals;
 	}
 
 	public HashMap<User, RidePlan> getUserRidePlans() {
 		return userRidePlans;
 	}
+	
+	/**
+	 * 
+	 * @param station
+	 * @throws NullPointerException if station is null
+	 */
+	public void addStation(Station station) throws NullPointerException {
+		if(station == null) {
+			throw new NullPointerException("Station is null in addStation");
+		}
+		// verify that the coordinates of station is within the network. 
+		this.stations.put(station.getId(), station);
+	}
 
-	public void setUserRidePlans(HashMap<User, RidePlan> userRidePlans) {
-		this.userRidePlans = userRidePlans;
+	public void addUser(User user) throws NullPointerException {
+		if(user == null) throw new NullPointerException("User is null in addUser");
+		this.users.put(user.getId(), user);
 	}
 	
 }

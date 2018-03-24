@@ -9,8 +9,11 @@ import org.junit.Test;
 import core.MostUsedSort;
 import core.SortingStrategy;
 import core.point.Point;
+import core.station.InvalidStationTypeException;
 import core.station.StandardStation;
 import core.station.Station;
+import core.station.StationFactory;
+import core.station.StationType;
 
 public class MostUsedSortTest {
 
@@ -21,9 +24,16 @@ public class MostUsedSortTest {
 		
 		assertTrue(stations.equals(mostUsedSort.sort(stations)));
 		
-		Station station1 = new StandardStation(5, new Point(0, 0));
-		Station station2 = new StandardStation(6, new Point(0, 0));
-		Station station3 = new StandardStation(7, new Point(0, 0));
+		StationFactory stationFactory = new StationFactory();
+		Station station1 = null, station2 = null, station3 = null;
+		try {
+			station1 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
+			station2 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
+			station3 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
+		} catch (InvalidStationTypeException e) {
+			fail("InvalidStationTypeException was thrown");
+		}
+
 		stations.add(station1);
 		stations.add(station2);
 		stations.add(station3);
