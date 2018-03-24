@@ -25,5 +25,4 @@ public class LeastOccupiedSort implements SortingStrategy {
 		// Discuss with M. Ballarini about management of in-app time in the project
 		return sortedStations;
 	}
-
 }

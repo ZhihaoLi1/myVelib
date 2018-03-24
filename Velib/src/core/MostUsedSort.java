@@ -40,7 +40,6 @@ public class MostUsedSort implements SortingStrategy {
 
 			Collections.swap(sortedStations, maxNumOfUsesIndex, i);
 		}
-
 		return sortedStations;
 	}
 }
