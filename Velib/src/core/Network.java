@@ -163,8 +163,7 @@ public class Network {
 	 *             if user already has a bike rental, if station is offline, if no
 	 *             appropriate bike is found in the station.
 	 */
-	// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-	public void rentBike(int userId, int stationId, String bikeType) throws Exception {
+	public String rentBike(int userId, int stationId, String bikeType) {
 		// find user
 		User user = users.get(userId);
 		// find station
@@ -178,21 +177,19 @@ public class Network {
 		synchronized (user) {
 			// verify if user does not already have a rental
 			if (user.getBikeRental() != null)
-				// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-				throw new OngoingBikeRentalException(user);
+				return user.getName() + " still has a bike rental, he cannot rent another bike."; 
 			synchronized (s) {
-				// FIXME: This might need refactoring. At this point, the user might have a
-				// rental, but the bike will still be taken from the station, which is a problem
-				// I think the user should be passed to s.rentBike.
 				b = s.rentBike(bt, LocalDateTime.now());
-				// if no bike is found
+				// if no bike is found (either station is offline or there are no bikes)
 				if (b == null)
-					// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-					throw new Exception("No correct bike found");
-				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
-				// increment station statistics
-				// FIXME: This should happen in the station
-				s.getStats().incrementTotalRentals();
+					return "No bike found of type " + bikeType + " in station " + stationId;
+				// normally not suppose to happen with previous verification
+				try {
+					user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
+				} catch (OngoingBikeRentalException e) {
+					return user.getName() + " still has a bike rental, he cannot rent another bike."; 
+				}
+				return user.getName() + "has rented a bike !";
 			}
 		}
 	}
@@ -205,22 +202,21 @@ public class Network {
 	 * @throws Exception
 	 *             when station is full
 	 */
-	// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-	public double returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) throws Exception {
+	public String returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) throws Exception {
 		// find user
 		User user = users.get(userId);
 		// find station
 		Station s = stations.get(stationId);
-		if (user == null || s == null)
-			// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-			throw new NullPointerException("No user or station found given Id.");
+		if (user == null)
+			return "No user found with id "+ userId;
+		if (s == null)
+			return "No station found with id "+ stationId;
 		// the same user cannot return more than one bike at the same time.
 		synchronized (user) {
 			// make sure user has a rental
 			BikeRental br = user.getBikeRental();
 			if (br == null)
-				// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-				throw new NullPointerException("User does not have a bikeRental");
+				return "User is not renting a bike, he cannot return a bike";
 			br.setReturnDate(returnDate);
 			br.setTimeSpent(timeSpent);
 			// 2 users cannot return a bike at the same time at a specific station
@@ -241,7 +237,7 @@ public class Network {
 			user.getStats().setTotalTimeSpent(br.getTimeSpent());
 			// FIXME: Forgot to reset the user's bikeRental?
 
-			return price;
+			return user.getName() + " should pay " + price + "for this ride. Thank you for choosing MyVelib, have a wonderful day!" ;
 		}
 	}
 
@@ -249,13 +245,11 @@ public class Network {
 	 * Send to CLI that station is full, and a ridePlan is cancelled
 	 * 
 	 * @param user
-	 * @param s
+	 * @param station
 	 * @return
 	 */
-	// FIXME: Redo this, this must say which user is impacted. "Your" doesn't mean
-	// anything here
-	public String notifyStationFull(Station s) {
-		return "Station with id " + s.getId() + " is full and your ride plan is cancelled. Please create a new one";
+	public String notifyStationFull(User user, Station station) {
+		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName() + " is cancelled. Please create a new one";
 	}
 
 	public String getName() {
@@ -300,7 +294,6 @@ public class Network {
 	 * @throws NullPointerException
 	 *             if station is null
 	 */
-	// FIXME: Shouldn't this be a private method?
 	public void addStation(Station station) throws NullPointerException {
 		if (station == null) {
 			throw new NullPointerException("Station is null in addStation");
@@ -309,7 +302,6 @@ public class Network {
 		this.stations.put(station.getId(), station);
 	}
 	
-	// FIXME: Shouldn't this be a private method?
 	public void addUser(User user) throws NullPointerException {
 		if (user == null)
 			throw new NullPointerException("User is null in addUser");

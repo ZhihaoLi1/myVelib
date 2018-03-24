@@ -142,23 +142,24 @@ public abstract class Station extends Observable {
 	 * @throws Exception
 	 *             when station is offline
 	 */
-	public Bike rentBike(BikeType bikeType, LocalDateTime date) throws Exception {
+	public Bike rentBike(BikeType bikeType, LocalDateTime date) {
 		// verify if station is online
-		if (!this.online)
-			// FIXME: I think we should just return null
-			throw new Exception("Station is offline");
+		if (!this.online) return null;
+		
 		// find appropriate bike in station;
 		Bike b = null;
 
 		for (ParkingSlot ps : this.getParkingSlots()) {
 			if (ps.isWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
-				b = ps.getBike();
-				// FIXME locking ps ?
-				ps.setBike(null, date);
+				synchronized(ps) {
+					b = ps.getBike();
+					ps.emptyBike(date);
+				}
+				// increment station statistics
+				this.getStats().incrementTotalRentals();
 				break;
 			}
-		}
-
+		}		
 		return b;
 	}
 

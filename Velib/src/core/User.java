@@ -49,7 +49,7 @@ public class User implements Observer {
 		if (!(o instanceof Station))
 			throw new IllegalArgumentException("user update needs station as observable input.");
 		Station s = (Station) o;
-		this.ridePlan.getNetwork().notifyStationFull(s);
+		this.ridePlan.getNetwork().notifyStationFull(this, s);
 		// remove from list of observers in station
 		s.deleteObserver(this);
 		// reset ride plan

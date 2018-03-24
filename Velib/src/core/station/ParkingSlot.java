@@ -49,7 +49,13 @@ public class ParkingSlot {
 		this.hasChanged = true;
 		changeStatus(date);
 	}
-
+	
+	public void emptyBike(LocalDateTime date) {
+		this.bike = null;
+		this.hasChanged = true;
+		changeStatus(date);
+	}
+	
 	public int getId() {
 		return id;
 	}
