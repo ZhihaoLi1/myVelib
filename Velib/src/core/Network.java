@@ -240,7 +240,59 @@ public class Network {
 			return user.getName() + " should pay " + price + "for this ride. Thank you for choosing MyVelib, have a wonderful day!" ;
 		}
 	}
+	
+	/**
+	 * Display statistics of a station
+	 * @param stationId
+	 * @return
+	 */
+	public String displayStation(int stationId) {
+		Station s  = this.stations.get(stationId);
+		if (s == null)
+			return "No station found for id " + stationId;
+		return s.displayStats();
+	}
 
+	/**
+	 * Display user statistics
+	 * @param userId
+	 * @return
+	 */
+	public String displayUser(int userId) {
+		User u = this.users.get(userId);
+		if (u == null)
+			return "No user found for id " + userId;
+		return u.displayStats();
+	}
+	
+	/**
+	 * Set station to offline
+	 * @param stationId
+	 * @return
+	 */
+	public String setOffline(int stationId) {
+		Station s  = this.stations.get(stationId);
+		if (s == null)
+			return "No station found for id " + stationId;
+		s.setOnline(false);
+		return "Station " + stationId + " is set to offline."; 
+	}
+	
+	
+	/**
+	 * Set station to online
+	 * @param stationId
+	 * @return
+	 */
+	public String setOnline(int stationId) {
+		Station s  = this.stations.get(stationId);
+		if (s == null)
+			return "No station found for id " + stationId;
+		s.setOnline(true);
+		return "Station " + stationId + " is set to online."; 
+	}
+	
+	
 	/**
 	 * Send to CLI that station is full, and a ridePlan is cancelled
 	 * 

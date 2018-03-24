@@ -1,6 +1,10 @@
 package core;
 
-// FIXME: Javadoc
+/**
+ * Contains statistics of the user
+ * @author animato
+ *
+ */
 public class UserStats {
 	// Statistics of user
 	private int totalRides;
@@ -15,6 +19,14 @@ public class UserStats {
 		totalTimeSpent = 0;
 	}
 
+	@Override 
+	public String toString() {
+		String stats = "total ride: " + totalRides + "\n";
+		stats += "total credits accumulated: " + totalTimeCredits + "\n";
+		stats += "total amount spent: " + totalCharges + "\n";
+		stats += "total time spent: " + totalTimeSpent + "\n";
+		return stats;
+	}
 	public int getTotalRides() {
 		return totalRides;
 	}

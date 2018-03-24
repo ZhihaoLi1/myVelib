@@ -11,7 +11,12 @@ import core.ridePlan.RidePlan;
 import core.station.IDGenerator;
 import core.station.Station;
 
-// FIXME: Javadoc
+/**
+ * User of myVelib Network
+ * 
+ * @author animato
+ *
+ */
 public class User implements Observer {
 	private final int id;
 	private String name;
@@ -58,9 +63,10 @@ public class User implements Observer {
 
 	/**
 	 * Display statistics of user
+	 * @return 
 	 */
-	public void displayBalance() {
-
+	public String displayStats() {
+		return name + ": \n" + stats.toString();
 	}
 
 	public String getName() {

@@ -50,10 +50,10 @@ public class RidePlanShortestOrFastestPathTest {
 	@BeforeClass
 	public static void initialize() {
 		try {
-			sourceStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(2, 2), true);
-			destStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(8, 8), true);
+			sourceStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(3, 3), true);
+			destStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(7, 7), true);
 			sourceStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 2), true);
-			destStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 10), true);
+			destStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(9, 10), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
