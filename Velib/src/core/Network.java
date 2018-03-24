@@ -43,6 +43,7 @@ public class Network {
 	 * @param percentageOfBikes
 	 * @param percentageOfPlusStations
 	 * @param percentageOfElecBikes
+	 * FIXME: I think the number of stations is the same for each Station in a network
 	 */
 	public Network(String name, int numberOfStations, ArrayList<Integer> numberOfParkingSlotsPerStation, double side, 
 			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes ) {
@@ -230,6 +231,7 @@ public class Network {
 	 * @param s
 	 * @return
 	 */
+	// FIXME: Redo this, this must say which user is impacted. "Your" doesn't mean anything here 
 	public String notifyStationFull(Station s) {
 		return "Station with id " + s.getId() + " is full and your ride plan is cancelled. Please create a new one";
 	}
