@@ -26,12 +26,9 @@ public class AvoidPlusPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
-			HashMap<Integer, Station> stations, Network n) throws Exception {
+			HashMap<Integer, Station> stations, Network n) throws NoValidStationFound {
 		Station sourceStation = null;
 		Station destStation = null;
-
-		if (stations.isEmpty())
-			throw new Exception("No stations are found.");
 
 		double minimumSourceDistance = Double.MAX_VALUE;
 		double minimumDestDistance = Double.MAX_VALUE;
@@ -51,7 +48,7 @@ public class AvoidPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new Exception("No appropriate stations found !");
+			throw new NoValidStationFound(stations, PolicyName.AVOID_PLUS);
 		}
 
 		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType, n);

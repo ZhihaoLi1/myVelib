@@ -174,9 +174,9 @@ public abstract class Station extends Observable {
 	 * @throws Exception
 	 *             when station is full
 	 */
-	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws Exception {
+	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws FullStationException {
 		if (this.isFull())
-			throw new Exception("Station is too full to return bike");
+			throw new FullStationException(this);
 		// loop over stations and place bike the first empty slot
 		addBike(bikeRental.getBike(), LocalDateTime.now());
 

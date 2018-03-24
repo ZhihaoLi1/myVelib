@@ -1,7 +1,6 @@
 package core.ridePlan;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import core.BikeType;
 import core.Network;
@@ -30,9 +29,6 @@ public class ShortestPlan implements RidePlanStrategy {
 		Station sourceStation = null;
 		Station destStation = null;
 
-		if (stations.isEmpty())
-			throw new Exception("No stations are found.");
-
 		double minimumDistance = Double.MAX_VALUE;
 
 		// different possible pairs
@@ -56,7 +52,7 @@ public class ShortestPlan implements RidePlanStrategy {
 			}
 		}
 		if (sourceStation == null || destStation == null) {
-			throw new Exception("No appropriate stations found !");
+			throw new NoValidStationFound(stations, PolicyName.SHORTEST);
 		}
 		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, n);
 	}

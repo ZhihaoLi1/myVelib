@@ -41,6 +41,9 @@ public class User implements Observer {
 	 * Notify user if given station is no longer online / no more parking slots left
 	 * user then tells the network send notification to CLI
 	 */
+	// FIXME: I don't think we need Object arg. Moreover, this should be reversed:
+	// if (o instanceof Station) { ... }, else do nothing.
+	// no exception should be thrown
 	@Override
 	public void update(Observable o, Object arg) {
 		if (!(o instanceof Station))
@@ -90,9 +93,8 @@ public class User implements Observer {
 
 	public void setBikeRental(BikeRental bikeRental) throws Exception {
 		if (this.bikeRental != null)
-			throw new Exception("User already has a ongoing bike rental");
+			throw new OngoingBikeRentalException(this);
 		this.bikeRental = bikeRental;
-
 	}
 
 	public void resetBikeRental() {

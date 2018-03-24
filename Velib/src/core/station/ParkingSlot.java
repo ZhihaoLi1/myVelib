@@ -41,9 +41,9 @@ public class ParkingSlot {
 		return bike;
 	}
 
-	public void setBike(Bike bike, LocalDateTime date) throws Exception {
+	public void setBike(Bike bike, LocalDateTime date) throws OccupiedParkingSlotException {
 		if (this.bike != null && bike != null) {
-			throw new Exception("Parking slot already contains bike"); // FIXME: throw new OccupiedParkingSlotException
+			throw new OccupiedParkingSlotException(this);
 		}
 		this.bike = bike;
 		this.hasChanged = true;

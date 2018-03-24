@@ -1,7 +1,6 @@
 package core.ridePlan;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import core.BikeType;
 import core.Network;
@@ -37,9 +36,6 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		Station sourceStation = null;
 		Station destStation = null;
 
-		if (stations.isEmpty())
-			throw new Exception("No stations are found.");
-
 		double minimumSourceDistance = Double.MAX_VALUE;
 		double minimumDestDistance = Double.MAX_VALUE;
 
@@ -59,7 +55,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new Exception("No appropriate stations found !");
+			throw new NoValidStationFound(stations, PolicyName.PRESERVE_UNIFORMITY);
 		}
 
 		Station fullerSourceStation = null;

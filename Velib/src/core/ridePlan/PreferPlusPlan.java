@@ -29,9 +29,6 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		Station sourceStation = null;
 		Station destStation = null;
 
-		if (stations.isEmpty())
-			throw new Exception("No stations are found.");
-
 		double minimumSourceDistance = Double.MAX_VALUE;
 		double minimumDestDistance = Double.MAX_VALUE;
 
@@ -50,7 +47,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new Exception("No appropriate stations found !");
+			throw new NoValidStationFound(stations, PolicyName.PREFER_PLUS);
 		}
 
 		// find plus station for destination

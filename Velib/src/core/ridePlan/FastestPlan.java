@@ -1,7 +1,6 @@
 package core.ridePlan;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import core.BikeType;
 import core.Network;
@@ -35,9 +34,6 @@ public class FastestPlan implements RidePlanStrategy {
 			bikeSpeed = 15;
 		}
 
-		if (stations.isEmpty())
-			throw new Exception("No stations are found.");
-
 		Station sourceStation = null;
 		Station destStation = null;
 		Double minimumTime = Double.MAX_VALUE; // hours
@@ -67,7 +63,7 @@ public class FastestPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new Exception("No appropriate stations found !");
+			throw new NoValidStationFound(stations, PolicyName.FASTEST);
 		}
 		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType, n);
 	}
