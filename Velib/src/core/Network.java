@@ -188,7 +188,7 @@ public class Network {
 				// if no bike is found
 				if (b == null)
 					// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
-					throw new NoValidBikeFoundException(user, s, bt);
+					throw new Exception("No correct bike found");
 				user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
 				// increment station statistics
 				// FIXME: This should happen in the station
@@ -205,6 +205,7 @@ public class Network {
 	 * @throws Exception
 	 *             when station is full
 	 */
+	// FIXME: Network should not throw exceptions, only catch them and send messages to the outside.
 	public double returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) throws Exception {
 		// find user
 		User user = users.get(userId);

@@ -2,7 +2,7 @@ package core;
 
 import core.station.ParkingSlot;
 
-// FIXME: Javadoc
+// FIXME: Javadoc, override getMessage()
 public class OngoingBikeRentalException extends Exception {
 	private final User user;
 

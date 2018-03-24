@@ -145,6 +145,7 @@ public abstract class Station extends Observable {
 	public Bike rentBike(BikeType bikeType, LocalDateTime date) throws Exception {
 		// verify if station is online
 		if (!this.online)
+			// FIXME: I think we should just return null
 			throw new Exception("Station is offline");
 		// find appropriate bike in station;
 		Bike b = null;
