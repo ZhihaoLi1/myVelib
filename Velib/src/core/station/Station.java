@@ -282,9 +282,6 @@ public abstract class Station extends Observable {
 	public Set<User> getObservers() {
 		return observers;
 	}
-	
-	public static void main(String[] args) {
-	}
 
 	public int getBonusTimeCreditOnReturn() {
 		return bonusTimeCreditOnReturn;
