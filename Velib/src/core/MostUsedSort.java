@@ -5,7 +5,17 @@ import java.util.Collections;
 
 import core.station.Station;
 
+/**
+ * Sorting strategy of stations based on usage of stations
+ * @author matto
+ *
+ */
 public class MostUsedSort implements SortingStrategy {
+	/**
+	 * Sort given stations according to their number of rentals + returns, in descending order
+	 * @param stations - a list of stations to sort
+	 * @return ArrayList<Station> - the sorted list of stations 
+	 */
 	public ArrayList<Station> sort(ArrayList<Station> stations) {
 		ArrayList<Station> sortedStations = new ArrayList<Station>(stations);
 		
