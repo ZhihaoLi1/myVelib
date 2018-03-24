@@ -6,11 +6,15 @@ import org.junit.Test;
 
 import core.station.IDGenerator;
 
-// FIXME: Comments
+/*
+ * Test Id generation 
+ * ensure the IDgenerator class allows only creation of a unique object
+ */
 public class IDGeneratorTest {
 
 	/**
 	 * Ensure that only a single instance of the generator is created and used
+	 * gen1 increment should effect gen2 
 	 */
 	@Test
 	public void testGenerator() {

@@ -170,8 +170,7 @@ public abstract class Station extends Observable {
 	 * @param bikeRental
 	 *            - the bike which is returned
 	 * @param date
-	 *            - the date at which the bike is returned FIXME Only addTimeCredit
-	 *            should be abstract, and separated from this method
+	 *            - the date at which the bike is returned
 	 * @throws Exception
 	 *             when station is full
 	 */

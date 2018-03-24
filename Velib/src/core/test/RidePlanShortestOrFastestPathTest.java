@@ -21,7 +21,17 @@ import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
 
-// FIXME: Comments
+/**
+ * Choose the correct source and destination station for shortest and fastest ride plan
+ * By setting up a network where the different source and destination stations have a bias towards the fastest or the shortest plan, 
+ * we can ensure that the choice is made adequately
+ * 
+ * destStationS and sourceStationS have the shortest distance between them, but the sourceStationF and sourceStationF are further
+ * but faster as the stations are closer to the source/destination of user.
+ * 
+ * @author animato
+ *
+ */
 public class RidePlanShortestOrFastestPathTest {
 
 	// create a network

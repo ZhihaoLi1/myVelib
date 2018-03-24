@@ -21,7 +21,14 @@ import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
 
-// FIXME: Comments
+/**
+ * Test rules that all ride plans should obey
+ * 	- source station should at least have one bike of the correct type
+ *  - destination station should have at least one free station that is working
+ *  
+ * @author animato
+ *
+ */
 public class RidePlanStrategyTest {
 
 	// create a network

@@ -21,7 +21,12 @@ import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
 
-// FIXME: Comments
+/**
+ * Test ride plans concerning plus stations 
+ * Create a network with standard and plus stations with bikes 
+ * @author animato
+ *
+ */
 public class RidePlanPlusStationsTest {
 
 	// create a network
@@ -80,7 +85,7 @@ public class RidePlanPlusStationsTest {
 
 	@Test
 	/**
-	 * Choose the right station
+	 * Choose the closest station (standard station)
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);

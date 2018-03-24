@@ -21,7 +21,17 @@ import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
 
-// FIXME: Comments
+/**
+ * Test ride plan that should preserver uniformity
+ * 
+ * Source station is the station that is within a 10% distance of source - closest source station and has the most bikes 
+ * Dest station is the station that is within a 10% distance of dest - closest dest station and has the least bikes
+ * 
+ * In this manner, it ensures that over time, the number of bikes in the stations are kept around the average.
+ * 
+ * @author animato
+ *
+ */
 public class RidePlanUniformityTest {
 
 	// create a network
