@@ -6,10 +6,11 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import core.BikeType;
 import core.bike.Bike;
-import core.bike.ElecBike;
-import core.bike.MechBike;
-import core.card.InvalidBikeTypeException;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
+import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 import core.card.NoCardVisitor;
 import core.rentals.BikeRental;
@@ -34,7 +35,13 @@ public class NoCardVisitorTest {
 	public void testVisit() {
 		NoCardVisitor noCard = new NoCardVisitor();
 		
-		Bike mBike = new MechBike();
+		Bike mBike = null;
+		try {
+			mBike = new BikeFactory().createBike(BikeType.MECH);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
+		
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
@@ -47,14 +54,19 @@ public class NoCardVisitorTest {
 			
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
 			assertTrue(mRental.accept(noCard) == 2);
-		} catch (InvalidBikeTypeException e) {
-			fail("Invalid bike type given to visitor");
+		} catch (InvalidBikeException e) {
+			fail("Invalid bike given to visitor");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");
 		}
 
 		
-		Bike eBike = new ElecBike();
+		Bike eBike = null;
+		try {
+			eBike = new BikeFactory().createBike(BikeType.ELEC);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 		try {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));

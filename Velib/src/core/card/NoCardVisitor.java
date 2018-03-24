@@ -33,7 +33,7 @@ public class NoCardVisitor implements CardVisitor {
 	 * @throws InvalidDatesException if invalid rent of return dates are given
 	 */
 	@Override
-	public double visit(BikeRental rental) throws InvalidBikeTypeException, InvalidDatesException {
+	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
 		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
 			throw new InvalidDatesException(rental.getRentDate(), rental.getReturnDate());

@@ -2,11 +2,11 @@ package core.card;
 
 import core.bike.Bike;
 
-public class InvalidBikeTypeException extends Exception {
+public class InvalidBikeException extends Exception {
 
 	private final Bike bike;
 	
-	public InvalidBikeTypeException(Bike bike) {
+	public InvalidBikeException(Bike bike) {
 		this.bike = bike;
 	}
 

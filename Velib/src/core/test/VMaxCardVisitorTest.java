@@ -85,7 +85,12 @@ public class VMaxCardVisitorTest {
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 
 		VMaxCardVisitor vMaxCard = new VMaxCardVisitor();
-		Bike mBike = new MechBike();
+		Bike mBike = null;
+		try {
+			mBike = new BikeFactory().createBike(BikeType.MECH);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
 		try {
@@ -114,7 +119,12 @@ public class VMaxCardVisitorTest {
 		}
 
 		vMaxCard = new VMaxCardVisitor();
-		Bike eBike = new ElecBike();
+		Bike eBike = null;
+		try {
+			eBike = new BikeFactory().createBike(BikeType.ELEC);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 		
 		try {

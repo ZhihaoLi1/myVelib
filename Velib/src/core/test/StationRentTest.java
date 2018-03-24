@@ -10,7 +10,9 @@ import org.junit.Test;
 import core.BikeType;
 import core.Network;
 import core.User;
+import core.bike.BikeFactory;
 import core.bike.ElecBike;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -31,9 +33,12 @@ public class StationRentTest {
 	@BeforeClass
 	public static void fillStationAndNetwork() {
 		// add bikes to stations 
+		BikeFactory bikeFactory = new BikeFactory();
 		try {
-			s.addBike(new MechBike(), LocalDateTime.now());
-			s.addBike(new ElecBike(), LocalDateTime.now());
+			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			fail("Exception was thrown");
 		}

@@ -11,6 +11,8 @@ import core.BikeType;
 import core.Network;
 import core.PolicyName;
 import core.User;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -40,6 +42,7 @@ public class RidePlanShortestOrFastestPathTest {
 
     @BeforeClass
     public static void initialize() {
+		BikeFactory bikeFactory = new BikeFactory();
 		try {
 
 			n.addStation(sourceStationS);
@@ -48,11 +51,13 @@ public class RidePlanShortestOrFastestPathTest {
 			n.addStation(destStationF);
 			
 			// add one bike to source and destination stations : They are all Mechanical. 
-			sourceStationS.addBike(new MechBike(), LocalDateTime.now());
-			destStationS.addBike(new MechBike(), LocalDateTime.now());
-			sourceStationF.addBike(new MechBike(), LocalDateTime.now());
-			destStationF.addBike(new MechBike(), LocalDateTime.now());
+			sourceStationS.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			destStationS.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			sourceStationF.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			destStationF.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

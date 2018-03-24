@@ -9,7 +9,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 		timeCredit = 0;
 	}
 	
-	public abstract double visit(BikeRental rental) throws InvalidBikeTypeException, InvalidDatesException;
+	public abstract double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 	
 	// Getters / Setters
 	public void addTimeCredit(int timeCredit) throws NegativeTimeCreditGivenException {

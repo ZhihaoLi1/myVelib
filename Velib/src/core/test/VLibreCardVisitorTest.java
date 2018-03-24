@@ -6,10 +6,13 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import core.BikeType;
 import core.bike.Bike;
+import core.bike.BikeFactory;
 import core.bike.ElecBike;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
-import core.card.InvalidBikeTypeException;
+import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 import core.card.NegativeTimeCreditGivenException;
 import core.card.NegativeTimeCreditLeftException;
@@ -78,7 +81,13 @@ public class VLibreCardVisitorTest {
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 
 		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-		Bike mBike = new MechBike();
+		
+		Bike mBike = null;
+		try {
+			mBike = new BikeFactory().createBike(BikeType.MECH);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
 		try {
@@ -107,7 +116,12 @@ public class VLibreCardVisitorTest {
 		}
 
 		vLibreCard = new VLibreCardVisitor();
-		Bike eBike = new ElecBike();
+		Bike eBike = null;
+		try {
+			eBike = new BikeFactory().createBike(BikeType.ELEC);
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException thrown");
+		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 		
 		try {

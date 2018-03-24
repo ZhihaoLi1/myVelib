@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
-import core.bike.ElecBike;
-import core.bike.MechBike;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.ridePlan.AvoidPlusPlan;
@@ -75,8 +75,8 @@ public class Network {
 		System.out.println(keys.toString());
 
 		/**
-		 * Place bikes into stations
-		 * List of stations that are not full
+		 * Create and place bikes into stations
+		 * notEmptyStations is the list of stations that are not full
 		 * Iterate over total number of bikes and assign a bike to a random station that is not full
 		 * Each time a station is full, remove it from the list
 		 */
@@ -84,13 +84,20 @@ public class Network {
 		int totalNumberOfBikes = (int) (totalNumberOfParkingSlots*percentageOfBikes);
 		ArrayList<Station> notEmptyStations = new ArrayList<Station>(this.stations.values());
 		
+		BikeFactory bikeFactory = new BikeFactory();
+		
 		for (int i=0; i<totalNumberOfBikes; i++) {
 			int randomNum = ThreadLocalRandom.current().nextInt(0, notEmptyStations.size());
-			if (i < totalNumberOfBikes*percentageOfElecBikes) {
-				notEmptyStations.get(randomNum).addBike(new ElecBike(), LocalDateTime.now());
-			} else {
-				notEmptyStations.get(randomNum).addBike(new MechBike(), LocalDateTime.now());
+			try {
+				if (i < totalNumberOfBikes*percentageOfElecBikes) {
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike(BikeType.ELEC), LocalDateTime.now());
+				} else {
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+				}
+			} catch (InvalidBikeTypeException e) {
+				e.printStackTrace();
 			}
+			
 			if (notEmptyStations.get(randomNum).isFull()) {
 				notEmptyStations.remove(randomNum);
 			}

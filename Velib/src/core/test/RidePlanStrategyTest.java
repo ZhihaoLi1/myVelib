@@ -11,7 +11,9 @@ import core.BikeType;
 import core.Network;
 import core.PolicyName;
 import core.User;
+import core.bike.BikeFactory;
 import core.bike.ElecBike;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -43,6 +45,8 @@ public class RidePlanStrategyTest {
 
     @BeforeClass
     public static void initialize() {
+		BikeFactory bikeFactory = new BikeFactory();
+
 		try {
 			// Plus and Standard destinations are the same distance away
 			n.addStation(sourceStation);
@@ -52,15 +56,17 @@ public class RidePlanStrategyTest {
 			n.addStation(elecSourceStation);
 			
 			// add one bike to source and destination stations : They are all Mechanical. 
-			sourceStation.addBike(new MechBike(), LocalDateTime.now());
-			destStation.addBike(new MechBike(), LocalDateTime.now());			
+			sourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			destStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());			
 			
 			// fill full station
-			while(fullDestStation.addBike(new MechBike(), LocalDateTime.now())) {				
+			while(fullDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now())) {				
 			}
 			// elecSourceStation only has elec bikes
-			elecSourceStation.addBike(new ElecBike(), LocalDateTime.now());
+			elecSourceStation.addBike(bikeFactory.createBike(BikeType.ELEC), LocalDateTime.now());
 			// empty source station doesn't have any bikes
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

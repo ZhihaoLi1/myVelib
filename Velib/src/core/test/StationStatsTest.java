@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import core.BikeType;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.point.Point;
 import core.station.StandardStation;
@@ -24,7 +27,9 @@ public class StationStatsTest {
 		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"), DateParser.parse("01/01/2000 09:00:00")) == 0.5);
 		
 		try {
-			station.getParkingSlots().get(0).setBike(new MechBike(), DateParser.parse("01/01/2000 08:10:00"));
+			station.getParkingSlots().get(0).setBike(new BikeFactory().createBike(BikeType.MECH), DateParser.parse("01/01/2000 08:10:00"));
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			fail("Exception was thrown in testGetOccupationRate when it shouldn't");
 		}

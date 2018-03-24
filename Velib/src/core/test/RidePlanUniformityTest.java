@@ -11,6 +11,8 @@ import core.BikeType;
 import core.Network;
 import core.PolicyName;
 import core.User;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -41,6 +43,7 @@ public class RidePlanUniformityTest {
 
 	@BeforeClass
     public static void initialize() {
+		BikeFactory bikeFactory = new BikeFactory();
 		try {
 			// Plus and Standard destinations are the same distance away
 			n.addStation(emptierSourceStation);
@@ -49,18 +52,20 @@ public class RidePlanUniformityTest {
 			n.addStation(fullerDestStation);
 			
 			// add bikes to all stations : They are all Mechanical. 
-			emptierSourceStation.addBike(new MechBike(), LocalDateTime.now());
+			emptierSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			
-			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
-			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
-			fullerSourceStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			
-			emptierDestStation.addBike(new MechBike(), LocalDateTime.now());
+			emptierDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			
-			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
-			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
-			fullerDestStation.addBike(new MechBike(), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
 			
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

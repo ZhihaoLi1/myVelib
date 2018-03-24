@@ -11,6 +11,8 @@ import core.BikeType;
 import core.Network;
 import core.PolicyName;
 import core.User;
+import core.bike.BikeFactory;
+import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -38,6 +40,7 @@ public class RidePlanPlusStationsTest {
 
     @BeforeClass
     public static void initialize() {
+		BikeFactory bikeFactory = new BikeFactory();
 		try {
 			// Plus and Standard destinations are the same distance away
 			n.addStation(sourceStation);
@@ -45,10 +48,12 @@ public class RidePlanPlusStationsTest {
 			n.addStation(standardDestStation);
 			
 			// add one bike to all stations : They are all Mechanical. 
-			sourceStation.addBike(new MechBike(), LocalDateTime.now());
-			standardDestStation.addBike(new MechBike(), LocalDateTime.now());
-			plusDestStation.addBike(new MechBike(), LocalDateTime.now());			
+			sourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			standardDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			plusDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());			
 			
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
