@@ -8,7 +8,13 @@ import core.bike.MechBike;
 import core.rentals.BikeRental;
 
 /**
- * Implementation of CardVisitor for users with a VLibreCard.
+ * Implementation of CardVisitor for users with a VLibreCard. <br>
+ * Allows calculation of the price of a bike rental for this type of card. <br>
+ * With a VLibre card, the price is as follows: <br>
+ * - 0€ for the first hour then 1€/hour for mechanical bikes <br>
+ * - 1€ for the first hour then 2€/hour for electrical bikes <br>
+ * Before returning the price to pay, we try to use the card's time credit as
+ * much as possible to lower the price.
  * 
  * @author matto
  */

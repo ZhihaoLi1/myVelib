@@ -36,4 +36,8 @@ public class ElecBike implements Bike {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		return "Bike [id: " + id + ", type: " + type + "]";
+	}
 }

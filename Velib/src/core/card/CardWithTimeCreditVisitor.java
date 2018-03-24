@@ -2,7 +2,12 @@ package core.card;
 
 import core.rentals.BikeRental;
 
-// FIXME: Javadoc
+/**
+ * Represents a card on which a time credit can be accumulated.
+ * 
+ * @author matto
+ *
+ */
 public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	private int timeCredit;
 
@@ -10,6 +15,17 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 		timeCredit = 0;
 	}
 
+	/**
+	 * Implementation of the calculation of the price of a rental
+	 * 
+	 * @param rental
+	 *            - the BikeRental whose price is being calculated
+	 * @return (double) the price of the rental
+	 * @throws InvalidBikeTypeException
+	 *             if an unidentified type of bike (or null) is given
+	 * @throws InvalidDatesException
+	 *             if invalid rent of return dates are given
+	 */
 	public abstract double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
 	// Getters / Setters

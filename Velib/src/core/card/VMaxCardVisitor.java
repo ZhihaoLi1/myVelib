@@ -8,7 +8,12 @@ import core.bike.MechBike;
 import core.rentals.BikeRental;
 
 /**
- * Implementation of CardVisitor for users with a VMax card.
+ * Implementation of CardVisitor for users with a VMax card. <br>
+ * Allows calculation of the price of a bike rental for this type of card. <br>
+ * With a VMax card, the price is as follows: <br>
+ * - 0€ for the first hour then 1€/hour for any bike <br>
+ * Before returning the price to pay, we try to use the card's time credit as
+ * much as possible to lower the price.
  * 
  * @author matto
  */
@@ -19,11 +24,7 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
 	}
 
 	/**
-	 * Calculates the price of the bike rental passed as a parameter. <br>
-	 * With a VMax card, the price is as follows: <br>
-	 * - 0€ for the first hour then 1€/hour for any bike <br>
-	 * Before returning the price to pay, we try to use the card's time credit as
-	 * much as possible to lower the price.
+	 * Calculates the price of a bike rental.
 	 * 
 	 * @param rental
 	 *            - the BikeRental whose price is being calculated

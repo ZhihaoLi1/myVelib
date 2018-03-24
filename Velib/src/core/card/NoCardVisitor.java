@@ -8,7 +8,12 @@ import core.bike.MechBike;
 import core.rentals.BikeRental;
 
 /**
- * Implementation of CardVisitor for users without any card.
+ * Implementation of CardVisitor for users without any card. <br>
+ * No time credit can be accumulated on this type of card. <br>
+ * Allows calculation of the price of a bike rental for this type of card. <br>
+ * Without a card, the price is as follows: <br>
+ * - 1€/hour for mechanical bikes <br>
+ * - 2€/hour for electrical bikes
  * 
  * @author matto
  */
@@ -19,10 +24,7 @@ public class NoCardVisitor implements CardVisitor {
 	}
 
 	/**
-	 * Calculates the price of the bike rental passed as a parameter. <br>
-	 * Without a card, the price is as follows: <br>
-	 * - 1€/hour for mechanical bikes <br>
-	 * - 2€/hour for electrical bikes
+	 * Calculates the price of a bike rental.
 	 * 
 	 * @param rental
 	 *            - the BikeRental whose price is being calculated

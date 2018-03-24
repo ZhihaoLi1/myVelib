@@ -14,4 +14,9 @@ public class InvalidBikeException extends Exception {
 	public Bike getBike() {
 		return bike;
 	}
+	
+	@Override
+	public String getMessage() {
+		return "The price of the given bike cannot be computed: " + bike; 
+	}
 }
