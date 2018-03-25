@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import core.card.CardVisitor;
+import core.card.CardVisitorFactory;
+import core.card.InvalidCardTypeException;
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
@@ -35,6 +37,10 @@ public class User implements Observer {
 		this.card = card;
 		this.name = name;
 		this.stats = new UserStats();
+	}
+
+	public User(String name) throws InvalidCardTypeException {
+		this(name, null, new CardVisitorFactory().createCard("NO_CARD"));
 	}
 
 	/**
