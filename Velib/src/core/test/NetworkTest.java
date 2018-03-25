@@ -10,9 +10,8 @@ import org.junit.Test;
 import core.Network;
 import core.card.InvalidCardTypeException;
 import core.station.Station;
+import core.user.User;
 import core.utils.DateParser;
-import junit.framework.Assert;
-import user.User;
 
 /**
  * Test creation of network 

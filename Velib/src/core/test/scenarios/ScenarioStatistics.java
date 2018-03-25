@@ -1,4 +1,4 @@
-package core.eval;
+package core.test.scenarios;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
