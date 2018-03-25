@@ -69,11 +69,6 @@ public class StationRentTest {
 		n.createStation(emptyS);
 	}
 
-	@Test(expected = Exception.class)
-	public void errorWhenRentBikefromEmptyStation() throws Exception {
-		n.rentBike(bob.getId(), emptyS.getId(), "MECH", LocalDateTime.now());
-	}
-
 	@Test
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
 
