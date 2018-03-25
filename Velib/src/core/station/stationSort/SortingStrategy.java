@@ -1,5 +1,6 @@
 package core.station.stationSort;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import core.station.Station;
@@ -11,5 +12,5 @@ import core.station.Station;
  *
  */
 public interface SortingStrategy {
-	public ArrayList<Station> sort(ArrayList<Station> stations);
+	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate);
 }

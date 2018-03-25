@@ -1,5 +1,6 @@
 package core.station.stationSort;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,7 +21,7 @@ public class MostUsedSort implements SortingStrategy {
 	 *            - a list of stations to sort
 	 * @return ArrayList<Station> - the sorted list of stations
 	 */
-	public ArrayList<Station> sort(ArrayList<Station> stations) {
+	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) {
 		ArrayList<Station> sortedStations = new ArrayList<Station>(stations);
 
 		// Selection sort of the ArrayList

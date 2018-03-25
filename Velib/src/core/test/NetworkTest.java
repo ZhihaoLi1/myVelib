@@ -2,6 +2,7 @@ package core.test;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class NetworkTest {
 	public void createDefaultNetworkThenNumberOfBikesDistributedCorrectly() {
 		int numberOfParkingSlotsPerStation = 10;
 
-		Network n = new Network("testNetwork", 10, numberOfParkingSlotsPerStation, 10, 0.80, 0.5, 0.5);
+		Network n = new Network("testNetwork", 10, numberOfParkingSlotsPerStation, 10, 0.80, 0.5, 0.5, LocalDateTime.now());
 
 		// total number of stations should be 10
 		assertEquals(n.getStations().size(), 10);

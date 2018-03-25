@@ -19,7 +19,7 @@ public class Scenario1 {
 		// We are in the year 2000, January the 1st
 		
 		// create the network 
-		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5);
+		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5, DateParser.parse("01/01/2000 09:30:00"));
 		CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 		// create users
 		User alice = null, bob = null, charles = null;

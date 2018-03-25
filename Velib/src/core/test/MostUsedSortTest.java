@@ -26,7 +26,7 @@ public class MostUsedSortTest {
 		ArrayList<Station> stations = new ArrayList<Station>();
 		SortingStrategy mostUsedSort = new MostUsedSort();
 
-		assertTrue(stations.equals(mostUsedSort.sort(stations)));
+		assertTrue(stations.equals(mostUsedSort.sort(stations, DateParser.parse("01/01/2000 00:00:00"), DateParser.parse("01/01/2000 01:00:00"))));
 
 		StationFactory stationFactory = new StationFactory();
 		Station station1 = null, station2 = null, station3 = null;
@@ -57,7 +57,7 @@ public class MostUsedSortTest {
 		expectedStations.add(station1);
 		expectedStations.add(station2);
 
-		assertTrue(expectedStations.equals(mostUsedSort.sort(stations)));
+		assertTrue(expectedStations.equals(mostUsedSort.sort(stations, DateParser.parse("01/01/2000 00:00:00"), DateParser.parse("01/01/2000 01:00:00"))));
 	}
 
 }

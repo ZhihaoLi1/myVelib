@@ -42,6 +42,10 @@ public class Network {
 
 	private String name;
 	private double side;
+	
+	// These dates are used to calculate the occupation rate for the entire network
+	private LocalDateTime creationDate;
+	private LocalDateTime currentDate;
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
 	private HashMap<User, BikeRental> userRentals = new HashMap<User, BikeRental>();
@@ -61,10 +65,12 @@ public class Network {
 	 * 
 	 */
 	public Network(String name, int numberOfStations, int numberOfParkingSlotsPerStation, double side,
-			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes) {
+			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes, LocalDateTime creationDate) {
 		this.name = name;
 		this.side = side;
-
+		this.creationDate = creationDate;
+		this.currentDate = creationDate;
+	 
 		// Create Stations
 		// some are plus stations others are standard stations
 		for (int i = 0; i < numberOfStations; i++) {
@@ -92,9 +98,9 @@ public class Network {
 			int randomNum = ThreadLocalRandom.current().nextInt(0, notEmptyStations.size());
 			try {
 				if (i < totalNumberOfBikes * percentageOfElecBikes) {
-					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("ELEC"), creationDate);
 				} else {
-					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("MECH"), creationDate);
 				}
 			} catch (InvalidBikeTypeException e) {
 				e.printStackTrace();
@@ -114,8 +120,8 @@ public class Network {
 	 * @param name
 	 * 
 	 */
-	public Network(String name) {
-		this(name, 10, 10, 4, 0.75, 0.5, 0.5);
+	public Network(String name, LocalDateTime creationDate) {
+		this(name, 10, 10, 4, 0.75, 0.5, 0.5, creationDate);
 	}
 
 	public Network() {
@@ -214,6 +220,7 @@ public class Network {
 				} catch (OngoingBikeRentalException e) {
 					return user.getName() + " still has a bike rental, he cannot rent another bike.";
 				}
+				this.currentDate = rentalDate;
 				return user.getName() + " has rented a bike !";
 			}
 		}
@@ -279,6 +286,7 @@ public class Network {
 			user.getStats().incrementTotalRides();
 			user.getStats().setTotalTimeSpent(br.getTimeSpent());
 
+			this.currentDate = returnDate;
 			return user.getName() + " should pay " + price
 					+ " euros for this ride that lasted "+ timeSpent +" minutes. Thank you for choosing MyVelib, have a wonderful day!";
 		}
