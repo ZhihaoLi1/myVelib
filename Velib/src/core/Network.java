@@ -222,6 +222,29 @@ public class Network {
 		}
 	}
 
+	public Bike rentBike(User user, Station station, String bikeType, LocalDateTime rentalDate) throws Exception{
+		Bike b = null;
+		synchronized (user) {
+			// verify if user does not already have a rental
+			if (user.getBikeRental() != null)
+				throw new Exception(user.getName() + " still has a bike rental, he cannot rent another bike.");
+			synchronized (station) {
+				b = station.rentBike(bikeType, rentalDate);
+				// if no bike is found (either station is offline or there are no bikes)
+				if (b == null)
+					throw new Exception("No bike found of type " + bikeType + " in station " + station.getId());
+				// normally not suppose to happen with previous verification
+				try {
+					user.setBikeRental(new BikeRental(b, rentalDate));
+				} catch (OngoingBikeRentalException e) {
+					throw new Exception(user.getName() + " still has a bike rental, he cannot rent another bike.");
+				}
+				this.currentDate = rentalDate;
+				return b;
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param userId
@@ -238,26 +261,14 @@ public class Network {
 			return "No user found with id " + userId;
 		if (s == null)
 			return "No station found with id " + stationId;
-
-		Bike b = null;
-		synchronized (user) {
-			// verify if user does not already have a rental
-			if (user.getBikeRental() != null)
-				return user.getName() + " still has a bike rental, he cannot rent another bike.";
-			synchronized (s) {
-				b = s.rentBike(bikeType, rentalDate);
-				// if no bike is found (either station is offline or there are no bikes)
-				if (b == null)
-					return "No bike found of type " + bikeType + " in station " + stationId;
-				// normally not suppose to happen with previous verification
-				try {
-					user.setBikeRental(new BikeRental(b, rentalDate));
-				} catch (OngoingBikeRentalException e) {
-					return user.getName() + " still has a bike rental, he cannot rent another bike.";
-				}
-				this.currentDate = rentalDate;
-				return user.getName() + " has rented a bike !";
-			}
+		try {
+			Bike b = rentBike(user, s, bikeType, rentalDate);
+			if (b != null)
+				return user.getName() + " has sucessfully rented a bike at " + rentalDate + ".\n";
+			throw new Exception("No bike found to rent");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return e.getMessage();
 		}
 	}
 
@@ -284,7 +295,7 @@ public class Network {
 			if (br == null)
 				return "User is not renting a bike, he cannot return a bike";
 			br.setReturnDate(returnDate);
-			br.setTimeSpent(timeSpent);
+			br.setTimeSpent(br.getTimeSpent() + timeSpent);
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (s) {
 				try {
