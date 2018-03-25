@@ -22,7 +22,7 @@ public class Scenario1 {
 		// create users
 		User alice = null, bob = null, charles = null;
 		try {
-			alice = new User("Mary", cardVisitorFactory.createCard("NO_CARD"));
+			alice = new User("Alice", cardVisitorFactory.createCard("NO_CARD"));
 			bob = new User("Bob", cardVisitorFactory.createCard("VLIBRE_CARD"));
 			charles = new User("Charles", cardVisitorFactory.createCard("VMAX_CARD"));
 		} catch (InvalidCardTypeException e) {
@@ -43,7 +43,7 @@ public class Scenario1 {
 		
 		// plan a ride for Alice 
 		RidePlan aliceRidePlanGo = n.createRidePlan(home, supermarket, alice, RidePlanPolicyName.FASTEST, "MECH");
-		
+		System.out.println(aliceRidePlanGo);
 		// Time Alice might take to go 
 		// System.out.println(aliceRidePlanGo.approximateTime());
 		
@@ -55,6 +55,7 @@ public class Scenario1 {
 		System.out.println(AliceReturnBikeMessage);
 		
 		RidePlan aliceRidePlanReturn = n.createRidePlan(supermarket, home, alice, RidePlanPolicyName.SHORTEST, "ELEC");
+		System.out.println(aliceRidePlanReturn);
 
 		// Time Alice might take to return 
 		// System.out.println(aliceRidePlanReturn.approximateTime());

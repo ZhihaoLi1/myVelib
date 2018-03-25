@@ -197,9 +197,9 @@ public abstract class Station extends Observable {
 	 */
 	public void addObserver(Observer o) {
 		if (this.observers.add(o)) {
-			System.out.println(o.toString() + " is observing station S" + this.id);
+			// System.out.println(o.toString() + " is observing station S" + this.id);
 		} else {
-			System.out.println( o.toString() + " is already observing this station S" + this.id);
+			// System.out.println( o.toString() + " is already observing this station S" + this.id);
 		}
 	}
 
@@ -211,9 +211,9 @@ public abstract class Station extends Observable {
 	 */
 	public void deleteObserver(Observer o) {
 		if (this.observers.remove(o)) {
-			System.out.println("Observer" + o.toString() + "stopped observing this station" + this.id);
+			// System.out.println("Observer" + o.toString() + "stopped observing this station" + this.id);
 		} else {
-			System.out.println("User is not observing this station S" + this.id);
+			// System.out.println("User is not observing this station S" + this.id);
 		}
 	}
 

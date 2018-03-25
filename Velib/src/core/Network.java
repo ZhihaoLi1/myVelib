@@ -152,6 +152,7 @@ public class Network {
 		}
 		// add user to list of observers in concerned destination stations
 		rp.getDestinationStation().addObserver(user);
+		System.out.println("You, " + user.getName() + " have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable.");
 		user.setRidePlan(rp);
 		return rp;
 	}
@@ -168,7 +169,7 @@ public class Network {
 	public String planRide(Point source, Point destination, User user, String policy, String bikeType) {
 		RidePlanPolicyName p = RidePlanPolicyName.valueOf(policy);
 		RidePlan rp = createRidePlan(source, destination, user, p, bikeType);
-		return rp.toString();
+		return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. \n" + rp.toString();
 	}
 
 	/**
@@ -236,14 +237,15 @@ public class Network {
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (s) {
 				try {
-					s.returnBike(br, returnDate);
-					// reset user bike rental
-					user.resetBikeRental();
 					// if user completes ride plan (station that he is returning the bike to is the same as the destination station in ride plan)
 					// then the user's ride plan is set to null
 					if (user.getRidePlan() != null && s.equals(user.getRidePlan().getDestinationStation())) {
 						user.resetRidePlan();						
 					}
+
+					s.returnBike(br, returnDate);
+					// reset user bike rental
+					user.resetBikeRental();
 				} catch (FullStationException e) {
 					return e.getMessage();
 				}
