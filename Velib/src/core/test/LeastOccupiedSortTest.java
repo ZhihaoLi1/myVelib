@@ -28,7 +28,7 @@ public class LeastOccupiedSortTest {
 		ArrayList<Station> stations = new ArrayList<Station>();
 		SortingStrategy leastOccupiedSort = new LeastOccupiedSort();
 
-		assertTrue(stations.equals(leastOccupiedSort.sort(stations)));
+		assertTrue(stations.equals(leastOccupiedSort.sort(stations, DateParser.parse("01/01/2000 00:00:00"), DateParser.parse("01/01/2000 01:00:00"))));
 
 		StationFactory stationFactory = new StationFactory();
 		Station station1 = null, station2 = null, station3 = null;
@@ -58,8 +58,7 @@ public class LeastOccupiedSortTest {
 		expectedStations.add(station3);
 		expectedStations.add(station1);
 		expectedStations.add(station2);
-
-		assertTrue(expectedStations.equals(leastOccupiedSort.sort(stations)));
+		assertTrue(expectedStations.equals(leastOccupiedSort.sort(stations, DateParser.parse("01/01/2000 00:00:00"), DateParser.parse("01/01/2000 01:00:00"))));
 	}
 
 }

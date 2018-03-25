@@ -8,8 +8,8 @@ package core.station;
  * @author animato
  *
  */
-public class IDGenerator {
-	private static IDGenerator instance = null;
+public class StationIDGenerator {
+	private static StationIDGenerator instance = null;
 	private int counter = 0;
 
 	/**
@@ -17,9 +17,9 @@ public class IDGenerator {
 	 * 
 	 * @return the IDGenerator
 	 */
-	public static IDGenerator getInstance() {
+	public static StationIDGenerator getInstance() {
 		if (instance == null) {
-			instance = new IDGenerator();
+			instance = new StationIDGenerator();
 		}
 		return instance;
 	}

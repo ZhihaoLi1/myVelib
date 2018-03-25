@@ -1,7 +1,5 @@
 package core.bike;
 
-import core.station.IDGenerator;
-
 /**
  * Implementation of an mechanical bike
  * 
@@ -13,7 +11,7 @@ public class MechBike implements Bike {
 	private final String type = "MECH";
 
 	protected MechBike() {
-		id = IDGenerator.getInstance().getNextIDNumber();
+		id = BikeIDGenerator.getInstance().getNextIDNumber();
 	}
 
 	public int getId() {

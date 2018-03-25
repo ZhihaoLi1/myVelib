@@ -4,11 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.station.IDGenerator;
+import core.bike.BikeIDGenerator;
+import core.station.ParkingSlotIDGenerator;
+import core.station.StationIDGenerator;
+import user.UserIDGenerator;
 
 /*
  * Test Id generation 
- * ensure the IDgenerator class allows only creation of a unique object
+ * ensure the IDgenerator classes allows only creation of a unique object
  */
 public class IDGeneratorTest {
 
@@ -17,9 +20,54 @@ public class IDGeneratorTest {
 	 * gen1 increment should effect gen2 
 	 */
 	@Test
-	public void testGenerator() {
-		IDGenerator gen1 = IDGenerator.getInstance();
-		IDGenerator gen2 = IDGenerator.getInstance();
+	public void testStationIDGenerator() {
+		StationIDGenerator gen1 = StationIDGenerator.getInstance();
+		StationIDGenerator gen2 = StationIDGenerator.getInstance();
+
+		for (int i = 1; i < 5; i++) {
+			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
+			assertEquals(gen2.getNextIDNumber(), i * 2);
+		}
+	}
+	
+	/**
+	 * Ensure that only a single instance of the generator is created and used
+	 * gen1 increment should effect gen2 
+	 */
+	@Test
+	public void testBikeIDGenerator() {
+		BikeIDGenerator gen1 = BikeIDGenerator.getInstance();
+		BikeIDGenerator gen2 = BikeIDGenerator.getInstance();
+
+		for (int i = 1; i < 5; i++) {
+			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
+			assertEquals(gen2.getNextIDNumber(), i * 2);
+		}
+	}
+	
+	/**
+	 * Ensure that only a single instance of the generator is created and used
+	 * gen1 increment should effect gen2 
+	 */
+	@Test
+	public void testParkingSlotIDGenerator() {
+		ParkingSlotIDGenerator gen1 = ParkingSlotIDGenerator.getInstance();
+		ParkingSlotIDGenerator gen2 = ParkingSlotIDGenerator.getInstance();
+
+		for (int i = 1; i < 5; i++) {
+			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
+			assertEquals(gen2.getNextIDNumber(), i * 2);
+		}
+	}
+	
+	/**
+	 * Ensure that only a single instance of the generator is created and used
+	 * gen1 increment should effect gen2 
+	 */
+	@Test
+	public void testUserIDGenerator() {
+		UserIDGenerator gen1 = UserIDGenerator.getInstance();
+		UserIDGenerator gen2 = UserIDGenerator.getInstance();
 
 		for (int i = 1; i < 5; i++) {
 			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);

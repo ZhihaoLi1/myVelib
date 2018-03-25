@@ -1,7 +1,5 @@
 package core.bike;
 
-import core.station.IDGenerator;
-
 /**
  * Implementation of an electrical bike
  * 
@@ -13,7 +11,7 @@ public class ElecBike implements Bike {
 	private final String type = "ELEC";
 
 	protected ElecBike() {
-		id = IDGenerator.getInstance().getNextIDNumber();
+		id = BikeIDGenerator.getInstance().getNextIDNumber();
 	}
 
 	@Override

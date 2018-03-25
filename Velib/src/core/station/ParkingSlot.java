@@ -26,7 +26,7 @@ public class ParkingSlot {
 	private boolean hasChanged = false;
 
 	public ParkingSlot() {
-		this.id = IDGenerator.getInstance().getNextIDNumber();
+		this.id = ParkingSlotIDGenerator.getInstance().getNextIDNumber();
 		this.statusHistory = new ArrayList<ParkingSlotStatus>();
 		this.setStatus(ParkingSlotStatusName.FREE, LocalDateTime.MIN);
 	}

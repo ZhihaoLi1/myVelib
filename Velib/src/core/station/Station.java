@@ -48,7 +48,7 @@ public abstract class Station extends Observable {
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
 		super();
-		this.id = IDGenerator.getInstance().getNextIDNumber();
+		this.id = StationIDGenerator.getInstance().getNextIDNumber();
 		for (int i = 0; i < numberOfParkingSlots; i++) {
 			this.parkingSlots.add(new ParkingSlot());
 		}
