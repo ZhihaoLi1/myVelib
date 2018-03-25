@@ -51,8 +51,6 @@ public class Network {
 	private LocalDateTime currentDate;
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
-	private HashMap<User, BikeRental> userRentals = new HashMap<User, BikeRental>();
-	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
 
 	/**
 	 * Creates the network (stations, parking slots and bikes)
@@ -308,7 +306,7 @@ public class Network {
 			// add time credit if return station is a plus station
 			user.getCard().addTimeCredit(s.getBonusTimeCreditOnReturn());
 			user.getStats().addTotalTimeCredits(s.getBonusTimeCreditOnReturn());
-
+			
 			// calculate price
 			double price;
 			try {
@@ -427,14 +425,6 @@ public class Network {
 
 	public HashMap<Integer, User> getUsers() {
 		return users;
-	}
-
-	public HashMap<User, BikeRental> getUserRentals() {
-		return userRentals;
-	}
-
-	public HashMap<User, RidePlan> getUserRidePlans() {
-		return userRidePlans;
 	}
 
 	public String addStation(String type) {
