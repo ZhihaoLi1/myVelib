@@ -21,10 +21,10 @@ public class UserStats {
 
 	@Override 
 	public String toString() {
-		String stats = "total ride: " + totalRides + "\n";
-		stats += "total credits accumulated: " + totalTimeCredits + "\n";
-		stats += "total amount spent: " + totalCharges + "\n";
-		stats += "total time spent: " + totalTimeSpent + "\n";
+		String stats = "Total number of rides: " + totalRides + "\n";
+		stats += "Total credits accumulated: " + totalTimeCredits + "\n";
+		stats += "Total amount spent: " + totalCharges + "\n";
+		stats += "Total time spent: " + totalTimeSpent + "\n";
 		return stats;
 	}
 	public int getTotalRides() {
