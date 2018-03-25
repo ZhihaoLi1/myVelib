@@ -13,7 +13,11 @@ import core.station.StationFactory;
 import core.station.stationSort.MostUsedSort;
 import core.station.stationSort.SortingStrategy;
 
-// FIXME: Comments
+/**
+ * Sort the stations according the most used in descending order
+ * @author animato
+ *
+ */
 public class MostUsedSortTest {
 
 	@Test

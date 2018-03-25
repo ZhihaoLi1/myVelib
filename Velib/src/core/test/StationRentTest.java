@@ -18,7 +18,11 @@ import core.station.Station;
 import core.station.StationFactory;
 import user.User;
 
-// FIXME: Comments
+/**
+ * Test rent operation from  a station
+ * @author animato
+ *
+ */
 public class StationRentTest {
 
 	// create a network

@@ -6,7 +6,11 @@ import org.junit.Test;
 
 import core.point.Point;
 
-// FIXME: Comments
+/**
+ * Test Point class ofr distance and equality
+ * @author animato
+ *
+ */
 public class PointTest {
 
 	@Test

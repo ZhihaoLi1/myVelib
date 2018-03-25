@@ -60,7 +60,7 @@ public abstract class Station extends Observable {
 	}
 
 	/**
-	 * Adds a bike to the first empty slot that it finds TODO Make thread safe ?
+	 * Adds a bike to the first empty slot that it finds
 	 * 
 	 * @param b
 	 *            - the bike to add
@@ -69,21 +69,26 @@ public abstract class Station extends Observable {
 	 * @return boolean - true if bike was added, false if not
 	 */
 	public boolean addBike(Bike b, LocalDateTime date) {
-		for (int i = 0; i < parkingSlots.size(); i++) {
-			try {
-				// Throws Exception if bike couldn't be set
-				parkingSlots.get(i).setBike(b, date);
-				// If the station is full after adding the bike, notification should be sent to
-				// users
-				if (isFull()) {
-					notifyObservers();
+		synchronized(this) {
+			for (int i = 0; i < parkingSlots.size(); i++) {
+				try {
+					ParkingSlot ps = parkingSlots.get(i);
+					synchronized(ps) {
+						// Throws Exception if bike couldn't be set
+						ps.setBike(b, date);
+						// If the station is full after adding the bike, notification should be sent to
+						// users
+						if (isFull()) {
+							notifyObservers();
+						}
+						return true;
+					}
+				} catch (OccupiedParkingSlotException e) {
+					continue;
 				}
-				return true;
-			} catch (OccupiedParkingSlotException e) {
-				continue;
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/**

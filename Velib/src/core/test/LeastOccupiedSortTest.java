@@ -16,7 +16,11 @@ import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.SortingStrategy;
 import core.utils.DateParser;
 
-// FIXME: Comments
+/**
+ * Test sorting of the stations from the least occupied to the most occupied
+ * @author animato
+ *
+ */
 public class LeastOccupiedSortTest {
 
 	@Test

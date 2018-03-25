@@ -30,7 +30,13 @@ import core.station.Station;
 import core.station.StationFactory;
 import user.User;
 
-// FIXME: Javadoc
+/**
+ * Network of MyVelib
+ * Has stations and users 
+ * They can rent and return bikes
+ * @author animato
+ *
+ */
 public class Network {
 
 	private String name;
