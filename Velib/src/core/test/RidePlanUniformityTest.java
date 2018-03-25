@@ -99,7 +99,7 @@ public class RidePlanUniformityTest {
 	 * Choose the right stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation,
 				RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));

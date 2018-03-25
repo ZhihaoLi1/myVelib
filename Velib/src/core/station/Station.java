@@ -213,7 +213,7 @@ public abstract class Station extends Observable {
 	 */
 	public void deleteObserver(User user) {
 		if (this.observers.remove(user)) {
-			System.out.println("User " + user.getName() + "stopped observing this station" + this.id);
+			System.out.println("User " + user.getName() + " stopped observing this station" + this.id);
 		} else {
 			System.out.println("User is not observing this station S" + this.id);
 		}

@@ -10,6 +10,8 @@ import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+import core.card.InvalidBikeException;
+import core.card.InvalidDatesException;
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
@@ -20,6 +22,7 @@ import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.ShortestPlan;
+import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
@@ -83,15 +86,10 @@ public class Network {
 			}
 		}
 
-		// create a bike , add it to a random station
-		// Some are mech, some are elec
-		Set<Integer> keys = this.stations.keySet();
-
-		System.out.println(keys.toString());
-
 		/**
 		 * Create and place bikes into stations notEmptyStations is the list of stations
-		 * that are not full Iterate over total number of bikes and assign a bike to a
+		 * that are not full.
+		 * Iterate over total number of bikes and assign a bike to a
 		 * random station that is not full Each time a station is full, remove it from
 		 * the list
 		 */
@@ -121,8 +119,18 @@ public class Network {
 
 	public Network() {
 	}
-
-	public RidePlan planRide(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
+	
+	
+	/**
+	 * 
+	 * @param source
+	 * @param destination
+	 * @param user
+	 * @param policy
+	 * @param bikeType
+	 * @return rideplan Object
+	 */
+	public RidePlan createRidePlan(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
 			throw new NullPointerException("All input values of planRide must not be null");
 		RidePlan rp = null;
@@ -154,17 +162,31 @@ public class Network {
 		user.setRidePlan(rp);
 		return rp;
 	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @param destination
+	 * @param user
+	 * @param policy
+	 * @param bikeType
+	 * @return String describing the ride plan
+	 */
+	public String planRide(Point source, Point destination, User user, String policy, String bikeType) {
+		RidePlanPolicyName p = RidePlanPolicyName.valueOf(policy);
+		BikeType bt = BikeType.valueOf(bikeType);
+		RidePlan rp = createRidePlan(source, destination, user, p, bt);
+		return rp.toString();
+	}
 
 	/**
 	 * 
 	 * @param userId
 	 * @param stationId
 	 * @param bikeType
-	 * @throws Exception
-	 *             if user already has a bike rental, if station is offline, if no
-	 *             appropriate bike is found in the station.
+	 * @return String (either an error message or a confirmation message)
 	 */
-	public String rentBike(int userId, int stationId, String bikeType) {
+	public String rentBike(int userId, int stationId, String bikeType, LocalDateTime rentalDate) {
 		// find user
 		User user = users.get(userId);
 		// find station
@@ -183,17 +205,17 @@ public class Network {
 			if (user.getBikeRental() != null)
 				return user.getName() + " still has a bike rental, he cannot rent another bike.";
 			synchronized (s) {
-				b = s.rentBike(bt, LocalDateTime.now());
+				b = s.rentBike(bt, rentalDate);
 				// if no bike is found (either station is offline or there are no bikes)
 				if (b == null)
 					return "No bike found of type " + bikeType + " in station " + stationId;
 				// normally not suppose to happen with previous verification
 				try {
-					user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
+					user.setBikeRental(new BikeRental(b, rentalDate));
 				} catch (OngoingBikeRentalException e) {
 					return user.getName() + " still has a bike rental, he cannot rent another bike.";
 				}
-				return user.getName() + "has rented a bike !";
+				return user.getName() + " has rented a bike !";
 			}
 		}
 	}
@@ -203,10 +225,9 @@ public class Network {
 	 * @param userId
 	 * @param stationId
 	 * @param returnDate
-	 * @throws Exception
-	 *             when station is full
+	 * @return String (either an error message or a confirmation message)
 	 */
-	public String returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) throws Exception {
+	public String returnBike(int userId, int stationId, LocalDateTime returnDate, int timeSpent) {
 		// find user
 		User user = users.get(userId);
 		// find station
@@ -225,7 +246,13 @@ public class Network {
 			br.setTimeSpent(timeSpent);
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (s) {
-				s.returnBike(br, returnDate);
+				try {
+					s.returnBike(br, returnDate);
+					// reset user bike rental
+					user.resetBikeRental();
+				} catch (FullStationException e) {
+					return e.getMessage();
+				}
 				// increment station statistics
 				s.getStats().incrementTotalReturns();
 			}
@@ -234,15 +261,21 @@ public class Network {
 			user.getStats().addTotalTimeCredits(s.getBonusTimeCreditOnReturn());
 
 			// calculate price
-			double price = user.getCard().visit(br);
+			double price;
+			try {
+				price = user.getCard().visit(br);
+			} catch (InvalidBikeException e) {
+				return e.getMessage();
+			} catch (InvalidDatesException e) {
+				return e.getMessage();
+			}
 			user.getStats().addTotalCharges(price);
 
 			user.getStats().incrementTotalRides();
 			user.getStats().setTotalTimeSpent(br.getTimeSpent());
-			// FIXME: Forgot to reset the user's bikeRental?
 
 			return user.getName() + " should pay " + price
-					+ "for this ride. Thank you for choosing MyVelib, have a wonderful day!";
+					+ " euros for this ride that lasted "+ timeSpent +" minutes. Thank you for choosing MyVelib, have a wonderful day!";
 		}
 	}
 

@@ -85,7 +85,7 @@ public class RidePlanShortestOrFastestPathTest {
 	 * station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {
-		RidePlan s = n.planRide(source, destination, bob, RidePlanPolicyName.SHORTEST, BikeType.MECH);
+		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, BikeType.MECH);
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, RidePlanPolicyName.SHORTEST,
 				BikeType.MECH, n);
 		assertTrue(s.equals(sRidePlan));
@@ -93,7 +93,7 @@ public class RidePlanShortestOrFastestPathTest {
 
 	@Test
 	public void chooseCorrectStationsWhenPlanningFastestRide() {
-		RidePlan s = n.planRide(source, destination, bob, RidePlanPolicyName.FASTEST, BikeType.MECH);
+		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, BikeType.MECH);
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, RidePlanPolicyName.FASTEST,
 				BikeType.MECH, n);
 		assertTrue(s.equals(sRidePlan));

@@ -59,14 +59,14 @@ public class StationRentTest {
 
 	@Test(expected = Exception.class)
 	public void errorWhenRentBikefromEmptyStation() throws Exception {
-		n.rentBike(bob.getId(), emptyS.getId(), "MECH");
+		n.rentBike(bob.getId(), emptyS.getId(), "MECH", LocalDateTime.now());
 	}
 
 	@Test
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
 		int mechBikes = s.getNumberOfBikes(BikeType.MECH);
 		int elecBikes = s.getNumberOfBikes(BikeType.ELEC);
-		n.rentBike(bob.getId(), s.getId(), "MECH");
+		n.rentBike(bob.getId(), s.getId(), "MECH", LocalDateTime.now());
 		int remainingMechBikes = s.getNumberOfBikes(BikeType.MECH);
 		int remainingElecBikes = s.getNumberOfBikes(BikeType.ELEC);
 		assertEquals(mechBikes, remainingMechBikes + 1);

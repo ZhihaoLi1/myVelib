@@ -29,6 +29,23 @@ public class RidePlan {
 		this.network = network;
 	}
 	
+	public int approximateTime() {
+		double walkingSpeed = 4; // km/h
+		double bikeSpeed = 0;
+		switch (bikeType) {
+		case ELEC:
+			bikeSpeed = 20;
+		case MECH:
+			bikeSpeed = 15;
+		}
+		
+		double totalTime = 0;
+		totalTime += sourceStation.getCoordinates().distance(source) / walkingSpeed;
+		totalTime += sourceStation.getCoordinates().distance(destinationStation.getCoordinates()) / bikeSpeed;
+		totalTime += destinationStation.getCoordinates().distance(destination) / walkingSpeed;
+		
+		return (int) Math.floor(totalTime*60);
+	}
 	public Point getSource() {
 		return source;
 	}
@@ -92,5 +109,17 @@ public class RidePlan {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		String rp = "Source : " + source.toString() + "\n";
+		rp += "Destination : " + destination.toString() + "\n";
+		rp += "Source station : " + sourceStation.getCoordinates().toString() + "\n";
+		rp += "Source station Id: " + sourceStation.getId() + "\n";
+		rp += "Destination station: " + destinationStation.getCoordinates().toString() + "\n";
+		rp += "Destination station Id: " + destinationStation.getId() + "\n";
+		rp += "Policy : " + policy.toString() + "\n";
+		return rp;
 	}
 }

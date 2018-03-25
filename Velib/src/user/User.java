@@ -58,6 +58,9 @@ public class User implements Observer {
 		this.ridePlan.getNetwork().notifyStationFull(this, s);
 		// remove from list of observers in station
 		s.deleteObserver(this);
+		// FIXME Remove later
+		System.out.println("Station with id " + s.getId() + " is full and ride plan for " + this.getName()
+				+ " is cancelled. Please create a new one");
 		// reset ride plan
 		this.ridePlan = null;
 	}
@@ -113,6 +116,11 @@ public class User implements Observer {
 	}
 
 	public void setRidePlan(RidePlan ridePlan) {
+		if (this.ridePlan != null) {
+			// FIXME how to throw warning messages
+			System.out.println("there is an ongoing rideplan that will be squashed");
+			this.ridePlan.getDestinationStation().deleteObserver(this);
+		}
 		this.ridePlan = ridePlan;
 	}
 
