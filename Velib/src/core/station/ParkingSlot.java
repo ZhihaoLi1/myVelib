@@ -99,6 +99,10 @@ public class ParkingSlot {
 	public ParkingSlotStatus getCurrentStatus() {
 		return currentStatus;
 	}
+	
+	public ArrayList<ParkingSlotStatus> getStatusHistory() {
+		return statusHistory;
+	}
 
 	public ParkingSlotStatusName calculateStatusName() {
 		if (!isWorking()) {

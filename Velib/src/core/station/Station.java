@@ -189,7 +189,7 @@ public abstract class Station extends Observable {
 		if (this.isFull())
 			throw new FullStationException(this);
 		// loop over stations and place bike the first empty slot
-		addBike(bikeRental.getBike(), LocalDateTime.now());
+		addBike(bikeRental.getBike(), date);
 
 	};
 

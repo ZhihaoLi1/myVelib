@@ -55,8 +55,8 @@ public class UserStats {
 		return totalTimeSpent;
 	}
 
-	public void setTotalTimeSpent(int totalTimeSpent) {
-		this.totalTimeSpent = totalTimeSpent;
+	public void addTotalTimeSpent(int totalTimeSpent) {
+		this.totalTimeSpent += totalTimeSpent;
 	}
 
 }

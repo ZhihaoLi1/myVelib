@@ -247,7 +247,7 @@ public class Network {
 			if (user.getBikeRental() != null)
 				return user.getName() + " still has a bike rental, he cannot rent another bike.";
 			synchronized (s) {
-				b = s.rentBike(bikeType, LocalDateTime.now());
+				b = s.rentBike(bikeType, rentalDate);
 				// if no bike is found (either station is offline or there are no bikes)
 				if (b == null)
 					return "No bike found of type " + bikeType + " in station " + stationId;
@@ -321,7 +321,7 @@ public class Network {
 			user.getStats().addTotalCharges(price);
 
 			user.getStats().incrementTotalRides();
-			user.getStats().setTotalTimeSpent(br.getTimeSpent());
+			user.getStats().addTotalTimeSpent(br.getTimeSpent());
 
 			this.currentDate = returnDate;
 			return user.getName() + " should pay " + price
@@ -339,7 +339,13 @@ public class Network {
 		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
-		return s.displayStats();
+		String res = s.displayStats();
+		try {
+			res += "\n" + s.displayOccupationRate(creationDate, currentDate);
+		} catch (IllegalArgumentException e) {
+			res += "\n" + e.getMessage();
+		}
+		return res;
 	}
 
 	/**
