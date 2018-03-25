@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import core.Network;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
@@ -81,14 +80,14 @@ public class RidePlanStrategyTest {
 			n.createStation(elecSourceStation);
 
 			// add one bike to source and destination stations : They are all Mechanical.
-			sourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			destStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			sourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			destStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 			// fill full station
-			while (fullDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now())) {
+			while (fullDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now())) {
 			}
 			// elecSourceStation only has elec bikes
-			elecSourceStation.addBike(bikeFactory.createBike(BikeType.ELEC), LocalDateTime.now());
+			elecSourceStation.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 			// empty source station doesn't have any bikes
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
@@ -104,29 +103,30 @@ public class RidePlanStrategyTest {
 	 * not full
 	 */
 	public void ChooseNotEmptySourceAndNotFullDestWhenPlanningRide() {
-		RidePlan ap = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, BikeType.MECH);
+		RidePlan ap = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, "MECH");
 		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.AVOID_PLUS,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(ap.equals(apRidePlan));
 
-		RidePlan pp = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan pp = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
 		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PREFER_PLUS,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(pp.equals(ppRidePlan));
 
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, BikeType.MECH);
+		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, "MECH");
+
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.SHORTEST,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(s.equals(sRidePlan));
 
-		RidePlan f = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, BikeType.MECH);
+		RidePlan f = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, "MECH");
 		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.FASTEST,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(f.equals(fRidePlan));
 
-		RidePlan u = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
+		RidePlan u = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH");
 		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation,
-				RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, n);
+				RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH", n);
 		assertTrue(u.equals(uRidePlan));
 
 	}

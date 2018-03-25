@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
@@ -21,14 +20,14 @@ public class BikeFactoryTest {
 		BikeFactory bikeFactory = new BikeFactory();
 		
 		try {
-			Bike mb = bikeFactory.createBike(BikeType.MECH);
+			Bike mb = bikeFactory.createBike("MECH");
 			assertTrue(mb instanceof MechBike);
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
 		
 		try {
-			Bike eb = bikeFactory.createBike(BikeType.ELEC);
+			Bike eb = bikeFactory.createBike("ELEC");
 			assertTrue(eb instanceof ElecBike);
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");

@@ -3,7 +3,6 @@ package core.ridePlan;
 import java.util.HashMap;
 
 import core.Network;
-import core.bike.BikeType;
 import core.point.Point;
 import core.station.Station;
 import user.User;

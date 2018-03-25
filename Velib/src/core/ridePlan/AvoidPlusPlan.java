@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.Network;
-import core.bike.BikeType;
 import core.point.Point;
 import core.station.PlusStation;
 import core.station.Station;
@@ -23,7 +22,7 @@ import user.User;
 public class AvoidPlusPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType, Network n) throws NoValidStationFoundException {
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n) throws NoValidStationFoundException {
 		
 		HashMap<Integer,Station> stations = n.getStations();
 		Station sourceStation = null;

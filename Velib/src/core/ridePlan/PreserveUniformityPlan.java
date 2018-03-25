@@ -3,7 +3,6 @@ package core.ridePlan;
 import java.util.HashMap;
 
 import core.Network;
-import core.bike.BikeType;
 import core.point.Point;
 import core.station.Station;
 import user.User;
@@ -28,7 +27,7 @@ import user.User;
 public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
 			Network n) throws Exception {
 
 		HashMap<Integer,Station> stations = n.getStations();

@@ -7,5 +7,5 @@ package core.bike;
  *
  */
 public interface Bike {
-	public BikeType getType();
+	public String getType();
 }

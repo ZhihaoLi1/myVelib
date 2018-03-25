@@ -1,7 +1,6 @@
 package core.ridePlan;
 
 import core.Network;
-import core.bike.BikeType;
 import core.point.Point;
 import user.User;
 
@@ -25,6 +24,6 @@ public interface RidePlanStrategy {
 	 * @return RidePlan
 	 * @throws NoStationsFoundInNetworkException
 	 */
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
 			Network n) throws Exception;
 }

@@ -9,11 +9,9 @@ import org.junit.Test;
 
 import core.Network;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -53,8 +51,8 @@ public class StationRentTest {
 		
 		// add bikes to stations
 		try {
-			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
 		} catch (Exception e) {
@@ -74,11 +72,12 @@ public class StationRentTest {
 
 	@Test
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
-		int mechBikes = s.getNumberOfBikes(BikeType.MECH);
-		int elecBikes = s.getNumberOfBikes(BikeType.ELEC);
+
+		int mechBikes = s.getNumberOfBikes("MECH");
+		int elecBikes = s.getNumberOfBikes("ELEC");
 		n.rentBike(bob.getId(), s.getId(), "MECH", LocalDateTime.now());
-		int remainingMechBikes = s.getNumberOfBikes(BikeType.MECH);
-		int remainingElecBikes = s.getNumberOfBikes(BikeType.ELEC);
+		int remainingMechBikes = s.getNumberOfBikes("MECH");
+		int remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes);
 	}

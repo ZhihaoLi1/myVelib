@@ -3,7 +3,7 @@ package core.ridePlan;
 import java.util.HashMap;
 
 import core.Network;
-import core.bike.BikeType;
+import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.Station;
 import user.User;
@@ -20,15 +20,19 @@ import user.User;
 public class FastestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
-			Network n) throws Exception {
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
+			Network n) throws InvalidBikeTypeException, NoValidStationFoundException {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		switch (bikeType) {
-		case ELEC:
-			bikeSpeed = 20;
-		case MECH:
-			bikeSpeed = 15;
+			case "ELEC":
+				bikeSpeed = 20;
+				break;
+			case "MECH":
+				bikeSpeed = 15;
+				break;
+			default:
+				throw new InvalidBikeTypeException(bikeType);
 		}
 		
 		HashMap<Integer,Station> stations = n.getStations();

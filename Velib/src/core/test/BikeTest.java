@@ -6,22 +6,21 @@ import org.junit.Test;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 
 public class BikeTest {
 
 	/**
-	 * Test equality between bikes
-	 * Different id = different bikes. Same Id, same bike
+	 * Test equality between bikes Different id = different bikes. Same Id, same
+	 * bike
 	 */
 	@Test
 	public void testEquals() {
 		BikeFactory bikeFactory = new BikeFactory();
 
 		try {
-			Bike eb = bikeFactory.createBike(BikeType.ELEC);
-			Bike eb2 = bikeFactory.createBike(BikeType.ELEC);
+			Bike eb = bikeFactory.createBike("ELEC");
+			Bike eb2 = bikeFactory.createBike("ELEC");
 
 			assertTrue(eb.equals(eb));
 			assertTrue(!eb.equals(eb2));
@@ -30,8 +29,8 @@ public class BikeTest {
 		}
 
 		try {
-			Bike mb = bikeFactory.createBike(BikeType.MECH);
-			Bike mb2 = bikeFactory.createBike(BikeType.MECH);
+			Bike mb = bikeFactory.createBike("MECH");
+			Bike mb2 = bikeFactory.createBike("MECH");
 
 			assertTrue(mb.equals(mb));
 			assertTrue(!mb.equals(mb2));
@@ -41,16 +40,16 @@ public class BikeTest {
 	}
 
 	/**
-	 * Test equality of hashcodes between bikes
-	 * Different id = different bikes. Same Id, same bike
+	 * Test equality of hashcodes between bikes Different id = different bikes. Same
+	 * Id, same bike
 	 */
 	@Test
 	public void testHashCodes() {
 		BikeFactory bikeFactory = new BikeFactory();
 
 		try {
-			Bike eb = bikeFactory.createBike(BikeType.ELEC);
-			Bike eb2 = bikeFactory.createBike(BikeType.ELEC);
+			Bike eb = bikeFactory.createBike("ELEC");
+			Bike eb2 = bikeFactory.createBike("ELEC");
 
 			assertTrue(eb.hashCode() != eb2.hashCode());
 		} catch (InvalidBikeTypeException e) {
@@ -58,8 +57,8 @@ public class BikeTest {
 		}
 
 		try {
-			Bike mb = bikeFactory.createBike(BikeType.MECH);
-			Bike mb2 = bikeFactory.createBike(BikeType.MECH);
+			Bike mb = bikeFactory.createBike("MECH");
+			Bike mb2 = bikeFactory.createBike("MECH");
 
 			assertTrue(mb.hashCode() != mb2.hashCode());
 		} catch (InvalidBikeTypeException e) {

@@ -10,7 +10,7 @@ import core.station.IDGenerator;
 public class MechBike implements Bike {
 
 	private final int id;
-	private final BikeType type = BikeType.MECH;
+	private final String type = "MECH";
 
 	protected MechBike() {
 		id = IDGenerator.getInstance().getNextIDNumber();
@@ -20,7 +20,7 @@ public class MechBike implements Bike {
 		return id;
 	}
 
-	public BikeType getType() {
+	public String getType() {
 		return type;
 	}
 	

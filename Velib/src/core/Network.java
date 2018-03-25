@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 <<<<<<< 50ce15556ef464f8fe96877ce7aba401c1d978fb
 <<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
@@ -70,27 +69,10 @@ public class Network {
 		// Create Stations
 		// some are plus stations others are standard stations
 		for (int i = 0; i < numberOfStations; i++) {
-			double x = ThreadLocalRandom.current().nextDouble(0, side);
-			double y = ThreadLocalRandom.current().nextDouble(0, side);
-			Point coordinates = new Point(x, y);
-
-			StationFactory stationFactory = new StationFactory();
-			Station s = null;
-			try {
-				if (i < numberOfStations * percentageOfPlusStations) {
-					s = stationFactory.createStation("PLUS", numberOfParkingSlotsPerStation, coordinates, true);
-				} else {
-					s = stationFactory.createStation("STANDARD", numberOfParkingSlotsPerStation, coordinates, true);
-				}
-			} catch (InvalidStationTypeException e) {
-				e.printStackTrace();
-			}
-
-			try {
-				this.createStation(s);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (i < numberOfStations * percentageOfPlusStations) {
+				addStation("PLUS");
+			} else {
+				addStation("STANDARD");
 			}
 		}
 
@@ -111,9 +93,9 @@ public class Network {
 			int randomNum = ThreadLocalRandom.current().nextInt(0, notEmptyStations.size());
 			try {
 				if (i < totalNumberOfBikes * percentageOfElecBikes) {
-					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike(BikeType.ELEC), LocalDateTime.now());
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 				} else {
-					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+					notEmptyStations.get(randomNum).addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 				}
 			} catch (InvalidBikeTypeException e) {
 				e.printStackTrace();
@@ -215,16 +197,17 @@ public class Network {
 		if (s == null)
 			return "No station found with id " + stationId;
 
-		// ensure that only one user can access the station at the same time
-		BikeType bt = BikeType.valueOf(bikeType);
-
 		Bike b = null;
 		synchronized (user) {
 			// verify if user does not already have a rental
 			if (user.getBikeRental() != null)
 				return user.getName() + " still has a bike rental, he cannot rent another bike.";
 			synchronized (s) {
+<<<<<<< 09e95bc872cdff9ce750daf27ba2bddde48b454c
 				b = s.rentBike(bt, rentalDate);
+=======
+				b = s.rentBike(bikeType, LocalDateTime.now());
+>>>>>>> Refactor(Bike): Remove BikeType
 				// if no bike is found (either station is offline or there are no bikes)
 				if (b == null)
 					return "No bike found of type " + bikeType + " in station " + stationId;

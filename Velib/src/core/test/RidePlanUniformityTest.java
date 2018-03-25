@@ -9,11 +9,9 @@ import org.junit.Test;
 
 import core.Network;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.card.NoCardVisitor;
 import core.point.Point;
 import core.ridePlan.RidePlanPolicyName;
 import core.ridePlan.RidePlan;
@@ -83,17 +81,17 @@ public class RidePlanUniformityTest {
 			n.createStation(fullerDestStation);
 
 			// add bikes to all stations : They are all Mechanical.
-			emptierSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			emptierSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			fullerSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			emptierDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			emptierDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			fullerDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
@@ -108,9 +106,9 @@ public class RidePlanUniformityTest {
 	 * Choose the right stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH);
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH");
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation,
-				RidePlanPolicyName.PRESERVE_UNIFORMITY, BikeType.MECH, n);
+				RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 }

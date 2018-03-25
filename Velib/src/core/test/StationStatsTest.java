@@ -6,7 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
@@ -42,7 +41,7 @@ public class StationStatsTest {
 				DateParser.parse("01/01/2000 09:00:00")) == 0.5);
 
 		try {
-			station.getParkingSlots().get(0).setBike(new BikeFactory().createBike(BikeType.MECH),
+			station.getParkingSlots().get(0).setBike(new BikeFactory().createBike("MECH"),
 					DateParser.parse("01/01/2000 08:10:00"));
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");

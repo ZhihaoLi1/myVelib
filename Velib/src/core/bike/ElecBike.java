@@ -10,7 +10,7 @@ import core.station.IDGenerator;
 public class ElecBike implements Bike {
 
 	private final int id;
-	private final BikeType type = BikeType.ELEC;
+	private final String type = "ELEC";
 
 	protected ElecBike() {
 		id = IDGenerator.getInstance().getNextIDNumber();
@@ -31,7 +31,7 @@ public class ElecBike implements Bike {
 		return false;
 	}
 
-	public BikeType getType() {
+	public String getType() {
 		return type;
 	}
 

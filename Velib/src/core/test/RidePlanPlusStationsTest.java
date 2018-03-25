@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import core.Network;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
@@ -22,8 +21,9 @@ import core.station.StationFactory;
 import user.User;
 
 /**
- * Test ride plans concerning plus stations 
- * Create a network with standard and plus stations with bikes 
+ * Test ride plans concerning plus stations Create a network with standard and
+ * plus stations with bikes
+ * 
  * @author animato
  *
  */
@@ -53,7 +53,7 @@ public class RidePlanPlusStationsTest {
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
-		
+
 		try {
 			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
@@ -67,9 +67,9 @@ public class RidePlanPlusStationsTest {
 			n.createStation(standardDestStation);
 
 			// add one bike to all stations : They are all Mechanical.
-			sourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			standardDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			plusDestStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			sourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			standardDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			plusDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
@@ -84,9 +84,10 @@ public class RidePlanPlusStationsTest {
 	 * Choose the right station Avoid plus stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, BikeType.MECH);
+
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, "MECH");
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation,
-				RidePlanPolicyName.AVOID_PLUS, BikeType.MECH, n);
+				RidePlanPolicyName.AVOID_PLUS, "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -95,9 +96,9 @@ public class RidePlanPlusStationsTest {
 	 * Choose the closest station (standard station)
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
 		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation,
-				RidePlanPolicyName.PREFER_PLUS, BikeType.MECH, n);
+				RidePlanPolicyName.PREFER_PLUS, "MECH", n);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

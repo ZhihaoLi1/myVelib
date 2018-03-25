@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import core.Network;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
@@ -74,10 +73,10 @@ public class RidePlanShortestOrFastestPathTest {
 			n.createStation(destStationF);
 
 			// add one bike to source and destination stations : They are all Mechanical.
-			sourceStationS.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			destStationS.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			sourceStationF.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
-			destStationF.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
+			sourceStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			destStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			sourceStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			destStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
@@ -93,17 +92,17 @@ public class RidePlanShortestOrFastestPathTest {
 	 * station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, BikeType.MECH);
+		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, "MECH");
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, RidePlanPolicyName.SHORTEST,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(s.equals(sRidePlan));
 	}
 
 	@Test
 	public void chooseCorrectStationsWhenPlanningFastestRide() {
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, BikeType.MECH);
+		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, "MECH");
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, RidePlanPolicyName.FASTEST,
-				BikeType.MECH, n);
+				"MECH", n);
 		assertTrue(s.equals(sRidePlan));
 	}
 

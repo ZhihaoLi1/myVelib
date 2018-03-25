@@ -7,7 +7,6 @@ import java.util.Observable;
 import java.util.Set;
 
 import core.bike.Bike;
-import core.bike.BikeType;
 import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.point.Point;
@@ -109,7 +108,7 @@ public abstract class Station extends Observable {
 	 *            - the type of bike we want to check
 	 * @return boolean - true if a bike of type bikeType is present, false if not
 	 */
-	public boolean hasCorrectBikeType(BikeType bikeType) {
+	public boolean hasCorrectBikeType(String bikeType) {
 		for (ParkingSlot ps : parkingSlots) {
 			if (ps.hasBike() && ps.getBike().getType() == bikeType && ps.isWorking()) {
 				return true;
@@ -125,7 +124,7 @@ public abstract class Station extends Observable {
 	 *            - the type of bike we want to check
 	 * @return int - the number of bikes in the station of the given bikeType
 	 */
-	public int getNumberOfBikes(BikeType bikeType) {
+	public int getNumberOfBikes(String bikeType) {
 		int t = 0;
 		for (int i = 0; i < parkingSlots.size(); i++) {
 			ParkingSlot ps = parkingSlots.get(i);
@@ -144,7 +143,7 @@ public abstract class Station extends Observable {
 	 * @throws Exception
 	 *             when station is offline
 	 */
-	public Bike rentBike(BikeType bikeType, LocalDateTime date) {
+	public Bike rentBike(String bikeType, LocalDateTime date) {
 		// verify if station is online
 		if (!this.online)
 			return null;

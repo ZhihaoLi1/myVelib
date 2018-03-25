@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
@@ -44,9 +43,9 @@ public class LeastOccupiedSortTest {
 		System.out.println(stations.size());
 		BikeFactory bikeFactory = new BikeFactory();
 		try {
-			stations.get(1).addBike(bikeFactory.createBike(BikeType.MECH), DateParser.parse("01/01/2000 00:00:00"));
-			stations.get(0).addBike(bikeFactory.createBike(BikeType.MECH), DateParser.parse("01/01/2000 00:30:00"));
-			stations.get(2).addBike(bikeFactory.createBike(BikeType.MECH), DateParser.parse("01/01/2000 01:00:00"));
+			stations.get(1).addBike(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000 00:00:00"));
+			stations.get(0).addBike(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000 00:30:00"));
+			stations.get(2).addBike(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000 01:00:00"));
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
 		}

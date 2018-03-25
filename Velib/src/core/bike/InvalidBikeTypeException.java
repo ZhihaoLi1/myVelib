@@ -8,13 +8,13 @@ package core.bike;
  */
 public class InvalidBikeTypeException extends Exception {
 
-	private final BikeType bikeType;
+	private final String bikeType;
 
-	public InvalidBikeTypeException(BikeType bikeType) {
+	public InvalidBikeTypeException(String bikeType) {
 		this.bikeType = bikeType;
 	}
 
-	public BikeType getBikeType() {
+	public String getBikeType() {
 		return bikeType;
 	}
 

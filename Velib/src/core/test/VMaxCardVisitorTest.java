@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
-import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
@@ -130,7 +129,7 @@ public class VMaxCardVisitorTest {
 
 		Bike mBike = null;
 		try {
-			mBike = new BikeFactory().createBike(BikeType.MECH);
+			mBike = new BikeFactory().createBike("MECH");
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
@@ -163,7 +162,7 @@ public class VMaxCardVisitorTest {
 
 		Bike eBike = null;
 		try {
-			eBike = new BikeFactory().createBike(BikeType.ELEC);
+			eBike = new BikeFactory().createBike("ELEC");
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
@@ -206,7 +205,7 @@ public class VMaxCardVisitorTest {
 	public void whenInvalidDatesAreGivenThenThrowException() {
 		Bike mBike = null;
 		try {
-			mBike = new BikeFactory().createBike(BikeType.MECH);
+			mBike = new BikeFactory().createBike("MECH");
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException thrown");
 		}
