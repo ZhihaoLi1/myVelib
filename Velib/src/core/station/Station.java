@@ -221,9 +221,9 @@ public abstract class Station extends Observable {
 	 * Notify all observers
 	 */
 	public void notifyObservers() {
-		Set<User> copyObservers = new HashSet(observers);
-		for (User user : copyObservers) {
-			user.update(this, null);
+		Set<Observer> copyObservers = new HashSet(observers);
+		for (Observer o : copyObservers) {
+			o.update(this, null);
 		}
 	}
 
