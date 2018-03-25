@@ -457,7 +457,31 @@ public class Network {
 		s.setOnline(true);
 		return "Station " + stationId + " is set to online.";
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Network " + name + ":";
+		s += "\nCreated: " + creationDate;
+		s += "\nCurrent date: " + currentDate;
+		s += "\n--------------------";
+		s += "\nUsers: ";
+		for (User user: users.values()) {
+			s += "\n\n" + user.toString();
+		}
+		s += "\n--------------------";
+		s += "\nStations: ";
+		for (Station station: stations.values()) {
+			s += "\n\n" + station.toString();
+		}		
+		return s;
+	}
 
+	public static void main(String[] args) {
+		Network n = new Network("test", LocalDateTime.now());
+		n.addUser("bob", "no_card");
+		System.out.println(n);
+	}
+	
 	/**
 	 * Send to CLI that station is full, and a ridePlan is cancelled
 	 * 

@@ -33,8 +33,10 @@ public class ParkingSlot {
 
 	@Override
 	public String toString() {
-		if (bike == null) return "No bike";
-		return bike.getType();
+		String type;
+		if (bike == null) type = "No bike";
+		else type = bike.getType();
+		return "ParkingSlot [Type of bike: " + type + ", Working: " + working + "]";
 	}
 	public Boolean isWorking() {
 		return working;

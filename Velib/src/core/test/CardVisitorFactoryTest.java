@@ -4,11 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.bike.Bike;
-import core.bike.BikeFactory;
-import core.bike.ElecBike;
-import core.bike.InvalidBikeTypeException;
-import core.bike.MechBike;
 import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;

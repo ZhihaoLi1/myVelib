@@ -231,10 +231,10 @@ public abstract class Station extends Observable {
 
 	@Override
 	public String toString() {
-		String s = "StationId: " + this.id + "\n";
+		String s = "Station [id: " + this.id + "\n";
 		s += "ParkingSlots: " + this.parkingSlots.toString() + "\n";
 		s += "Coordinates: " + this.coordinates.toString() + "\n";
-		s += "Online: " + this.online;
+		s += "Online: " + this.online + "]";
 		return s;
 
 	}
