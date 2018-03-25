@@ -11,9 +11,11 @@ import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 
-// FIXME: Comments
 public class BikeFactoryTest {
 
+	/**
+	 * Test that the type of the created bike corresponds to the given type.
+	 */
 	@Test
 	public void testCreateBike() {
 		BikeFactory bikeFactory = new BikeFactory();
@@ -33,6 +35,9 @@ public class BikeFactoryTest {
 		}
 	}
 	
+	/**
+	 * Test that when a wrong bike type is given, an InvalidBikeTypeException is thrown.
+	 */
 	@Test
 	public void whenWrongBikeTypeGivenThenThrowException() {
 		BikeFactory bikeFactory = new BikeFactory();

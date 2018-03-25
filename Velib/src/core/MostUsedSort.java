@@ -6,7 +6,7 @@ import java.util.Collections;
 import core.station.Station;
 
 /**
- * Sorting strategy of stations based on usage of stations
+ * Sorting strategy of stations based on usage of stations, in descending order.
  * 
  * @author matto
  *
@@ -23,6 +23,7 @@ public class MostUsedSort implements SortingStrategy {
 	public ArrayList<Station> sort(ArrayList<Station> stations) {
 		ArrayList<Station> sortedStations = new ArrayList<Station>(stations);
 
+		// Selection sort of the ArrayList
 		int maxNumOfUses;
 		int curNumOfUses;
 		int maxNumOfUsesIndex;

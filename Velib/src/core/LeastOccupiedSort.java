@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import core.station.Station;
 
 /**
- * Sorting strategy of stations based on occupation rate
+ * Sorting strategy of stations based on occupation rate, in ascending order.
  * 
  * @author matto
  *

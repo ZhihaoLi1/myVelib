@@ -9,10 +9,10 @@ import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 
-// FIXME: Comments
 public class BikeTest {
 
 	/**
+	 * Test equality between bikes
 	 * Different id = different bikes. Same Id, same bike
 	 */
 	@Test
@@ -41,6 +41,7 @@ public class BikeTest {
 	}
 
 	/**
+	 * Test equality of hashcodes between bikes
 	 * Different id = different bikes. Same Id, same bike
 	 */
 	@Test
