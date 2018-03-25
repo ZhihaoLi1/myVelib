@@ -1,6 +1,7 @@
 package core.ridePlan;
 
 import core.Network;
+import core.bike.InvalidBikeTypeException;
 import core.user.User;
 import core.utils.Point;
 
@@ -20,10 +21,11 @@ public interface RidePlanStrategy {
 	 * @param destination
 	 * @param user
 	 * @param bikeType
-	 * @param network
+	 * @param n
 	 * @return RidePlan
-	 * @throws NoStationsFoundInNetworkException
+	 * @throws NoValidStationFoundException
+	 * @throws InvalidBikeTypeException
 	 */
 	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws Exception;
+			Network n) throws NoValidStationFoundException, InvalidBikeTypeException;
 }

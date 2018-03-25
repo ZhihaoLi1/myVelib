@@ -44,7 +44,7 @@ public class StationStats {
 		}
 		double totalTimeOccupied = 0;
 		for (ParkingSlot parkingSlot : station.getParkingSlots()) {
-			totalTimeOccupied += parkingSlot.getOccupationRate(startDate, endDate);
+			totalTimeOccupied += parkingSlot.getOccupationTime(startDate, endDate);
 		}
 
 		return totalTimeOccupied / (station.getParkingSlots().size() * startDate.until(endDate, ChronoUnit.SECONDS));

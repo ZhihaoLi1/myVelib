@@ -142,9 +142,7 @@ public abstract class Station extends Observable {
 	 * Rents a bike of the given bike type at a given time
 	 * 
 	 * @param bikeType
-	 * @return
-	 * @throws Exception
-	 *             when station is offline
+	 * @return the rented bike, or null if no bike was found
 	 */
 	public Bike rentBike(String bikeType, LocalDateTime date) {
 		// verify if station is online
@@ -182,7 +180,7 @@ public abstract class Station extends Observable {
 	 *            - the bike which is returned
 	 * @param date
 	 *            - the date at which the bike is returned
-	 * @throws Exception
+	 * @throws FullStationException
 	 *             when station is full
 	 */
 	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws FullStationException {
@@ -196,8 +194,8 @@ public abstract class Station extends Observable {
 	/**
 	 * Add user to the list of observers of the station
 	 * 
-	 * @param user
-	 *            - the observer user to add
+	 * @param o
+	 *            the observer user to add
 	 */
 	public void addObserver(Observer o) {
 		if (this.observers.add(o)) {
@@ -210,8 +208,8 @@ public abstract class Station extends Observable {
 	/**
 	 * Remove user to the list of observers of the station
 	 * 
-	 * @param user
-	 *            - the observer user to remove
+	 * @param o
+	 *            the observer to remove
 	 */
 	public void deleteObserver(Observer o) {
 		if (this.observers.remove(o)) {

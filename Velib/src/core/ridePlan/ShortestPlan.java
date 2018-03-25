@@ -11,8 +11,8 @@ import core.utils.Point;
  * source and destination stations are chosen so that the total distance of the
  * trip, including the walking distance (to reach the source station from the
  * starting point and to reach the destination point from the destination
- * station) is minimal. tl;dr = Total distance between source -> source station
- * -> destination station -> destination is the shortest
+ * station) is minimal. tl;dr = Total distance between source and source station
+ * and destination station and destination is the shortest
  * 
  * @author animato
  *

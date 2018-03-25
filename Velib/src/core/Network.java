@@ -49,6 +49,7 @@ public class Network {
 	// These dates are used to calculate the occupation rate for the entire network
 	private LocalDateTime creationDate;
 	private LocalDateTime currentDate;
+	
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
 	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
@@ -129,12 +130,9 @@ public class Network {
 	}
 
 	/**
-	 * Creates the network (stations, parking slots and bikes) with 10 stations (10
+	 * Creates an empty network (stations, parking slots and bikes) with 10 stations (10
 	 * parking slots each), 4km side, 75% full of bikes <br>
 	 * Half of the stations are plus stations, half of the bikes are elec bikes.
-	 * 
-	 * @param name
-	 * @param creationDate
 	 * 
 	 */
 	public Network() {
@@ -507,7 +505,7 @@ public class Network {
 	/**
 	 * Add an existing user to the network.
 	 * 
-	 * @param station
+	 * @param user
 	 */
 	public void createUser(User user) {
 		if (user == null) {

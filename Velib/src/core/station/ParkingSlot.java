@@ -140,10 +140,9 @@ public class ParkingSlot {
 	}
 
 	/**
-	 * Calculates the occupation rate of the parking slot for a given timespan,
+	 * Calculates the occupation time of the parking slot for a given timespan,
 	 * defined by: (occupied time in timespan) / (total time in timespan)
 	 * 
-	 * @param status
 	 * @param startDate
 	 * @param endDate
 	 * @return the timespan of the status which is contained between the given start
@@ -152,7 +151,7 @@ public class ParkingSlot {
 	 *             when one of the statuses in statusHistory, startDate or endDate
 	 *             is not defined
 	 */
-	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws IllegalArgumentException {
+	public double getOccupationTime(LocalDateTime startDate, LocalDateTime endDate) throws IllegalArgumentException {
 		double totalOccupiedTime = 0;
 		for (ParkingSlotStatus status : statusHistory) {
 			totalOccupiedTime += calculateEffectiveTimeInSpan(status, startDate, endDate)

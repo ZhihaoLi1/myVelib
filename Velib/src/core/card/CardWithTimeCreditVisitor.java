@@ -21,9 +21,9 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * Implementation of the calculation of the price of a rental
 	 * 
 	 * @param rental
-	 *            - the BikeRental whose price is being calculated
+	 *            the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
-	 * @throws InvalidBikeTypeException
+	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
 	 *             if invalid rent of return dates are given

@@ -32,9 +32,9 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 	 * Calculates the price of a bike rental.
 	 * 
 	 * @param rental
-	 *            - the BikeRental whose price is being calculated
+	 *            the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
-	 * @throws InvalidBikeTypeException
+	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
 	 *             if invalid rent of return dates are given

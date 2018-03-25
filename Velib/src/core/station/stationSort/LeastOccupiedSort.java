@@ -17,8 +17,8 @@ public class LeastOccupiedSort implements SortingStrategy {
 	 * Sort given stations according to their occupation rate, in ascending order
 	 * 
 	 * @param stations
-	 *            - a list of stations to sort
-	 * @return ArrayList<Station> - the sorted list of stations
+	 *            a list of stations to sort
+	 * @return the sorted list of stations
 	 */
 	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) {
 		ArrayList<Station> sortedStations = new ArrayList<Station>(stations);
