@@ -13,7 +13,8 @@ import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.point.Point;
-import core.ridePlan.RidePlanPolicyName;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -84,10 +85,18 @@ public class RidePlanPlusStationsTest {
 	 * Choose the right station Avoid plus stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, "MECH");
+		RidePlan bobRidePlan = null;
+		try {
+			bobRidePlan = n.createRidePlan(source, destination, bob, "AVOID_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation,
-				RidePlanPolicyName.AVOID_PLUS, "MECH", n);
+				"AVOID_PLUS", "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -96,9 +105,18 @@ public class RidePlanPlusStationsTest {
 	 * Choose the closest station (standard station)
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
+		RidePlan bobRidePlan = null;
+		try {
+			bobRidePlan = n.createRidePlan(source, destination, bob, "PREFER_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
 		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation,
-				RidePlanPolicyName.PREFER_PLUS, "MECH", n);
+				"PREFER_PLUS", "MECH", n);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

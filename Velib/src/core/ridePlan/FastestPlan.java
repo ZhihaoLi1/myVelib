@@ -66,9 +66,9 @@ public class FastestPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, RidePlanPolicyName.FASTEST);
+			throw new NoValidStationFoundException(n, "FASTEST");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.FASTEST, bikeType, n);
+		return new RidePlan(source, destination, sourceStation, destStation, "FASTEST", bikeType, n);
 	}
 
 }

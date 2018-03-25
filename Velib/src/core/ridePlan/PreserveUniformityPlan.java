@@ -28,7 +28,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws Exception {
+			Network n) throws NoValidStationFoundException {
 
 		HashMap<Integer,Station> stations = n.getStations();
 
@@ -55,7 +55,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, RidePlanPolicyName.PRESERVE_UNIFORMITY);
+			throw new NoValidStationFoundException(n, "PRESERVE_UNIFORMITY");
 		}
 
 		Station fullerSourceStation = null;
@@ -85,7 +85,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		if (emptierDestStation != null)
 			destStation = emptierDestStation;
 
-		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PRESERVE_UNIFORMITY, bikeType,
+		return new RidePlan(source, destination, sourceStation, destStation, "PRESERVE_UNIFORMITY", bikeType,
 				n);
 	}
 

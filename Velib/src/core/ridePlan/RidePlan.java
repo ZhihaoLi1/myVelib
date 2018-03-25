@@ -14,12 +14,12 @@ public class RidePlan {
 	private Point destination;
 	private Station sourceStation;
 	private Station destinationStation;
-	private RidePlanPolicyName policy;
+	private String policy;
 	private String bikeType;
 	private Network network;
 
 	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation,
-			RidePlanPolicyName policy, String bikeType, Network network) {
+			String policy, String bikeType, Network network) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -84,11 +84,11 @@ public class RidePlan {
 		this.destinationStation = destinationStation;
 	}
 
-	public RidePlanPolicyName getPolicy() {
+	public String getPolicy() {
 		return policy;
 	}
 
-	public void setPolicy(RidePlanPolicyName policy) {
+	public void setPolicy(String policy) {
 		this.policy = policy;
 	}
 

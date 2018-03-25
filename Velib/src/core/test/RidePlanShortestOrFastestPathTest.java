@@ -12,9 +12,9 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.card.NoCardVisitor;
 import core.point.Point;
-import core.ridePlan.RidePlanPolicyName;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -92,18 +92,36 @@ public class RidePlanShortestOrFastestPathTest {
 	 * station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, "MECH");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, RidePlanPolicyName.SHORTEST,
+		RidePlan bobRidePlan = null;
+		try {
+			bobRidePlan = n.createRidePlan(source, destination, bob, "SHORTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}		
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "SHORTEST",
 				"MECH", n);
-		assertTrue(s.equals(sRidePlan));
+		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
 	@Test
 	public void chooseCorrectStationsWhenPlanningFastestRide() {
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, "MECH");
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, RidePlanPolicyName.FASTEST,
+		RidePlan bobRidePlan = null;
+		try {
+			bobRidePlan = n.createRidePlan(source, destination, bob, "FASTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "FASTEST",
 				"MECH", n);
-		assertTrue(s.equals(sRidePlan));
+		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
 }

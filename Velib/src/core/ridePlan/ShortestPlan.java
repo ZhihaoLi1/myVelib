@@ -21,7 +21,7 @@ public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws Exception {
+			Network n) throws NoValidStationFoundException {
 		HashMap<Integer,Station> stations = n.getStations();
 
 		Station sourceStation = null;
@@ -50,8 +50,8 @@ public class ShortestPlan implements RidePlanStrategy {
 			}
 		}
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, RidePlanPolicyName.SHORTEST);
+			throw new NoValidStationFoundException(n, "SHORTEST");
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.SHORTEST, bikeType, n);
+		return new RidePlan(source, destination, sourceStation, destStation, "SHORTEST", bikeType, n);
 	}
 }

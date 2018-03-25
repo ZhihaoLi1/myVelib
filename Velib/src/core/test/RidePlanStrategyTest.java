@@ -14,7 +14,8 @@ import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
-import core.ridePlan.RidePlanPolicyName;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -103,30 +104,75 @@ public class RidePlanStrategyTest {
 	 * not full
 	 */
 	public void ChooseNotEmptySourceAndNotFullDestWhenPlanningRide() {
-		RidePlan ap = n.createRidePlan(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, "MECH");
-		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.AVOID_PLUS,
+		RidePlan ap = null;
+		try {
+			ap = n.createRidePlan(source, destination, bob, "AVOID_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
+		RidePlan apRidePlan = new RidePlan(source, destination, sourceStation, destStation, "AVOID_PLUS",
 				"MECH", n);
 		assertTrue(ap.equals(apRidePlan));
 
-		RidePlan pp = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
-		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PREFER_PLUS,
+		RidePlan pp = null;
+		try {
+			pp = n.createRidePlan(source, destination, bob, "PREFER_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}		
+		RidePlan ppRidePlan = new RidePlan(source, destination, sourceStation, destStation, "PREFER_PLUS",
 				"MECH", n);
 		assertTrue(pp.equals(ppRidePlan));
 
-		RidePlan s = n.createRidePlan(source, destination, bob, RidePlanPolicyName.SHORTEST, "MECH");
+		RidePlan s = null;
+		try {
+			s = n.createRidePlan(source, destination, bob, "SHORTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
 
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.SHORTEST,
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStation, destStation, "SHORTEST",
 				"MECH", n);
 		assertTrue(s.equals(sRidePlan));
 
-		RidePlan f = n.createRidePlan(source, destination, bob, RidePlanPolicyName.FASTEST, "MECH");
-		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.FASTEST,
+		RidePlan f = null;
+		try {
+			f = n.createRidePlan(source, destination, bob, "FASTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}		
+		RidePlan fRidePlan = new RidePlan(source, destination, sourceStation, destStation, "FASTEST",
 				"MECH", n);
 		assertTrue(f.equals(fRidePlan));
 
-		RidePlan u = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH");
+		RidePlan u = null;
+		try {
+			u = n.createRidePlan(source, destination, bob, "PRESERVE_UNIFORMITY", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}		
 		RidePlan uRidePlan = new RidePlan(source, destination, sourceStation, destStation,
-				RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH", n);
+				"PRESERVE_UNIFORMITY", "MECH", n);
 		assertTrue(u.equals(uRidePlan));
 
 	}

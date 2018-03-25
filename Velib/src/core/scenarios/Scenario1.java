@@ -1,14 +1,16 @@
 package core.scenarios;
 
+import static org.junit.Assert.fail;
+
 import core.Network;
+import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.card.VLibreCardVisitor;
-import core.card.VMaxCardVisitor;
 import core.point.Point;
 import user.User;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
-import core.ridePlan.RidePlanPolicyName;
 import core.utils.DateParser;
 
 public class Scenario1 {
@@ -27,6 +29,7 @@ public class Scenario1 {
 			charles = new User("Charles", cardVisitorFactory.createCard("VMAX_CARD"));
 		} catch (InvalidCardTypeException e) {
 			System.out.println("Invalid card type given.");
+			return;
 		}
 		
 		
@@ -42,59 +45,133 @@ public class Scenario1 {
 		Point library = new Point(2,6);
 		
 		// plan a ride for Alice 
-		RidePlan aliceRidePlanGo = n.createRidePlan(home, supermarket, alice, RidePlanPolicyName.FASTEST, "MECH");
+		System.out.println("Alice plans a ride using the fastest policy, for a mech bike:");
+		RidePlan aliceRidePlanGo = null;
+		try {
+			aliceRidePlanGo = n.createRidePlan(home, supermarket, alice, "FASTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			System.out.println("Invalid bike type given");
+			return;
+		} catch (InvalidRidePlanPolicyException e) {
+			System.out.println("Invalid policy given");
+			return;
+		} catch (NoValidStationFoundException e) {
+			System.out.println("No valid station was found");
+			return;
+		}
 		System.out.println(aliceRidePlanGo);
 		// Time Alice might take to go 
 		// System.out.println(aliceRidePlanGo.approximateTime());
 		
 		// Alice rents the bike at 9:30am 
+		System.out.println("\nAlice rents a mech bike at 9:30am at the source station of her plan:");
 		String AliceRentBikeMessage = n.rentBike(alice.getId(), aliceRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("01/01/2000 09:30:00"));
 		System.out.println(AliceRentBikeMessage);
 		// Alice returns the bike at 10.45am
+		System.out.println("\nAlice returns the mech bike at 11:20am at the destination station of her plan:");
 		String AliceReturnBikeMessage = n.returnBike(alice.getId(), aliceRidePlanGo.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"), 110);
 		System.out.println(AliceReturnBikeMessage);
 		
-		RidePlan aliceRidePlanReturn = n.createRidePlan(supermarket, home, alice, RidePlanPolicyName.SHORTEST, "ELEC");
+		System.out.println("\nAlice plans a new ride using the shortest policy, for an elec bike:");
+		RidePlan aliceRidePlanReturn = null;
+		try {
+			aliceRidePlanReturn = n.createRidePlan(home, supermarket, alice, "SHORTEST", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			System.out.println("Invalid bike type given");
+			return;
+		} catch (InvalidRidePlanPolicyException e) {
+			System.out.println("Invalid policy given");
+			return;
+		} catch (NoValidStationFoundException e) {
+			System.out.println("No valid station was found");
+			return;
+		}
 		System.out.println(aliceRidePlanReturn);
 
 		// Time Alice might take to return 
 		// System.out.println(aliceRidePlanReturn.approximateTime());
 		
-		// Alice rents the bike at 13:00
+		// Alice rents the bike at 1:00pm
+		System.out.println("\nAlice rents an elec bike at 1:00pm at the source station of her plan:");
 		String AliceRentBikeMessage2 = n.rentBike(alice.getId(), aliceRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("01/01/2000 13:00:00"));
 		System.out.println(AliceRentBikeMessage2);
-		// Alice returns the bike at 10.45am
+		// Alice returns the bike at 2:15pm
+		System.out.println("\nAlice returns the elec bike at 2:15pm at the destination station of her plan:");
 		String AliceReturnBikeMessage2 = n.returnBike(alice.getId(), aliceRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/01/2000 14:15:00"), 75);
 		System.out.println(AliceReturnBikeMessage2);
 		
 		
 		// plan a ride for Bob 
-		RidePlan bobRidePlanGo = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
+		System.out.println("\nBob plans a ride using the prefer plus policy, for a mech bike:");
+		RidePlan bobRidePlanGo = null;
+		try {
+			bobRidePlanGo = n.createRidePlan(home, supermarket, alice, "PREFER_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			System.out.println("Invalid bike type given");
+			return;
+		} catch (InvalidRidePlanPolicyException e) {
+			System.out.println("Invalid policy given");
+			return;
+		} catch (NoValidStationFoundException e) {
+			System.out.println("No valid station was found");
+			return;
+		}
 		
 		// Time bob might take to go 
 		// System.out.println(bobRidePlanGo.approximateTime());
 		
 		// bob rents the bike at 9:30am 
-		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("02/01/2000 09:30:00"));
+		System.out.println("\nBob rents an mech bike at 9:00am at the source station of his plan:");
+		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("01/02/2000 09:30:00"));
 		System.out.println(bobRentBikeMessage);
 		// Dest Station 1 goes offline 
 		bobRidePlanGo.getDestinationStation().setOnline(false);
 		// bob create another rideplan 
-		RidePlan bobRidePlanGo2 = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
-		// bob returns the bike at 10.45am
-		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("02/01/2000 11:20:00"), 110);
+		
+		RidePlan bobRidePlanGo2 = null;
+		try {
+			bobRidePlanGo2 = n.createRidePlan(home, supermarket, alice, "PREFER_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			System.out.println("Invalid bike type given");
+			return;
+		} catch (InvalidRidePlanPolicyException e) {
+			System.out.println("Invalid policy given");
+			return;
+		} catch (NoValidStationFoundException e) {
+			System.out.println("No valid station was found");
+			return;
+		}
+		// bob returns the bike at 10.45am		
+		System.out.println("\nBob returns the mech bike at 10:45am at the destination station of his plan:");
+		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/02/2000 10:45:00"), 75);
 		System.out.println(bobReturnBikeMessage);
 		
 		// Time bob might take to return 
 		// System.out.println(bobRidePlanReturn.approximateTime());
 		
-		RidePlan bobRidePlanReturn = n.createRidePlan(library, home, bob, RidePlanPolicyName.AVOID_PLUS, "ELEC");
+		System.out.println("\nBob plans a new ride using the avoid plus policy, for an elec bike:");
+		RidePlan bobRidePlanReturn = null;
+		try {
+			bobRidePlanReturn = n.createRidePlan(home, supermarket, alice, "AVOID_PLUS", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			System.out.println("Invalid bike type given");
+			return;
+		} catch (InvalidRidePlanPolicyException e) {
+			System.out.println("Invalid policy given");
+			return;
+		} catch (NoValidStationFoundException e) {
+			System.out.println("No valid station was found");
+			return;
+		}
 		// System.out.println(bobRidePlanReturn.toString());
 		// bob rents the bike at 13:00
-		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("02/01/2000 13:00:00"));
+
+		System.out.println("\nBob rents an elec bike at 1:00pm at the source station of his plan:");
+		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("01/02/2000 13:00:00"));
 		System.out.println(bobRentBikeMessage2);
 		// bob returns the bike at 10.45am
-		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("02/01/2000 14:15:00"), 75);
+		System.out.println("\nBob returns the elec bike at 2:15pm at the destination station of his plan:");
+		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/02/2000 14:15:00"), 75);
 		System.out.println(bobReturnBikeMessage2);
 	}
 }

@@ -22,7 +22,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 
 	@Override
 	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws Exception {
+			Network n) throws NoValidStationFoundException {
 		HashMap<Integer,Station> stations = n.getStations();
 
 		Station sourceStation = null;
@@ -47,7 +47,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, RidePlanPolicyName.PREFER_PLUS);
+			throw new NoValidStationFoundException(n, "PREFER_PLUS");
 		}
 
 		// find plus station for destination
@@ -67,9 +67,9 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (plusDestStation == null) {
-			return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PREFER_PLUS, bikeType, n);
+			return new RidePlan(source, destination, sourceStation, destStation, "PREFER_PLUS", bikeType, n);
 		} else {
-			return new RidePlan(source, destination, sourceStation, plusDestStation, RidePlanPolicyName.PREFER_PLUS, bikeType,
+			return new RidePlan(source, destination, sourceStation, plusDestStation, "PREFER_PLUS", bikeType,
 					n);
 		}
 	}

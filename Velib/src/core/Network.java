@@ -19,7 +19,8 @@ import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.AvoidPlusPlan;
 import core.ridePlan.FastestPlan;
-import core.ridePlan.RidePlanPolicyName;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
@@ -129,36 +130,31 @@ public class Network {
 	 * @param bikeType
 	 * @return rideplan Object
 	 */
-	public RidePlan createRidePlan(Point source, Point destination, User user, RidePlanPolicyName policy, String bikeType) {
+	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType) throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
-			throw new NullPointerException("All input values of planRide must not be null");
+			throw new IllegalArgumentException("All input values of planRide must not be null");
 		RidePlan rp = null;
-		try {
-			switch (policy) {
-			case SHORTEST:
+		switch (policy.toUpperCase()) {
+			case "SHORTEST":
 				rp = new ShortestPlan().planRide(source, destination, user, bikeType, this);
 				break;
-			case FASTEST:
+			case "FASTEST":
 				rp = new FastestPlan().planRide(source, destination, user, bikeType, this);
 				break;
-			case AVOID_PLUS:
+			case "AVOID_PLUS":
 				rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, this);
 				break;
-			case PREFER_PLUS:
+			case "PREFER_PLUS":
 				rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, this);
 				break;
-			case PRESERVE_UNIFORMITY:
+			case "PRESERVE_UNIFORMITY":
 				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			default:
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+				throw new InvalidRidePlanPolicyException(policy);
 		}
 		// add user to list of observers in concerned destination stations
 		rp.getDestinationStation().addObserver(user);
-		System.out.println("You, " + user.getName() + " have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable.");
 		user.setRidePlan(rp);
 		return rp;
 	}
@@ -173,9 +169,16 @@ public class Network {
 	 * @return String describing the ride plan
 	 */
 	public String planRide(Point source, Point destination, User user, String policy, String bikeType) {
-		RidePlanPolicyName p = RidePlanPolicyName.valueOf(policy);
-		RidePlan rp = createRidePlan(source, destination, user, p, bikeType);
-		return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. \n" + rp.toString();
+		try {
+			RidePlan rp = createRidePlan(source, destination, user, policy, bikeType);
+			return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. \n" + rp.toString();
+		} catch (InvalidBikeTypeException e) {
+			return e.getMessage();
+		} catch (InvalidRidePlanPolicyException e) {
+			return e.getMessage();
+		} catch (NoValidStationFoundException e) {
+			return e.getMessage();
+		}
 	}
 
 	/**

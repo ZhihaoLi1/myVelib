@@ -11,9 +11,9 @@ import core.Network;
  */
 public class NoValidStationFoundException extends Exception {
 	private final Network network;
-	private final RidePlanPolicyName policyName;
+	private final String policyName;
 
-	public NoValidStationFoundException(Network network, RidePlanPolicyName policyName) {
+	public NoValidStationFoundException(Network network, String policyName) {
 		this.network = network;
 		this.policyName = policyName;
 	}
@@ -22,7 +22,7 @@ public class NoValidStationFoundException extends Exception {
 		return network;
 	}
 
-	public RidePlanPolicyName getPolicyName() {
+	public String getPolicyName() {
 		return policyName;
 	}
 	

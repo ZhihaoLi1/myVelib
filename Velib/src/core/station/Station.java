@@ -10,7 +10,6 @@ import java.util.Set;
 import core.bike.Bike;
 import core.point.Point;
 import core.rentals.BikeRental;
-import user.User;
 
 /**
  * Represents a station. A station is a place on the map where a user can find
@@ -226,9 +225,9 @@ public abstract class Station extends Observable {
 	 * Notify all observers
 	 */
 	public void notifyObservers() {
-		Set<Observer> copyObservers = new HashSet(observers);
-		for (Observer o : copyObservers) {
-			o.update(this, null);
+		Set<Observer> copyObservers = new HashSet<Observer>(observers);
+		for (Observer observer : copyObservers) {
+			observer.update(this, null);
 		}
 	}
 

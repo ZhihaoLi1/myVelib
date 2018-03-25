@@ -13,7 +13,8 @@ import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.point.Point;
-import core.ridePlan.RidePlanPolicyName;
+import core.ridePlan.InvalidRidePlanPolicyException;
+import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -106,9 +107,18 @@ public class RidePlanUniformityTest {
 	 * Choose the right stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH");
+		RidePlan bobRidePlan = null;
+		try {
+			bobRidePlan = n.createRidePlan(source, destination, bob, "PRESERVE_UNIFORMITY", "MECH");
+		} catch (InvalidBikeTypeException e) {
+			fail("InvalidBikeTypeException was thrown");
+		} catch (InvalidRidePlanPolicyException e) {
+			fail("InvalidRidePlanPolicyException was thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException was thrown");
+		}
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation,
-				RidePlanPolicyName.PRESERVE_UNIFORMITY, "MECH", n);
+				"PRESERVE_UNIFORMITY", "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 }
