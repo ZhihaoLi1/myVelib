@@ -17,7 +17,11 @@ public class BikeFactory {
 	 *             if the given type is not recognized as a valid bike type
 	 */
 	public Bike createBike(String bikeType) throws InvalidBikeTypeException {
-		switch(bikeType) {
+		if (bikeType == null) {
+			throw new InvalidBikeTypeException(bikeType);
+		}
+		
+		switch(bikeType.toUpperCase()) {
 			case "MECH":
 				return new MechBike();
 			case "ELEC":

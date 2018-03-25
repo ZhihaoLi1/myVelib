@@ -11,6 +11,9 @@ public class CardVisitorFactory {
 	 *             if the given type is not recognized as a valid card type
 	 */
 	public CardVisitor createCard(String cardType) throws InvalidCardTypeException {
+		if (cardType == null) {
+			throw new InvalidCardTypeException(cardType);
+		}
 		switch(cardType.toUpperCase()) {
 			case "NO_CARD":
 				return new NoCardVisitor();

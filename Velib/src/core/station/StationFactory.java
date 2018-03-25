@@ -1,5 +1,6 @@
 package core.station;
 
+import core.bike.InvalidBikeTypeException;
 import core.utils.Point;
 
 /**
@@ -28,8 +29,10 @@ public class StationFactory {
 	 */
 	public Station createStation(String stationType, int numberOfParkingSlots, Point coordinates, Boolean online)
 			throws InvalidStationTypeException {
-
-		switch (stationType) {
+		if (stationType == null) {
+			throw new InvalidStationTypeException(stationType);
+		}
+		switch (stationType.toUpperCase()) {
 		case "STANDARD":
 			return new StandardStation(numberOfParkingSlots, coordinates, online);
 		case "PLUS":
