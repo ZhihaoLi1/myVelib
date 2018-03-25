@@ -15,9 +15,14 @@ import core.rentals.BikeRental;
  * Before returning the price to pay, we try to use the card's time credit as
  * much as possible to lower the price.
  * 
+ * Implements CardVisitor <br>
+ * Extends CardWithTimeCreditVisitor
+ * 
+ * @see CardVisitor
+ * @see CardWithTimeCreditVisitor
  * @author matto
  */
-public class VMaxCardVisitor extends CardWithTimeCreditVisitor {
+public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVisitor {
 
 	public VMaxCardVisitor() {
 		super();

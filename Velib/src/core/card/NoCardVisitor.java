@@ -13,8 +13,10 @@ import core.rentals.BikeRental;
  * Allows calculation of the price of a bike rental for this type of card. <br>
  * Without a card, the price is as follows: <br>
  * - 1€/hour for mechanical bikes <br>
- * - 2€/hour for electrical bikes
+ * - 2€/hour for electrical bikes <br>
  * 
+ * Implements CardVisitor
+ * @see CardVisitor
  * @author matto
  */
 public class NoCardVisitor implements CardVisitor {

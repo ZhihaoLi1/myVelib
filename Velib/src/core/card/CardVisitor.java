@@ -11,7 +11,7 @@ import core.rentals.BikeRental;
  *
  */
 public interface CardVisitor {
-	
+
 	/**
 	 * Calculates the price of a bike rental.
 	 * 
@@ -25,5 +25,13 @@ public interface CardVisitor {
 	 */
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
-	public void addTimeCredit(int timeCredit);
+	/**
+	 * Adds time credit to the card.
+	 * 
+	 * @param timeCredit
+	 *            in minutes
+	 * @throws IllegalArgumentException
+	 *             when the timeCredit given is negative
+	 */
+	public void addTimeCredit(int timeCredit) throws IllegalArgumentException;
 }

@@ -9,6 +9,8 @@ import core.card.InvalidDatesException;
 
 /**
  * Contains information of a rental Bike, date of rent, and user who rented it.
+ * Is a concrete visitor for the visitor pattern used to calculate the price of
+ * a rental.
  * 
  * @author animato
  *
@@ -50,7 +52,8 @@ public class BikeRental implements Rental {
 
 	@Override
 	public String toString() {
-		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate + "]";
+		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate
+				+ ", timeSpent: " + timeSpent + "]";
 	}
 
 	public int getTimeSpent() {

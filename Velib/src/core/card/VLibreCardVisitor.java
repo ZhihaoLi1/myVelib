@@ -14,11 +14,16 @@ import core.rentals.BikeRental;
  * - 0€ for the first hour then 1€/hour for mechanical bikes <br>
  * - 1€ for the first hour then 2€/hour for electrical bikes <br>
  * Before returning the price to pay, we try to use the card's time credit as
- * much as possible to lower the price.
+ * much as possible to lower the price. <br>
  * 
+ * Implements CardVisitor <br>
+ * Extends CardWithTimeCreditVisitor
+ * 
+ * @see CardVisitor
+ * @see CardWithTimeCreditVisitor
  * @author matto
  */
-public class VLibreCardVisitor extends CardWithTimeCreditVisitor {
+public class VLibreCardVisitor extends CardWithTimeCreditVisitor implements CardVisitor {
 
 	public VLibreCardVisitor() {
 		super();

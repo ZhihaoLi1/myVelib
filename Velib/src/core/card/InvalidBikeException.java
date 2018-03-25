@@ -2,7 +2,13 @@ package core.card;
 
 import core.rentals.BikeRental;
 
-// FIXME: Javadoc
+/**
+ * Exception thrown when the bike of a bikeRental is invalid for price
+ * calculation.
+ * 
+ * @author matto
+ *
+ */
 public class InvalidBikeException extends Exception {
 
 	private final BikeRental bikeRental;

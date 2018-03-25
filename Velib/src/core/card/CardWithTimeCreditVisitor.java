@@ -3,8 +3,10 @@ package core.card;
 import core.rentals.BikeRental;
 
 /**
- * Represents a card on which a time credit can be accumulated.
+ * Represents a card on which a time credit can be accumulated. <br>
+ * Implements CardVisitor.
  * 
+ * @see CardVisitor
  * @author matto
  *
  */
@@ -26,10 +28,12 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * @throws InvalidDatesException
 	 *             if invalid rent of return dates are given
 	 */
+	@Override
 	public abstract double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
 	// Getters / Setters
-	public void addTimeCredit(int timeCredit) {
+	@Override
+	public void addTimeCredit(int timeCredit) throws IllegalArgumentException {
 		if (timeCredit >= 0) {
 			this.timeCredit += timeCredit;
 		} else {
@@ -38,13 +42,19 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	};
 
 	/**
-	 * Tries to remove timeCredit time from the card.
+	 * Removes time credit from the card.
+	 * 
 	 * @param timeCredit
+	 *            in minutes
+	 * @throws IllegalArgumentException
+	 *             when the time credit given is negative or when the time credit on
+	 *             the card is not enough to match the time credit to remove
 	 */
-	public void removeTimeCredit(int timeCredit) {
+	public void removeTimeCredit(int timeCredit) throws IllegalArgumentException {
 		if (timeCredit >= 0) {
 			if (this.timeCredit < timeCredit) {
-				throw new IllegalArgumentException("The given time credit to remove: " + timeCredit + "is higher than this card's time credit: " + this.timeCredit);
+				throw new IllegalArgumentException("The given time credit to remove: " + timeCredit
+						+ "is higher than this card's time credit: " + this.timeCredit);
 			} else {
 				this.timeCredit -= timeCredit;
 			}

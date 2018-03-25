@@ -3,7 +3,7 @@ package core.card;
 import core.rentals.BikeRental;
 
 /**
- * Exception thrown when one of the dates of a bikeRental is incorrect for price
+ * Exception thrown when one of the dates of a bikeRental is invalid for price
  * calculation.
  * 
  * @author matto
