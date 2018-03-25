@@ -7,7 +7,7 @@ import org.junit.Test;
 import core.bike.BikeIDGenerator;
 import core.station.ParkingSlotIDGenerator;
 import core.station.StationIDGenerator;
-import user.UserIDGenerator;
+import core.user.UserIDGenerator;
 
 /*
  * Test Id generation 

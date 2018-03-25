@@ -8,13 +8,13 @@ import org.junit.Test;
 
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
-import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.SortingStrategy;
 import core.utils.DateParser;
+import core.utils.Point;
 
 /**
  * Test sorting of the stations from the least occupied to the most occupied

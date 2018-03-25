@@ -1,4 +1,4 @@
-package core.scenarios;
+package core.eval;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,11 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import core.Network;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
-import core.station.ParkingSlot;
 import core.station.Station;
+import core.user.User;
 import core.utils.DateParser;
-import user.User;
 
 public class ScenarioStatistics {
 	public static void main (String[] args) {

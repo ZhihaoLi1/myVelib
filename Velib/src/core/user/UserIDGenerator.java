@@ -1,4 +1,4 @@
-package user;
+package core.user;
 
 public class UserIDGenerator {
 	private static UserIDGenerator instance = null;

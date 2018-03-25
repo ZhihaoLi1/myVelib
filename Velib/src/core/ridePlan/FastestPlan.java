@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import core.Network;
 import core.bike.InvalidBikeTypeException;
-import core.point.Point;
 import core.station.Station;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * source and destination stations are chosen so that the total time of the

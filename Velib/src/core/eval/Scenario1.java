@@ -1,17 +1,15 @@
-package core.scenarios;
-
-import static org.junit.Assert.fail;
+package core.eval;
 
 import core.Network;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
-import user.User;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
+import core.user.User;
 import core.utils.DateParser;
+import core.utils.Point;
 
 public class Scenario1 {
 	

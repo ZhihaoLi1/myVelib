@@ -1,6 +1,6 @@
 package core.rentals;
 
-import user.User;
+import core.user.User;
 
 /**
  * Thrown when a bike rental is added to a user which already has one.

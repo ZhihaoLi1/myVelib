@@ -7,13 +7,13 @@ import org.junit.Test;
 
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
-import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.OccupiedParkingSlotException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationStats;
 import core.utils.DateParser;
+import core.utils.Point;
 
 /**
  * Calculates and increments the statistics for a station

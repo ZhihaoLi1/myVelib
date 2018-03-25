@@ -1,8 +1,8 @@
 package core.ridePlan;
 
 import core.Network;
-import core.point.Point;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 
 /**

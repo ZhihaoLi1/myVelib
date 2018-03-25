@@ -1,4 +1,4 @@
-package user;
+package core.user;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,11 +6,11 @@ import java.util.Observer;
 import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.RidePlan;
 import core.station.Station;
+import core.utils.Point;
 
 /**
  * User of myVelib Network

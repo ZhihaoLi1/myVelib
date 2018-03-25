@@ -12,11 +12,11 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * Test rent operation from  a station

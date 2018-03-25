@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.stationSort.MostUsedSort;
 import core.station.stationSort.SortingStrategy;
 import core.utils.DateParser;
+import core.utils.Point;
 
 /**
  * Sort the stations according the most used in descending order

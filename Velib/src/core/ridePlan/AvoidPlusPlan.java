@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import core.Network;
-import core.point.Point;
 import core.station.PlusStation;
 import core.station.Station;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * the source, respectively the destination, station, for a ride should as close

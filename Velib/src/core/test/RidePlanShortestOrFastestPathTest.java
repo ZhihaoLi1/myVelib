@@ -12,14 +12,14 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * Choose the correct source and destination station for shortest and fastest ride plan

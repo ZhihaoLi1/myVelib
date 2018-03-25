@@ -14,7 +14,6 @@ import core.card.InvalidDatesException;
 import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.AvoidPlusPlan;
@@ -32,12 +31,13 @@ import core.station.StationFactory;
 import core.station.stationSort.InvalidSortingPolicyException;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.MostUsedSort;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
- * Network of MyVelib
- * Has stations and users 
- * They can rent and return bikes
+ * Network of MyVelib Has stations and users. The users can rent and return
+ * bikes at stations. Stations have a number of parking slots for bikes.
+ * 
  * @author animato
  *
  */
@@ -45,13 +45,14 @@ public class Network {
 
 	private String name;
 	private double side;
-	
+
 	// These dates are used to calculate the occupation rate for the entire network
 	private LocalDateTime creationDate;
 	private LocalDateTime currentDate;
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
-
+	private HashMap<User, RidePlan> userRidePlans = new HashMap<User, RidePlan>();
+	
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
@@ -63,15 +64,17 @@ public class Network {
 	 * @param percentageOfBikes
 	 * @param percentageOfPlusStations
 	 * @param percentageOfElecBikes
+	 * @param creationDate
 	 * 
 	 */
 	public Network(String name, int numberOfStations, int numberOfParkingSlotsPerStation, double side,
-			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes, LocalDateTime creationDate) {
+			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes,
+			LocalDateTime creationDate) {
 		this.name = name;
 		this.side = side;
 		this.creationDate = creationDate;
 		this.currentDate = creationDate;
-	 
+
 		// Create Stations
 		// some are plus stations others are standard stations
 		for (int i = 0; i < numberOfStations; i++) {
@@ -84,8 +87,7 @@ public class Network {
 
 		/**
 		 * Create and place bikes into stations notEmptyStations is the list of stations
-		 * that are not full.
-		 * Iterate over total number of bikes and assign a bike to a
+		 * that are not full. Iterate over total number of bikes and assign a bike to a
 		 * random station that is not full Each time a station is full, remove it from
 		 * the list
 		 */
@@ -119,66 +121,44 @@ public class Network {
 	 * Half of the stations are plus stations, half of the bikes are elec bikes.
 	 * 
 	 * @param name
+	 * @param creationDate
 	 * 
 	 */
 	public Network(String name, LocalDateTime creationDate) {
 		this(name, 10, 10, 4, 0.75, 0.5, 0.5, creationDate);
 	}
 
-	public Network() {
-	}	
-	
 	/**
+	 * Creates the network (stations, parking slots and bikes) with 10 stations (10
+	 * parking slots each), 4km side, 75% full of bikes <br>
+	 * Half of the stations are plus stations, half of the bikes are elec bikes.
 	 * 
-	 * @param source
-	 * @param destination
-	 * @param user
-	 * @param policy
-	 * @param bikeType
-	 * @return rideplan Object
+	 * @param name
+	 * @param creationDate
+	 * 
 	 */
-	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType) throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
-		if (source == null || destination == null || user == null || policy == null || bikeType == null)
-			throw new IllegalArgumentException("All input values of planRide must not be null");
-		RidePlan rp = null;
-		switch (policy.toUpperCase()) {
-			case "SHORTEST":
-				rp = new ShortestPlan().planRide(source, destination, user, bikeType, this);
-				break;
-			case "FASTEST":
-				rp = new FastestPlan().planRide(source, destination, user, bikeType, this);
-				break;
-			case "AVOID_PLUS":
-				rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, this);
-				break;
-			case "PREFER_PLUS":
-				rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, this);
-				break;
-			case "PRESERVE_UNIFORMITY":
-				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, this);
-				break;
-			default:
-				throw new InvalidRidePlanPolicyException(policy);
-		}
-		// add user to list of observers in concerned destination stations
-		rp.getDestinationStation().addObserver(user);
-		user.setRidePlan(rp);
-		return rp;
+	public Network() {
 	}
-	
+
+	// Core functions
+
 	/**
+	 * Creates a ride plan for a user, given the source, destination coordinates as
+	 * well as the type of bike the user wants and the policy they want to follow,
+	 * and returns a message depending on what happened (success or error).
 	 * 
 	 * @param source
 	 * @param destination
 	 * @param user
 	 * @param policy
 	 * @param bikeType
-	 * @return String describing the ride plan
+	 * @return String describing the ride plan, or the error that happened.
 	 */
 	public String planRide(Point source, Point destination, User user, String policy, String bikeType) {
 		try {
 			RidePlan rp = createRidePlan(source, destination, user, policy, bikeType);
-			return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. \n" + rp.toString();
+			return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. Your ride plan is:\n"
+					+ rp.toString();
 		} catch (InvalidBikeTypeException e) {
 			return e.getMessage();
 		} catch (InvalidRidePlanPolicyException e) {
@@ -187,28 +167,11 @@ public class Network {
 			return e.getMessage();
 		}
 	}
-	
+
 	/**
-	 * 
-	 * @param policy
-	 * @return the sorted list of stations
-	 */
-	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
-		ArrayList<Station> sortedStations = null;
-		switch (policy.toUpperCase()) {
-			case "MOST_USED":
-				sortedStations = new MostUsedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate, currentDate);
-				break;
-			case "LEAST_OCCUPIED":
-				sortedStations = new LeastOccupiedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate, currentDate);
-				break;
-			default:
-				throw new InvalidSortingPolicyException(policy);
-		}
-		return sortedStations;
-	}
-	
-	/**
+	 * Sorts the stations of the network according to a given policy, and then
+	 * returns a String representing the ordered list of stations (or an error
+	 * message).
 	 * 
 	 * @param policy
 	 * @return String listing the sorted stations
@@ -216,8 +179,57 @@ public class Network {
 	public String sortStation(String policy) {
 		try {
 			ArrayList<Station> sortedStations = createStationSort(policy);
-			return "Here are the stations, in the order corresponding to the" + policy + " policy:\n" + sortedStations.toString();
+			return "Here are the stations, in the order corresponding to the" + policy + " policy:\n"
+					+ sortedStations.toString();
 		} catch (InvalidSortingPolicyException e) {
+			return e.getMessage();
+		}
+	}
+	
+	/**
+	 * Add a new user with a specific card type to the network.
+	 * 
+	 * @param name
+	 * @param cardType
+	 * @return a String message saying if the adding happened, or if an error
+	 *         happened
+	 */
+	public String addUser(String name, String cardType) {
+		CardVisitorFactory cardFactory = new CardVisitorFactory();
+
+		try {
+			CardVisitor card = cardFactory.createCard(cardType);
+			User user = new User(name, card);
+			this.createUser(user);
+			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
+					+ ".";
+		} catch (InvalidCardTypeException e) {
+			return e.getMessage();
+		}
+	}
+	
+	/**
+	 * Add a new station (with random coordinates, 10 parking slots and online) to
+	 * the network.
+	 * 
+	 * @param type
+	 * @return a String message saying if the adding happened, or if an error
+	 *         happened
+	 */
+	public String addStation(String type) {
+		StationFactory stationFactory = new StationFactory();
+
+		double x = ThreadLocalRandom.current().nextDouble(0, side);
+		double y = ThreadLocalRandom.current().nextDouble(0, side);
+		Point coordinates = new Point(x, y);
+
+		try {
+			Station station = stationFactory.createStation(type, 10, coordinates, true);
+			this.createStation(station);
+			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
+					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
+					+ station.getOnline() + ".";
+		} catch (InvalidStationTypeException e) {
 			return e.getMessage();
 		}
 	}
@@ -246,6 +258,39 @@ public class Network {
 	}
 	
 	/**
+	 * Add a new station to the network.
+	 * 
+	 * @param type
+	 * @param x
+	 *            the x coordinate of the station
+	 * @param y
+	 *            the y coordinate of the station
+	 * @param numberOfParkingSlots
+	 * @param online
+	 * @return a String message saying if the adding happened, or if an error
+	 *         happened
+	 */
+	public String addStation(String type, double x, double y, int numberOfParkingSlots, boolean online) {
+		StationFactory stationFactory = new StationFactory();
+
+		if (x < 0 || x > side || y < 0 || y > side) {
+			return "Coordinates out of bounds";
+		}
+		Point coordinates = new Point(x, y);
+
+		try {
+			Station station = stationFactory.createStation(type, numberOfParkingSlots, coordinates, online);
+			this.createStation(station);
+			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
+					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
+					+ station.getOnline() + ".";
+		} catch (InvalidStationTypeException e) {
+			return e.getMessage();
+		}
+	}
+
+	/**
+	 * Rents a bike, and returns a String describing
 	 * 
 	 * @param userId
 	 * @param stationId
@@ -299,10 +344,11 @@ public class Network {
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (s) {
 				try {
-					// if user completes ride plan (station that he is returning the bike to is the same as the destination station in ride plan)
+					// if user completes ride plan (station that he is returning the bike to is the
+					// same as the destination station in ride plan)
 					// then the user's ride plan is set to null
 					if (user.getRidePlan() != null && s.equals(user.getRidePlan().getDestinationStation())) {
-						user.resetRidePlan();						
+						user.resetRidePlan();
 					}
 
 					s.returnBike(br, returnDate);
@@ -333,8 +379,8 @@ public class Network {
 			user.getStats().addTotalTimeSpent(br.getTimeSpent());
 
 			this.currentDate = returnDate;
-			return user.getName() + " should pay " + price
-					+ " euros for this ride that lasted "+ timeSpent +" minutes. Thank you for choosing MyVelib, have a wonderful day!";
+			return user.getName() + " should pay " + price + " euros for this ride that lasted " + timeSpent
+					+ " minutes. Thank you for choosing MyVelib, have a wonderful day!";
 		}
 	}
 
@@ -410,6 +456,7 @@ public class Network {
 				+ " is cancelled. Please create a new one";
 	}
 
+	// Getters / Setters
 	public String getName() {
 		return name;
 	}
@@ -438,43 +485,17 @@ public class Network {
 		return users;
 	}
 
-	public String addStation(String type) {
-		StationFactory stationFactory = new StationFactory();
-
-		double x = ThreadLocalRandom.current().nextDouble(0, side);
-		double y = ThreadLocalRandom.current().nextDouble(0, side);
-		Point coordinates = new Point(x, y);
-
-		try {
-			Station station = stationFactory.createStation(type, 10, coordinates, true);
-			this.createStation(station);
-			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
-					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
-					+ station.getOnline() + ".";
-		} catch (InvalidStationTypeException e) {
-			return e.getMessage();
-		}
+	public HashMap<User, RidePlan> getUserRidePlans() {
+		return userRidePlans;
 	}
 
-	public String addStation(String type, double x, double y, int numberOfParkingSlots, boolean online) {
-		StationFactory stationFactory = new StationFactory();
-
-		if (x < 0 || x > side || y < 0 || y > side) {
-			return "Coordinates out of bounds";
-		}
-		Point coordinates = new Point(x, y);
-
-		try {
-			Station station = stationFactory.createStation(type, numberOfParkingSlots, coordinates, online);
-			this.createStation(station);
-			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
-					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
-					+ station.getOnline() + ".";
-		} catch (InvalidStationTypeException e) {
-			return e.getMessage();
-		}
-	}
-
+	// Helper functions
+	
+	/**
+	 * Add an existing station to the network.
+	 * 
+	 * @param station
+	 */
 	public void createStation(Station station) throws IllegalArgumentException {
 		if (station == null) {
 			throw new IllegalArgumentException("Station is null in addStation");
@@ -483,26 +504,80 @@ public class Network {
 		this.stations.put(station.getId(), station);
 	}
 
-	public String addUser(String name, String cardType) {
-		CardVisitorFactory cardFactory = new CardVisitorFactory();
-
-		try {
-			CardVisitor card = cardFactory.createCard(cardType);
-			User user = new User(name, card);
-			this.createUser(user);
-			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
-					+ ".";
-		} catch (InvalidCardTypeException e) {
-			return e.getMessage();
-		}
-
-	}
-
+	/**
+	 * Add an existing user to the network.
+	 * 
+	 * @param station
+	 */
 	public void createUser(User user) {
 		if (user == null) {
 			throw new IllegalArgumentException("User is null in createUser");
 		}
 		this.users.put(user.getId(), user);
+	}
+	
+	/**
+	 * Sorts the stations of the network according to a given policy.
+	 * 
+	 * @param policy
+	 * @return the sorted list of stations
+	 */
+	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
+		ArrayList<Station> sortedStations = null;
+		switch (policy.toUpperCase()) {
+		case "MOST_USED":
+			sortedStations = new MostUsedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate,
+					currentDate);
+			break;
+		case "LEAST_OCCUPIED":
+			sortedStations = new LeastOccupiedSort().sort(new ArrayList<Station>(this.getStations().values()),
+					creationDate, currentDate);
+			break;
+		default:
+			throw new InvalidSortingPolicyException(policy);
+		}
+		return sortedStations;
+	}
+	
+	/**
+	 * Creates a ride plan for a user, given the source, destination coordinates as
+	 * well as the type of bike the user wants and the policy they want to follow.
+	 * 
+	 * @param source
+	 * @param destination
+	 * @param user
+	 * @param policy
+	 * @param bikeType
+	 * @return rideplan Object
+	 */
+	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType)
+			throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
+		if (source == null || destination == null || user == null || policy == null || bikeType == null)
+			throw new IllegalArgumentException("All input values of planRide must not be null");
+		RidePlan rp = null;
+		switch (policy.toUpperCase()) {
+		case "SHORTEST":
+			rp = new ShortestPlan().planRide(source, destination, user, bikeType, this);
+			break;
+		case "FASTEST":
+			rp = new FastestPlan().planRide(source, destination, user, bikeType, this);
+			break;
+		case "AVOID_PLUS":
+			rp = new AvoidPlusPlan().planRide(source, destination, user, bikeType, this);
+			break;
+		case "PREFER_PLUS":
+			rp = new PreferPlusPlan().planRide(source, destination, user, bikeType, this);
+			break;
+		case "PRESERVE_UNIFORMITY":
+			rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, this);
+			break;
+		default:
+			throw new InvalidRidePlanPolicyException(policy);
+		}
+		// add user to list of observers in concerned destination stations
+		rp.getDestinationStation().addObserver(user);
+		user.setRidePlan(rp);
+		return rp;
 	}
 
 }

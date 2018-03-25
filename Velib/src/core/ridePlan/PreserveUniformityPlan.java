@@ -3,9 +3,9 @@ package core.ridePlan;
 import java.util.HashMap;
 
 import core.Network;
-import core.point.Point;
 import core.station.Station;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * with this policy the choice of the source and destination station is affected

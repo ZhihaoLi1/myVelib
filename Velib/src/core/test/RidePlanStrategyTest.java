@@ -13,14 +13,14 @@ import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.card.NoCardVisitor;
-import core.point.Point;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import user.User;
+import core.user.User;
+import core.utils.Point;
 
 /**
  * Test rules that all ride plans should obey

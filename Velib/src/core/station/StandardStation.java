@@ -1,6 +1,6 @@
 package core.station;
 
-import core.point.Point;
+import core.utils.Point;
 
 /**
  * Concrete station which behaves exactly as the abstract station would. No time

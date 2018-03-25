@@ -1,6 +1,6 @@
 package core.station;
 
-import core.point.Point;
+import core.utils.Point;
 
 /**
  * Station factory which creates different types of stations depending of the
