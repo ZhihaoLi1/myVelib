@@ -23,6 +23,6 @@ public class InvalidBikeException extends Exception {
 	
 	@Override
 	public String getMessage() {
-		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid bike)";
+		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid bike).";
 	}
 }

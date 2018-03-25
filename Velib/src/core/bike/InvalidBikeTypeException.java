@@ -22,6 +22,6 @@ public class InvalidBikeTypeException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "The given bike type is unknown: " + bikeType;
+		return "The given bike type is unknown: " + bikeType + ".";
 	}
 }

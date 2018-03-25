@@ -48,7 +48,7 @@ public class AvoidPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(stations, PolicyName.AVOID_PLUS);
+			throw new NoValidStationFoundException(n, PolicyName.AVOID_PLUS);
 		}
 
 		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType, n);

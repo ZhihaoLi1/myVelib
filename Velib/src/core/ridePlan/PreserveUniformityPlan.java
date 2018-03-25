@@ -57,7 +57,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(stations, PolicyName.PRESERVE_UNIFORMITY);
+			throw new NoValidStationFoundException(n, PolicyName.PRESERVE_UNIFORMITY);
 		}
 
 		Station fullerSourceStation = null;

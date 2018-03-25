@@ -52,7 +52,7 @@ public class ShortestPlan implements RidePlanStrategy {
 			}
 		}
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(stations, PolicyName.SHORTEST);
+			throw new NoValidStationFoundException(n, PolicyName.SHORTEST);
 		}
 		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, n);
 	}

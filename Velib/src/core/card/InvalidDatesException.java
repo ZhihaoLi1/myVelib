@@ -23,7 +23,7 @@ public class InvalidDatesException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid dates)";
+		return "The price of this rental cannot be calculated: " + bikeRental + " (invalid dates).";
 	}
 
 }
