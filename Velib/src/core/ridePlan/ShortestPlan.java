@@ -21,7 +21,7 @@ import user.User;
 public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, BikeType bikeType,
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
 			Network n) throws Exception {
 		HashMap<Integer,Station> stations = n.getStations();
 

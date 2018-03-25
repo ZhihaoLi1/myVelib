@@ -27,10 +27,6 @@ public class User implements Observer {
 	private RidePlan ridePlan;
 	private UserStats stats;
 
-	public User(String name) {
-		this(name, null, new NoCardVisitor());
-	}
-
 	public User(String name, CardVisitor card) {
 		this(name, null, card);
 	}

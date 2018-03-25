@@ -21,7 +21,7 @@ import core.rentals.BikeRental;
  */
 public class NoCardVisitor implements CardVisitor {
 
-	public NoCardVisitor() {
+	protected NoCardVisitor() {
 		super();
 	}
 

@@ -11,6 +11,8 @@ import core.Network;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+import core.card.CardVisitorFactory;
+import core.card.InvalidCardTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.ridePlan.RidePlanPolicyName;
@@ -40,10 +42,12 @@ public class RidePlanUniformityTest {
 	Point source = new Point(0, 0);
 	Point destination = new Point(10, 10);
 	// Create User
-	User bob = new User("bob", new Point(0, 0), new NoCardVisitor());
+	static User bob;
 
 	static StationFactory stationFactory = new StationFactory();
 	static BikeFactory bikeFactory = new BikeFactory();
+	static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+
 	// 1 bike
 	static Station emptierSourceStation;
 	// 1 bike
@@ -65,13 +69,19 @@ public class RidePlanUniformityTest {
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
+		
+		try {
+			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
+		} catch (InvalidCardTypeException e) {
+			fail("InvalidCardTypeException was thrown");
+		}
 
 		try {
 			// Plus and Standard destinations are the same distance away
-			n.addStation(emptierSourceStation);
-			n.addStation(emptierDestStation);
-			n.addStation(fullerSourceStation);
-			n.addStation(fullerDestStation);
+			n.createStation(emptierSourceStation);
+			n.createStation(emptierDestStation);
+			n.createStation(fullerSourceStation);
+			n.createStation(fullerDestStation);
 
 			// add bikes to all stations : They are all Mechanical.
 			emptierSourceStation.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());

@@ -1,6 +1,5 @@
 package core.rentals;
 
-import core.station.ParkingSlot;
 import user.User;
 
 /**

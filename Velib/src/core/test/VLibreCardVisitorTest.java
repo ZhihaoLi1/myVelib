@@ -4,13 +4,16 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+import core.card.CardVisitorFactory;
 import core.card.InvalidBikeException;
+import core.card.InvalidCardTypeException;
 import core.card.InvalidDatesException;
 import core.card.VLibreCardVisitor;
 import core.rentals.BikeRental;
@@ -24,18 +27,29 @@ import core.utils.DateParser;
  */
 public class VLibreCardVisitorTest {
 
+	public static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+	public VLibreCardVisitor card;
+
+	@Before
+	public void initializeCard() {
+		try {
+			card = (VLibreCardVisitor) cardVisitorFactory.createCard("VLIBRE_CARD");
+		} catch (InvalidCardTypeException e) {
+			fail();
+		}
+	}
+	
 	/**
 	 * Test that adding time credit does work.
 	 */
 	@Test
 	public void testAddTimeCredit() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
 		try {
-			vLibreCard.addTimeCredit(10);
+			card.addTimeCredit(10);
 		} catch (IllegalArgumentException e) {
 			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
-		assertEquals(vLibreCard.getTimeCredit(), 10);
+		assertEquals(card.getTimeCredit(), 10);
 	}
 
 	/**
@@ -44,15 +58,14 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenNegativeTimeCreditGivenThenThrowException() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
 		try {
-			vLibreCard.addTimeCredit(-10);
+			card.addTimeCredit(-10);
 			fail("Should have thrown IllegalArgumentException exception");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		try {
-			vLibreCard.removeTimeCredit(-10);
+			card.removeTimeCredit(-10);
 			fail("Should have thrown IllegalArgumentException exception");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
@@ -65,14 +78,13 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenNegativeTimeCreditLeftThenThrowException() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
 		try {
-			vLibreCard.addTimeCredit(10);
+			card.addTimeCredit(10);
 		} catch (IllegalArgumentException e) {
 			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 		try {
-			vLibreCard.removeTimeCredit(20);
+			card.removeTimeCredit(20);
 			fail("Should have thrown IllegalArgumentException exception");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
@@ -81,8 +93,7 @@ public class VLibreCardVisitorTest {
 
 	@Test
 	public void testGetTimeCredit() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-		assertEquals(vLibreCard.getTimeCredit(), 0);
+		assertEquals(card.getTimeCredit(), 0);
 	}
 
 	/**
@@ -116,8 +127,6 @@ public class VLibreCardVisitorTest {
 	public void testVisit() {
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-
 		Bike mBike = null;
 		try {
 			mBike = new BikeFactory().createBike(BikeType.MECH);
@@ -128,21 +137,21 @@ public class VLibreCardVisitorTest {
 
 		try {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
-			assertTrue(mRental.accept(vLibreCard) == 1);
+			assertTrue(mRental.accept(card) == 1);
 
-			vLibreCard.addTimeCredit(40);
+			card.addTimeCredit(40);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
-			assertTrue(mRental.accept(vLibreCard) == 0);
-			assertTrue(vLibreCard.getTimeCredit() == 40);
+			assertTrue(mRental.accept(card) == 0);
+			assertTrue(card.getTimeCredit() == 40);
 
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
-			assertTrue(mRental.accept(vLibreCard) == 0);
-			assertTrue(vLibreCard.getTimeCredit() == 10);
+			assertTrue(mRental.accept(card) == 0);
+			assertTrue(card.getTimeCredit() == 10);
 
-			vLibreCard.addTimeCredit(50);
+			card.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
-			assertTrue(mRental.accept(vLibreCard) == 0);
-			assertTrue(vLibreCard.getTimeCredit() == 60);
+			assertTrue(mRental.accept(card) == 0);
+			assertTrue(card.getTimeCredit() == 60);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
@@ -151,7 +160,6 @@ public class VLibreCardVisitorTest {
 			fail("IllegalArgumentException thrown when it shouldn't have");
 		}
 
-		vLibreCard = new VLibreCardVisitor();
 		Bike eBike = null;
 		try {
 			eBike = new BikeFactory().createBike(BikeType.ELEC);
@@ -161,22 +169,25 @@ public class VLibreCardVisitorTest {
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 
 		try {
+			// Reset time credit
+			card.removeTimeCredit(card.getTimeCredit());
+			
 			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
-			assertTrue(eRental.accept(vLibreCard) == 3);
+			assertTrue(eRental.accept(card) == 3);
 
-			vLibreCard.addTimeCredit(80);
+			card.addTimeCredit(80);
 			eRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
-			assertTrue(eRental.accept(vLibreCard) == 0);
-			assertTrue(vLibreCard.getTimeCredit() == 30);
+			assertTrue(eRental.accept(card) == 0);
+			assertTrue(card.getTimeCredit() == 30);
 
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
-			assertTrue(eRental.accept(vLibreCard) == 1);
-			assertTrue(vLibreCard.getTimeCredit() == 0);
+			assertTrue(eRental.accept(card) == 1);
+			assertTrue(card.getTimeCredit() == 0);
 
-			vLibreCard.addTimeCredit(60);
+			card.addTimeCredit(60);
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
-			assertTrue(eRental.accept(vLibreCard) == 0);
-			assertTrue(vLibreCard.getTimeCredit() == 0);
+			assertTrue(eRental.accept(card) == 0);
+			assertTrue(card.getTimeCredit() == 0);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
@@ -192,8 +203,6 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidDatesAreGivenThenThrowException() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-
 		Bike mBike = null;
 		try {
 			mBike = new BikeFactory().createBike(BikeType.MECH);
@@ -202,7 +211,7 @@ public class VLibreCardVisitorTest {
 		}
 		BikeRental rental = new BikeRental(mBike, null);
 		try {
-			rental.accept(vLibreCard);
+			rental.accept(card);
 			fail("Visitor should have thrown InvalidDatesException");
 		} catch (InvalidDatesException e) {
 			assertTrue(true);
@@ -216,14 +225,12 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
-		VLibreCardVisitor vLibreCard = new VLibreCardVisitor();
-
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 		BikeRental rental = new BikeRental(null, rentDate);
 		rental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
 
 		try {
-			rental.accept(vLibreCard);
+			rental.accept(card);
 			fail("Should have thrown InvalidBikeException");
 		} catch (InvalidDatesException e) {
 			fail("Should have thrown InvalidBikeException");

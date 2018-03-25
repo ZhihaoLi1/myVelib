@@ -11,6 +11,8 @@ import core.Network;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+import core.card.CardVisitorFactory;
+import core.card.InvalidCardTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
@@ -25,10 +27,12 @@ public class StationRentTest {
 	// create a network
 	static Network n = new Network();
 	// Create User
-	static User bob = new User("bob", new Point(0, 0), new NoCardVisitor());
+	static User bob;
 
 	static StationFactory stationFactory = new StationFactory();
 	static BikeFactory bikeFactory = new BikeFactory();
+	static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+
 	// Stations
 	static Station s;
 	static Station emptyS;
@@ -41,6 +45,13 @@ public class StationRentTest {
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
+		
+		try {
+			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
+		} catch (InvalidCardTypeException e) {
+			fail("InvalidCardTypeException was thrown");
+		}
+		
 		// add bikes to stations
 		try {
 			s.addBike(bikeFactory.createBike(BikeType.MECH), LocalDateTime.now());
@@ -52,9 +63,9 @@ public class StationRentTest {
 		}
 
 		// add user and station to network
-		n.addUser(bob);
-		n.addStation(s);
-		n.addStation(emptyS);
+		n.createUser(bob);
+		n.createStation(s);
+		n.createStation(emptyS);
 	}
 
 	@Test(expected = Exception.class)

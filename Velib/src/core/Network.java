@@ -10,6 +10,7 @@ import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+<<<<<<< 50ce15556ef464f8fe96877ce7aba401c1d978fb
 <<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
@@ -17,6 +18,11 @@ import core.card.InvalidDatesException;
 import core.card.CardType;
 import core.card.CardVisitorFactory;
 >>>>>>> Feat(Card): Add CardVisitorFactory
+=======
+import core.card.CardVisitor;
+import core.card.CardVisitorFactory;
+import core.card.InvalidCardTypeException;
+>>>>>>> Refactor(Card): Use CardVisitorFactory
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
@@ -84,7 +90,7 @@ public class Network {
 			}
 
 			try {
-				this.addStation(s);
+				this.createStation(s);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -135,9 +141,7 @@ public class Network {
 	}
 
 	public Network() {
-	}
-<<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
-	
+	}	
 	
 	/**
 	 * 
@@ -148,11 +152,7 @@ public class Network {
 	 * @param bikeType
 	 * @return rideplan Object
 	 */
-	public RidePlan createRidePlan(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
-=======
-
-	public String planRide(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
->>>>>>> Feat(Card): Add CardVisitorFactory
+	public RidePlan createRidePlan(Point source, Point destination, User user, RidePlanPolicyName policy, String bikeType) {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
 			throw new NullPointerException("All input values of planRide must not be null");
 		RidePlan rp = null;
@@ -174,7 +174,7 @@ public class Network {
 				rp = new PreserveUniformityPlan().planRide(source, destination, user, bikeType, this);
 				break;
 			default:
-				throw new Exception("policy not found");
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -403,23 +403,48 @@ public class Network {
 		return userRidePlans;
 	}
 
-	/**
-	 * 
-	 * @param station
-	 * @throws NullPointerException
-	 *             if station is null
-	 */
-	public void addStation(Station station) throws NullPointerException {
+
+	public String addStation(String type) throws NullPointerException {
+		StationFactory stationFactory = new StationFactory();
+
+		try {
+			Station station = stationFactory.createStation(type);
+			this.createStation(station);
+			return "Station " + station.getId() + " was created.";
+		} catch (InvalidStationTypeException e) {
+			return e.getMessage();
+		}
+		// verify that the coordinates of station is within the network.
+		
+	}
+	
+	public void createStation(Station station) {
 		if (station == null) {
-			throw new NullPointerException("Station is null in addStation");
+			throw new IllegalArgumentException("Station is null in addStation");
 		}
 		// verify that the coordinates of station is within the network.
 		this.stations.put(station.getId(), station);
 	}
 
-	public void addUser(User user) throws NullPointerException {
-		if (user == null)
-			throw new NullPointerException("User is null in addUser");
+	public String addUser(String name, String cardType) {
+		CardVisitorFactory cardFactory = new CardVisitorFactory();
+		
+		try {
+			CardVisitor card = cardFactory.createCard(cardType);
+			User user = new User(name, card);
+			this.createUser(user);
+			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
+					+ ".";
+		} catch (InvalidCardTypeException e) {
+			return e.getMessage();
+		}
+
+	}
+	
+	public void createUser(User user) {
+		if (user == null) {
+			throw new IllegalArgumentException("User is null in createUser");
+		}
 		this.users.put(user.getId(), user);
 	}
 

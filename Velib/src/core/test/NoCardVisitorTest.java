@@ -4,13 +4,17 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+import core.card.CardVisitor;
+import core.card.CardVisitorFactory;
 import core.card.InvalidBikeException;
+import core.card.InvalidCardTypeException;
 import core.card.InvalidDatesException;
 import core.card.NoCardVisitor;
 import core.rentals.BikeRental;
@@ -24,20 +28,25 @@ import core.utils.DateParser;
  */
 public class NoCardVisitorTest {
 
+	public static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+	public CardVisitor card;
+
+	@Before
+	public void initializeCard() {
+		try {
+			card = cardVisitorFactory.createCard("NO_CARD");
+		} catch (InvalidCardTypeException e) {
+			fail();
+		}
+	}
+
 	/**
 	 * Test that adding time credit does work.
 	 */
 	@Test
 	public void testAddTimeCredit() {
-		NoCardVisitor noCard = new NoCardVisitor();
-		noCard.addTimeCredit(10);
-		assertEquals(noCard.getTimeCredit(), 0);
-	}
-
-	@Test
-	public void testGetTimeCredit() {
-		NoCardVisitor noCard = new NoCardVisitor();
-		assertEquals(noCard.getTimeCredit(), 0);
+		card.addTimeCredit(10);
+		assertEquals(((NoCardVisitor) card).getTimeCredit(), 0);
 	}
 
 	/**
@@ -57,8 +66,6 @@ public class NoCardVisitorTest {
 	 */
 	@Test
 	public void testVisit() {
-		NoCardVisitor noCard = new NoCardVisitor();
-
 		Bike mBike = null;
 		try {
 			mBike = new BikeFactory().createBike(BikeType.MECH);
@@ -71,13 +78,13 @@ public class NoCardVisitorTest {
 
 		try {
 			mRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
-			assertTrue(mRental.accept(noCard) == 2);
+			assertTrue(mRental.accept(card) == 2);
 
 			mRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
-			assertTrue(mRental.accept(noCard) == 1);
+			assertTrue(mRental.accept(card) == 1);
 
 			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
-			assertTrue(mRental.accept(noCard) == 2);
+			assertTrue(mRental.accept(card) == 2);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike given to visitor");
 		} catch (InvalidDatesException e) {
@@ -93,13 +100,13 @@ public class NoCardVisitorTest {
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 		try {
 			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
-			assertTrue(eRental.accept(noCard) == 4);
+			assertTrue(eRental.accept(card) == 4);
 
 			eRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
-			assertTrue(eRental.accept(noCard) == 2);
+			assertTrue(eRental.accept(card) == 2);
 
 			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
-			assertTrue(eRental.accept(noCard) == 4);
+			assertTrue(eRental.accept(card) == 4);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike given to visitor");
 		} catch (InvalidDatesException e) {
@@ -113,8 +120,6 @@ public class NoCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidDatesAreGivenThenThrowException() {
-		NoCardVisitor noCard = new NoCardVisitor();
-
 		Bike mBike = null;
 		try {
 			mBike = new BikeFactory().createBike(BikeType.MECH);
@@ -124,7 +129,7 @@ public class NoCardVisitorTest {
 
 		BikeRental rental = new BikeRental(mBike, null);
 		try {
-			rental.accept(noCard);
+			rental.accept(card);
 			fail("Visitor should have thrown InvalidDatesException");
 		} catch (InvalidDatesException e) {
 			assertTrue(true);
@@ -138,14 +143,12 @@ public class NoCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
-		NoCardVisitor noCard = new NoCardVisitor();
-
 		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
 		BikeRental rental = new BikeRental(null, rentDate);
 		rental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
 
 		try {
-			rental.accept(noCard);
+			rental.accept(card);
 			fail("Visitor should have thrown InvalidBikeTypeException");
 		} catch (InvalidDatesException e) {
 			fail("Invalid dates given to visitor");

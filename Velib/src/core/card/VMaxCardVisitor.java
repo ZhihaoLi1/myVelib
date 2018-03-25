@@ -24,7 +24,7 @@ import core.rentals.BikeRental;
  */
 public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVisitor {
 
-	public VMaxCardVisitor() {
+	protected VMaxCardVisitor() {
 		super();
 	}
 
