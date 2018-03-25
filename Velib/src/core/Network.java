@@ -48,7 +48,7 @@ public class Network {
 	 * @param percentageOfElecBikes
 	 * 
 	 */
-	public Network(String name, int numberOfStations, ArrayList<Integer> numberOfParkingSlotsPerStation, double side,
+	public Network(String name, int numberOfStations, int numberOfParkingSlotsPerStation, double side,
 			double percentageOfBikes, double percentageOfPlusStations, double percentageOfElecBikes) {
 		this.name = name;
 		this.side = side;
@@ -64,11 +64,11 @@ public class Network {
 			Station s = null;
 			try {
 				if (i < numberOfStations * percentageOfPlusStations) {
-					s = stationFactory.createStation(StationType.PLUS, numberOfParkingSlotsPerStation.get(i),
-							coordinates, true);
+					s = stationFactory.createStation(StationType.PLUS, numberOfParkingSlotsPerStation, coordinates,
+							true);
 				} else {
-					s = stationFactory.createStation(StationType.STANDARD, numberOfParkingSlotsPerStation.get(i),
-							coordinates, true);
+					s = stationFactory.createStation(StationType.STANDARD, numberOfParkingSlotsPerStation, coordinates,
+							true);
 				}
 			} catch (InvalidStationTypeException e) {
 				e.printStackTrace();
@@ -94,7 +94,7 @@ public class Network {
 		 * random station that is not full Each time a station is full, remove it from
 		 * the list
 		 */
-		int totalNumberOfParkingSlots = numberOfParkingSlotsPerStation.stream().mapToInt(Integer::intValue).sum();
+		int totalNumberOfParkingSlots = numberOfParkingSlotsPerStation * numberOfStations;
 		int totalNumberOfBikes = (int) (totalNumberOfParkingSlots * percentageOfBikes);
 		ArrayList<Station> notEmptyStations = new ArrayList<Station>(this.stations.values());
 
@@ -168,8 +168,11 @@ public class Network {
 		User user = users.get(userId);
 		// find station
 		Station s = stations.get(stationId);
-		if (user == null || s == null)
-			throw new NullPointerException("No user or station found given Id.");
+		if (user == null)
+			return "No user found with id " + userId;
+		if (s == null)
+			return "No station found with id " + stationId;
+
 		// ensure that only one user can access the station at the same time
 		BikeType bt = BikeType.valueOf(bikeType);
 
@@ -177,7 +180,7 @@ public class Network {
 		synchronized (user) {
 			// verify if user does not already have a rental
 			if (user.getBikeRental() != null)
-				return user.getName() + " still has a bike rental, he cannot rent another bike."; 
+				return user.getName() + " still has a bike rental, he cannot rent another bike.";
 			synchronized (s) {
 				b = s.rentBike(bt, LocalDateTime.now());
 				// if no bike is found (either station is offline or there are no bikes)
@@ -187,7 +190,7 @@ public class Network {
 				try {
 					user.setBikeRental(new BikeRental(b, LocalDateTime.now()));
 				} catch (OngoingBikeRentalException e) {
-					return user.getName() + " still has a bike rental, he cannot rent another bike."; 
+					return user.getName() + " still has a bike rental, he cannot rent another bike.";
 				}
 				return user.getName() + "has rented a bike !";
 			}
@@ -208,9 +211,9 @@ public class Network {
 		// find station
 		Station s = stations.get(stationId);
 		if (user == null)
-			return "No user found with id "+ userId;
+			return "No user found with id " + userId;
 		if (s == null)
-			return "No station found with id "+ stationId;
+			return "No station found with id " + stationId;
 		// the same user cannot return more than one bike at the same time.
 		synchronized (user) {
 			// make sure user has a rental
@@ -237,17 +240,19 @@ public class Network {
 			user.getStats().setTotalTimeSpent(br.getTimeSpent());
 			// FIXME: Forgot to reset the user's bikeRental?
 
-			return user.getName() + " should pay " + price + "for this ride. Thank you for choosing MyVelib, have a wonderful day!" ;
+			return user.getName() + " should pay " + price
+					+ "for this ride. Thank you for choosing MyVelib, have a wonderful day!";
 		}
 	}
-	
+
 	/**
 	 * Display statistics of a station
+	 * 
 	 * @param stationId
 	 * @return
 	 */
 	public String displayStation(int stationId) {
-		Station s  = this.stations.get(stationId);
+		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
 		return s.displayStats();
@@ -255,6 +260,7 @@ public class Network {
 
 	/**
 	 * Display user statistics
+	 * 
 	 * @param userId
 	 * @return
 	 */
@@ -264,35 +270,35 @@ public class Network {
 			return "No user found for id " + userId;
 		return u.displayStats();
 	}
-	
+
 	/**
 	 * Set station to offline
+	 * 
 	 * @param stationId
 	 * @return
 	 */
 	public String setOffline(int stationId) {
-		Station s  = this.stations.get(stationId);
+		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
 		s.setOnline(false);
-		return "Station " + stationId + " is set to offline."; 
+		return "Station " + stationId + " is set to offline.";
 	}
-	
-	
+
 	/**
 	 * Set station to online
+	 * 
 	 * @param stationId
 	 * @return
 	 */
 	public String setOnline(int stationId) {
-		Station s  = this.stations.get(stationId);
+		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
 		s.setOnline(true);
-		return "Station " + stationId + " is set to online."; 
+		return "Station " + stationId + " is set to online.";
 	}
-	
-	
+
 	/**
 	 * Send to CLI that station is full, and a ridePlan is cancelled
 	 * 
@@ -301,7 +307,8 @@ public class Network {
 	 * @return
 	 */
 	public String notifyStationFull(User user, Station station) {
-		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName() + " is cancelled. Please create a new one";
+		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName()
+				+ " is cancelled. Please create a new one";
 	}
 
 	public String getName() {
@@ -353,7 +360,7 @@ public class Network {
 		// verify that the coordinates of station is within the network.
 		this.stations.put(station.getId(), station);
 	}
-	
+
 	public void addUser(User user) throws NullPointerException {
 		if (user == null)
 			throw new NullPointerException("User is null in addUser");

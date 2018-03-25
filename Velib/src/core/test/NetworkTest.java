@@ -18,10 +18,8 @@ public class NetworkTest {
 
 	@Test
 	public void createDefaultNetworkThenNumberOfBikesDistributedCorrectly() {
-		ArrayList<Integer> numberOfParkingSlotsPerStation = new ArrayList<Integer>();
-		for (int i = 0; i < 10; i++) {
-			numberOfParkingSlotsPerStation.add(10);
-		}
+		int numberOfParkingSlotsPerStation = 10;
+
 		Network n = new Network("testNetwork", 10, numberOfParkingSlotsPerStation, 10, 0.80, 0.5, 0.5);
 
 		// total number of stations should be 10
