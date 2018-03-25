@@ -1,7 +1,7 @@
 package core.station;
 
 /**
- * Describes the different statuses a parking slot can have
+ * Describes the different statuses a parking slot can have.
  * 
  * @author matto
  *

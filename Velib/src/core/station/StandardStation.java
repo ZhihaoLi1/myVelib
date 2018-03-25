@@ -4,8 +4,11 @@ import core.point.Point;
 
 /**
  * Concrete station which behaves exactly as the abstract station would. No time
- * credit is given on return.
+ * credit is given on return. <br>
  * 
+ * Extends Station
+ * 
+ * @see Station
  * @author matto
  *
  */

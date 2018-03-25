@@ -28,7 +28,15 @@ public class BikeRental implements Rental {
 		this.returnDate = null;
 	}
 
-	// Passes information to visitor to calculate final cost.
+	/**
+	 * Passes itself to the visitor so that its cost can be calculated.
+	 * 
+	 * @param visitor
+	 *            The CardVisitor which will be used to compute costs
+	 * @return the price of the course (after time credit is deducted)
+	 * @throws InvalidBikeException
+	 * @throws InvalidDatesException
+	 */
 	@Override
 	public double accept(CardVisitor visitor) throws InvalidBikeException, InvalidDatesException {
 		return visitor.visit(this);

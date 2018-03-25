@@ -17,11 +17,11 @@ public class StationFactory {
 	 * @param stationType
 	 *            - the type of station to create
 	 * @param numberOfParkingSlots
-	 *            -
+	 *            - the number of parking slots the station should have
 	 * @param coordinates
-	 *            -
+	 *            - the coordinates of the station
 	 * @param online
-	 *            -
+	 *            - the initial online status of the station
 	 * @return a Station
 	 * @throws InvalidStationTypeException
 	 *             if the given type is not recognized as a valid station type

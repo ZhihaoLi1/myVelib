@@ -7,6 +7,7 @@ package core.point;
  *
  */
 public class Point {
+	// The coordinates of the point, in km
 	private double x;
 	private double y;
 
@@ -15,6 +16,13 @@ public class Point {
 		this.y = y;
 	}
 
+	/**
+	 * Calculates distance between this point and another given point.
+	 * 
+	 * @param p
+	 *            the point of which we want to calculate the distance from this.
+	 * @return the distance between the two points, in km
+	 */
 	public double distance(Point p) {
 		return Math.sqrt(Math.pow(p.y - this.y, 2) + Math.pow(p.x - this.x, 2));
 	}
@@ -29,11 +37,12 @@ public class Point {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "(" + x + "," + y + ")";
 	}
+
 	public double getX() {
 		return x;
 	}

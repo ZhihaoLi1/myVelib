@@ -35,9 +35,6 @@ public class Network {
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
-	 * FIXME: I think the number of stations is the same for each Station in a
-	 * network
-	 * 
 	 * @param name
 	 * @param numberOfStations
 	 * @param numberOfParkingSlotsPerStation

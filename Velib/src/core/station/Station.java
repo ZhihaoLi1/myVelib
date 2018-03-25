@@ -15,7 +15,9 @@ import core.point.Point;
 import core.rentals.BikeRental;
 
 /**
- * Abstract station representation
+ * Represents a station. A station is a place on the map where a user can find
+ * parking slots (which may or may not have a bike), and a terminal used to rent
+ * and return bikes.
  * 
  * @author matto
  *
@@ -79,7 +81,7 @@ public abstract class Station extends Observable {
 					notifyObservers();
 				}
 				return true;
-			} catch (Exception e) {
+			} catch (OccupiedParkingSlotException e) {
 				continue;
 			}
 		}
@@ -144,22 +146,28 @@ public abstract class Station extends Observable {
 	 */
 	public Bike rentBike(BikeType bikeType, LocalDateTime date) {
 		// verify if station is online
-		if (!this.online) return null;
-		
+		if (!this.online)
+			return null;
+
 		// find appropriate bike in station;
 		Bike b = null;
 
 		for (ParkingSlot ps : this.getParkingSlots()) {
 			if (ps.isWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
-				synchronized(ps) {
-					b = ps.getBike();
-					ps.emptyBike(date);
+				try {
+					synchronized (ps) {
+						b = ps.getBike();
+						ps.emptyBike(date);
+					}
+					// increment station statistics
+					this.getStats().incrementTotalRentals();
+					break;
+				} catch (OccupiedParkingSlotException e) {
+					continue;
 				}
-				// increment station statistics
-				this.getStats().incrementTotalRentals();
-				break;
+
 			}
-		}		
+		}
 		return b;
 	}
 
@@ -242,7 +250,7 @@ public abstract class Station extends Observable {
 	}
 
 	/**
-	 * Calculate occupation rate over a given time period
+	 * Calculate occupation rate over a given time period. 
 	 * 
 	 * @param startDate
 	 * @param endDate

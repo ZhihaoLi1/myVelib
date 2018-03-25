@@ -3,7 +3,7 @@ package core.station;
 import java.time.LocalDateTime;
 
 /**
- * Describes the status of a parking slot over a given time period
+ * Describes the status of a parking slot over a given time period.
  * 
  * @author matto
  *

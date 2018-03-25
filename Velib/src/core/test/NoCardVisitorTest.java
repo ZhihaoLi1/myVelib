@@ -16,9 +16,17 @@ import core.card.NoCardVisitor;
 import core.rentals.BikeRental;
 import core.utils.DateParser;
 
-// FIXME: Comments
+/**
+ * Test class for NoCardVisitor
+ * 
+ * @author matto
+ *
+ */
 public class NoCardVisitorTest {
 
+	/**
+	 * Test that adding time credit does work.
+	 */
 	@Test
 	public void testAddTimeCredit() {
 		NoCardVisitor noCard = new NoCardVisitor();
@@ -32,6 +40,21 @@ public class NoCardVisitorTest {
 		assertEquals(noCard.getTimeCredit(), 0);
 	}
 
+	/**
+	 * Verify that price calculation does work <br>
+	 * <br>
+	 * Test scenarios: <br>
+	 * <br>
+	 * 1. <br>
+	 * Calculate the price of a 2-hour ride with a mech bike: should be 2€. <br>
+	 * Calculate the price of a 50-min ride with a mech bike: should be 1€. <br>
+	 * Calculate the price of a 1,5-hour ride with a mech bike: should be 2€. <br>
+	 * 
+	 * 2. <br>
+	 * Calculate the price of a 2-hour ride with an elec bike: should be 4€. <br>
+	 * Calculate the price of a 50-min ride with an elec bike: should be 2€ <br>
+	 * Calculate the price of a 1,5-hour ride with an elec bike: should be 4€. <br>
+	 */
 	@Test
 	public void testVisit() {
 		NoCardVisitor noCard = new NoCardVisitor();
@@ -84,6 +107,10 @@ public class NoCardVisitorTest {
 		}
 	}
 
+	/**
+	 * Test that giving a rental whose dates are not filled throws an
+	 * IllegalArgumentException.
+	 */
 	@Test
 	public void whenInvalidDatesAreGivenThenThrowException() {
 		NoCardVisitor noCard = new NoCardVisitor();
@@ -106,6 +133,9 @@ public class NoCardVisitorTest {
 		}
 	}
 
+	/**
+	 * Test that giving a rental without a bike throws an IllegalArgumentException.
+	 */
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
 		NoCardVisitor noCard = new NoCardVisitor();

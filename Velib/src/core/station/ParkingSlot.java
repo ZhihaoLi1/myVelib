@@ -6,7 +6,17 @@ import java.util.ArrayList;
 
 import core.bike.Bike;
 
-// FIXME: Javadoc
+/**
+ * Represents a parking slot of a station. <br>
+ * A parking slot can contain a bike (which can be added and removed), and has a
+ * status (working or out-of-order). If it's out-of-order, no operations can be
+ * done on the parking slot. <br>
+ * Moreover, the parking slot stores a list of its statuses over time, to
+ * calculate its occupation rate.
+ * 
+ * @author matto
+ *
+ */
 public class ParkingSlot {
 	private final int id;
 	private Boolean working = true;
@@ -41,21 +51,42 @@ public class ParkingSlot {
 		return bike;
 	}
 
+	/**
+	 * Adds a bike to the parking slot.
+	 * 
+	 * @param bike
+	 *            the bike to set in the parking slot
+	 * @param date
+	 *            the date at which the action is performed
+	 * @throws OccupiedParkingSlotException
+	 *             when the station is not working or is already occupied
+	 */
 	public void setBike(Bike bike, LocalDateTime date) throws OccupiedParkingSlotException {
-		if (this.bike != null && bike != null) {
+		if (this.working == false || this.bike != null) {
 			throw new OccupiedParkingSlotException(this);
 		}
 		this.bike = bike;
 		this.hasChanged = true;
 		changeStatus(date);
 	}
-	
-	public void emptyBike(LocalDateTime date) {
+
+	/**
+	 * Empties the parking slot.
+	 * 
+	 * @param date
+	 *            the date at which the action is performed
+	 * @throws OccupiedParkingSlotException
+	 *             when the station is not working
+	 */
+	public void emptyBike(LocalDateTime date) throws OccupiedParkingSlotException {
+		if (this.working == false) {
+			throw new OccupiedParkingSlotException(this);
+		}
 		this.bike = null;
 		this.hasChanged = true;
 		changeStatus(date);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -83,6 +114,13 @@ public class ParkingSlot {
 		}
 	}
 
+	/**
+	 * Sets a new status. Also ends the current one (adds the endDate to it).
+	 * 
+	 * @param newStatusName
+	 * @param date
+	 *            the date at which the action is performed
+	 */
 	public void setStatus(ParkingSlotStatusName newStatusName, LocalDateTime date) {
 		if (this.currentStatus != null) {
 			this.currentStatus.setEndDate(date);
@@ -92,7 +130,20 @@ public class ParkingSlot {
 		this.statusHistory.add(this.currentStatus);
 	}
 
-	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws NullPointerException {
+	/**
+	 * Calculates the occupation rate of the parking slot for a given timespan,
+	 * defined by: (occupied time in timespan) / (total time in timespan)
+	 * 
+	 * @param status
+	 * @param startDate
+	 * @param endDate
+	 * @return the timespan of the status which is contained between the given start
+	 *         time and end time
+	 * @throws IllegalArgumentException
+	 *             when one of the statuses in statusHistory, startDate or endDate
+	 *             is not defined
+	 */
+	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws IllegalArgumentException {
 		double totalOccupiedTime = 0;
 		for (ParkingSlotStatus status : statusHistory) {
 			totalOccupiedTime += calculateEffectiveTimeInSpan(status, startDate, endDate)
@@ -102,17 +153,29 @@ public class ParkingSlot {
 		return totalOccupiedTime;
 	}
 
+	/**
+	 * Calculates the time (in seconds) of the given status is contained between the
+	 * given start time and end time.
+	 * 
+	 * @param status
+	 * @param startDate
+	 * @param endDate
+	 * @return the time (in seconds) for which the status is contained between the
+	 *         given start time and end time
+	 * @throws IllegalArgumentException
+	 *             when the status, startDate or endDate is not defined
+	 */
 	private double calculateEffectiveTimeInSpan(ParkingSlotStatus status, LocalDateTime startDate,
-			LocalDateTime endDate) throws NullPointerException {
+			LocalDateTime endDate) throws IllegalArgumentException {
 		LocalDateTime effectiveStartDate;
 		LocalDateTime effectiveEndDate;
 
 		if (status == null) {
-			throw new NullPointerException("Invalid status");
+			throw new IllegalArgumentException("Invalid status given");
 		}
 
 		if (startDate == null || endDate == null) {
-			throw new NullPointerException("Wrong date given");
+			throw new IllegalArgumentException("Invalid date given");
 		}
 
 		if (status.getStartDate().compareTo(startDate) <= 0) {
