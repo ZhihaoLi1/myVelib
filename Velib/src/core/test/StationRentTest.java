@@ -64,9 +64,9 @@ public class StationRentTest {
 		}
 
 		// add user and station to network
-		n.createUser(bob);
-		n.createStation(s);
-		n.createStation(emptyS);
+		n.addUser(bob);
+		n.addStation(s);
+		n.addStation(emptyS);
 	}
 
 	@Test

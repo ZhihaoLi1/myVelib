@@ -35,8 +35,8 @@ import core.user.User;
 import core.utils.Point;
 
 /**
- * Network of MyVelib Has stations and users. The users can rent and return
- * bikes at stations. Stations have a number of parking slots for bikes.
+ * Network of MyVelib Has stations and users They can rent and return bikes
+ * All methods that are going to be called by the CLUI returns a string for the CLUI to display.
  * 
  * @author animato
  *
@@ -44,7 +44,7 @@ import core.utils.Point;
 public class Network {
 
 	private String name;
-	private double side;
+	private double side = 10;
 
 	// These dates are used to calculate the occupation rate for the entire network
 	private LocalDateTime creationDate;
@@ -130,13 +130,16 @@ public class Network {
 	}
 
 	/**
-	 * Creates an empty network (stations, parking slots and bikes) with 10 stations (10
-	 * parking slots each), 4km side, 75% full of bikes <br>
-	 * Half of the stations are plus stations, half of the bikes are elec bikes.
-	 * 
+	 * Create a skeleton of the network with no stations for testing purposes. 
 	 */
 	public Network() {
+		this("EmptyNetwork", 0, 0, 4, 0, 0, 0, LocalDateTime.now());
 	}
+	
+	/**
+	 * Create the ride plan given input parameters
+	 * 
+	 */
 
 	// Core functions
 
@@ -183,7 +186,7 @@ public class Network {
 			return e.getMessage();
 		}
 	}
-	
+
 	/**
 	 * Add a new user with a specific card type to the network.
 	 * 
@@ -198,7 +201,7 @@ public class Network {
 		try {
 			CardVisitor card = cardFactory.createCard(cardType);
 			User user = new User(name, card);
-			this.createUser(user);
+			this.addUser(user);
 			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
 					+ ".";
 		} catch (InvalidCardTypeException e) {
@@ -223,7 +226,7 @@ public class Network {
 
 		try {
 			Station station = stationFactory.createStation(type, 10, coordinates, true);
-			this.createStation(station);
+			this.addStation(station);
 			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
 					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
 					+ station.getOnline() + ".";
@@ -232,7 +235,17 @@ public class Network {
 		}
 	}
 
-	public Bike rentBike(User user, Station station, String bikeType, LocalDateTime rentalDate) throws Exception{
+	/**
+	 * Completes the operation for renting a bike, returns the bike that is rented
+	 * 
+	 * @param user
+	 * @param station
+	 * @param bikeType
+	 * @param rentalDate
+	 * @return bike
+	 * @throws Exception
+	 */
+	public Bike rentBike(User user, Station station, String bikeType, LocalDateTime rentalDate) throws Exception {
 		Bike b = null;
 		synchronized (user) {
 			// verify if user does not already have a rental
@@ -254,7 +267,7 @@ public class Network {
 			}
 		}
 	}
-	
+
 	/**
 	 * Add a new station to the network.
 	 * 
@@ -278,7 +291,7 @@ public class Network {
 
 		try {
 			Station station = stationFactory.createStation(type, numberOfParkingSlots, coordinates, online);
-			this.createStation(station);
+			this.addStation(station);
 			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
 					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
 					+ station.getOnline() + ".";
@@ -289,6 +302,7 @@ public class Network {
 
 	/**
 	 * Rents a bike, and returns a String describing
+	 * Rents the bike and returns the corresponding message to be passed on to the CLUI
 	 * 
 	 * @param userId
 	 * @param stationId
@@ -307,7 +321,8 @@ public class Network {
 		try {
 			Bike b = rentBike(user, s, bikeType, rentalDate);
 			if (b != null)
-				return user.getName() + " has sucessfully rented a bike at " + rentalDate + ".\n";
+				return user.getName() + " has sucessfully rented a " + b.getType() + " bike from station S" + s.getId()
+						+ " at " + rentalDate + ".\n";
 			throw new Exception("No bike found to rent");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -316,6 +331,7 @@ public class Network {
 	}
 
 	/**
+	 * Returns the bike of a user and returns the corresponding message to be passed on to the CLUI
 	 * 
 	 * @param userId
 	 * @param stationId
@@ -336,7 +352,7 @@ public class Network {
 			// make sure user has a rental
 			BikeRental br = user.getBikeRental();
 			if (br == null)
-				return "User is not renting a bike, he cannot return a bike";
+				return user.getName() + " is not renting a bike, he cannot return a bike";
 			br.setReturnDate(returnDate);
 			br.setTimeSpent(br.getTimeSpent() + timeSpent);
 			// 2 users cannot return a bike at the same time at a specific station
@@ -361,7 +377,7 @@ public class Network {
 			// add time credit if return station is a plus station
 			user.getCard().addTimeCredit(s.getBonusTimeCreditOnReturn());
 			user.getStats().addTotalTimeCredits(s.getBonusTimeCreditOnReturn());
-			
+
 			// calculate price
 			double price;
 			try {
@@ -488,13 +504,13 @@ public class Network {
 	}
 
 	// Helper functions
-	
+
 	/**
-	 * Add an existing station to the network.
 	 * 
 	 * @param station
+	 * @throws IllegalArgumentException
 	 */
-	public void createStation(Station station) throws IllegalArgumentException {
+	public void addStation(Station station) throws IllegalArgumentException {
 		if (station == null) {
 			throw new IllegalArgumentException("Station is null in addStation");
 		}
@@ -503,39 +519,16 @@ public class Network {
 	}
 
 	/**
-	 * Add an existing user to the network.
-	 * 
+	 * Add user to network
 	 * @param user
 	 */
-	public void createUser(User user) {
+	public void addUser(User user) {
 		if (user == null) {
 			throw new IllegalArgumentException("User is null in createUser");
 		}
 		this.users.put(user.getId(), user);
 	}
 	
-	/**
-	 * Sorts the stations of the network according to a given policy.
-	 * 
-	 * @param policy
-	 * @return the sorted list of stations
-	 */
-	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
-		ArrayList<Station> sortedStations = null;
-		switch (policy.toUpperCase()) {
-		case "MOST_USED":
-			sortedStations = new MostUsedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate,
-					currentDate);
-			break;
-		case "LEAST_OCCUPIED":
-			sortedStations = new LeastOccupiedSort().sort(new ArrayList<Station>(this.getStations().values()),
-					creationDate, currentDate);
-			break;
-		default:
-			throw new InvalidSortingPolicyException(policy);
-		}
-		return sortedStations;
-	}
 	
 	/**
 	 * Creates a ride plan for a user, given the source, destination coordinates as

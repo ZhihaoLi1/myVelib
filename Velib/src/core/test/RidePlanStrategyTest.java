@@ -74,11 +74,11 @@ public class RidePlanStrategyTest {
 
 		try {
 			// Plus and Standard destinations are the same distance away
-			n.createStation(sourceStation);
-			n.createStation(destStation);
-			n.createStation(emptySourceStation);
-			n.createStation(fullDestStation);
-			n.createStation(elecSourceStation);
+			n.addStation(sourceStation);
+			n.addStation(destStation);
+			n.addStation(emptySourceStation);
+			n.addStation(fullDestStation);
+			n.addStation(elecSourceStation);
 
 			// add one bike to source and destination stations : They are all Mechanical.
 			sourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());

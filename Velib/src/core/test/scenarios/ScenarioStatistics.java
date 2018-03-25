@@ -30,9 +30,9 @@ public class ScenarioStatistics {
 		
 		
 		// add users to network 
-		n.createUser(alice);
-		n.createUser(bob);
-		n.createUser(charles);
+		n.addUser(alice);
+		n.addUser(bob);
+		n.addUser(charles);
 		
 		ArrayList<Station> stations = new ArrayList<Station>(n.getStations().values());
 		

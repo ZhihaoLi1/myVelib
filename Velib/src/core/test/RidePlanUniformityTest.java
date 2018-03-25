@@ -76,10 +76,10 @@ public class RidePlanUniformityTest {
 
 		try {
 			// Plus and Standard destinations are the same distance away
-			n.createStation(emptierSourceStation);
-			n.createStation(emptierDestStation);
-			n.createStation(fullerSourceStation);
-			n.createStation(fullerDestStation);
+			n.addStation(emptierSourceStation);
+			n.addStation(emptierDestStation);
+			n.addStation(fullerSourceStation);
+			n.addStation(fullerDestStation);
 
 			// add bikes to all stations : They are all Mechanical.
 			emptierSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());

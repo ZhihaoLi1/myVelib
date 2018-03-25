@@ -9,12 +9,15 @@ import org.junit.Test;
 
 import core.Network;
 import core.card.InvalidCardTypeException;
+import core.point.Point;
+import core.station.PlusStation;
+import core.station.StandardStation;
 import core.station.Station;
 import core.user.User;
 import core.utils.DateParser;
 
 /**
- * Test creation of network 
+ * Test creation of network and methods of Network 
  * 
  * @author animato
  *
@@ -40,7 +43,7 @@ public class NetworkTest {
 		Network n = new Network("testRental", LocalDateTime.now());
 		try {
 			User alice = new User("alice");
-			n.createUser(alice);
+			n.addUser(alice);
 			String message = "";
 			for (Station s: n.getStations().values()) {
 				if (s.getOnline() && s.hasCorrectBikeType("MECH")) {
@@ -69,6 +72,24 @@ public class NetworkTest {
 			e.printStackTrace();
 		}
 			
+	}
+	
+	@Test
+	public void addStationToNetwork() {
+		Network n = new Network();
+		
+		n.addStation("STANDARD");
+		n.addStation("PLUS"); 
+	
+		assertEquals(n.getStations().values().size(), 2);
+		assertTrue(new ArrayList<Station>(n.getStations().values()).get(0) instanceof StandardStation);
+		assertTrue(new ArrayList<Station>(n.getStations().values()).get(1) instanceof PlusStation);
+
+		n.addStation("STANDARD", 2, 2, 10, true);
+		Station s = new ArrayList<Station>(n.getStations().values()).get(2);
+		assertTrue(s instanceof StandardStation);
+		assertEquals(s.getCoordinates(), new Point(2,2));
+		assertEquals(s.getOnline(), true);
 	}
 
 }

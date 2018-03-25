@@ -67,10 +67,10 @@ public class RidePlanShortestOrFastestPathTest {
 
 		try {
 
-			n.createStation(sourceStationS);
-			n.createStation(destStationS);
-			n.createStation(sourceStationF);
-			n.createStation(destStationF);
+			n.addStation(sourceStationS);
+			n.addStation(destStationS);
+			n.addStation(sourceStationF);
+			n.addStation(destStationF);
 
 			// add one bike to source and destination stations : They are all Mechanical.
 			sourceStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
