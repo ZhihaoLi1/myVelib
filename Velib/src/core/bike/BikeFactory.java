@@ -1,7 +1,5 @@
 package core.bike;
 
-import core.BikeType;
-
 /**
  * Bike factory which creates different types of bikes depending of the given type
  * @author matto

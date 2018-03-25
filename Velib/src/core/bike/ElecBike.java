@@ -1,6 +1,5 @@
 package core.bike;
 
-import core.BikeType;
 import core.station.IDGenerator;
 
 /**

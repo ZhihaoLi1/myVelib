@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.ridePlan.RidePlanPolicyName;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import user.User;
 
 /**
  * Test ride plans concerning plus stations 
@@ -77,9 +77,9 @@ public class RidePlanPlusStationsTest {
 	 * Choose the right station Avoid plus stations
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.AVOID_PLUS, BikeType.MECH);
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, RidePlanPolicyName.AVOID_PLUS, BikeType.MECH);
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation,
-				PolicyName.AVOID_PLUS, BikeType.MECH, n);
+				RidePlanPolicyName.AVOID_PLUS, BikeType.MECH, n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
 	}
 
@@ -88,9 +88,9 @@ public class RidePlanPlusStationsTest {
 	 * Choose the closest station (standard station)
 	 */
 	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = n.planRide(source, destination, bob, PolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan bobRidePlan = n.planRide(source, destination, bob, RidePlanPolicyName.PREFER_PLUS, BikeType.MECH);
 		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation,
-				PolicyName.PREFER_PLUS, BikeType.MECH, n);
+				RidePlanPolicyName.PREFER_PLUS, BikeType.MECH, n);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
 	}
 

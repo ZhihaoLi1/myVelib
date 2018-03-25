@@ -1,6 +1,7 @@
-package core;
+package core.rentals;
 
 import core.station.ParkingSlot;
+import user.User;
 
 /**
  * Thrown when a bike rental is added to a user which already has one.

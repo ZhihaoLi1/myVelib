@@ -2,12 +2,11 @@ package core.ridePlan;
 
 import java.util.HashMap;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
 import core.station.Station;
+import user.User;
 
 /**
  * with this policy the choice of the source and destination station is affected
@@ -57,7 +56,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, PolicyName.PRESERVE_UNIFORMITY);
+			throw new NoValidStationFoundException(n, RidePlanPolicyName.PRESERVE_UNIFORMITY);
 		}
 
 		Station fullerSourceStation = null;
@@ -87,7 +86,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		if (emptierDestStation != null)
 			destStation = emptierDestStation;
 
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PRESERVE_UNIFORMITY, bikeType,
+		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PRESERVE_UNIFORMITY, bikeType,
 				n);
 	}
 

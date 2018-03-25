@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
-import core.BikeType;
-import core.User;
 import core.bike.Bike;
+import core.bike.BikeType;
 import core.bike.ElecBike;
 import core.bike.MechBike;
 import core.point.Point;
 import core.rentals.BikeRental;
+import user.User;
 
 /**
  * Represents a station. A station is a place on the map where a user can find

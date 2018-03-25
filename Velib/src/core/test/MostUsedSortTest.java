@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import core.MostUsedSort;
-import core.SortingStrategy;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import core.station.stationSort.MostUsedSort;
+import core.station.stationSort.SortingStrategy;
 
 // FIXME: Comments
 public class MostUsedSortTest {

@@ -1,9 +1,9 @@
 package core.ridePlan;
 
-import core.BikeType;
 import core.Network;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
+import user.User;
 
 
 /**

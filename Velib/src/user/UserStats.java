@@ -1,4 +1,4 @@
-package core;
+package user;
 
 /**
  * Contains statistics of the user

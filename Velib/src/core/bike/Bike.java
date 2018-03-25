@@ -1,7 +1,5 @@
 package core.bike;
 
-import core.BikeType;
-
 /**
  * Bike interface
  * 

@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import core.BikeType;
 import core.bike.Bike;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;

@@ -3,13 +3,12 @@ package core.ridePlan;
 import java.util.HashMap;
 import java.util.Map;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
 import core.station.PlusStation;
 import core.station.Station;
+import user.User;
 
 /**
  * the destination station should be a “plus” station (given a “plus” station no
@@ -48,7 +47,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, PolicyName.PREFER_PLUS);
+			throw new NoValidStationFoundException(n, RidePlanPolicyName.PREFER_PLUS);
 		}
 
 		// find plus station for destination
@@ -68,9 +67,9 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		}
 
 		if (plusDestStation == null) {
-			return new RidePlan(source, destination, sourceStation, destStation, PolicyName.PREFER_PLUS, bikeType, n);
+			return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.PREFER_PLUS, bikeType, n);
 		} else {
-			return new RidePlan(source, destination, sourceStation, plusDestStation, PolicyName.PREFER_PLUS, bikeType,
+			return new RidePlan(source, destination, sourceStation, plusDestStation, RidePlanPolicyName.PREFER_PLUS, bikeType,
 					n);
 		}
 	}

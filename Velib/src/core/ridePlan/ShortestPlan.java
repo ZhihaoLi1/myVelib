@@ -2,12 +2,11 @@ package core.ridePlan;
 
 import java.util.HashMap;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
 import core.station.Station;
+import user.User;
 
 /**
  * source and destination stations are chosen so that the total distance of the
@@ -52,8 +51,8 @@ public class ShortestPlan implements RidePlanStrategy {
 			}
 		}
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, PolicyName.SHORTEST);
+			throw new NoValidStationFoundException(n, RidePlanPolicyName.SHORTEST);
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.SHORTEST, bikeType, n);
+		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.SHORTEST, bikeType, n);
 	}
 }

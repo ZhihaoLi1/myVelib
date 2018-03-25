@@ -1,7 +1,5 @@
 package core.bike;
 
-import core.BikeType;
-
 /**
  * Exception thrown when a given BikeType is not recognized by the system.
  * 

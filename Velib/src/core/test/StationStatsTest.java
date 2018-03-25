@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import core.BikeType;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.InvalidStationTypeException;

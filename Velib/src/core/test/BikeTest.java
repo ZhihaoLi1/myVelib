@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.BikeType;
 import core.bike.Bike;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 
 public class BikeTest {

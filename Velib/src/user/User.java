@@ -1,4 +1,4 @@
-package core;
+package user;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -7,6 +7,7 @@ import core.card.CardVisitor;
 import core.card.NoCardVisitor;
 import core.point.Point;
 import core.rentals.BikeRental;
+import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.RidePlan;
 import core.station.IDGenerator;
 import core.station.Station;

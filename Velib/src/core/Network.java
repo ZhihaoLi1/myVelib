@@ -8,11 +8,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.rentals.BikeRental;
+import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.AvoidPlusPlan;
 import core.ridePlan.FastestPlan;
+import core.ridePlan.RidePlanPolicyName;
 import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
@@ -21,6 +24,7 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import user.User;
 
 // FIXME: Javadoc
 public class Network {
@@ -118,7 +122,7 @@ public class Network {
 	public Network() {
 	}
 
-	public RidePlan planRide(Point source, Point destination, User user, PolicyName policy, BikeType bikeType) {
+	public RidePlan planRide(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
 			throw new NullPointerException("All input values of planRide must not be null");
 		RidePlan rp = null;

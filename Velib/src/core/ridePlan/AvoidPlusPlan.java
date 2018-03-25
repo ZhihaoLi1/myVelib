@@ -3,13 +3,12 @@ package core.ridePlan;
 import java.util.HashMap;
 import java.util.Map;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
 import core.station.PlusStation;
 import core.station.Station;
+import user.User;
 
 /**
  * the source, respectively the destination, station, for a ride should as close
@@ -48,9 +47,9 @@ public class AvoidPlusPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, PolicyName.AVOID_PLUS);
+			throw new NoValidStationFoundException(n, RidePlanPolicyName.AVOID_PLUS);
 		}
 
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.AVOID_PLUS, bikeType, n);
+		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.AVOID_PLUS, bikeType, n);
 	}
 }

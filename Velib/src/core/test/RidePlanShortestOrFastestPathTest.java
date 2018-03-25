@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
+import core.ridePlan.RidePlanPolicyName;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import user.User;
 
 /**
  * Choose the correct source and destination station for shortest and fastest ride plan
@@ -85,16 +85,16 @@ public class RidePlanShortestOrFastestPathTest {
 	 * station not the other way round
 	 */
 	public void chooseCorrectStationsWhenPlanningShortestRide() {
-		RidePlan s = n.planRide(source, destination, bob, PolicyName.SHORTEST, BikeType.MECH);
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, PolicyName.SHORTEST,
+		RidePlan s = n.planRide(source, destination, bob, RidePlanPolicyName.SHORTEST, BikeType.MECH);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, RidePlanPolicyName.SHORTEST,
 				BikeType.MECH, n);
 		assertTrue(s.equals(sRidePlan));
 	}
 
 	@Test
 	public void chooseCorrectStationsWhenPlanningFastestRide() {
-		RidePlan s = n.planRide(source, destination, bob, PolicyName.FASTEST, BikeType.MECH);
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, PolicyName.FASTEST,
+		RidePlan s = n.planRide(source, destination, bob, RidePlanPolicyName.FASTEST, BikeType.MECH);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, RidePlanPolicyName.FASTEST,
 				BikeType.MECH, n);
 		assertTrue(s.equals(sRidePlan));
 	}

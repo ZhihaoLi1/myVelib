@@ -7,10 +7,9 @@ import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import core.BikeType;
 import core.Network;
-import core.User;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.card.NoCardVisitor;
 import core.point.Point;
@@ -18,6 +17,7 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import user.User;
 
 // FIXME: Comments
 public class StationRentTest {

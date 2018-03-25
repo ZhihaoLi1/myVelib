@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import core.BikeType;
-import core.LeastOccupiedSort;
-import core.SortingStrategy;
 import core.bike.BikeFactory;
+import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationType;
+import core.station.stationSort.LeastOccupiedSort;
+import core.station.stationSort.SortingStrategy;
 import core.utils.DateParser;
 
 // FIXME: Comments

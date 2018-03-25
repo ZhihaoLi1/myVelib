@@ -2,12 +2,11 @@ package core.ridePlan;
 
 import java.util.HashMap;
 
-import core.BikeType;
 import core.Network;
-import core.PolicyName;
-import core.User;
+import core.bike.BikeType;
 import core.point.Point;
 import core.station.Station;
+import user.User;
 
 /**
  * source and destination stations are chosen so that the total time of the
@@ -63,9 +62,9 @@ public class FastestPlan implements RidePlanStrategy {
 		}
 
 		if (sourceStation == null || destStation == null) {
-			throw new NoValidStationFoundException(n, PolicyName.FASTEST);
+			throw new NoValidStationFoundException(n, RidePlanPolicyName.FASTEST);
 		}
-		return new RidePlan(source, destination, sourceStation, destStation, PolicyName.FASTEST, bikeType, n);
+		return new RidePlan(source, destination, sourceStation, destStation, RidePlanPolicyName.FASTEST, bikeType, n);
 	}
 
 }
