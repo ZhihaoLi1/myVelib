@@ -10,8 +10,13 @@ import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.BikeType;
 import core.bike.InvalidBikeTypeException;
+<<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
+=======
+import core.card.CardType;
+import core.card.CardVisitorFactory;
+>>>>>>> Feat(Card): Add CardVisitorFactory
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
@@ -117,8 +122,21 @@ public class Network {
 		}
 	}
 
+	/**
+	 * Creates the network (stations, parking slots and bikes) with 10 stations (10
+	 * parking slots each), 4km side, 75% full of bikes <br>
+	 * Half of the stations are plus stations, half of the bikes are elec bikes.
+	 * 
+	 * @param name
+	 * 
+	 */
+	public Network(String name) {
+		this(name, 10, 10, 4, 0.75, 0.5, 0.5);
+	}
+
 	public Network() {
 	}
+<<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
 	
 	
 	/**
@@ -131,6 +149,10 @@ public class Network {
 	 * @return rideplan Object
 	 */
 	public RidePlan createRidePlan(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
+=======
+
+	public String planRide(Point source, Point destination, User user, RidePlanPolicyName policy, BikeType bikeType) {
+>>>>>>> Feat(Card): Add CardVisitorFactory
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
 			throw new NullPointerException("All input values of planRide must not be null");
 		RidePlan rp = null;
