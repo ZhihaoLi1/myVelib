@@ -49,11 +49,11 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 
 		if (bike instanceof MechBike || bike instanceof ElecBike) {
 			// Check if we can lower the price using the time credit
-			if ((nMinutes / 60 > 0) && (nMinutes % 60) <= getTimeCredit()) {
+			if ((nMinutes / 60.0 > 1) && (nMinutes % 60) <= getTimeCredit()) {
 				removeTimeCredit((int) (nMinutes % 60));
 				nMinutes -= (nMinutes % 60);
 			}
-			while ((nMinutes / 60 > 0 && getTimeCredit() >= 60)) {
+			while ((nMinutes / 60.0 > 1 && getTimeCredit() >= 60)) {
 				removeTimeCredit(60);
 				nMinutes -= 60;
 			}
