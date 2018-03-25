@@ -29,6 +29,9 @@ import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
+import core.station.stationSort.InvalidSortingPolicyException;
+import core.station.stationSort.LeastOccupiedSort;
+import core.station.stationSort.MostUsedSort;
 import user.User;
 
 /**
@@ -183,6 +186,40 @@ public class Network {
 		} catch (InvalidRidePlanPolicyException e) {
 			return e.getMessage();
 		} catch (NoValidStationFoundException e) {
+			return e.getMessage();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param policy
+	 * @return the sorted list of stations
+	 */
+	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
+		ArrayList<Station> sortedStations = null;
+		switch (policy.toUpperCase()) {
+			case "MOST_USED":
+				sortedStations = new MostUsedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate, currentDate);
+				break;
+			case "LEAST_OCCUPIED":
+				sortedStations = new LeastOccupiedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate, currentDate);
+				break;
+			default:
+				throw new InvalidSortingPolicyException(policy);
+		}
+		return sortedStations;
+	}
+	
+	/**
+	 * 
+	 * @param policy
+	 * @return String listing the sorted stations
+	 */
+	public String sortStation(String policy) {
+		try {
+			ArrayList<Station> sortedStations = createStationSort(policy);
+			return "Here are the stations, in the order corresponding to the" + policy + " policy:\n" + sortedStations.toString();
+		} catch (InvalidSortingPolicyException e) {
 			return e.getMessage();
 		}
 	}
