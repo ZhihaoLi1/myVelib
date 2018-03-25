@@ -1,7 +1,8 @@
 package core.scenarios;
 
 import core.Network;
-import core.bike.BikeType;
+import core.card.CardVisitorFactory;
+import core.card.InvalidCardTypeException;
 import core.card.VLibreCardVisitor;
 import core.card.VMaxCardVisitor;
 import core.point.Point;
@@ -9,6 +10,7 @@ import user.User;
 import core.ridePlan.RidePlan;
 import core.ridePlan.RidePlanPolicyName;
 import core.utils.DateParser;
+
 public class Scenario1 {
 	
 	public static void main(String[] args) {
@@ -16,15 +18,22 @@ public class Scenario1 {
 		
 		// create the network 
 		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5);
+		CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 		// create users
-		User alice = new User("Mary");
-		User bob = new User("Bob", new VLibreCardVisitor());
-		User charles = new User("Charles", new VMaxCardVisitor());
+		User alice = null, bob = null, charles = null;
+		try {
+			alice = new User("Mary", cardVisitorFactory.createCard("NO_CARD"));
+			bob = new User("Bob", cardVisitorFactory.createCard("VLIBRE_CARD"));
+			charles = new User("Charles", cardVisitorFactory.createCard("VMAX_CARD"));
+		} catch (InvalidCardTypeException e) {
+			System.out.println("Invalid card type given.");
+		}
+		
 		
 		// add users to network 
-		n.addUser(alice);
-		n.addUser(bob);
-		n.addUser(charles);
+		n.createUser(alice);
+		n.createUser(bob);
+		n.createUser(charles);
 		
 		// create landmarks
 		Point home = new Point(0, 0);
@@ -33,7 +42,7 @@ public class Scenario1 {
 		Point library = new Point(2,6);
 		
 		// plan a ride for Alice 
-		RidePlan aliceRidePlanGo = n.createRidePlan(home, supermarket, alice, RidePlanPolicyName.FASTEST, BikeType.MECH);
+		RidePlan aliceRidePlanGo = n.createRidePlan(home, supermarket, alice, RidePlanPolicyName.FASTEST, "MECH");
 		
 		// Time Alice might take to go 
 		// System.out.println(aliceRidePlanGo.approximateTime());
@@ -45,7 +54,7 @@ public class Scenario1 {
 		String AliceReturnBikeMessage = n.returnBike(alice.getId(), aliceRidePlanGo.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"), 110);
 		System.out.println(AliceReturnBikeMessage);
 		
-		RidePlan aliceRidePlanReturn = n.createRidePlan(supermarket, home, alice, RidePlanPolicyName.SHORTEST, BikeType.ELEC);
+		RidePlan aliceRidePlanReturn = n.createRidePlan(supermarket, home, alice, RidePlanPolicyName.SHORTEST, "ELEC");
 
 		// Time Alice might take to return 
 		// System.out.println(aliceRidePlanReturn.approximateTime());
@@ -59,7 +68,7 @@ public class Scenario1 {
 		
 		
 		// plan a ride for Bob 
-		RidePlan bobRidePlanGo = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan bobRidePlanGo = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
 		
 		// Time bob might take to go 
 		// System.out.println(bobRidePlanGo.approximateTime());
@@ -70,7 +79,7 @@ public class Scenario1 {
 		// Dest Station 1 goes offline 
 		bobRidePlanGo.getDestinationStation().setOnline(false);
 		// bob create another rideplan 
-		RidePlan bobRidePlanGo2 = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, BikeType.MECH);
+		RidePlan bobRidePlanGo2 = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
 		// bob returns the bike at 10.45am
 		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"), 110);
 		System.out.println(bobReturnBikeMessage);
@@ -78,7 +87,7 @@ public class Scenario1 {
 		// Time bob might take to return 
 		// System.out.println(bobRidePlanReturn.approximateTime());
 		
-		RidePlan bobRidePlanReturn = n.createRidePlan(library, home, bob, RidePlanPolicyName.AVOID_PLUS, BikeType.ELEC);
+		RidePlan bobRidePlanReturn = n.createRidePlan(library, home, bob, RidePlanPolicyName.AVOID_PLUS, "ELEC");
 		// bob rents the bike at 13:00
 		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "MECH", DateParser.parse("01/01/2000 13:00:00"));
 		System.out.println(bobRentBikeMessage2);

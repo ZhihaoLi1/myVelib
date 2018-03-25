@@ -1,6 +1,7 @@
 package core.ridePlan;
 
 import core.Network;
+import core.bike.InvalidBikeTypeException;
 import core.point.Point;
 import core.station.Station;
 
@@ -16,8 +17,9 @@ public class RidePlan {
 	private RidePlanPolicyName policy;
 	private String bikeType;
 	private Network network;
-	
-	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, RidePlanPolicyName policy, String bikeType, Network network) {
+
+	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation,
+			RidePlanPolicyName policy, String bikeType, Network network) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -27,45 +29,57 @@ public class RidePlan {
 		this.bikeType = bikeType;
 		this.network = network;
 	}
-	
-	public int approximateTime() {
+
+	public int approximateTime() throws InvalidBikeTypeException {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		switch (bikeType) {
-		case ELEC:
+		case "ELEC":
 			bikeSpeed = 20;
-		case MECH:
+			break;
+		case "MECH":
 			bikeSpeed = 15;
+			break;
+		default:
+			throw new InvalidBikeTypeException(bikeType);
 		}
-		
+
 		double totalTime = 0;
 		totalTime += sourceStation.getCoordinates().distance(source) / walkingSpeed;
 		totalTime += sourceStation.getCoordinates().distance(destinationStation.getCoordinates()) / bikeSpeed;
 		totalTime += destinationStation.getCoordinates().distance(destination) / walkingSpeed;
-		
-		return (int) Math.floor(totalTime*60);
+
+		return (int) Math.floor(totalTime * 60);
 	}
+
 	public Point getSource() {
 		return source;
 	}
+
 	public void setSource(Point source) {
 		this.source = source;
 	}
+
 	public Point getDestination() {
 		return destination;
 	}
+
 	public void setDestination(Point destination) {
 		this.destination = destination;
 	}
+
 	public Station getSourceStation() {
 		return sourceStation;
 	}
+
 	public void setSourceStation(Station sourceStation) {
 		this.sourceStation = sourceStation;
 	}
+
 	public Station getDestinationStation() {
 		return destinationStation;
 	}
+
 	public void setDestinationStation(Station destinationStation) {
 		this.destinationStation = destinationStation;
 	}
@@ -85,7 +99,7 @@ public class RidePlan {
 	public void setBikeType(String bikeType) {
 		this.bikeType = bikeType;
 	}
-	
+
 	public Network getNetwork() {
 		return network;
 	}
@@ -93,23 +107,21 @@ public class RidePlan {
 	public void setNetwork(Network network) {
 		this.network = network;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof RidePlan) {
+		if (o instanceof RidePlan) {
 			RidePlan rp = (RidePlan) o;
-			if(this.source.equals(rp.getSource())
-			&& this.destination.equals(rp.getDestination())
-			&& this.sourceStation.equals(rp.getSourceStation())
-			&& this.destinationStation.equals(rp.getDestinationStation())
-			&& this.network.equals(rp.getNetwork())
-			&& this.policy.equals(rp.policy)) {
+			if (this.source.equals(rp.getSource()) && this.destination.equals(rp.getDestination())
+					&& this.sourceStation.equals(rp.getSourceStation())
+					&& this.destinationStation.equals(rp.getDestinationStation())
+					&& this.network.equals(rp.getNetwork()) && this.policy.equals(rp.policy)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		String rp = "Source : " + source.toString() + "\n";

@@ -3,25 +3,17 @@ package core;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
-<<<<<<< 50ce15556ef464f8fe96877ce7aba401c1d978fb
-<<<<<<< 838e9392ba86d0faea2b2b848531a4815dcbb09c
 import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
-=======
-import core.card.CardType;
-import core.card.CardVisitorFactory;
->>>>>>> Feat(Card): Add CardVisitorFactory
-=======
+
 import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
->>>>>>> Refactor(Card): Use CardVisitorFactory
 import core.point.Point;
 import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
@@ -175,8 +167,7 @@ public class Network {
 	 */
 	public String planRide(Point source, Point destination, User user, String policy, String bikeType) {
 		RidePlanPolicyName p = RidePlanPolicyName.valueOf(policy);
-		BikeType bt = BikeType.valueOf(bikeType);
-		RidePlan rp = createRidePlan(source, destination, user, p, bt);
+		RidePlan rp = createRidePlan(source, destination, user, p, bikeType);
 		return rp.toString();
 	}
 
@@ -203,11 +194,7 @@ public class Network {
 			if (user.getBikeRental() != null)
 				return user.getName() + " still has a bike rental, he cannot rent another bike.";
 			synchronized (s) {
-<<<<<<< 09e95bc872cdff9ce750daf27ba2bddde48b454c
-				b = s.rentBike(bt, rentalDate);
-=======
 				b = s.rentBike(bikeType, LocalDateTime.now());
->>>>>>> Refactor(Bike): Remove BikeType
 				// if no bike is found (either station is offline or there are no bikes)
 				if (b == null)
 					return "No bike found of type " + bikeType + " in station " + stationId;
