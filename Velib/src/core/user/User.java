@@ -68,7 +68,7 @@ public class User implements Observer {
 	 * @return 
 	 */
 	public String displayStats() {
-		return name + ": \n" + stats.toString();
+		return "Stats of " + name + ": \n" + stats.toString();
 	}
 
 	@Override
@@ -138,10 +138,6 @@ public class User implements Observer {
 
 	public UserStats getStats() {
 		return stats;
-	}
-
-	public void setStats(UserStats stats) {
-		this.stats = stats;
 	}
 
 }

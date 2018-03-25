@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import core.Network;
 import core.card.InvalidCardTypeException;
-import core.point.Point;
 import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
 import core.user.User;
 import core.utils.DateParser;
+import core.utils.Point;
 
 /**
  * Test creation of network and methods of Network 
