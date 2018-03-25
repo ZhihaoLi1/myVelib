@@ -570,5 +570,27 @@ public class Network {
 		user.setRidePlan(rp);
 		return rp;
 	}
-
+	
+	/**
+	   * Sorts the stations of the network according to a given policy.
+	   * 
+	   * @param policy
+	   * @return the sorted list of stations
+	   */
+	  public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
+	    ArrayList<Station> sortedStations = null;
+	    switch (policy.toUpperCase()) {
+	    case "MOST_USED":
+	      sortedStations = new MostUsedSort().sort(new ArrayList<Station>(this.getStations().values()), creationDate,
+	          currentDate);
+	      break;
+	    case "LEAST_OCCUPIED":
+	      sortedStations = new LeastOccupiedSort().sort(new ArrayList<Station>(this.getStations().values()),
+	          creationDate, currentDate);
+	      break;
+	    default:
+	      throw new InvalidSortingPolicyException(policy);
+	    }
+	    return sortedStations;
+	  }
 }
