@@ -29,8 +29,6 @@ public class NetworkTest {
 		// FIXME total number of bikes should be 80 
 		
 		// FIXME elec bike 40 and mech bike 40
-		
-		
 	}
 
 }
