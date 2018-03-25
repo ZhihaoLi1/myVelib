@@ -60,7 +60,7 @@ public class Scenario1 {
 		// System.out.println(aliceRidePlanReturn.approximateTime());
 		
 		// Alice rents the bike at 13:00
-		String AliceRentBikeMessage2 = n.rentBike(alice.getId(), aliceRidePlanReturn.getSourceStation().getId(), "MECH", DateParser.parse("01/01/2000 13:00:00"));
+		String AliceRentBikeMessage2 = n.rentBike(alice.getId(), aliceRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("01/01/2000 13:00:00"));
 		System.out.println(AliceRentBikeMessage2);
 		// Alice returns the bike at 10.45am
 		String AliceReturnBikeMessage2 = n.returnBike(alice.getId(), aliceRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/01/2000 14:15:00"), 75);
@@ -74,25 +74,26 @@ public class Scenario1 {
 		// System.out.println(bobRidePlanGo.approximateTime());
 		
 		// bob rents the bike at 9:30am 
-		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("01/01/2000 09:30:00"));
+		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("02/01/2000 09:30:00"));
 		System.out.println(bobRentBikeMessage);
 		// Dest Station 1 goes offline 
 		bobRidePlanGo.getDestinationStation().setOnline(false);
 		// bob create another rideplan 
 		RidePlan bobRidePlanGo2 = n.createRidePlan(school, library, bob, RidePlanPolicyName.PREFER_PLUS, "MECH");
 		// bob returns the bike at 10.45am
-		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"), 110);
+		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("02/01/2000 11:20:00"), 110);
 		System.out.println(bobReturnBikeMessage);
 		
 		// Time bob might take to return 
 		// System.out.println(bobRidePlanReturn.approximateTime());
 		
 		RidePlan bobRidePlanReturn = n.createRidePlan(library, home, bob, RidePlanPolicyName.AVOID_PLUS, "ELEC");
+		// System.out.println(bobRidePlanReturn.toString());
 		// bob rents the bike at 13:00
-		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "MECH", DateParser.parse("01/01/2000 13:00:00"));
+		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("02/01/2000 13:00:00"));
 		System.out.println(bobRentBikeMessage2);
 		// bob returns the bike at 10.45am
-		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/01/2000 14:15:00"), 75);
+		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("02/01/2000 14:15:00"), 75);
 		System.out.println(bobReturnBikeMessage2);
 	}
 }

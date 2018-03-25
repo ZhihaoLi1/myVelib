@@ -239,6 +239,11 @@ public class Network {
 					s.returnBike(br, returnDate);
 					// reset user bike rental
 					user.resetBikeRental();
+					// if user completes ride plan (station that he is returning the bike to is the same as the destination station in ride plan)
+					// then the user's ride plan is set to null
+					if (user.getRidePlan() != null && s.equals(user.getRidePlan().getDestinationStation())) {
+						user.resetRidePlan();						
+					}
 				} catch (FullStationException e) {
 					return e.getMessage();
 				}

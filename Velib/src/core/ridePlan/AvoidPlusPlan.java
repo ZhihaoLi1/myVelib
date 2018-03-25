@@ -33,6 +33,7 @@ public class AvoidPlusPlan implements RidePlanStrategy {
 
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 			Station s = entry.getValue();
+			if (!s.getOnline()) continue;
 			double sourceDistance = s.getCoordinates().distance(source);
 			double destinationDistance = s.getCoordinates().distance(destination);
 			if (sourceDistance < minimumSourceDistance && s.hasCorrectBikeType(bikeType)) {

@@ -52,13 +52,11 @@ public class User implements Observer {
 			throw new IllegalArgumentException("user update needs station as observable input.");
 		Station s = (Station) o;
 		this.ridePlan.getNetwork().notifyStationFull(this, s);
-		// remove from list of observers in station
-		s.deleteObserver(this);
+		// reset ride plan
+		resetRidePlan();
 		// FIXME Remove later
 		System.out.println("Station with id " + s.getId() + " is full and ride plan for " + this.getName()
 				+ " is cancelled. Please create a new one");
-		// reset ride plan
-		this.ridePlan = null;
 	}
 
 	/**
@@ -69,6 +67,10 @@ public class User implements Observer {
 		return name + ": \n" + stats.toString();
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 	public String getName() {
 		return name;
 	}
@@ -118,6 +120,12 @@ public class User implements Observer {
 			this.ridePlan.getDestinationStation().deleteObserver(this);
 		}
 		this.ridePlan = ridePlan;
+	}
+	
+	public void resetRidePlan() {
+		// Stop observing
+		this.ridePlan.getDestinationStation().deleteObserver(this);
+		this.ridePlan = null;
 	}
 
 	public int getId() {

@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import core.bike.Bike;
-import core.bike.ElecBike;
-import core.bike.MechBike;
 import core.point.Point;
 import core.rentals.BikeRental;
 import user.User;
@@ -34,7 +33,7 @@ public abstract class Station extends Observable {
 	private Boolean online;
 
 	// Observers
-	private Set<User> observers = new HashSet<User>();
+	private Set<Observer> observers = new HashSet<Observer>();
 
 	// Statistics
 	private StationStats stats;
@@ -196,11 +195,11 @@ public abstract class Station extends Observable {
 	 * @param user
 	 *            - the observer user to add
 	 */
-	public void addObserver(User user) {
-		if (this.observers.add(user)) {
-			System.out.println("User " + user.getName() + " is observing station S" + this.id);
+	public void addObserver(Observer o) {
+		if (this.observers.add(o)) {
+			System.out.println(o.toString() + " is observing station S" + this.id);
 		} else {
-			System.out.println("User is already observing this station S" + this.id);
+			System.out.println( o.toString() + " is already observing this station S" + this.id);
 		}
 	}
 
@@ -210,9 +209,9 @@ public abstract class Station extends Observable {
 	 * @param user
 	 *            - the observer user to remove
 	 */
-	public void deleteObserver(User user) {
-		if (this.observers.remove(user)) {
-			System.out.println("User " + user.getName() + " stopped observing this station" + this.id);
+	public void deleteObserver(Observer o) {
+		if (this.observers.remove(o)) {
+			System.out.println("Observer" + o.toString() + "stopped observing this station" + this.id);
 		} else {
 			System.out.println("User is not observing this station S" + this.id);
 		}
@@ -222,7 +221,8 @@ public abstract class Station extends Observable {
 	 * Notify all observers
 	 */
 	public void notifyObservers() {
-		for (User user : observers) {
+		Set<User> copyObservers = new HashSet(observers);
+		for (User user : copyObservers) {
 			user.update(this, null);
 		}
 	}
@@ -303,7 +303,7 @@ public abstract class Station extends Observable {
 		this.online = online;
 	}
 
-	public Set<User> getObservers() {
+	public Set<Observer> getObservers() {
 		return observers;
 	}
 

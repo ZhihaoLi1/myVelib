@@ -56,7 +56,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		if (!(destStation instanceof PlusStation)) {
 			for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 				Station s = entry.getValue();
-				if (!(s instanceof PlusStation))
+				if (!(s instanceof PlusStation) || !s.getOnline() || s.isFull())
 					continue;
 				double distance = s.getCoordinates().distance(destStation.getCoordinates());
 				if (distance < minimumPlusDestDistance) {

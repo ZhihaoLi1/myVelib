@@ -31,6 +31,11 @@ public class ParkingSlot {
 		this.setStatus(ParkingSlotStatusName.FREE, LocalDateTime.MIN);
 	}
 
+	@Override
+	public String toString() {
+		if (bike == null) return "No bike";
+		return bike.getType();
+	}
 	public Boolean isWorking() {
 		return working;
 	}
