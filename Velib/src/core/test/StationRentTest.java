@@ -18,7 +18,6 @@ import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import core.station.StationType;
 import user.User;
 
 // FIXME: Comments
@@ -40,8 +39,8 @@ public class StationRentTest {
 	@BeforeClass
 	public static void fillStationAndNetwork() {
 		try {
-			s = stationFactory.createStation(StationType.PLUS, 10, new Point(0, 0.1), true);
-			emptyS = stationFactory.createStation(StationType.PLUS, 10, new Point(0, 0.2), true);
+			s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
+			emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}

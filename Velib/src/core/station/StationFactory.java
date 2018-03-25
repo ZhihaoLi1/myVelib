@@ -26,16 +26,13 @@ public class StationFactory {
 	 * @throws InvalidStationTypeException
 	 *             if the given type is not recognized as a valid station type
 	 */
-	public Station createStation(StationType stationType, int numberOfParkingSlots, Point coordinates, Boolean online)
+	public Station createStation(String stationType, int numberOfParkingSlots, Point coordinates, Boolean online)
 			throws InvalidStationTypeException {
-		if (stationType == null) {
-			throw new InvalidStationTypeException(stationType);
-		}
 
 		switch (stationType) {
-		case STANDARD:
+		case "STANDARD":
 			return new StandardStation(numberOfParkingSlots, coordinates, online);
-		case PLUS:
+		case "PLUS":
 			return new PlusStation(numberOfParkingSlots, coordinates, online);
 		default:
 			throw new InvalidStationTypeException(stationType);

@@ -7,13 +7,13 @@ package core.station;
  */
 public class InvalidStationTypeException extends Exception {
 
-	private final StationType stationType;
+	private final String stationType;
 
-	public InvalidStationTypeException(StationType stationType) {
+	public InvalidStationTypeException(String stationType) {
 		this.stationType = stationType;
 	}
 
-	public StationType getStationType() {
+	public String getStationType() {
 		return stationType;
 	}
 	

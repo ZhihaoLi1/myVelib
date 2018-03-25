@@ -37,7 +37,6 @@ import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import core.station.StationType;
 import user.User;
 
 // FIXME: Javadoc
@@ -79,11 +78,9 @@ public class Network {
 			Station s = null;
 			try {
 				if (i < numberOfStations * percentageOfPlusStations) {
-					s = stationFactory.createStation(StationType.PLUS, numberOfParkingSlotsPerStation, coordinates,
-							true);
+					s = stationFactory.createStation("PLUS", numberOfParkingSlotsPerStation, coordinates, true);
 				} else {
-					s = stationFactory.createStation(StationType.STANDARD, numberOfParkingSlotsPerStation, coordinates,
-							true);
+					s = stationFactory.createStation("STANDARD", numberOfParkingSlotsPerStation, coordinates, true);
 				}
 			} catch (InvalidStationTypeException e) {
 				e.printStackTrace();
@@ -403,22 +400,44 @@ public class Network {
 		return userRidePlans;
 	}
 
-
-	public String addStation(String type) throws NullPointerException {
+	public String addStation(String type) {
 		StationFactory stationFactory = new StationFactory();
 
+		double x = ThreadLocalRandom.current().nextDouble(0, side);
+		double y = ThreadLocalRandom.current().nextDouble(0, side);
+		Point coordinates = new Point(x, y);
+
 		try {
-			Station station = stationFactory.createStation(type);
+			Station station = stationFactory.createStation(type, 10, coordinates, true);
 			this.createStation(station);
-			return "Station " + station.getId() + " was created.";
+			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
+					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
+					+ station.getOnline() + ".";
 		} catch (InvalidStationTypeException e) {
 			return e.getMessage();
 		}
-		// verify that the coordinates of station is within the network.
-		
 	}
-	
-	public void createStation(Station station) {
+
+	public String addStation(String type, double x, double y, int numberOfParkingSlots, boolean online) {
+		StationFactory stationFactory = new StationFactory();
+
+		if (x < 0 || x > side || y < 0 || y > side) {
+			return "Coordinates out of bounds";
+		}
+		Point coordinates = new Point(x, y);
+
+		try {
+			Station station = stationFactory.createStation(type, numberOfParkingSlots, coordinates, online);
+			this.createStation(station);
+			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
+					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
+					+ station.getOnline() + ".";
+		} catch (InvalidStationTypeException e) {
+			return e.getMessage();
+		}
+	}
+
+	public void createStation(Station station) throws IllegalArgumentException {
 		if (station == null) {
 			throw new IllegalArgumentException("Station is null in addStation");
 		}
@@ -428,7 +447,7 @@ public class Network {
 
 	public String addUser(String name, String cardType) {
 		CardVisitorFactory cardFactory = new CardVisitorFactory();
-		
+
 		try {
 			CardVisitor card = cardFactory.createCard(cardType);
 			User user = new User(name, card);
@@ -440,7 +459,7 @@ public class Network {
 		}
 
 	}
-	
+
 	public void createUser(User user) {
 		if (user == null) {
 			throw new IllegalArgumentException("User is null in createUser");

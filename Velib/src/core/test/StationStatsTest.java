@@ -13,7 +13,6 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.StationStats;
-import core.station.StationType;
 import core.utils.DateParser;
 
 //FIXME: Comments
@@ -25,7 +24,7 @@ public class StationStatsTest {
 	@BeforeClass
 	public static void createStation() {
 		try {
-			station = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
+			station = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}

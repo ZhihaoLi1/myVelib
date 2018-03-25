@@ -20,7 +20,6 @@ import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import core.station.StationType;
 import user.User;
 
 /**
@@ -53,10 +52,10 @@ public class RidePlanShortestOrFastestPathTest {
 	@BeforeClass
 	public static void initialize() {
 		try {
-			sourceStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(3, 3), true);
-			destStationS = stationFactory.createStation(StationType.STANDARD, 10, new Point(7, 7), true);
-			sourceStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 2), true);
-			destStationF = stationFactory.createStation(StationType.STANDARD, 10, new Point(9, 10), true);
+			sourceStationS = stationFactory.createStation("STANDARD", 10, new Point(3, 3), true);
+			destStationS = stationFactory.createStation("STANDARD", 10, new Point(7, 7), true);
+			sourceStationF = stationFactory.createStation("STANDARD", 10, new Point(0, 2), true);
+			destStationF = stationFactory.createStation("STANDARD", 10, new Point(9, 10), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}

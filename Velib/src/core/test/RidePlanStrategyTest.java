@@ -20,7 +20,6 @@ import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import core.station.StationType;
 import user.User;
 
 /**
@@ -58,11 +57,11 @@ public class RidePlanStrategyTest {
 	@BeforeClass
 	public static void initialize() {
 		try {
-			sourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 0.1), true);
-			destStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(9, 9.5), true);
-			emptySourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 0.02), true);
-			elecSourceStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(0, 0.01), true);
-			fullDestStation = stationFactory.createStation(StationType.STANDARD, 10, new Point(9, 9.9), true);
+			sourceStation = stationFactory.createStation("STANDARD", 10, new Point(0, 0.1), true);
+			destStation = stationFactory.createStation("STANDARD", 10, new Point(9, 9.5), true);
+			emptySourceStation = stationFactory.createStation("STANDARD", 10, new Point(0, 0.02), true);
+			elecSourceStation = stationFactory.createStation("STANDARD", 10, new Point(0, 0.01), true);
+			fullDestStation = stationFactory.createStation("STANDARD", 10, new Point(9, 9.9), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}

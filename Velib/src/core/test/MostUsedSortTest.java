@@ -10,7 +10,6 @@ import core.point.Point;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
-import core.station.StationType;
 import core.station.stationSort.MostUsedSort;
 import core.station.stationSort.SortingStrategy;
 
@@ -27,9 +26,9 @@ public class MostUsedSortTest {
 		StationFactory stationFactory = new StationFactory();
 		Station station1 = null, station2 = null, station3 = null;
 		try {
-			station1 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
-			station2 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
-			station3 = stationFactory.createStation(StationType.STANDARD, 2, new Point(0, 0), true);
+			station1 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
+			station2 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
+			station3 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
