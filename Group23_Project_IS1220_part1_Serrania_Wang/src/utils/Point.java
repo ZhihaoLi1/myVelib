@@ -1,4 +1,4 @@
-package core.utils;
+package utils;
 
 /**
  * Represents the coordinates (in a 2D plane) of a point

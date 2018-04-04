@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Test Point class ofr distance and equality

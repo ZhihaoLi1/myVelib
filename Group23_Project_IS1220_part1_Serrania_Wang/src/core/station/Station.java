@@ -9,7 +9,7 @@ import java.util.Set;
 
 import core.bike.Bike;
 import core.rentals.BikeRental;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Represents a station. A station is a place on the map where a user can find

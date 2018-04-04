@@ -10,7 +10,7 @@ import core.rentals.BikeRental;
 import core.rentals.OngoingBikeRentalException;
 import core.ridePlan.RidePlan;
 import core.station.Station;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * User of myVelib Network

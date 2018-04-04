@@ -16,7 +16,7 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Test rent operation from  a station

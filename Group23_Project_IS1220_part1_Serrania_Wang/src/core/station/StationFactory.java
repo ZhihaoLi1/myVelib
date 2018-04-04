@@ -1,7 +1,7 @@
 package core.station;
 
 import core.bike.InvalidBikeTypeException;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Station factory which creates different types of stations depending of the

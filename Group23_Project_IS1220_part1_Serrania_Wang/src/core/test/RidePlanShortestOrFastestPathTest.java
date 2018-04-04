@@ -19,7 +19,7 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Choose the correct source and destination station for shortest and fastest ride plan

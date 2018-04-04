@@ -11,8 +11,8 @@ import core.station.Station;
 import core.station.StationFactory;
 import core.station.stationSort.MostUsedSort;
 import core.station.stationSort.SortingStrategy;
-import core.utils.DateParser;
-import core.utils.Point;
+import utils.DateParser;
+import utils.Point;
 
 /**
  * Sort the stations according the most used in descending order

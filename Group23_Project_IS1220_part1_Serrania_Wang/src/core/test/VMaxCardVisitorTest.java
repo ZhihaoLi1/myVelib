@@ -17,7 +17,7 @@ import core.card.InvalidCardTypeException;
 import core.card.InvalidDatesException;
 import core.card.VMaxCardVisitor;
 import core.rentals.BikeRental;
-import core.utils.DateParser;
+import utils.DateParser;
 
 /**
  * Test class for VMaxCardVisitor

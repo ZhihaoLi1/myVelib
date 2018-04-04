@@ -5,7 +5,7 @@ import java.util.HashMap;
 import core.Network;
 import core.station.Station;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * with this policy the choice of the source and destination station is affected

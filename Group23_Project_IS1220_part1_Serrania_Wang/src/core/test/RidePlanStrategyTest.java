@@ -20,7 +20,7 @@ import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Test rules that all ride plans should obey

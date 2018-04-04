@@ -7,7 +7,7 @@ import core.Network;
 import core.station.PlusStation;
 import core.station.Station;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * the destination station should be a “plus” station (given a “plus” station no

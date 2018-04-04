@@ -17,7 +17,7 @@ import core.card.InvalidCardTypeException;
 import core.card.InvalidDatesException;
 import core.card.NoCardVisitor;
 import core.rentals.BikeRental;
-import core.utils.DateParser;
+import utils.DateParser;
 
 /**
  * Test class for NoCardVisitor

@@ -32,7 +32,7 @@ import core.station.stationSort.InvalidSortingPolicyException;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.MostUsedSort;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * Network of MyVelib Has stations and users They can rent and return bikes

@@ -8,8 +8,8 @@ import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.user.User;
-import core.utils.DateParser;
-import core.utils.Point;
+import utils.DateParser;
+import utils.Point;
 
 public class Scenario2 {
 	public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class Scenario2 {
 		System.out.println("\nBob plans a ride using the prefer plus policy, for a mech bike:");
 		RidePlan bobRidePlanGo = null;
 		try {
-			bobRidePlanGo = n.createRidePlan(home, supermarket, alice, "PREFER_PLUS", "MECH");
+			bobRidePlanGo = n.createRidePlan(home, supermarket, bob, "PREFER_PLUS", "MECH");
 		} catch (InvalidBikeTypeException e) {
 			System.out.println("Invalid bike type given");
 			return;
@@ -70,7 +70,7 @@ public class Scenario2 {
 		
 		RidePlan bobRidePlanGo2 = null;
 		try {
-			bobRidePlanGo2 = n.createRidePlan(home, supermarket, alice, "PREFER_PLUS", "MECH");
+			bobRidePlanGo2 = n.createRidePlan(home, supermarket, bob, "PREFER_PLUS", "MECH");
 		} catch (InvalidBikeTypeException e) {
 			System.out.println("Invalid bike type given");
 			return;
@@ -94,7 +94,7 @@ public class Scenario2 {
 		System.out.println("\nBob plans a new ride using the avoid plus policy, for an elec bike:");
 		RidePlan bobRidePlanReturn = null;
 		try {
-			bobRidePlanReturn = n.createRidePlan(home, supermarket, alice, "AVOID_PLUS", "MECH");
+			bobRidePlanReturn = n.createRidePlan(home, supermarket, bob, "AVOID_PLUS", "MECH");
 		} catch (InvalidBikeTypeException e) {
 			System.out.println("Invalid bike type given");
 			return;

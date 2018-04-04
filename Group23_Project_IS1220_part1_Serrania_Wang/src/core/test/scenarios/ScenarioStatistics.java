@@ -8,7 +8,7 @@ import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.station.Station;
 import core.user.User;
-import core.utils.DateParser;
+import utils.DateParser;
 
 public class ScenarioStatistics {
 	public static void main (String[] args) {

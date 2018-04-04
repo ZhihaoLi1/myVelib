@@ -13,8 +13,8 @@ import core.station.PlusStation;
 import core.station.StandardStation;
 import core.station.Station;
 import core.user.User;
-import core.utils.DateParser;
-import core.utils.Point;
+import utils.DateParser;
+import utils.Point;
 
 /**
  * Test creation of network and methods of Network 

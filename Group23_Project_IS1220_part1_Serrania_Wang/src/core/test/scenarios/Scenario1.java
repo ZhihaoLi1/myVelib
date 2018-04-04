@@ -8,8 +8,8 @@ import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
 import core.ridePlan.RidePlan;
 import core.user.User;
-import core.utils.DateParser;
-import core.utils.Point;
+import utils.DateParser;
+import utils.Point;
 
 public class Scenario1 {
 	

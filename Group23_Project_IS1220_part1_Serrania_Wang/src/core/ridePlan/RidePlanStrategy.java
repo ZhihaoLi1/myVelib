@@ -3,7 +3,7 @@ package core.ridePlan;
 import core.Network;
 import core.bike.InvalidBikeTypeException;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 
 /**

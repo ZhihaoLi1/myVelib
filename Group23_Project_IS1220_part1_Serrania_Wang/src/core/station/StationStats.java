@@ -3,8 +3,8 @@ package core.station;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import core.utils.DateParser;
-import core.utils.Point;
+import utils.DateParser;
+import utils.Point;
 
 /**
  * Collects stats about a given station.<br>

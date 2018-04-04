@@ -5,7 +5,7 @@ import java.util.HashMap;
 import core.Network;
 import core.station.Station;
 import core.user.User;
-import core.utils.Point;
+import utils.Point;
 
 /**
  * source and destination stations are chosen so that the total distance of the
