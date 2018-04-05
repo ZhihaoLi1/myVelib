@@ -84,7 +84,11 @@ public class CLUIThread extends Thread {
 	private String displayUsage = "\n =========== display usage =========== \n"
 			+ "display <network name> \n"
 			+ "Displays the details of the network \n";
-
+	
+	private String runtestUsage = "\n =========== display usage =========== \n"
+			+ "runtest <scenario filepath> \n"
+			+ "Runs the test scenario.";
+	
 	public Boolean hasNetwork(String name) {
 		if (networks.get(name) == null) {
 			return false;

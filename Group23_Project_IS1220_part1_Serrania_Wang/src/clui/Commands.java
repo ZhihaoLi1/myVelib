@@ -11,5 +11,6 @@ public enum Commands {
 	displayUser,
 	sortStation,
 	display,
-	help
+	help,
+	runtest
 }

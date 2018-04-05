@@ -1,10 +1,8 @@
-package core.test.scenarios;
+package clui;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import clui.CLUIThread;
 
 public class RunTest {
 
@@ -20,8 +18,10 @@ public class RunTest {
 			CLUIThread clui = new CLUIThread();
 			while ((line = reader.readLine()) != null) { // read the file linebyline
 				// pass line to CLUIThread.parseUserInput
-				message = clui.parseUserInput(line);
-				System.out.println(message);
+				if (!line.substring(0, 1).equals("#")) {
+					message = clui.parseUserInput(line);
+					System.out.println(message);
+				}
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
