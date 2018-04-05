@@ -10,7 +10,7 @@ public class UserStats {
 	private int totalRides;
 	private int totalTimeCredits;
 	private double totalCharges;
-	private int totalTimeSpent; // in minutes
+	private long totalTimeSpent; // in minutes
 
 	UserStats() {
 		totalRides = 0;
@@ -51,12 +51,12 @@ public class UserStats {
 		this.totalCharges += charges;
 	}
 
-	public int getTotalTimeSpent() {
+	public long getTotalTimeSpent() {
 		return totalTimeSpent;
 	}
 
-	public void addTotalTimeSpent(int totalTimeSpent) {
-		this.totalTimeSpent += totalTimeSpent;
+	public void addTotalTimeSpent(long l) {
+		this.totalTimeSpent += l;
 	}
 
 }

@@ -60,7 +60,7 @@ public class NoCardVisitor implements CardVisitor {
 	}
 
 	@Override
-	public void addTimeCredit(int timeCredit) {
-		// do nothing
+	public int addTimeCredit(int timeCredit) {
+		return 0;
 	}
 }

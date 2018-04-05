@@ -23,6 +23,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * @param rental
 	 *            the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
+	 * 
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
@@ -33,9 +34,10 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 
 	// Getters / Setters
 	@Override
-	public void addTimeCredit(int timeCredit) throws IllegalArgumentException {
+	public int addTimeCredit(int timeCredit) throws IllegalArgumentException {
 		if (timeCredit >= 0) {
 			this.timeCredit += timeCredit;
+			return timeCredit;
 		} else {
 			throw new IllegalArgumentException("The given time credit to add is negative: " + timeCredit);
 		}
@@ -46,17 +48,19 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * 
 	 * @param timeCredit
 	 *            in minutes
+	 * @return the time credit that was effectively removed           
 	 * @throws IllegalArgumentException
 	 *             when the time credit given is negative or when the time credit on
 	 *             the card is not enough to match the time credit to remove
 	 */
-	public void removeTimeCredit(int timeCredit) throws IllegalArgumentException {
+	public int removeTimeCredit(int timeCredit) throws IllegalArgumentException {
 		if (timeCredit >= 0) {
 			if (this.timeCredit < timeCredit) {
 				throw new IllegalArgumentException("The given time credit to remove: " + timeCredit
 						+ "is higher than this card's time credit: " + this.timeCredit);
 			} else {
 				this.timeCredit -= timeCredit;
+				return timeCredit;
 			}
 		} else {
 			throw new IllegalArgumentException("The given time credit to remove is negative: " + timeCredit);

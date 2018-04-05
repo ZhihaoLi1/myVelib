@@ -1,6 +1,7 @@
 package core.rentals;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import core.bike.Bike;
 import core.card.CardVisitor;
@@ -20,7 +21,9 @@ public class BikeRental implements Rental {
 	private final Bike bike;
 	private final LocalDateTime rentDate;
 	private LocalDateTime returnDate;
-	private int timeSpent; // in minutes
+	private long timeSpent; // in minutes
+	private double price; // price of the rental, in euros
+	private int timeCreditUsed; // time credit used to pay part of the rental, in minutes
 
 	public BikeRental(Bike bike, LocalDateTime rentDate) {
 		this.bike = bike;
@@ -64,11 +67,32 @@ public class BikeRental implements Rental {
 				+ ", timeSpent: " + timeSpent + "]";
 	}
 
-	public int getTimeSpent() {
+	public long getTimeSpent() {
+		if (timeSpent == 0) {
+			calculateTimeSpent();
+		}
 		return timeSpent;
 	}
 
-	public void setTimeSpent(int timeSpent) {
-		this.timeSpent = timeSpent;
+	public void calculateTimeSpent() {
+		if (returnDate != null && rentDate != null) {
+			this.timeSpent = rentDate.until(returnDate, ChronoUnit.MINUTES);
+		}
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	public int getTimeCreditUsed() {
+		return this.timeCreditUsed;
+	}
+	
+	public void setTimeCreditUsed(int timeCreditUsed) {
+		this.timeCreditUsed = timeCreditUsed;
 	}
 }
