@@ -1,4 +1,4 @@
-package core.test;
+package core.test.junit.ridePlan;
 
 import static org.junit.Assert.*;
 
