@@ -10,5 +10,6 @@ public enum Commands {
 	displayStation,
 	displayUser,
 	sortStation,
-	display
+	display,
+	help
 }

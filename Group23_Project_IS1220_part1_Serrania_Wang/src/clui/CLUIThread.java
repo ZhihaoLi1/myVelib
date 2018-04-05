@@ -11,23 +11,37 @@ import utils.DateParser;
 public class CLUIThread extends Thread {
 	private HashMap<String, Network> networks = new HashMap<String, Network>();
 	
+	private String helpMessage = "\n =========== Help =========== \n"
+			+ "setup <network name> <dateTime> \n"
+			+ "setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n"
+			+ "addUser <network name> <user name> <typeOfCard> \n"
+			+ "offline <network name> <stationId> \n"
+			+ "online <network name> <stationId> \n"
+			+ "rentBike <network name> <timeOfRental> <userId> <stationId> <bikeType> \n"
+			+ "returnBike <network name> <timeOfRental> <userId> <stationId> \n"
+			+ "displayStation <network name> <stationId> \n"
+			+ "displayUser <network name> <userId> \n"
+			+ "sortStation <network name> <sortPolicy> \n"
+			+ "display <network name> \n";
+	
 	private String setupUsage = "\n =========== setup usage =========== \n" +
 			"option 1: \n" +
 			"setup <network name> <dateTime> \n"+ 
 			"Example: setup myVelib 01/01/2000T00:00:00 \n" +
-			"This creates a myVelib network with given name and\n" + 
-			"consisting of 10 stations each of which has 10 parking slots and such that stations\n" + 
-			"are arranged on a square grid whose of side 4km and initially populated with a 75%\n" + 
-			"bikes randomly distributed over the 10 stations" +
+			"This creates a myVelib network with given name and \n" + 
+			"consisting of 10 stations each of which has \n" +
+			"10 parking slots and such that stations are arranged \n" +
+			"on a square grid whose of side 4km and initially populated \n" +
+			"with a 75% bikes randomly distributed over the 10 stations \n" +
 			"option 2: \n" + 
 			"setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n" +
 			"Example: setup myVelib 01/01/2000T00:00:00 10 10 4 75 \n" +
-			"This creates a myVelib network with given name and \n" + 
-			"consisting of <nstations> stations each of which has <nslots> parking slots and such that stations \n" + 
-			"are arranged on a square grid whose of side <sidearea>km and initially populated with a <nbikes> \n" + 
-			"bikes randomly distributed over the stations";
+			"This creates a myVelib network with given name and consisting of <nstations> stations \n" +
+			"each of which has <nslots> parking slots and such that stations \n" + 
+			"are arranged on a square grid whose of side <sidearea>km and initially populated \n" +
+			"with a <nbikes> bikes randomly distributed over the stations \n";
 	
-	private String addUserUsage = "\n =========== addUser usage =========== \\n"
+	private String addUserUsage = "\n =========== addUser usage =========== \n"
 			+ "addUser <network name> <user name> <typeOfCard> \n"
 			+ "Example: addUser myVelib John NO_CARD \n"
 			+ "Adds John to the myVelib Network and he does not have a card. \n"
@@ -310,14 +324,17 @@ public class CLUIThread extends Thread {
 	    } catch (IllegalArgumentException ex) {  
 	        	return "Invalid Command. Type help to have a comprenhensive overview of the different commands";
 	    }
-
-	    if (inputs.length < 2) {
-			return "All commands need to be followed by arguments.";
+	    
+	    if (inputs.length < 2 && command != Commands.help) {
+			return "All commands requires network to be specified. Type help for the arguments required for each command.";
 		}
 
 		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
 
 	    switch (command) {
+	    case help:
+	    		message = helpMessage;
+	    		break;
 	    case setup:
 	    		try {
 	    			message = setup(arguments);
