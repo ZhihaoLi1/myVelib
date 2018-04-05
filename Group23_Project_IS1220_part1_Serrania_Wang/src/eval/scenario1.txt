@@ -1,3 +1,10 @@
+# Setup default myVelib network and add 6 different users
+# The first 5 stations are plus stations. 
+# This scenario is to test that the rent and return of bikes 
+# function correctly. Ensure that the prices are correct 
+# and timecredits used well. 
+# We can also see the statistics of the different stations and users
+# 
 setup myVelib 01/01/2000T00:00:00
 addUser myVelib Alice NO_CARD
 addUser myVelib Bob VLIBRE_CARD
@@ -32,3 +39,4 @@ displayUser myVelib 3
 displayUser myVelib 4
 displayUser myVelib 5
 displayUser myVelib 6
+display myVelib
