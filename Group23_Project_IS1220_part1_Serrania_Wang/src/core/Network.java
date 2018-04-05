@@ -24,6 +24,7 @@ import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.ridePlan.ShortestPlan;
+import core.station.BikeNotFoundException;
 import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -31,6 +32,8 @@ import core.station.StationFactory;
 import core.station.stationSort.InvalidSortingPolicyException;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.MostUsedSort;
+import core.user.BikeRentalNotFoundException;
+import core.user.EmptyBikeRentalException;
 import core.user.User;
 import utils.Point;
 
@@ -457,7 +460,7 @@ public class Network {
 		s.setOnline(true);
 		return "Station " + stationId + " is set to online.";
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "Network " + name + ":";
