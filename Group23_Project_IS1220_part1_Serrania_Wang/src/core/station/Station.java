@@ -153,7 +153,7 @@ public abstract class Station extends Observable {
 		Bike b = null;
 
 		for (ParkingSlot ps : this.getParkingSlots()) {
-			if (ps.isWorking() && ps.hasBike() && ps.getBike().getType() == bikeType) {
+			if (ps.isWorking() && ps.hasBike() && ps.getBike().getType().equals(bikeType)) {
 				try {
 					synchronized (ps) {
 						b = ps.getBike();
