@@ -11,20 +11,66 @@ import utils.DateParser;
 public class CLUIThread extends Thread {
 	private HashMap<String, Network> networks = new HashMap<String, Network>();
 	
-	private String setupUsage = "======== setup usage ===== \n" +
+	private String setupUsage = "\n =========== setup usage =========== \n" +
 			"option 1: \n" +
-			"setup <myvelibnetworkname> \n" +
+			"setup <network name> <dateTime> \n"+ 
+			"Example: setup myVelib 01/01/2000T00:00:00 \n" +
 			"This creates a myVelib network with given name and\n" + 
 			"consisting of 10 stations each of which has 10 parking slots and such that stations\n" + 
 			"are arranged on a square grid whose of side 4km and initially populated with a 75%\n" + 
 			"bikes randomly distributed over the 10 stations" +
 			"option 2: \n" + 
-			"setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes>" +
-			"This creates a myVelib network with given name and\n" + 
-			"consisting of <nstations> stations each of which has <nslots> parking slots and such that stations\n" + 
+			"setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n" +
+			"Example: setup myVelib 01/01/2000T00:00:00 10 10 4 75 \n" +
+			"This creates a myVelib network with given name and \n" + 
+			"consisting of <nstations> stations each of which has <nslots> parking slots and such that stations \n" + 
 			"are arranged on a square grid whose of side <sidearea>km and initially populated with a <nbikes> \n" + 
 			"bikes randomly distributed over the stations";
 	
+	private String addUserUsage = "\n =========== addUser usage =========== \\n"
+			+ "addUser <network name> <user name> <typeOfCard> \n"
+			+ "Example: addUser myVelib John NO_CARD \n"
+			+ "Adds John to the myVelib Network and he does not have a card. \n"
+			+ "The different card types are: NO_CARD, VLIBRE_CARD, VMAX_CARD. \n";
+	
+	private String offlineUsage = "\n =========== offline usage =========== \n"
+			+ "offline <network name> <stationId> \n"
+			+ "Example: offline myVelib 1 \n"
+			+ "Set a station to offline \n";
+
+	private String onlineUsage = "\n =========== online usage =========== \n"
+			+ "online <network name> <stationId> \n"
+			+ "Example: online myVelib 1 \n"
+			+ "Set a station to online \n";
+
+	private String rentBikeUsage = "\n =========== rentBike usage =========== \n"
+			+ "rentBike <network name> <timeOfRental> <userId> <stationId> <bikeType> \n"
+			+ "Example: rentBike myVelib 01/01/2000T00:00:00 1 1 ELEC \n"
+			+ "Rent a bike from a station in given network for user <userId>. \n"
+			+ "Types of Bike: ELEC, MECH \n";
+	
+	private String returnBikeUsage = "\n =========== returnBike usage =========== \n"
+			+ "returnBike <network name> <timeOfRental> <userId> <stationId> \n"
+			+ "Example: returnBike myVelib 02/01/2000T00:00:00 1 1 \n"
+			+ "Return a bike to a station in given network for user <userId>. \n";
+	
+	private String displayStationUsage = "\n =========== displayStation usage =========== \n"
+			+ "displayStation <network name> <stationId> \n"
+			+ "Displays the statistics of a station \n";
+	
+	private String displayUserUsage = "\n =========== displayUser usage =========== \n"
+			+ "displayUser <network name> <userId> \n"
+			+ "Displays the statistics of a user \n";
+	
+	private String sortStationUsage = "\n =========== displayUser usage =========== \n"
+			+ "sortStation <network name> <sortPolicy> \n"
+			+ "Example: sortStation myVelib LEAST_OCCUPIED \n"
+			+ "Types of policies: LEAST_OCCUPIED, MOST_USED";
+	
+	private String displayUsage = "\n =========== display usage =========== \n"
+			+ "display <network name> \n"
+			+ "Displays the details of the network \n";
+
 	public Boolean hasNetwork(String name) {
 		if (networks.get(name) == null) {
 			return false;
@@ -246,31 +292,37 @@ public class CLUIThread extends Thread {
 		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}	
 	
-	
+	/**
+	 * Parses the user input and calls the correct method to execute the command
+	 * @param userInput
+	 * @return
+	 */
 	public String parseUserInput(String userInput) {
 		String message="";
 		Commands command; 
 		
 		String[] inputs = userInput.split(" ");
-
-		if (inputs.length < 2) {
-			return "All commands need to be followed by arguments";
-		}
 		
+
 		String commandRaw = inputs[0];
-		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
 	    try {
 	    		command = Commands.valueOf(commandRaw);
 	    } catch (IllegalArgumentException ex) {  
-	        	return "Command that is entered does not exist.";
+	        	return "Invalid Command. Type help to have a comprenhensive overview of the different commands";
 	    }
-	    	    
+
+	    if (inputs.length < 2) {
+			return "All commands need to be followed by arguments.";
+		}
+
+		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
+
 	    switch (command) {
 	    case setup:
 	    		try {
 	    			message = setup(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage(); // TODO write up setup usage
+	    			message = e.getMessage() + setupUsage;
 	    		}
 	    		break;
 	    		
@@ -278,7 +330,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = addUser(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage(); // TODO write up addUser usage
+	    			message = e.getMessage() + addUserUsage; // TODO write up addUser usage
 	    		}
 	    		break;
 	    
@@ -286,7 +338,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = offline(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + offlineUsage;
 	    		} 
 	    		break;
 	    	
@@ -295,7 +347,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = online(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + onlineUsage;
 	    		}
 	    		break;
 	    	
@@ -303,7 +355,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = rentBike(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + rentBikeUsage;
 	    		}
 	    		break;
 	    	
@@ -311,7 +363,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = returnBike(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + returnBikeUsage;
 	    		}
 	    		break;
 
@@ -319,7 +371,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = displayStation(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + displayStationUsage;
 	    		}
 	    		break;
 
@@ -327,7 +379,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = displayUser(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + displayUserUsage;
 	    		}
 	    		break;
 
@@ -335,7 +387,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = sortStation(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + sortStationUsage;
 	    		}
 	    		break;
 
@@ -343,7 +395,7 @@ public class CLUIThread extends Thread {
 	    		try {
 	    			message = display(arguments);
 	    		} catch (IncorrectArgumentException e) {
-	    			message = e.getMessage();
+	    			message = e.getMessage() + displayUsage;
 	    		}
 	    		break;
 	    }
