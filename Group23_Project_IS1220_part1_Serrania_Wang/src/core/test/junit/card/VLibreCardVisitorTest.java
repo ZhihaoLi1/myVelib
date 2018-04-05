@@ -124,7 +124,7 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void testVisit() {
-		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
+		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
 
 		Bike mBike = null;
 		try {
@@ -135,20 +135,20 @@ public class VLibreCardVisitorTest {
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
 		try {
-			mRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 			assertTrue(mRental.accept(card) == 1);
 
 			card.addTimeCredit(40);
-			mRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(mRental.accept(card) == 0);
 			assertTrue(card.getTimeCredit() == 40);
 
-			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(mRental.accept(card) == 0);
 			assertTrue(card.getTimeCredit() == 10);
 
 			card.addTimeCredit(50);
-			mRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(mRental.accept(card) == 0);
 			assertTrue(card.getTimeCredit() == 60);
 		} catch (InvalidBikeException e) {
@@ -171,20 +171,20 @@ public class VLibreCardVisitorTest {
 			// Reset time credit
 			card.removeTimeCredit(card.getTimeCredit());
 			
-			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 			assertTrue(eRental.accept(card) == 3);
 
 			card.addTimeCredit(80);
-			eRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(eRental.accept(card) == 0);
 			assertTrue(card.getTimeCredit() == 30);
 
-			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(eRental.accept(card) == 1);
 			assertTrue(card.getTimeCredit() == 0);
 
 			card.addTimeCredit(60);
-			eRental.setReturnDate(DateParser.parse("01/01/2000 01:00:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(eRental.accept(card) == 0);
 			assertTrue(card.getTimeCredit() == 0);
 		} catch (InvalidBikeException e) {
@@ -224,9 +224,9 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
-		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
+		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
 		BikeRental rental = new BikeRental(null, rentDate);
-		rental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+		rental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 
 		try {
 			rental.accept(card);

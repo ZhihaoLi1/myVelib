@@ -38,41 +38,41 @@ public class StationStatsTest {
 	public void testGetOccupationRate() {
 		StationStats stats = new StationStats(station);
 
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0);
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0);
 
-		station.getParkingSlots().get(0).setWorking(false, DateParser.parse("01/01/2000 07:00:00"));
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0.5);
+		station.getParkingSlots().get(0).setWorking(false, DateParser.parse("01/01/2000T07:00:00"));
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0.5);
 		
-		station.getParkingSlots().get(0).setWorking(true, DateParser.parse("01/01/2000 08:30:00"));
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0.25);
+		station.getParkingSlots().get(0).setWorking(true, DateParser.parse("01/01/2000T08:30:00"));
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0.25);
 
 		try {
 			station.getParkingSlots().get(0).setBike(new BikeFactory().createBike("MECH"),
-					DateParser.parse("01/01/2000 08:30:00"));
+					DateParser.parse("01/01/2000T08:30:00"));
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
 		} catch (OccupiedParkingSlotException e) {
 			fail("OccupiedParkingSlotException was thrown in testGetOccupationRate when it shouldn't");
 		}
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0.5);
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0.5);
 
-		station.getParkingSlots().get(1).setWorking(false, DateParser.parse("01/01/2000 08:30:00"));
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0.75);
+		station.getParkingSlots().get(1).setWorking(false, DateParser.parse("01/01/2000T08:30:00"));
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0.75);
 
 
 
 		try {
-			station.getParkingSlots().get(0).emptyBike(DateParser.parse("01/01/2000 08:45:00"));
+			station.getParkingSlots().get(0).emptyBike(DateParser.parse("01/01/2000T08:45:00"));
 		} catch (OccupiedParkingSlotException e) {
 			fail("OccupiedParkingSlotException was thrown in testGetOccupationRate when it shouldn't");
 		}
-		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"),
-				DateParser.parse("01/01/2000 09:00:00")) == 0.625);
+		assertTrue(stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"),
+				DateParser.parse("01/01/2000T09:00:00")) == 0.625);
 
 	}
 
@@ -81,13 +81,13 @@ public class StationStatsTest {
 		StationStats stats = new StationStats(station);
 
 		try {
-			stats.getOccupationRate(DateParser.parse("01/01/2000 08:00:00"), null);
+			stats.getOccupationRate(DateParser.parse("01/01/2000T08:00:00"), null);
 			fail("IllegalArgumentException wasn't thrown");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		try {
-			stats.getOccupationRate(null, DateParser.parse("01/01/2000 09:00:00"));
+			stats.getOccupationRate(null, DateParser.parse("01/01/2000T09:00:00"));
 			fail("IllegalArgumentException wasn't thrown");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);

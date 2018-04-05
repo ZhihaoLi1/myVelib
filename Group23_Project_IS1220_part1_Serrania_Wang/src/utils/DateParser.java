@@ -25,7 +25,7 @@ public class DateParser {
 	 *             if the string is null
 	 */
 	public static LocalDateTime parse(String string) throws DateTimeParseException, NullPointerException {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss", Locale.ENGLISH);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu'T'HH:mm:ss", Locale.ENGLISH);
 		return LocalDateTime.parse(string, formatter);
 	}
 }

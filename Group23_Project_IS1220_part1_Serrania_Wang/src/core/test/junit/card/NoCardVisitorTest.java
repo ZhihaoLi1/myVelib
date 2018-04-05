@@ -72,17 +72,17 @@ public class NoCardVisitorTest {
 			fail("InvalidBikeTypeException thrown");
 		}
 
-		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
+		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
 		try {
-			mRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 			assertTrue(mRental.accept(card) == 2);
 
-			mRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(mRental.accept(card) == 1);
 
-			mRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
+			mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(mRental.accept(card) == 2);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike given to visitor");
@@ -98,13 +98,13 @@ public class NoCardVisitorTest {
 		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 		try {
-			eRental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 			assertTrue(eRental.accept(card) == 4);
 
-			eRental.setReturnDate(DateParser.parse("01/01/2000 00:50:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(eRental.accept(card) == 2);
 
-			eRental.setReturnDate(DateParser.parse("01/01/2000 01:30:00"));
+			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(eRental.accept(card) == 4);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike given to visitor");
@@ -142,9 +142,9 @@ public class NoCardVisitorTest {
 	 */
 	@Test
 	public void whenInvalidBikeIsGivenThenThrowException() {
-		LocalDateTime rentDate = DateParser.parse("01/01/2000 00:00:00");
+		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
 		BikeRental rental = new BikeRental(null, rentDate);
-		rental.setReturnDate(DateParser.parse("01/01/2000 02:00:00"));
+		rental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
 
 		try {
 			rental.accept(card);

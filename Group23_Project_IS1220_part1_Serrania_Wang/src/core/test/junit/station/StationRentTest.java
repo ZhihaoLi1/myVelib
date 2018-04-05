@@ -60,14 +60,14 @@ public class StationRentTest {
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
 		int mechBikes = s.getNumberOfBikes("MECH");
 		int elecBikes = s.getNumberOfBikes("ELEC");
-		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000 09:00:00"));
+		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
 		int remainingMechBikes = s.getNumberOfBikes("MECH");
 		int remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertTrue(b instanceof MechBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes);
 		
-		b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:05:00"));
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:05:00"));
 		remainingMechBikes = s.getNumberOfBikes("MECH");
 		remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertTrue(b instanceof ElecBike);
@@ -75,7 +75,7 @@ public class StationRentTest {
 		assertEquals(elecBikes, remainingElecBikes + 1);
 		
 		// There are no more elec bikes, so b should be null and the number of remaining bikes should be the same
-		b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:10:00"));
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
 		remainingMechBikes = s.getNumberOfBikes("MECH");
 		remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertFalse(b instanceof Bike);

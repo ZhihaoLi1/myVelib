@@ -16,7 +16,7 @@ public class Scenario2 {
 		// We are in the year 2000, January the 1st
 		
 		// create the network 
-		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5, DateParser.parse("01/01/2000 09:00:00"));
+		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5, DateParser.parse("01/01/2000T09:00:00"));
 		CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 		// create users
 		User alice = null, bob = null, charles = null;
@@ -61,7 +61,7 @@ public class Scenario2 {
 		
 		// bob rents the bike at 9:30am 
 		System.out.println("\nBob rents an mech bike at 9:00am at the source station of his plan:");
-		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("01/02/2000 09:30:00"));
+		String bobRentBikeMessage = n.rentBike(bob.getId(), bobRidePlanGo.getSourceStation().getId(), "MECH", DateParser.parse("01/02/2000T09:30:00"));
 		System.out.println(bobRentBikeMessage);
 		
 		// Dest Station 1 goes offline 
@@ -85,7 +85,7 @@ public class Scenario2 {
 
 		// bob returns the bike at 10.45am		
 		System.out.println("\nBob returns the mech bike at 10:45am at the destination station of his plan:");
-		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/02/2000 10:45:00"));
+		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/02/2000T10:45:00"));
 		System.out.println(bobReturnBikeMessage);
 		
 		// Time bob might take to return 
@@ -112,11 +112,11 @@ public class Scenario2 {
 		// bob rents the bike at 13:00
 
 		System.out.println("\nBob rents an elec bike at 1:00pm at the source station of his plan:");
-		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("01/02/2000 13:00:00"));
+		String bobRentBikeMessage2 = n.rentBike(bob.getId(), bobRidePlanReturn.getSourceStation().getId(), "ELEC", DateParser.parse("01/02/2000T13:00:00"));
 		System.out.println(bobRentBikeMessage2);
 		// bob returns the bike at 10.45am
 		System.out.println("\nBob returns the elec bike at 2:15pm at the destination station of his plan:");
-		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/02/2000 14:15:00"));
+		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/02/2000T14:15:00"));
 		System.out.println(bobReturnBikeMessage2);
 	}
 }

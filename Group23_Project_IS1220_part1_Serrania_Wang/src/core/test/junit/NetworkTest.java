@@ -45,7 +45,7 @@ public class NetworkTest {
 			n.addUser(alice);
 			for (Station s: n.getStations().values()) {
 				if (s.getOnline() && s.hasCorrectBikeType("MECH")) {
-					n.rentBike(alice.getId(), s.getId(), "MECH", DateParser.parse("01/01/2000 09:00:00"));
+					n.rentBike(alice.getId(), s.getId(), "MECH", DateParser.parse("01/01/2000T09:00:00"));
 					break;
 				}
 			}
@@ -56,7 +56,7 @@ public class NetworkTest {
 			// returning the bike
 			for (Station s: n.getStations().values()) {
 				if (s.getOnline() && !s.isFull()) {
-					n.returnBike(alice.getId(), s.getId(), DateParser.parse("01/01/2000 10:00:00"));
+					n.returnBike(alice.getId(), s.getId(), DateParser.parse("01/01/2000T10:00:00"));
 					break;
 				}
 			}

@@ -71,10 +71,10 @@ public class StationReturnTest {
 	@Test
 	public void stationHasOneMoreBikeOfTheDesiredKindAfterReturn() {
 
-		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000 09:00:00"));
+		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
 		try {
-			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000 09:00:00")),
-					DateParser.parse("01/01/2000 10:00:00"));
+			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T09:00:00")),
+					DateParser.parse("01/01/2000T10:00:00"));
 		} catch (FullStationException e) {
 			fail("FullStationException thrown");
 		}
@@ -83,10 +83,10 @@ public class StationReturnTest {
 		assertEquals(1, numMechBikes);
 		assertEquals(0, numElecBikes);
 
-		b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:00:00"));
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:00:00"));
 		try {
-			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000 10:00:00")),
-					DateParser.parse("01/01/2000 11:00:00"));
+			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
+					DateParser.parse("01/01/2000T11:00:00"));
 		} catch (FullStationException e) {
 			fail("FullStationException thrown");
 		}
@@ -98,10 +98,10 @@ public class StationReturnTest {
 
 	@Test
 	public void whenStationIsFullThenThrowException() {
-		Bike b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:00:00"));
+		Bike b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:00:00"));
 		try {
-			fullS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000 10:00:00")),
-					DateParser.parse("01/01/2000 11:00:00"));
+			fullS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
+					DateParser.parse("01/01/2000T11:00:00"));
 			fail("FullStationException should have been thrown");
 		} catch (FullStationException e) {
 			assertTrue(true);

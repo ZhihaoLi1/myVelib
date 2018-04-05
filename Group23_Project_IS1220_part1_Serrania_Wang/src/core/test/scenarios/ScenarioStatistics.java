@@ -15,7 +15,7 @@ public class ScenarioStatistics {
 		// We are in the year 2000, January the 1st
 
 		// create the network
-		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5, DateParser.parse("01/01/2000 09:00:00"));
+		Network n = new Network("myVelib", 10, 10, 10, 0.75, 0.3, 0.5, DateParser.parse("01/01/2000T09:00:00"));
 		CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 		// create users
 		User alice = null, bob = null, charles = null;
@@ -39,27 +39,27 @@ public class ScenarioStatistics {
 			int sInd = ThreadLocalRandom.current().nextInt(0, stations.size());
 			int timeSpent = ThreadLocalRandom.current().nextInt(30, 300);
 			System.out.println(n.rentBike(alice.getId(), stations.get(sInd).getId(), "MECH",
-					DateParser.parse("0" + i + "/01/2000 09:00:00")));
+					DateParser.parse("0" + i + "/01/2000T09:00:00")));
 			System.out.println(n.returnBike(alice.getId(), stations.get(sInd).getId(),
-					DateParser.parse("0" + i + "/01/2000 09:00:00").plusMinutes(timeSpent)));
+					DateParser.parse("0" + i + "/01/2000T09:00:00").plusMinutes(timeSpent)));
 		}
 
 		for (int i = 0; i < 10; i++) {
 			int sInd = ThreadLocalRandom.current().nextInt(0, stations.size());
 			int timeSpent = ThreadLocalRandom.current().nextInt(30, 300);
 			System.out.println(n.rentBike(bob.getId(), stations.get(sInd).getId(), "MECH",
-					DateParser.parse((10 + i) + "/01/2000 09:00:00")));
+					DateParser.parse((10 + i) + "/01/2000T09:00:00")));
 			System.out.println(n.returnBike(bob.getId(), stations.get(sInd).getId(),
-					DateParser.parse((10 + i) + "/01/2000 09:00:00").plusMinutes(timeSpent)));
+					DateParser.parse((10 + i) + "/01/2000T09:00:00").plusMinutes(timeSpent)));
 		}
 
 		for (int i = 0; i < 10; i++) {
 			int sInd = ThreadLocalRandom.current().nextInt(0, stations.size());
 			int timeSpent = ThreadLocalRandom.current().nextInt(30, 300);
 			System.out.println(n.rentBike(charles.getId(), stations.get(sInd).getId(), "MECH",
-					DateParser.parse((20 + i) + "/01/2000 09:00:00")));
+					DateParser.parse((20 + i) + "/01/2000T09:00:00")));
 			System.out.println(n.returnBike(charles.getId(), stations.get(sInd).getId(),
-					DateParser.parse((20 + i) + "/01/2000 09:00:00").plusMinutes(timeSpent)));
+					DateParser.parse((20 + i) + "/01/2000T09:00:00").plusMinutes(timeSpent)));
 		}
 
 		for (Station s : stations) {

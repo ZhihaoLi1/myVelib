@@ -14,7 +14,7 @@ public class DateParserTest {
 	@Test
 	public void testParse() {
 		try {
-			LocalDateTime d = DateParser.parse("01/03/2045 06:07:08");
+			LocalDateTime d = DateParser.parse("01/03/2045T06:07:08");
 			assertEquals(d, LocalDateTime.of(2045, 3, 1, 6, 7, 8));
 		} catch (DateTimeParseException e) {
 			fail("DateTimeParseException was thrown");
@@ -31,7 +31,7 @@ public class DateParserTest {
 		}
 		
 		try {
-			DateParser.parse("01-03-2045 06:07:08");
+			DateParser.parse("01-03-2045T06:07:08");
 			fail("DateTimeParseException should have been thrown");
 		} catch (DateTimeParseException e) {
 			assertTrue(true);
@@ -45,7 +45,7 @@ public class DateParserTest {
 		}
 		
 		try {
-			DateParser.parse("dZ/é3/0192 00:az:98");
+			DateParser.parse("dZ/é3/0192T00:az:98");
 			fail("DateTimeParseException should have been thrown");
 		} catch (DateTimeParseException e) {
 			assertTrue(true);
