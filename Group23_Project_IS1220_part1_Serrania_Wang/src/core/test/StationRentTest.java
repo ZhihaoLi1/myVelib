@@ -4,42 +4,42 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import core.Network;
+import core.bike.Bike;
 import core.bike.BikeFactory;
+import core.bike.ElecBike;
 import core.bike.InvalidBikeTypeException;
+import core.bike.MechBike;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.user.User;
+import utils.DateParser;
 import utils.Point;
 
 /**
- * Test rent operation from  a station
+ * Test rent operation from a station
  * @author animato
  *
  */
 public class StationRentTest {
 
-	// create a network
-	static Network n = new Network();
 	// Create User
-	static User bob;
 
-	static StationFactory stationFactory = new StationFactory();
-	static BikeFactory bikeFactory = new BikeFactory();
-	static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+	StationFactory stationFactory = new StationFactory();
+	BikeFactory bikeFactory = new BikeFactory();
+	CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 
 	// Stations
-	static Station s;
-	static Station emptyS;
+	Station s, emptyS;
 
-	@BeforeClass
-	public static void fillStationAndNetwork() {
+	@Before
+	public void fillStationAndNetwork() {
 		try {
 			s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
 			emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
@@ -47,38 +47,39 @@ public class StationRentTest {
 			fail("InvalidStationTypeException was thrown");
 		}
 		
-		try {
-			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException was thrown");
-		}
-		
 		// add bikes to stations
 		try {
 			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+			s.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
-		} catch (Exception e) {
-			fail("Exception was thrown");
 		}
-
-		// add user and station to network
-		n.addUser(bob);
-		n.addStation(s);
-		n.addStation(emptyS);
 	}
 
 	@Test
 	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
-
 		int mechBikes = s.getNumberOfBikes("MECH");
 		int elecBikes = s.getNumberOfBikes("ELEC");
-		n.rentBike(bob.getId(), s.getId(), "MECH", LocalDateTime.now());
+		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000 09:00:00"));
 		int remainingMechBikes = s.getNumberOfBikes("MECH");
 		int remainingElecBikes = s.getNumberOfBikes("ELEC");
+		assertTrue(b instanceof MechBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes);
+		
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:05:00"));
+		remainingMechBikes = s.getNumberOfBikes("MECH");
+		remainingElecBikes = s.getNumberOfBikes("ELEC");
+		assertTrue(b instanceof ElecBike);
+		assertEquals(mechBikes, remainingMechBikes + 1);
+		assertEquals(elecBikes, remainingElecBikes + 1);
+		
+		// There are no more elec bikes, so b should be null and the number of remaining bikes should be the same
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000 10:10:00"));
+		remainingMechBikes = s.getNumberOfBikes("MECH");
+		remainingElecBikes = s.getNumberOfBikes("ELEC");
+		assertFalse(b instanceof Bike);
+		assertEquals(mechBikes, remainingMechBikes + 1);
+		assertEquals(elecBikes, remainingElecBikes + 1);
 	}
-
 }

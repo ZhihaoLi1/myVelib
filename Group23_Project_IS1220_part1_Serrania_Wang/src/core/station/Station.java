@@ -250,6 +250,7 @@ public abstract class Station extends Observable {
 		return false;
 	}
 
+
 	/**
 	 * Calculate occupation rate over a given time period. 
 	 * 
