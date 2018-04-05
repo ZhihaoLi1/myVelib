@@ -36,4 +36,13 @@ public class StandardStation extends Station {
 	protected StandardStation(int numberOfParkingSlots, Point coordinates, Boolean online) {
 		super(numberOfParkingSlots, coordinates, online, 0);
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Standard Station [id: " + super.getId() + "\n";
+		s += "ParkingSlots: " + super.getParkingSlots().toString() + "\n";
+		s += "Coordinates: " + super.getCoordinates().toString() + "\n";
+		s += "Online: " + super.getOnline() + "]";
+		return s;
+	}
 }

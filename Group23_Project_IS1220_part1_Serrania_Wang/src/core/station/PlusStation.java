@@ -38,4 +38,14 @@ public class PlusStation extends Station {
 	protected PlusStation(int numberOfParkingSlots, Point coordinates) {
 		super(numberOfParkingSlots, coordinates, true, 5);
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Plus Station [id: " + super.getId() + "\n";
+		s += "ParkingSlots: " + super.getParkingSlots().toString() + "\n";
+		s += "Coordinates: " + super.getCoordinates().toString() + "\n";
+		s += "Online: " + super.getOnline() + "]";
+		return s;
+
+	}
 }
