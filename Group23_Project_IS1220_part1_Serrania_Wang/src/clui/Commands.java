@@ -12,5 +12,7 @@ public enum Commands {
 	sortStation,
 	display,
 	help,
-	runtest
+	runtest,
+	deleteNetwork,
+	planRide
 }

@@ -87,7 +87,17 @@ public class CLUIThread extends Thread {
 	
 	private String runtestUsage = "\n =========== display usage =========== \n"
 			+ "runtest <scenario filepath> \n"
-			+ "Runs the test scenario.";
+			+ "Runs the test scenario. \n";
+
+	private String deleteNetworkUsage = "\n =========== deleteNetwork usage =========== \n"
+			+ "deleteNetwork <network name> \n"
+			+ "Delete network from CLUI \n";
+
+	private String planRideUsage = "\n =========== planRide usage =========== \n"
+			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType> \n"
+			+ "planRide myVelib 1.0 1.0 3.0 3.0 1 FASTEST MECH \n"
+			+ "The types of ridePlan policies are: FASTEST, SHORTEST, PREFER_PLUS, AVOID_PLUS, PRESERVE_UNIFORMITY \n"
+			+ "This command sets a ride plan for the user and he/she is notified when the destination stations goes offline or become unavailable. \n";
 	
 	public Boolean hasNetwork(String name) {
 		if (networks.get(name) == null) {
@@ -146,7 +156,7 @@ public class CLUIThread extends Thread {
 	public String addUser(String[] args) throws IncorrectArgumentException {
 		if (args.length == 3) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			return networks.get(name).addUser(args[1], args[2]);
 		}
 		throw new IncorrectArgumentException("Number of arguments is incorrect.");
@@ -161,7 +171,7 @@ public class CLUIThread extends Thread {
 	public String offline(String[] args) throws IncorrectArgumentException {
 		if (args.length == 2) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				return networks.get(name).setOffline(Integer.parseInt(args[1]));
 			} catch (NumberFormatException e) {
@@ -180,7 +190,7 @@ public class CLUIThread extends Thread {
 	public String online(String[] args) throws IncorrectArgumentException {
 		if (args.length == 2) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				return networks.get(name).setOnline(Integer.parseInt(args[1]));
 			} catch (NumberFormatException e) {
@@ -199,7 +209,7 @@ public class CLUIThread extends Thread {
 	public String rentBike(String[] args) throws IncorrectArgumentException {
 		if (args.length == 5) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				LocalDateTime rentalDate= DateParser.parse(args[1]);
 				int userId = Integer.parseInt(args[2]);
@@ -225,7 +235,7 @@ public class CLUIThread extends Thread {
 	public String returnBike(String[] args) throws IncorrectArgumentException {
 		if (args.length == 4) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				LocalDateTime returnDate= DateParser.parse(args[1]);
 				int userId = Integer.parseInt(args[2]);
@@ -249,7 +259,7 @@ public class CLUIThread extends Thread {
 	public String displayStation(String[] args) throws IncorrectArgumentException {
 		if (args.length == 2) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				int stationId = Integer.parseInt(args[1]);
 				return networks.get(name).displayStation(stationId);
@@ -269,7 +279,7 @@ public class CLUIThread extends Thread {
 	public String displayUser(String[] args) throws IncorrectArgumentException {
 		if (args.length == 2) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			try {
 				int userId = Integer.parseInt(args[1]);
 				return networks.get(name).displayUser(userId);
@@ -289,7 +299,7 @@ public class CLUIThread extends Thread {
 	public String sortStation(String[] args) throws IncorrectArgumentException {
 		if (args.length == 2) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			return networks.get(name).sortStation(args[1]);
 		}
 		throw new IncorrectArgumentException("Number of arguments is incorrect.");
@@ -304,11 +314,53 @@ public class CLUIThread extends Thread {
 	public String display(String[] args) throws IncorrectArgumentException {
 		if (args.length == 1) {
 			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + "does not exist.");
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
 			return networks.get(name).toString();
 		}
 		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}	
+	
+	/**
+	 * 
+	 * @param args <name>
+	 * @return
+	 * @throws IncorrectArgumentException
+	 */
+	public String deleteNetwork(String[] args) throws IncorrectArgumentException {
+		if (args.length == 1) {
+			String name = args[0];
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+			networks.remove(name);
+			return "Sucessfully removed network " + args[0] + ".";
+		}
+		throw new IncorrectArgumentException("Number of arguments is incorrect.");
+	}
+
+	/**
+	 * 
+	 * @param args <name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>
+	 * @return
+	 * @throws IncorrectArgumentException
+	 */
+	public String planRide(String[] args) throws IncorrectArgumentException {
+		if (args.length == 8) {
+			String name = args[0];
+			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+			try {
+				double sourceX = Double.parseDouble(args[1]);
+				double sourceY = Double.parseDouble(args[2]);
+				double destinationX = Double.parseDouble(args[3]);
+				double destinationY = Double.parseDouble(args[4]);
+				int userId = Integer.parseInt(args[5]);
+				String policy = args[6];
+				String bikeType = args[7];
+				return networks.get(name).planRide(sourceX, sourceY, destinationX, destinationY, userId, policy, bikeType);
+			} catch(NumberFormatException e) {
+				throw new IncorrectArgumentException("Arguments incorrectly entered, please refer to usage below.");
+			}
+		}
+		throw new IncorrectArgumentException("Number of arguments is incorrect.");
+	}
 	
 	/**
 	 * Parses the user input and calls the correct method to execute the command
@@ -336,6 +388,9 @@ public class CLUIThread extends Thread {
 		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
 
 	    switch (command) {
+	    case runtest:
+	    		RunCommandsFromFile.run(arguments[0], this);
+	    		break;
 	    case help:
 	    		message = helpMessage;
 	    		break;
@@ -419,15 +474,33 @@ public class CLUIThread extends Thread {
 	    			message = e.getMessage() + displayUsage;
 	    		}
 	    		break;
+	    
+	    case deleteNetwork:
+	    		try {
+	    			message = deleteNetwork(arguments);
+	    		} catch (IncorrectArgumentException e) {
+	    			message = e.getMessage() + deleteNetworkUsage;
+	    		}
+	    		break;
+	    		
+	    case planRide:
+	    		try {
+	    			message = planRide(arguments);
+	    		} catch (IncorrectArgumentException e) {
+	    			message = e.getMessage() + planRideUsage;
+	    		}
+	    		break;
+
 	    }
-	    
 	    return message;
-	    
 	}
 	
 	@Override
 	public void run() {
 		System.out.println("Welcome to MyVelib. Please enter your command");
+		System.out.println("Setting up an inital network named myVelib... It has 5 users, 10 stations.");
+		RunCommandsFromFile.run("src/eval/my_velib.ini", this);
+		System.out.println("============= Setup Complete ===========");
 		String userInput = "";
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		while(!userInput.equals("stop")) {
