@@ -68,7 +68,7 @@ public class BikeRental implements Rental {
 	}
 
 	public long getTimeSpent() {
-		if (timeSpent == 0) {
+		if (timeSpent <= 0) {
 			calculateTimeSpent();
 		}
 		return timeSpent;

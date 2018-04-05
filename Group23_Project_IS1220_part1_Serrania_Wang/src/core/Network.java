@@ -327,7 +327,7 @@ public class Network {
 		try {
 			BikeRental br = returnBike(user, station, returnDate);
 			return user.getName() + " should pay " + br.getPrice() + " euros for this ride which lasted "
-					+ br.getTimeSpent() + " minutes. (" + br.getTimeCreditUsed() + " minutes of time credit used."
+					+ br.getTimeSpent() + " minutes. (" + br.getTimeCreditUsed() + " minutes of time credit used)."
 					+ " Thank you for choosing MyVelib, have a wonderful day!";
 		} catch (InvalidDatesException e) {
 			return e.getMessage();
@@ -615,8 +615,6 @@ public class Network {
 					}
 
 					station.returnBike(br, returnDate);
-					// reset user bike rental
-					user.resetBikeRental();
 				} catch (FullStationException e) {
 					throw e;
 				}
@@ -642,6 +640,8 @@ public class Network {
 			user.getStats().incrementTotalRides();
 			user.getStats().addTotalTimeSpent(br.getTimeSpent());
 
+			// reset user bike rental
+			user.resetBikeRental();
 			this.currentDate = returnDate;
 
 			return br;
