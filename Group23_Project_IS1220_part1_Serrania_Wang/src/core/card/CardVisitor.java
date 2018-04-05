@@ -22,7 +22,7 @@ public interface CardVisitor {
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
-	 *             if invalid rent of return dates are given
+	 *             if invalid rent/return dates are given
 	 */
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 

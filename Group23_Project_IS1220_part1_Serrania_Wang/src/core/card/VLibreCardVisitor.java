@@ -48,7 +48,7 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor implements Card
 	@Override
 	public double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException {
 		Bike bike = rental.getBike();
-		if (rental.getRentDate() == null || rental.getReturnDate() == null) {
+		if (rental.getRentDate() == null || rental.getReturnDate() == null || rental.getTimeSpent() < 0) {
 			throw new InvalidDatesException(rental);
 		}
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
