@@ -26,9 +26,8 @@ public class NetworkTest {
 
 	@Test
 	public void createDefaultNetworkThenNumberOfBikesDistributedCorrectly() {
-		int numberOfParkingSlotsPerStation = 10;
 
-		Network n = new Network("testNetwork", 10, numberOfParkingSlotsPerStation, 10, 0.80, 0.5, 0.5, LocalDateTime.now());
+		Network n = new Network("testNetwork", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 
 		// total number of stations should be 10
 		assertEquals(n.getStations().size(), 10);
@@ -37,17 +36,16 @@ public class NetworkTest {
 		
 		// FIXME elec bike 40 and mech bike 40
 	}
-	
+
 	@Test
 	public void rentAndReturnBikeTest() {
-		Network n = new Network("testRental", LocalDateTime.now());
+		Network n = new Network("testRental", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		try {
 			User alice = new User("alice");
 			n.addUser(alice);
-			String message = "";
 			for (Station s: n.getStations().values()) {
 				if (s.getOnline() && s.hasCorrectBikeType("MECH")) {
-					message = n.rentBike(alice.getId(), s.getId(), "MECH", DateParser.parse("01/01/2000 09:00:00"));
+					n.rentBike(alice.getId(), s.getId(), "MECH", DateParser.parse("01/01/2000 09:00:00"));
 					break;
 				}
 			}
@@ -58,11 +56,11 @@ public class NetworkTest {
 			// returning the bike
 			for (Station s: n.getStations().values()) {
 				if (s.getOnline() && !s.isFull()) {
-					message = n.returnBike(alice.getId(), s.getId(), DateParser.parse("01/01/2000 10:00:00"), 60);
+					n.returnBike(alice.getId(), s.getId(), DateParser.parse("01/01/2000 10:00:00"));
 					break;
 				}
 			}
-			
+		
 			System.out.println(alice.getStats().toString());
 			assertEquals(alice.getBikeRental(), null);
 			assertEquals(alice.getStats().getTotalTimeSpent(), 60);
@@ -71,12 +69,12 @@ public class NetworkTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
+	
 	}
 	
 	@Test
 	public void addStationToNetwork() {
-		Network n = new Network();
+		Network n = new Network("EmptyNetwork", 0, 0, 4, 0, 0, 0, LocalDateTime.now());
 		
 		n.addStation("STANDARD");
 		n.addStation("PLUS"); 

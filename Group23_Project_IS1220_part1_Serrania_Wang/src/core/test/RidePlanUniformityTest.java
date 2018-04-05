@@ -35,7 +35,7 @@ import utils.Point;
 public class RidePlanUniformityTest {
 
 	// create a network
-	static Network n = new Network();
+	static Network n = new Network("EmptyNetwork", 0, 0, 4, 0, 0, 0, LocalDateTime.now());
 	// Create source, destination
 	Point source = new Point(0, 0);
 	Point destination = new Point(10, 10);

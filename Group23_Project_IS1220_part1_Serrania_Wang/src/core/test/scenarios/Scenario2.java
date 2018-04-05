@@ -85,7 +85,7 @@ public class Scenario2 {
 
 		// bob returns the bike at 10.45am		
 		System.out.println("\nBob returns the mech bike at 10:45am at the destination station of his plan:");
-		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/02/2000 10:45:00"), 75);
+		String bobReturnBikeMessage = n.returnBike(bob.getId(), bobRidePlanGo2.getDestinationStation().getId(), DateParser.parse("01/02/2000 10:45:00"));
 		System.out.println(bobReturnBikeMessage);
 		
 		// Time bob might take to return 
@@ -116,7 +116,7 @@ public class Scenario2 {
 		System.out.println(bobRentBikeMessage2);
 		// bob returns the bike at 10.45am
 		System.out.println("\nBob returns the elec bike at 2:15pm at the destination station of his plan:");
-		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/02/2000 14:15:00"), 75);
+		String bobReturnBikeMessage2 = n.returnBike(bob.getId(), bobRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/02/2000 14:15:00"));
 		System.out.println(bobReturnBikeMessage2);
 	}
 }

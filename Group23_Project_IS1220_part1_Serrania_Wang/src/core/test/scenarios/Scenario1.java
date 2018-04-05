@@ -67,7 +67,7 @@ public class Scenario1 {
 		System.out.println(AliceRentBikeMessage);
 		// Alice returns the bike at 10.45am
 		System.out.println("\nAlice returns the mech bike at 11:20am at the destination station of her plan:");
-		String AliceReturnBikeMessage = n.returnBike(alice.getId(), aliceRidePlanGo.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"), 110);
+		String AliceReturnBikeMessage = n.returnBike(alice.getId(), aliceRidePlanGo.getDestinationStation().getId(), DateParser.parse("01/01/2000 11:20:00"));
 		System.out.println(AliceReturnBikeMessage);
 		
 		System.out.println("\nAlice plans a new ride using the shortest policy, for an elec bike:");
@@ -95,7 +95,7 @@ public class Scenario1 {
 		System.out.println(AliceRentBikeMessage2);
 		// Alice returns the bike at 2:15pm
 		System.out.println("\nAlice returns the elec bike at 2:15pm at the destination station of her plan:");
-		String AliceReturnBikeMessage2 = n.returnBike(alice.getId(), aliceRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/01/2000 14:15:00"), 75);
+		String AliceReturnBikeMessage2 = n.returnBike(alice.getId(), aliceRidePlanReturn.getDestinationStation().getId(), DateParser.parse("01/01/2000 14:15:00"));
 		System.out.println(AliceReturnBikeMessage2);
 	}
 }

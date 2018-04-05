@@ -31,8 +31,12 @@ public interface CardVisitor {
 	 * 
 	 * @param timeCredit
 	 *            in minutes
+	 * @return the time credit that was effectively added (might be different from
+	 *         what was given, depending on the card)
 	 * @throws IllegalArgumentException
 	 *             when the timeCredit given is negative
 	 */
-	public void addTimeCredit(int timeCredit) throws IllegalArgumentException;
+	public int addTimeCredit(int timeCredit) throws IllegalArgumentException;
+	
+	public int getTimeCredit();
 }
