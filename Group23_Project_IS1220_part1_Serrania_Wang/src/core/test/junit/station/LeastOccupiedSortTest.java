@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
+import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;

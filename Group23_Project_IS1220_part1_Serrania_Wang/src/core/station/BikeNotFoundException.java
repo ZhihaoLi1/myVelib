@@ -1,5 +1,10 @@
 package core.station;
 
+/**
+ * Exception thrown when a bike of type bikeType is not found 
+ * @author matto
+ *
+ */
 public class BikeNotFoundException extends Exception {
 	private final int stationId;
 	private final String bikeType;

@@ -137,23 +137,4 @@ public class NoCardVisitorTest {
 		}
 	}
 
-	/**
-	 * Test that giving a rental without a bike throws an IllegalArgumentException.
-	 */
-	@Test
-	public void whenInvalidBikeIsGivenThenThrowException() {
-		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
-		BikeRental rental = new BikeRental(null, rentDate);
-		rental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
-
-		try {
-			rental.accept(card);
-			fail("Visitor should have thrown InvalidBikeTypeException");
-		} catch (InvalidDatesException e) {
-			fail("Invalid dates given to visitor");
-		} catch (InvalidBikeException e) {
-			assertTrue(true);
-		}
-	}
-
 }

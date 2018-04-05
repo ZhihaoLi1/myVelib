@@ -18,7 +18,8 @@ public class OccupiedParkingSlotException extends Exception {
 		return parkingSlot;
 	}
 
+	@Override
 	public String getMessage() {
-		return "The parking slot " + parkingSlot.getId() + "is already occupied.";
+		return "The parking slot " + parkingSlot.getId() + "is already occupied or out of order.";
 	}
 }

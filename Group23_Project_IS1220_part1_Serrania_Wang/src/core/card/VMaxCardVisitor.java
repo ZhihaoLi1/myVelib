@@ -24,16 +24,21 @@ import core.rentals.BikeRental;
  */
 public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVisitor {
 
+	// Constructor
+
 	protected VMaxCardVisitor() {
 		super();
 	}
 
+	// Core methods
+
 	/**
-	 * Calculates the price of a bike rental.
+	 * Calculates the price of a bike rental and updates the bike rental with the
+	 * price and time credit used.
 	 * 
 	 * @param rental
 	 *            the BikeRental whose price is being calculated
-	 * @return (double) the price of the rental
+	 * @return the price of the ride
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
@@ -46,21 +51,28 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 			throw new InvalidDatesException(rental);
 		}
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
-
+		int timeCreditUsed = 0;
+		
 		if (bike instanceof MechBike || bike instanceof ElecBike) {
 			// Check if we can lower the price using the time credit
 			if ((nMinutes / 60.0 > 1) && (nMinutes % 60) <= getTimeCredit()) {
 				removeTimeCredit((int) (nMinutes % 60));
+				timeCreditUsed += (int) (nMinutes % 60);
 				nMinutes -= (nMinutes % 60);
 			}
 			while ((nMinutes / 60.0 > 1 && getTimeCredit() >= 60)) {
 				removeTimeCredit(60);
+				timeCreditUsed += 60;
 				nMinutes -= 60;
 			}
+			rental.setTimeCreditUsed(timeCreditUsed);
+			
 			if (nMinutes <= 60) {
-				return 0;
+				rental.setPrice(0);
+				return rental.getPrice();
 			}
-			return (nMinutes - 60) / 60 + ((nMinutes % 60 == 0) ? 0 : 1);
+			rental.setPrice((nMinutes - 60) / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
+			return rental.getPrice();
 		} else {
 			throw new InvalidBikeException(rental);
 		}

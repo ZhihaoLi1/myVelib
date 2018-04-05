@@ -27,13 +27,13 @@ import core.ridePlan.ShortestPlan;
 import core.station.BikeNotFoundException;
 import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
+import core.station.OfflineStationException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.stationSort.InvalidSortingPolicyException;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.MostUsedSort;
 import core.user.BikeRentalNotFoundException;
-import core.user.EmptyBikeRentalException;
 import core.user.User;
 import utils.Point;
 
@@ -131,14 +131,6 @@ public class Network {
 	 * well as the type of bike the user wants and the policy they want to follow,
 	 * and returns a message depending on what happened (success or error).
 	 * 
-	 * @param source
-	 * @param destination
-	 * @param user
-	 * @param policy
-	 * @param bikeType
-	 * @return String describing the ride plan, or the error that happened.
-	 */
-	/**
 	 * @param sourceX
 	 * @param sourceY
 	 * @param destinationX
@@ -146,7 +138,7 @@ public class Network {
 	 * @param userId
 	 * @param policy
 	 * @param bikeType
-	 * @return
+	 * @return String describing the ride plan, or the error that happened.
 	 */
 	public String planRide(double sourceX, double sourceY, double destinationX, double destinationY, int userId,
 			String policy, String bikeType) {
@@ -299,9 +291,9 @@ public class Network {
 					+ " at " + rentalDate + ".";
 		} catch (OngoingBikeRentalException e) {
 			return e.getMessage();
-		} catch (BikeNotFoundException e) {
+		} catch (OfflineStationException e) {
 			return e.getMessage();
-		} catch (EmptyBikeRentalException e) {
+		} catch (BikeNotFoundException e) {
 			return e.getMessage();
 		}
 	}
@@ -336,6 +328,8 @@ public class Network {
 		} catch (BikeRentalNotFoundException e) {
 			return e.getMessage();
 		} catch (FullStationException e) {
+			return e.getMessage();
+		} catch (OfflineStationException e) {
 			return e.getMessage();
 		}
 	}
@@ -382,6 +376,9 @@ public class Network {
 		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
+		if (s.getOnline() == false) {
+			return "Station " + stationId + " is already offline.";
+		}
 		s.setOnline(false);
 		return "Station " + stationId + " is set to offline.";
 	}
@@ -396,6 +393,9 @@ public class Network {
 		Station s = this.stations.get(stationId);
 		if (s == null)
 			return "No station found for id " + stationId;
+		if (s.getOnline() == true) {
+			return "Station " + stationId + " is already online.";
+		}
 		s.setOnline(true);
 		return "Station " + stationId + " is set to online.";
 	}
@@ -562,25 +562,17 @@ public class Network {
 	 *             if the station has no bikes of type bikeType left
 	 */
 	public Bike rentBike(User user, Station station, String bikeType, LocalDateTime rentalDate)
-			throws OngoingBikeRentalException, BikeNotFoundException, EmptyBikeRentalException {
+			throws OngoingBikeRentalException, OfflineStationException, BikeNotFoundException {
 		Bike b = null;
 		synchronized (user) {
 			// verify if user does not already have a rental
 			if (user.getBikeRental() != null)
 				throw new OngoingBikeRentalException(user);
 			synchronized (station) {
+				// If no bike is found (either station is offline or there are no bikes), an
+				// exception will be thrown here
 				b = station.rentBike(bikeType, rentalDate);
-				// if no bike is found (either station is offline or there are no bikes)
-				if (b == null)
-					throw new BikeNotFoundException(station.getId(), bikeType);
-				// normally not suppose to happen with previous verification
-				try {
-					user.setBikeRental(new BikeRental(b, rentalDate));
-				} catch (OngoingBikeRentalException e) {
-					throw e;
-				} catch (EmptyBikeRentalException e) {
-					throw e;
-				}
+				user.setBikeRental(new BikeRental(b, rentalDate));
 				this.currentDate = rentalDate;
 				return b;
 			}
@@ -596,7 +588,8 @@ public class Network {
 	 * @return String (either an error message or a confirmation message)
 	 */
 	public BikeRental returnBike(User user, Station station, LocalDateTime returnDate)
-			throws BikeRentalNotFoundException, FullStationException, InvalidBikeException, InvalidDatesException {
+			throws BikeRentalNotFoundException, FullStationException, OfflineStationException, InvalidBikeException,
+			InvalidDatesException {
 		// the same user cannot return more than one bike at the same time.
 		synchronized (user) {
 			// make sure user has a rental
@@ -606,34 +599,26 @@ public class Network {
 			br.setReturnDate(returnDate);
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (station) {
-				try {
-					// if user completes ride plan (station that he is returning the bike to is the
-					// same as the destination station in ride plan)
-					// then the user's ride plan is set to null
-					if (user.getRidePlan() != null && station.equals(user.getRidePlan().getDestinationStation())) {
-						user.resetRidePlan();
-					}
-
-					station.returnBike(br, returnDate);
-				} catch (FullStationException e) {
-					throw e;
+				// if user completes ride plan (station that he is returning the bike to is the
+				// same as the destination station in ride plan)
+				// then the user's ride plan is set to null
+				if (user.getRidePlan() != null && station.equals(user.getRidePlan().getDestinationStation())) {
+					user.resetRidePlan();
 				}
+
+				// If station is offline, will throw OfflineStationException; if station is
+				// full, will throw FullStationException
+				station.returnBike(br, returnDate);
 				// increment station statistics
 				station.getStats().incrementTotalReturns();
 			}
 			// add time credit
 			user.getStats().addTotalTimeCredits(user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn()));
-
-			// Calculate the price of the ride
-			int prevTimeCredit = user.getCard().getTimeCredit();
-			try {
-				br.setPrice(user.getCard().visit(br));
-				br.setTimeCreditUsed(user.getCard().getTimeCredit() - prevTimeCredit);
-			} catch (InvalidBikeException e) {
-				throw e;
-			} catch (InvalidDatesException e) {
-				throw e;
-			}
+			
+			// Calculate the price of the ride. Throws InvalidBikeException or
+			// InvalidDatesException if the calculation couldn't be performed
+			// FIXME: Should be done before returning the bike, and the actual price deduction should happen after removing the bike.
+			user.getCard().visit(br);
 
 			// Update the user's stats
 			user.getStats().addTotalCharges(br.getPrice());

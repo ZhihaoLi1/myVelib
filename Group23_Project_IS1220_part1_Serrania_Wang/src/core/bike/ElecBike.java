@@ -3,6 +3,7 @@ package core.bike;
 /**
  * Implementation of an electrical bike
  * 
+ * @see Bike
  * @author matto
  */
 public class ElecBike implements Bike {
@@ -10,9 +11,19 @@ public class ElecBike implements Bike {
 	private final int id;
 	private final String type = "ELEC";
 
+	// Constructor 
+
 	protected ElecBike() {
 		id = BikeIDGenerator.getInstance().getNextIDNumber();
 	}
+	
+	// Getters / Setters
+	
+	public String getType() {
+		return type;
+	}
+	
+	// Equality check methods
 
 	@Override
 	public int hashCode() {
@@ -27,10 +38,6 @@ public class ElecBike implements Bike {
 				return true;
 		}
 		return false;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 	@Override

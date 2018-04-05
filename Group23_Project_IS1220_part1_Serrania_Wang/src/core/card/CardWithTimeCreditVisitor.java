@@ -13,9 +13,13 @@ import core.rentals.BikeRental;
 public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	private int timeCredit;
 
+	// Constructor
+
 	public CardWithTimeCreditVisitor() {
 		timeCredit = 0;
 	}
+
+	// Core methods
 
 	/**
 	 * Implementation of the calculation of the price of a rental
@@ -23,7 +27,6 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * @param rental
 	 *            the BikeRental whose price is being calculated
 	 * @return (double) the price of the rental
-	 * 
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
@@ -33,6 +36,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	public abstract double visit(BikeRental rental) throws InvalidBikeException, InvalidDatesException;
 
 	// Getters / Setters
+
 	@Override
 	public int addTimeCredit(int timeCredit) throws IllegalArgumentException {
 		if (timeCredit >= 0) {
@@ -48,7 +52,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 	 * 
 	 * @param timeCredit
 	 *            in minutes
-	 * @return the time credit that was effectively removed           
+	 * @return the time credit that was effectively removed
 	 * @throws IllegalArgumentException
 	 *             when the time credit given is negative or when the time credit on
 	 *             the card is not enough to match the time credit to remove

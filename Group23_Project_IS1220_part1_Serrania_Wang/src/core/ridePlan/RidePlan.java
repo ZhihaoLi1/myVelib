@@ -18,8 +18,10 @@ public class RidePlan {
 	private String bikeType;
 	private Network network;
 
-	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation,
-			String policy, String bikeType, Network network) {
+	// Constructor
+
+	public RidePlan(Point source, Point destination, Station sourceStation, Station destinationStation, String policy,
+			String bikeType, Network network) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -30,6 +32,17 @@ public class RidePlan {
 		this.network = network;
 	}
 
+	// Core methods
+
+	/**
+	 * Calculates the time it takes to go from the source to the destination while
+	 * following the ride plan.
+	 * 
+	 * @return the time (in hours) it takes to get from the source to the
+	 *         destination
+	 * @throws InvalidBikeTypeException
+	 *             if the bikeType of the rental is not recognized by the system
+	 */
 	public int approximateTime() throws InvalidBikeTypeException {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
@@ -51,6 +64,8 @@ public class RidePlan {
 
 		return (int) Math.floor(totalTime * 60);
 	}
+
+	// Getters / Setters
 
 	public Point getSource() {
 		return source;
@@ -108,6 +123,8 @@ public class RidePlan {
 		this.network = network;
 	}
 
+	// Equality check methods
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof RidePlan) {
@@ -130,7 +147,7 @@ public class RidePlan {
 		rp += "Source station Id: " + sourceStation.getId() + "\n";
 		rp += "Destination station: " + destinationStation.getCoordinates().toString() + "\n";
 		rp += "Destination station Id: " + destinationStation.getId() + "\n";
-		rp += "Policy : " + policy.toString() + "\n";
+		rp += "Policy : " + policy.toString().toLowerCase() + "\n";
 		return rp;
 	}
 }

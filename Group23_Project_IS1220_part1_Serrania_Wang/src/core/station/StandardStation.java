@@ -14,6 +14,8 @@ import utils.Point;
  */
 public class StandardStation extends Station {
 
+	// Constructors
+
 	/**
 	 * Create a station with the given number of parking slots and coordinates. By
 	 * default, online status is true.

@@ -14,10 +14,15 @@ import core.station.Station;
  */
 public class LeastOccupiedSort implements SortingStrategy {
 	/**
-	 * Sort given stations according to their occupation rate, in ascending order
+	 * Sort given stations according to their occupation rate over a given time
+	 * span, in ascending order
 	 * 
 	 * @param stations
 	 *            a list of stations to sort
+	 * @param startDate
+	 *            the start of the time span the calculation is done over
+	 * @param endDate
+	 *            the end of the time span the calculation is done over
 	 * @return the sorted list of stations
 	 */
 	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) {

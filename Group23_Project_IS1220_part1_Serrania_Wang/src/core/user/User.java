@@ -103,12 +103,9 @@ public class User implements Observer {
 		return bikeRental;
 	}
 
-	public void setBikeRental(BikeRental bikeRental) throws OngoingBikeRentalException, EmptyBikeRentalException {
+	public void setBikeRental(BikeRental bikeRental) throws OngoingBikeRentalException {
 		if (this.bikeRental != null)
 			throw new OngoingBikeRentalException(this);
-		if (bikeRental.getBike() == null) {
-			throw new EmptyBikeRentalException(this.getId());
-		}
 		this.bikeRental = bikeRental;
 	}
 

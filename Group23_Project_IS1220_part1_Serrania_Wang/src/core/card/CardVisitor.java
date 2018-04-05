@@ -4,10 +4,11 @@ import core.bike.InvalidBikeTypeException;
 import core.rentals.BikeRental;
 
 /**
- * Represents a card with which a user can pay and accumulate time credit. Is
- * the visitor of the visitor pattern used to calculate the price of a rental.
- * The visitable is a Rental.
+ * Represents a card with which a user can pay and accumulate time credit. <br>
+ * Visitor of the visitor pattern used to calculate the price of a rental. The
+ * visitable is a Rental.
  * 
+ * @see Rental
  * @author matto
  *
  */
@@ -18,7 +19,7 @@ public interface CardVisitor {
 	 * 
 	 * @param rental
 	 *            the BikeRental whose price is being calculated
-	 * @return (double) the price of the rental
+	 * @return the price of the rental (after the eventual time credit deduction)
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
@@ -37,6 +38,11 @@ public interface CardVisitor {
 	 *             when the timeCredit given is negative
 	 */
 	public int addTimeCredit(int timeCredit) throws IllegalArgumentException;
-	
+
+	/**
+	 * Gets the time credit currently on the card
+	 * 
+	 * @return
+	 */
 	public int getTimeCredit();
 }

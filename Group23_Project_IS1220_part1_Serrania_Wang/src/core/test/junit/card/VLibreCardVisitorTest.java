@@ -90,11 +90,6 @@ public class VLibreCardVisitorTest {
 		}
 	}
 
-	@Test
-	public void testGetTimeCredit() {
-		assertEquals(card.getTimeCredit(), 0);
-	}
-
 	/**
 	 * Verify that price calculation does work <br>
 	 * <br>
@@ -118,6 +113,8 @@ public class VLibreCardVisitorTest {
 	 * 50 minutes of time credit removed (30 minutes left). <br>
 	 * Calculate the price of a 1,5-hour ride with an elec bike: should be 1€, 0€
 	 * with 30 minutes of time credit removed (0 minutes left). <br>
+	 * Calculate the price of a 5,5-hour ride with an elec bike: should be 11€, 11€
+	 * with 0 minutes of time credit removed (0 minutes left). <br>
 	 * Then add 60 minutes of time credit to the card (60 minutes total) <br>
 	 * Finally calculate the price of a 1-hour ride with an elec bike: should be 1€,
 	 * 0€ with 60 minutes of time credit removed (0 minutes left). <br>
@@ -182,6 +179,10 @@ public class VLibreCardVisitorTest {
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(eRental.accept(card) == 1);
 			assertTrue(card.getTimeCredit() == 0);
+			
+			eRental.setReturnDate(DateParser.parse("01/01/2000T05:30:00"));
+			assertTrue(eRental.accept(card) == 11);
+			assertTrue(card.getTimeCredit() == 0);
 
 			card.addTimeCredit(60);
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
@@ -216,25 +217,6 @@ public class VLibreCardVisitorTest {
 			assertTrue(true);
 		} catch (InvalidBikeException e) {
 			fail("Visitor should have thrown InvalidDatesException");
-		}
-	}
-
-	/**
-	 * Test that giving a rental without a bike throws an IllegalArgumentException.
-	 */
-	@Test
-	public void whenInvalidBikeIsGivenThenThrowException() {
-		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
-		BikeRental rental = new BikeRental(null, rentDate);
-		rental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
-
-		try {
-			rental.accept(card);
-			fail("Should have thrown InvalidBikeException");
-		} catch (InvalidDatesException e) {
-			fail("Should have thrown InvalidBikeException");
-		} catch (InvalidBikeException e) {
-			assertTrue(true);
 		}
 	}
 }

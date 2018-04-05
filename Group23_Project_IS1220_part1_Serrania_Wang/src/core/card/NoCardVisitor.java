@@ -21,16 +21,20 @@ import core.rentals.BikeRental;
  */
 public class NoCardVisitor implements CardVisitor {
 
+	// Constructor 
+	
 	protected NoCardVisitor() {
 		super();
 	}
 
+	// Core methods
+	
 	/**
-	 * Calculates the price of a bike rental.
+	 * Calculates the price of a bike rental and updates the bike rental with it.
 	 * 
 	 * @param rental
-	 *            - the BikeRental whose price is being calculated
-	 * @return (double) the price of the rental
+	 *            the BikeRental whose price is being calculated
+	 * @return the price of the ride           
 	 * @throws InvalidBikeException
 	 *             if an unidentified type of bike (or null) is given
 	 * @throws InvalidDatesException
@@ -46,15 +50,18 @@ public class NoCardVisitor implements CardVisitor {
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
 		
 		if (bike instanceof MechBike) {
-			return nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1);
+			rental.setPrice(nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
+			return rental.getPrice();
 		} else if (bike instanceof ElecBike) {
-			return 2 * (nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1));
+			rental.setPrice(2 * (nMinutes / 60 + ((nMinutes % 60 == 0) ? 0 : 1)));
+			return rental.getPrice();
 		} else {
 			throw new InvalidBikeException(rental);
 		}
 	}
 
 	// Getters / Setters
+	
 	public int getTimeCredit() {
 		return 0;
 	}

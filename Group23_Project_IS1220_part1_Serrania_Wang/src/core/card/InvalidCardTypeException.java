@@ -1,5 +1,12 @@
 package core.card;
 
+/**
+ * Exception thrown when a given card type is not recognized by the system.
+ * 
+ * @author matto
+ *
+ */
+
 public class InvalidCardTypeException extends Exception {
 	private final String cardType;
 

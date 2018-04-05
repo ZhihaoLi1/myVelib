@@ -15,7 +15,10 @@ import core.bike.InvalidBikeTypeException;
 import core.bike.MechBike;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
+import core.station.BikeNotFoundException;
+import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
+import core.station.OfflineStationException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.user.User;
@@ -57,29 +60,62 @@ public class StationRentTest {
 	}
 
 	@Test
-	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws Exception {
+	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() {
 		int mechBikes = s.getNumberOfBikes("MECH");
 		int elecBikes = s.getNumberOfBikes("ELEC");
-		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
+		Bike b = null;
+		try {
+			b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
+		} catch (BikeNotFoundException e) {
+			fail("BikeNotFoundException thrown");
+		} catch (OfflineStationException e) {
+			fail("OfflineStationException thrown");
+		}
 		int remainingMechBikes = s.getNumberOfBikes("MECH");
 		int remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertTrue(b instanceof MechBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes);
 		
-		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:05:00"));
+		try {
+			b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:05:00"));
+		} catch (BikeNotFoundException e) {
+			fail("BikeNotFoundException thrown");
+		} catch (OfflineStationException e) {
+			fail("OfflineStationException thrown");
+		}
 		remainingMechBikes = s.getNumberOfBikes("MECH");
 		remainingElecBikes = s.getNumberOfBikes("ELEC");
 		assertTrue(b instanceof ElecBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes + 1);
 		
-		// There are no more elec bikes, so b should be null and the number of remaining bikes should be the same
-		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
-		remainingMechBikes = s.getNumberOfBikes("MECH");
-		remainingElecBikes = s.getNumberOfBikes("ELEC");
-		assertFalse(b instanceof Bike);
-		assertEquals(mechBikes, remainingMechBikes + 1);
-		assertEquals(elecBikes, remainingElecBikes + 1);
+		
+	}
+	
+	@Test
+	public void whenStationIsOfflineThenThrowException() {
+		s.setOnline(false);
+
+		try {
+			Bike b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
+			fail("OfflineStationException should have been thrown");
+		} catch (BikeNotFoundException e) {
+			fail("BikeNotFoundException thrown");
+		} catch (OfflineStationException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void whenStationDoesNotHaveBikeThenThrowException() {
+		try {
+			Bike b = emptyS.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
+			fail("BikeNotFoundException should have been thrown");
+		} catch (BikeNotFoundException e) {
+			assertTrue(true);
+		} catch (OfflineStationException e) {
+			fail("OfflineStationException thrown");
+		}
 	}
 }

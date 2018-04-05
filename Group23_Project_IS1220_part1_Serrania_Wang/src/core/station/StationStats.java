@@ -17,6 +17,8 @@ public class StationStats {
 	private int totalRentals = 0;
 	private int totalReturns = 0;
 
+	// Constructor
+	
 	/**
 	 * Creates a stats object for a given station
 	 * 
@@ -26,6 +28,8 @@ public class StationStats {
 	public StationStats(Station station) {
 		this.station = station;
 	}
+	
+	// Core methods
 
 	/**
 	 * Calculates the occupation rate of a station for a given time period. It is
@@ -38,7 +42,7 @@ public class StationStats {
 	 *             if the startDate or endDate is null, or if startDate == endDate
 	 */
 	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws IllegalArgumentException {
-		if (startDate == endDate) {
+		if (endDate == null || startDate == null || startDate.until(endDate, ChronoUnit.SECONDS) <= 0) {
 			// TODO: Custom exception?
 			throw new IllegalArgumentException("Cannot calculate occupation rate over an empty timespan");
 		}
@@ -51,6 +55,7 @@ public class StationStats {
 	}
 
 	// Getters / Setters
+	
 	public int getTotalRentals() {
 		return this.totalRentals;
 	}

@@ -13,6 +13,8 @@ public class ParkingSlotStatus {
 	private final LocalDateTime startDate;
 	private LocalDateTime endDate;
 
+	// Constructor
+	
 	/**
 	 * Initializes the status at the given time
 	 * 
@@ -23,6 +25,8 @@ public class ParkingSlotStatus {
 		this.statusName = statusName;
 		this.startDate = startDate;
 	}
+	
+	// Getters / Setters
 
 	public ParkingSlotStatusName getStatusName() {
 		return statusName;

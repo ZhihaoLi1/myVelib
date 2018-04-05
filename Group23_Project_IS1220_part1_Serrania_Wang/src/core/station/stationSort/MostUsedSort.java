@@ -19,6 +19,10 @@ public class MostUsedSort implements SortingStrategy {
 	 * 
 	 * @param stations
 	 *            a list of stations to sort
+	 * @param startDate
+	 *            (not used)
+	 * @param endDate
+	 *            (not used)
 	 * @return the sorted list of stations
 	 */
 	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) {

@@ -1,5 +1,10 @@
 package core.station.stationSort;
 
+/**
+ * Exception thrown when the given policy for sorting stations is unknown.
+ * @author matto
+ *
+ */
 public class InvalidSortingPolicyException extends Exception {
 	private final String policy;
 
