@@ -425,10 +425,11 @@ public class CLUIThread extends Thread {
 	public void run() {
 		System.out.println("Welcome to MyVelib. Please enter your command");
 		String userInput = "";
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		while(!userInput.equals("stop")) {
-			Scanner reader = new Scanner(System.in);  // Reading from System.in
 			userInput = reader.nextLine(); // Scans for user input
 			System.out.println(parseUserInput(userInput));
 		}
+		reader.close();
 	}
 }
