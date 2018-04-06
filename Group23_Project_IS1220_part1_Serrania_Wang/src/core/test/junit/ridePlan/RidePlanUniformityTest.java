@@ -14,6 +14,7 @@ import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
+import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -24,10 +25,13 @@ import utils.Point;
 /**
  * Test ride plan that should preserver uniformity
  * 
- * Source station is the station that is within a 10% distance of source - closest source station and has the most bikes 
- * Dest station is the station that is within a 10% distance of dest - closest dest station and has the least bikes
+ * Source station is the station that is within a 10% distance of source -
+ * closest source station and has the most bikes Dest station is the station
+ * that is within a 10% distance of dest - closest dest station and has the
+ * least bikes
  * 
- * In this manner, it ensures that over time, the number of bikes in the stations are kept around the average.
+ * In this manner, it ensures that over time, the number of bikes in the
+ * stations are kept around the average.
  * 
  * @author animato
  *
@@ -67,7 +71,7 @@ public class RidePlanUniformityTest {
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
-		
+
 		try {
 			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
@@ -96,29 +100,44 @@ public class RidePlanUniformityTest {
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}
 
 	@Test
 	/**
-	 * Choose the right stations
+	 * Verify that the right stations are chosen, corresponding to the strategy
 	 */
 	public void avoidPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = null;
 		try {
-			bobRidePlan = n.createRidePlan(source, destination, bob, "PRESERVE_UNIFORMITY", "MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} catch (InvalidRidePlanPolicyException e) {
-			fail("InvalidRidePlanPolicyException was thrown");
+			bobRidePlan = (new PreserveUniformityPlan()).planRide(source, destination, bob, "MECH", n);
 		} catch (NoValidStationFoundException e) {
 			fail("NoValidStationFoundException was thrown");
 		}
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation,
 				"PRESERVE_UNIFORMITY", "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
+	}
+
+	@Test
+	/**
+	 * Verify that giving a bike type that is not present throws an
+	 * NoValidStationFoundException
+	 */
+	public void whenBikeTypeIsNotPresentThenThrowException() {
+		try {
+			(new PreserveUniformityPlan()).planRide(source, destination, bob, "NOPE", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+
+		try {
+			(new PreserveUniformityPlan()).planRide(source, destination, bob, null, n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
 	}
 }

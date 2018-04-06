@@ -33,6 +33,7 @@ public class BikeRentalTest {
 	
 	/**
 	 * Test that the constructor throws an IllegalArgumentException when no bike is given.
+	 * The bikeRental should by definition be created with a bike, to avoid problems when returning bikeRentals.
 	 */
 	@Test
 	public void whenGivenBikeIsNullThenThrowException() {
@@ -42,6 +43,25 @@ public class BikeRentalTest {
 		} catch (IllegalArgumentException e){
 			assertTrue(true);
 		}
+	}
+	
+	@Test
+	public void testEquals() {
+		BikeFactory bikeFactory = new BikeFactory();
+		try {
+			BikeRental br1 = new BikeRental(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000T09:00:00"));
+			BikeRental br2 = new BikeRental(bikeFactory.createBike("ELEC"), DateParser.parse("01/01/2000T09:00:00"));
+			BikeRental br3 = new BikeRental(br1.getBike(), DateParser.parse("01/01/2000T09:00:00"));
+			
+			assertEquals(br1, br1);
+			assertNotEquals(br1, br2);
+			assertEquals(br1, br3);
+		} catch (InvalidBikeTypeException e){
+			fail("InvalidBikeTypeException thrown");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException thrown");
+		}
+		
 	}
 
 }

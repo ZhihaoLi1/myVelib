@@ -47,6 +47,13 @@ public class BikeFactoryTest {
 		} catch (InvalidBikeTypeException e) {
 			assertTrue(true);
 		}
+		
+		try {
+			Bike mb = bikeFactory.createBike("NOPE");
+			fail("InvalidBikeTypeException should have been thrown");
+		} catch (InvalidBikeTypeException e) {
+			assertTrue(true);
+		}
 	}
 
 }

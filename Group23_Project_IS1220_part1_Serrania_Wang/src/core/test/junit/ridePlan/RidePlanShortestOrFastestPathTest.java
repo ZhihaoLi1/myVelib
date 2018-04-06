@@ -12,9 +12,13 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
+import core.ridePlan.AvoidPlusPlan;
+import core.ridePlan.FastestPlan;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
+import core.ridePlan.PreferPlusPlan;
 import core.ridePlan.RidePlan;
+import core.ridePlan.ShortestPlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
 import core.station.StationFactory;
@@ -22,12 +26,14 @@ import core.user.User;
 import utils.Point;
 
 /**
- * Choose the correct source and destination station for shortest and fastest ride plan
- * By setting up a network where the different source and destination stations have a bias towards the fastest or the shortest plan, 
- * we can ensure that the choice is made adequately
+ * Choose the correct source and destination station for shortest and fastest
+ * ride plan By setting up a network where the different source and destination
+ * stations have a bias towards the fastest or the shortest plan, we can ensure
+ * that the choice is made adequately
  * 
- * destStationS and sourceStationS have the shortest distance between them, but the sourceStationF and sourceStationF are further
- * but faster as the stations are closer to the source/destination of user.
+ * destStationS and sourceStationS have the shortest distance between them, but
+ * the sourceStationF and sourceStationF are further but faster as the stations
+ * are closer to the source/destination of user.
  * 
  * @author animato
  *
@@ -58,7 +64,7 @@ public class RidePlanShortestOrFastestPathTest {
 		} catch (InvalidStationTypeException e) {
 			fail("InvalidStationTypeException was thrown");
 		}
-		
+
 		try {
 			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
@@ -80,8 +86,6 @@ public class RidePlanShortestOrFastestPathTest {
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -101,9 +105,8 @@ public class RidePlanShortestOrFastestPathTest {
 			fail("InvalidRidePlanPolicyException was thrown");
 		} catch (NoValidStationFoundException e) {
 			fail("NoValidStationFoundException was thrown");
-		}		
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "SHORTEST",
-				"MECH", n);
+		}
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "SHORTEST", "MECH", n);
 		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
@@ -119,9 +122,56 @@ public class RidePlanShortestOrFastestPathTest {
 		} catch (NoValidStationFoundException e) {
 			fail("NoValidStationFoundException was thrown");
 		}
-		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "FASTEST",
-				"MECH", n);
+		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "FASTEST", "MECH", n);
 		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
+	@Test
+	/**
+	 * Verify that giving a bike type that is not present to a ShortestPlan throws
+	 * an NoValidStationFoundException
+	 */
+	public void whenBikeTypeIsNotPresentInShortestThenThrowException() {
+		try {
+			// There are no elec bikes in this system, so this should throw the exception
+			(new ShortestPlan()).planRide(source, destination, bob, "ELEC", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+
+		try {
+			(new ShortestPlan()).planRide(source, destination, bob, "NOPE", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	/**
+	 * Verify that giving a bike type that is not present to a FastestPlan throws an
+	 * InvalidBikeTypeException (because for this specific plan, we need the type of bike to know the bike's speed)
+	 */
+	public void whenBikeTypeIsNotPresentInAvoidPlusStationsThenThrowException() {
+		try {
+			// There are no elec bikes in this system, so this should throw the exception
+			(new FastestPlan()).planRide(source, destination, bob, "ELEC", n);
+			fail("InvalidBikeTypeException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			fail("NoValidStationFoundException thrown");
+		} catch (InvalidBikeTypeException e) {
+			assertTrue(true);
+		}
+
+		try {
+			(new FastestPlan()).planRide(source, destination, bob, "NOPE", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		} catch (InvalidBikeTypeException e) {
+			assertTrue(true);
+		}
+
+	}
 }

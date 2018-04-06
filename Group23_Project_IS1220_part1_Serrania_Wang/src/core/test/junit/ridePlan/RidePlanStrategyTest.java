@@ -87,14 +87,12 @@ public class RidePlanStrategyTest {
 			// fill full station
 			while (fullDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now())) {
 			}
-			// elecSourceStation only has elec bikes
+			// elecSourceStation only has one elec bike
 			elecSourceStation.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 			// empty source station doesn't have any bikes
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 

@@ -138,16 +138,17 @@ public class VLibreCardVisitorTest {
 			card.addTimeCredit(40);
 			mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 40);
+			assertTrue(mRental.getTimeCreditUsed() == 0);
 
 			mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 10);
+			assertTrue(mRental.getTimeCreditUsed() == 30);
+			card.removeTimeCredit(30);
 
 			card.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 60);
+			assertTrue(mRental.getTimeCreditUsed() == 0);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
@@ -174,20 +175,24 @@ public class VLibreCardVisitorTest {
 			card.addTimeCredit(80);
 			eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(eRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 30);
-
+			assertTrue(eRental.getTimeCreditUsed() == 50);
+			card.removeTimeCredit(50);
+			
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(eRental.accept(card) == 1);
-			assertTrue(card.getTimeCredit() == 0);
-			
+			assertTrue(eRental.getTimeCreditUsed() == 30);
+			card.removeTimeCredit(30);
+
 			eRental.setReturnDate(DateParser.parse("01/01/2000T05:30:00"));
 			assertTrue(eRental.accept(card) == 11);
-			assertTrue(card.getTimeCredit() == 0);
+			assertTrue(eRental.getTimeCreditUsed() == 0);
 
 			card.addTimeCredit(60);
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(eRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 0);
+			assertTrue(eRental.getTimeCreditUsed() == 60);
+			card.removeTimeCredit(60);
+			
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {

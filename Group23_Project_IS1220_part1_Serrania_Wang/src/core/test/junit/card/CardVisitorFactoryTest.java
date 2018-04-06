@@ -56,6 +56,13 @@ public class CardVisitorFactoryTest {
 			assertTrue(true);
 		}
 		
+		try {
+			CardVisitor nc = cardVisitorFactory.createCard("NOPE");
+			fail("InvalidCardTypeException should have been thrown");
+		} catch (InvalidCardTypeException e) {
+			assertTrue(true);
+		}
+		
 	}
 
 }

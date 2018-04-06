@@ -12,8 +12,11 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 import core.card.CardVisitorFactory;
 import core.card.InvalidCardTypeException;
+import core.ridePlan.AvoidPlusPlan;
 import core.ridePlan.InvalidRidePlanPolicyException;
 import core.ridePlan.NoValidStationFoundException;
+import core.ridePlan.PreferPlusPlan;
+import core.ridePlan.PreserveUniformityPlan;
 import core.ridePlan.RidePlan;
 import core.station.InvalidStationTypeException;
 import core.station.Station;
@@ -74,9 +77,7 @@ public class RidePlanPlusStationsTest {
 
 		} catch (InvalidBikeTypeException e) {
 			fail("InvalidBikeTypeException was thrown");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 
@@ -87,11 +88,7 @@ public class RidePlanPlusStationsTest {
 	public void avoidPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = null;
 		try {
-			bobRidePlan = n.createRidePlan(source, destination, bob, "AVOID_PLUS", "MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} catch (InvalidRidePlanPolicyException e) {
-			fail("InvalidRidePlanPolicyException was thrown");
+			bobRidePlan = (new AvoidPlusPlan()).planRide(source, destination, bob, "MECH", n);
 		} catch (NoValidStationFoundException e) {
 			fail("NoValidStationFoundException was thrown");
 		}
@@ -107,17 +104,57 @@ public class RidePlanPlusStationsTest {
 	public void preferPlusStationsWhenPlanningRide() {
 		RidePlan bobRidePlan = null;
 		try {
-			bobRidePlan = n.createRidePlan(source, destination, bob, "PREFER_PLUS", "MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} catch (InvalidRidePlanPolicyException e) {
-			fail("InvalidRidePlanPolicyException was thrown");
+			bobRidePlan = (new PreferPlusPlan()).planRide(source, destination, bob, "MECH", n);
 		} catch (NoValidStationFoundException e) {
 			fail("NoValidStationFoundException was thrown");
 		}
 		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation,
 				"PREFER_PLUS", "MECH", n);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));
+	}
+	
+	@Test
+	/**
+	 * Verify that giving a bike type that is not present to a preferPlusPlan throws an
+	 * NoValidStationFoundException
+	 */
+	public void whenBikeTypeIsNotPresentInPreferPlusStationsThenThrowException() {
+		try {
+			// There are no elec bikes in this system, so this should throw the exception
+			(new PreferPlusPlan()).planRide(source, destination, bob, "ELEC", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+		
+		try {
+			(new PreferPlusPlan()).planRide(source, destination, bob, "NOPE", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	/**
+	 * Verify that giving a bike type that is not present to a preferPlusPlan throws an
+	 * NoValidStationFoundException
+	 */
+	public void whenBikeTypeIsNotPresentInAvoidPlusStationsThenThrowException() {
+		try {
+			// There are no elec bikes in this system, so this should throw the exception
+			(new AvoidPlusPlan()).planRide(source, destination, bob, "ELEC", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
+		
+		try {
+			(new AvoidPlusPlan()).planRide(source, destination, bob, "NOPE", n);
+			fail("NoValidStationFoundException should have been thrown");
+		} catch (NoValidStationFoundException e) {
+			assertTrue(true);
+		}
 	}
 
 }

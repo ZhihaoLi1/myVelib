@@ -142,22 +142,23 @@ public class VMaxCardVisitorTest {
 			card.addTimeCredit(40);
 			mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 40);
+			assertTrue(mRental.getTimeCreditUsed() == 0);
 
 			mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 10);
+			assertTrue(mRental.getTimeCreditUsed() == 30);
+			card.removeTimeCredit(0);
 
 			card.addTimeCredit(50);
 			mRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(mRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 60);
+			assertTrue(mRental.getTimeCreditUsed() == 0);
 		} catch (InvalidBikeException e) {
-			fail("Invalid bike type given to visitor");
+			fail("InvalidBikeException thrown");
 		} catch (InvalidDatesException e) {
-			fail("Invalid dates given to visitor");
+			fail("InvalidDatesException thrown");
 		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown when it shouldn't have");
+			fail("IllegalArgumentException thrown");
 		}
 
 		Bike eBike = null;
@@ -178,16 +179,17 @@ public class VMaxCardVisitorTest {
 			card.addTimeCredit(80);
 			eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
 			assertTrue(eRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 80);
+			assertTrue(eRental.getTimeCreditUsed() == 0);
 
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
 			assertTrue(eRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 50);
+			assertTrue(eRental.getTimeCreditUsed() == 30);
+			card.removeTimeCredit(30);
 
 			card.addTimeCredit(10);
 			eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
 			assertTrue(eRental.accept(card) == 0);
-			assertTrue(card.getTimeCredit() == 60);
+			assertTrue(eRental.getTimeCreditUsed() == 0);
 		} catch (InvalidBikeException e) {
 			fail("Invalid bike type given to visitor");
 		} catch (InvalidDatesException e) {
