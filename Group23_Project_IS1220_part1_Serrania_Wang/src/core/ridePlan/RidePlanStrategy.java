@@ -34,6 +34,8 @@ public interface RidePlanStrategy {
 	 *             if no source / destination station could be found
 	 * @throws InvalidBikeTypeException
 	 *             when the bikeType given is not recognized by the system
+	 * @throws IllegalArgumentException
+	 *             when one of the arguments is null
 	 */
 	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n)
 			throws NoValidStationFoundException, InvalidBikeTypeException;

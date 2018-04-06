@@ -27,10 +27,14 @@ import utils.Point;
 public class PreserveUniformityPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws NoValidStationFoundException {
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n)
+			throws NoValidStationFoundException, IllegalArgumentException {
 
-		HashMap<Integer,Station> stations = n.getStations();
+		if (source == null || destination == null || user == null || bikeType == null || n == null) {
+			throw new IllegalArgumentException("One of the arguments given to planRide is null");
+		}
+
+		HashMap<Integer, Station> stations = n.getStations();
 
 		// find the closest stations
 		Station sourceStation = null;
@@ -85,8 +89,7 @@ public class PreserveUniformityPlan implements RidePlanStrategy {
 		if (emptierDestStation != null)
 			destStation = emptierDestStation;
 
-		return new RidePlan(source, destination, sourceStation, destStation, "PRESERVE_UNIFORMITY", bikeType,
-				n);
+		return new RidePlan(source, destination, sourceStation, destStation, "PRESERVE_UNIFORMITY", bikeType, n);
 	}
 
 }

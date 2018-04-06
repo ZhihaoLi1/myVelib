@@ -21,9 +21,14 @@ import utils.Point;
 public class PreferPlusPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws NoValidStationFoundException {
-		HashMap<Integer,Station> stations = n.getStations();
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n)
+			throws NoValidStationFoundException, IllegalArgumentException {
+
+		if (source == null || destination == null || user == null || bikeType == null || n == null) {
+			throw new IllegalArgumentException("One of the arguments given to planRide is null");
+		}
+
+		HashMap<Integer, Station> stations = n.getStations();
 
 		Station sourceStation = null;
 		Station destStation = null;
@@ -33,7 +38,8 @@ public class PreferPlusPlan implements RidePlanStrategy {
 
 		for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
 			Station s = entry.getValue();
-			if (!s.getOnline()) continue;
+			if (!s.getOnline())
+				continue;
 			double sourceDistance = s.getCoordinates().distance(source);
 			double destinationDistance = s.getCoordinates().distance(destination);
 			if (sourceDistance < minimumSourceDistance && s.hasCorrectBikeType(bikeType)) {
@@ -69,8 +75,7 @@ public class PreferPlusPlan implements RidePlanStrategy {
 		if (plusDestStation == null) {
 			return new RidePlan(source, destination, sourceStation, destStation, "PREFER_PLUS", bikeType, n);
 		} else {
-			return new RidePlan(source, destination, sourceStation, plusDestStation, "PREFER_PLUS", bikeType,
-					n);
+			return new RidePlan(source, destination, sourceStation, plusDestStation, "PREFER_PLUS", bikeType, n);
 		}
 	}
 

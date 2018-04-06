@@ -20,22 +20,28 @@ import utils.Point;
 public class FastestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws InvalidBikeTypeException, NoValidStationFoundException {
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n)
+			throws InvalidBikeTypeException, NoValidStationFoundException, IllegalArgumentException {
+
+		if (source == null || destination == null || user == null || bikeType == null || n == null) {
+			throw new IllegalArgumentException("One of the arguments given to planRide is null");
+		}
+
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
-		switch (bikeType) {
-			case "ELEC":
-				bikeSpeed = 20;
-				break;
-			case "MECH":
-				bikeSpeed = 15;
-				break;
-			default:
-				throw new InvalidBikeTypeException(bikeType);
-		}
 		
-		HashMap<Integer,Station> stations = n.getStations();
+		switch (bikeType) {
+		case "ELEC":
+			bikeSpeed = 20;
+			break;
+		case "MECH":
+			bikeSpeed = 15;
+			break;
+		default:
+			throw new InvalidBikeTypeException(bikeType);
+		}
+
+		HashMap<Integer, Station> stations = n.getStations();
 
 		Station sourceStation = null;
 		Station destStation = null;

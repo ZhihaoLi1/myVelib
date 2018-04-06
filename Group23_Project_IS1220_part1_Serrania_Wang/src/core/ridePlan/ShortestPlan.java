@@ -20,9 +20,13 @@ import utils.Point;
 public class ShortestPlan implements RidePlanStrategy {
 
 	@Override
-	public RidePlan planRide(Point source, Point destination, User user, String bikeType,
-			Network n) throws NoValidStationFoundException {
-		HashMap<Integer,Station> stations = n.getStations();
+	public RidePlan planRide(Point source, Point destination, User user, String bikeType, Network n)
+			throws NoValidStationFoundException, IllegalArgumentException {
+		if (source == null || destination == null || user == null || bikeType == null || n == null) {
+			throw new IllegalArgumentException("One of the arguments given to planRide is null");
+		}
+
+		HashMap<Integer, Station> stations = n.getStations();
 
 		Station sourceStation = null;
 		Station destStation = null;
