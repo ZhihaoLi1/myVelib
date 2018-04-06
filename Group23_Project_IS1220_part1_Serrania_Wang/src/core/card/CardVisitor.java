@@ -42,7 +42,18 @@ public interface CardVisitor {
 	/**
 	 * Gets the time credit currently on the card
 	 * 
-	 * @return
 	 */
 	public int getTimeCredit();
+	
+	/**
+	 * Removes time credit from the card.
+	 * 
+	 * @param timeCredit
+	 *            in minutes
+	 * @return the time credit that was effectively removed
+	 * @throws IllegalArgumentException
+	 *             when the time credit given is negative or when the time credit on
+	 *             the card is not enough to match the time credit to remove
+	 */
+	public int removeTimeCredit(int timeCredit) throws IllegalArgumentException;
 }

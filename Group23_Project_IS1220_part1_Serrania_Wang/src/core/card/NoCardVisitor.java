@@ -61,13 +61,18 @@ public class NoCardVisitor implements CardVisitor {
 	}
 
 	// Getters / Setters
-	
+	@Override
 	public int getTimeCredit() {
 		return 0;
 	}
 
 	@Override
 	public int addTimeCredit(int timeCredit) {
+		return 0;
+	}
+	
+	@Override
+	public int removeTimeCredit(int timeCredit) {
 		return 0;
 	}
 }
