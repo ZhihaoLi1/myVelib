@@ -8,25 +8,21 @@ package core.user;
 public class UserStats {
 	// Statistics of user
 	private int totalRides;
-	private int totalTimeCredits;
-	private double totalCharges;
+	private int totalTimeCredits; // in minutes
+	private double totalCharges; // in euros
 	private long totalTimeSpent; // in minutes
 
-	UserStats() {
+	// Constructor 
+	
+	public UserStats() {
 		totalRides = 0;
 		totalTimeCredits = 0;
 		totalCharges = 0;
 		totalTimeSpent = 0;
 	}
 
-	@Override 
-	public String toString() {
-		String stats = "Total number of rides: " + totalRides + "\n";
-		stats += "Total credits accumulated: " + totalTimeCredits + "\n";
-		stats += "Total amount spent: " + totalCharges + "\n";
-		stats += "Total time spent: " + totalTimeSpent + "\n";
-		return stats;
-	}
+	// Getters / Setters
+	
 	public int getTotalRides() {
 		return totalRides;
 	}
@@ -57,6 +53,15 @@ public class UserStats {
 
 	public void addTotalTimeSpent(long l) {
 		this.totalTimeSpent += l;
+	}
+	
+	@Override 
+	public String toString() {
+		String stats = "Total number of rides: " + totalRides + "\n";
+		stats += "Total credits accumulated: " + totalTimeCredits + "\n";
+		stats += "Total amount spent: " + totalCharges + "\n";
+		stats += "Total time spent: " + totalTimeSpent + "\n";
+		return stats;
 	}
 
 }

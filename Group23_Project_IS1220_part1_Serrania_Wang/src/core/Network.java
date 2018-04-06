@@ -119,12 +119,8 @@ public class Network {
 		}
 	}
 
-	/**
-	 * Create the ride plan given input parameters
-	 * 
-	 */
-
-	// Core functions
+	// Core functions - UI Interface
+	// These functions are the ones called by UI packages
 
 	/**
 	 * Creates a ride plan for a user, given the source, destination coordinates as
@@ -338,7 +334,7 @@ public class Network {
 	 * Display statistics of a station
 	 * 
 	 * @param stationId
-	 * @return
+	 * @return a String representing the stats of a station
 	 */
 	public String displayStation(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -357,7 +353,7 @@ public class Network {
 	 * Display user statistics
 	 * 
 	 * @param userId
-	 * @return
+	 * @return a string representing the stats of a user
 	 */
 	public String displayUser(int userId) {
 		User u = this.users.get(userId);
@@ -370,7 +366,7 @@ public class Network {
 	 * Set station to offline
 	 * 
 	 * @param stationId
-	 * @return
+	 * @return a string message about the performed action
 	 */
 	public String setOffline(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -386,8 +382,8 @@ public class Network {
 	/**
 	 * Set station to online
 	 * 
-	 * @param stationId
-	 * @return
+	 * @param stationId the station
+	 * @return a string message about the performed action
 	 */
 	public String setOnline(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -400,67 +396,16 @@ public class Network {
 		return "Station " + stationId + " is set to online.";
 	}
 
-	@Override
-	public String toString() {
-		String s = "Network " + name + ":";
-		s += "\nCreated: " + creationDate;
-		s += "\nCurrent date: " + currentDate;
-		s += "\n--------------------";
-		s += "\nUsers: ";
-		for (User user : users.values()) {
-			s += "\n\n" + user.toString();
-		}
-		s += "\n--------------------";
-		s += "\nStations: ";
-		for (Station station : stations.values()) {
-			s += "\n\n" + station.toString();
-		}
-		return s;
-	}
+	// Core methods - Internal methods
+	//
 
 	/**
-	 * Send to CLI that station is full, and a ridePlan is cancelled
-	 * 
-	 * @param user
-	 * @param station
-	 * @return
-	 */
-	public String notifyStationFull(User user, Station station) {
-		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName()
-				+ " is cancelled. Please create a new one";
-	}
-
-	// Getters / Setters
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double getSide() {
-		return side;
-	}
-
-	public void setSide(double side) {
-		this.side = side;
-	}
-
-	public HashMap<Integer, Station> getStations() {
-		return stations;
-	}
-
-	public HashMap<Integer, User> getUsers() {
-		return users;
-	}
-
-	// Helper functions
-
-	/**
+	 * Add station to network
 	 * 
 	 * @param station
+	 *            the station to add
 	 * @throws IllegalArgumentException
+	 *             when the station is null
 	 */
 	public void addStation(Station station) throws IllegalArgumentException {
 		if (station == null) {
@@ -474,8 +419,11 @@ public class Network {
 	 * Add user to network
 	 * 
 	 * @param user
+	 *            the user to add
+	 * @throws IllegalArgumentException
+	 *             when the user is null
 	 */
-	public void addUser(User user) {
+	public void addUser(User user) throws IllegalArgumentException {
 		if (user == null) {
 			throw new IllegalArgumentException("User given is null in addUser");
 		}
@@ -492,6 +440,9 @@ public class Network {
 	 * @param policy
 	 * @param bikeType
 	 * @return rideplan Object
+	 * @throws NoValidStationFoundException
+	 * @throws InvalidBikeTypeException
+	 * @throws InvalidRidePlanPolicyException
 	 */
 	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType)
 			throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
@@ -609,16 +560,28 @@ public class Network {
 				// If station is offline, will throw OfflineStationException; if station is
 				// full, will throw FullStationException
 				station.returnBike(br, returnDate);
+
+				user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn());
+				// Calculate the price of the ride. Throws InvalidBikeException or
+				// InvalidDatesException if the calculation couldn't be performed
+				try {
+					user.getCard().visit(br);
+				} catch (InvalidBikeException | InvalidDatesException e) {
+					// As the operation couldn't be performed, rollback to the previous time credit
+					// status
+					user.getCard().removeTimeCredit(station.getBonusTimeCreditOnReturn());
+					throw e;
+				}
+
+				// Now remove the time credit from the user's card
+				user.getCard().removeTimeCredit(br.getTimeCreditUsed());
+
 				// increment station statistics
 				station.getStats().incrementTotalReturns();
 			}
-			// add time credit
-			user.getStats().addTotalTimeCredits(user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn()));
-			
-			// Calculate the price of the ride. Throws InvalidBikeException or
-			// InvalidDatesException if the calculation couldn't be performed
-			// FIXME: Should be done before returning the bike, and the actual price deduction should happen after removing the bike.
-			user.getCard().visit(br);
+			// Add time credit to card and add the amount to the total time credits stat of
+			// the user.
+			user.getStats().addTotalTimeCredits(station.getBonusTimeCreditOnReturn());
 
 			// Update the user's stats
 			user.getStats().addTotalCharges(br.getPrice());
@@ -631,5 +594,68 @@ public class Network {
 
 			return br;
 		}
+	}
+
+	/**
+	 * Send to CLI that station is full, and a ridePlan is cancelled
+	 * 
+	 * @param user
+	 * @param station
+	 * @return
+	 */
+	public String notifyStationFull(User user, Station station) {
+		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName()
+				+ " is cancelled. Please create a new one";
+	}
+
+	// Getters / Setters
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getSide() {
+		return side;
+	}
+
+	public void setSide(double side) {
+		this.side = side;
+	}
+
+	public HashMap<Integer, Station> getStations() {
+		return stations;
+	}
+	
+	public ArrayList<Integer> getStationIds() {
+		return new ArrayList<Integer>(stations.keySet());
+	}
+
+	public HashMap<Integer, User> getUsers() {
+		return users;
+	}
+
+	public ArrayList<Integer> getUserIds() {
+		return new ArrayList<Integer>(users.keySet());
+	}
+	
+	@Override
+	public String toString() {
+		String s = "Network " + name + ":";
+		s += "\nCreated: " + creationDate;
+		s += "\nCurrent date: " + currentDate;
+		s += "\n--------------------";
+		s += "\nUsers: ";
+		for (User user : users.values()) {
+			s += "\n\n" + user.toString();
+		}
+		s += "\n--------------------";
+		s += "\nStations: ";
+		for (Station station : stations.values()) {
+			s += "\n\n" + station.toString();
+		}
+		return s;
 	}
 }

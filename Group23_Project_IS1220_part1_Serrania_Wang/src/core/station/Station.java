@@ -127,7 +127,8 @@ public abstract class Station extends Observable {
 	 * @throws FullStationException
 	 *             when station is full
 	 */
-	public void returnBike(BikeRental bikeRental, LocalDateTime date) throws FullStationException, OfflineStationException {
+	public void returnBike(BikeRental bikeRental, LocalDateTime date)
+			throws FullStationException, OfflineStationException {
 		if (!this.online)
 			throw new OfflineStationException(this.id);
 		if (this.isFull())
@@ -136,7 +137,7 @@ public abstract class Station extends Observable {
 		addBike(bikeRental.getBike(), date);
 
 	};
-	
+
 	// Observer pattern methods
 
 	/**
@@ -149,7 +150,8 @@ public abstract class Station extends Observable {
 		if (this.observers.add(o)) {
 			// System.out.println(o.toString() + " is observing station S" + this.id);
 		} else {
-			// System.out.println( o.toString() + " is already observing this station S" + this.id);
+			// System.out.println( o.toString() + " is already observing this station S" +
+			// this.id);
 		}
 	}
 
@@ -161,7 +163,8 @@ public abstract class Station extends Observable {
 	 */
 	public void deleteObserver(Observer o) {
 		if (this.observers.remove(o)) {
-			// System.out.println("Observer" + o.toString() + "stopped observing this station" + this.id);
+			// System.out.println("Observer" + o.toString() + "stopped observing this
+			// station" + this.id);
 		} else {
 			// System.out.println("User is not observing this station S" + this.id);
 		}
@@ -178,9 +181,9 @@ public abstract class Station extends Observable {
 	}
 
 	// Display methods
-	
+
 	/**
-	 * Calculate occupation rate over a given time period. 
+	 * Calculate occupation rate over a given time period.
 	 * 
 	 * @param startDate
 	 * @param endDate
@@ -212,7 +215,7 @@ public abstract class Station extends Observable {
 	}
 
 	// Getters / Setters
-	
+
 	public int getId() {
 		return id;
 	}
@@ -246,7 +249,7 @@ public abstract class Station extends Observable {
 	public StationStats getStats() {
 		return stats;
 	}
-	
+
 	/**
 	 * Adds a bike to the first empty slot that it finds
 	 * 
@@ -257,11 +260,11 @@ public abstract class Station extends Observable {
 	 * @return true if bike was added, false if not
 	 */
 	public boolean addBike(Bike b, LocalDateTime date) {
-		synchronized(this) {
+		synchronized (this) {
 			for (int i = 0; i < parkingSlots.size(); i++) {
 				try {
 					ParkingSlot ps = parkingSlots.get(i);
-					synchronized(ps) {
+					synchronized (ps) {
 						// Throws Exception if bike couldn't be set
 						ps.setBike(b, date);
 						// If the station is full after adding the bike, notification should be sent to
@@ -302,15 +305,19 @@ public abstract class Station extends Observable {
 	 */
 	public boolean hasCorrectBikeType(String bikeType) {
 		for (ParkingSlot ps : parkingSlots) {
+<<<<<<< c248d015d4d0fc9936aca0e8650451ddd200d4ed
 			if (ps.hasBike() && ps.getBike().getType().equals(bikeType) && ps.isWorking()) {
+=======
+			if (ps.hasBike() && ps.getBike().getType().equals(bikeType.toUpperCase()) && ps.isWorking()) {
+>>>>>>> Refactor(*): Add javadoc, lint
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	// Equality check methods
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Station) {
@@ -321,7 +328,7 @@ public abstract class Station extends Observable {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "Station [id: " + this.id + "\n";

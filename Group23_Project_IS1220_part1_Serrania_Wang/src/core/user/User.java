@@ -47,25 +47,24 @@ public class User implements Observer {
 	 * Notify user if given station is no longer online / no more parking slots left
 	 * user then tells the network send notification to CLI
 	 */
-	// FIXME: I don't think we need Object arg. Moreover, this should be reversed:
-	// if (o instanceof Station) { ... }, else do nothing.
-	// no exception should be thrown
 	@Override
 	public void update(Observable o, Object arg) {
-		if (!(o instanceof Station))
-			throw new IllegalArgumentException("user update needs station as observable input.");
-		Station s = (Station) o;
-		this.ridePlan.getNetwork().notifyStationFull(this, s);
-		// reset ride plan
-		resetRidePlan();
-		// FIXME Remove later
-		System.out.println("Station with id " + s.getId() + " is full and ride plan for " + this.getName()
-				+ " is cancelled. Please create a new one");
+		if (o instanceof Station) {
+			Station s = (Station) o;
+			this.ridePlan.getNetwork().notifyStationFull(this, s);
+			// reset ride plan
+			resetRidePlan();
+			// FIXME Remove later
+			System.out.println("Station with id " + s.getId() + " is full and ride plan for " + this.getName()
+					+ " is cancelled. Please create a new one.");
+		}
+
 	}
 
 	/**
 	 * Display statistics of user
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public String displayStats() {
 		return "Stats of " + name + ": \n" + stats.toString();
@@ -75,6 +74,7 @@ public class User implements Observer {
 	public String toString() {
 		return name;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -125,7 +125,7 @@ public class User implements Observer {
 		}
 		this.ridePlan = ridePlan;
 	}
-	
+
 	public void resetRidePlan() {
 		// Stop observing
 		this.ridePlan.getDestinationStation().deleteObserver(this);

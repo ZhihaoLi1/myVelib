@@ -10,9 +10,9 @@ import core.card.InvalidDatesException;
 
 /**
  * Contains information of a rental Bike, date of rent, and user who rented it.
- * Other information is added to it when the bike rental ends (date of return, time spent, price of the ride, timeCredit used)
- * Concrete visitor for the visitor pattern used to calculate the price of
- * a rental.
+ * Other information is added to it when the bike rental ends (date of return,
+ * time spent, price of the ride, timeCredit used) Concrete visitor for the
+ * visitor pattern used to calculate the price of a rental.
  * 
  * @see Rental
  * @author animato
@@ -28,18 +28,19 @@ public class BikeRental implements Rental {
 	private int timeCreditUsed; // time credit used to pay part of the rental, in minutes
 
 	// Constructor
-	
+
 	public BikeRental(Bike bike, LocalDateTime rentDate) throws IllegalArgumentException {
 		if (bike == null) {
 			throw new IllegalArgumentException("Impossible to create a BikeRental without a bike");
 		}
 		this.bike = bike;
 		this.rentDate = rentDate;
-		this.returnDate = null;
+		// At start, returnDate is not set. It will be set when the bike is returned.
+		// Same for timeSpent, price and timeCreditUsed.
 	}
 
 	// Core methods
-	
+
 	/**
 	 * Passes itself to the visitor so that its cost can be calculated.
 	 * 
@@ -53,7 +54,7 @@ public class BikeRental implements Rental {
 	public double accept(CardVisitor visitor) throws InvalidBikeException, InvalidDatesException {
 		return visitor.visit(this);
 	}
-	
+
 	// Getters / Setters
 
 	public Bike getBike() {
@@ -84,7 +85,7 @@ public class BikeRental implements Rental {
 			this.timeSpent = rentDate.until(returnDate, ChronoUnit.MINUTES);
 		}
 	}
-	
+
 	public double getPrice() {
 		return price;
 	}
@@ -92,17 +93,31 @@ public class BikeRental implements Rental {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
+
 	public int getTimeCreditUsed() {
 		return this.timeCreditUsed;
 	}
-	
+
 	public void setTimeCreditUsed(int timeCreditUsed) {
 		this.timeCreditUsed = timeCreditUsed;
 	}
-	
+
 	// Equality check methods
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof BikeRental) {
+			BikeRental other = (BikeRental) o;
+			return this.getBike().equals(other.getBike()) && this.getRentDate().equals(other.getRentDate())
+			// Needed because returnDate could not be set yet
+					&& ((this.getReturnDate() == null && other.getReturnDate() == null)
+							|| this.getReturnDate().equals(other.getReturnDate()))
+					&& this.getPrice() == other.getPrice() && this.getTimeSpent() == other.getTimeSpent()
+					&& this.getTimeCreditUsed() == other.getTimeCreditUsed();
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate
