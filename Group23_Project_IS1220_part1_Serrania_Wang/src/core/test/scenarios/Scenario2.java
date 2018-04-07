@@ -21,9 +21,9 @@ public class Scenario2 {
 		// create users
 		User alice = null, bob = null, charles = null;
 		try {
-			alice = new User("Alice", cardVisitorFactory.createCard("NO_CARD"));
-			bob = new User("Bob", cardVisitorFactory.createCard("VLIBRE_CARD"));
-			charles = new User("Charles", cardVisitorFactory.createCard("VMAX_CARD"));
+			alice = new User("Alice", new Point(0,0), cardVisitorFactory.createCard("NO_CARD"));
+			bob = new User("Bob", new Point(0,0), cardVisitorFactory.createCard("VLIBRE_CARD"));
+			charles = new User("Charles", new Point(0,0), cardVisitorFactory.createCard("VMAX_CARD"));
 		} catch (InvalidCardTypeException e) {
 			System.out.println("Invalid card type given.");
 		}

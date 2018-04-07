@@ -9,6 +9,7 @@ import core.card.InvalidCardTypeException;
 import core.station.Station;
 import core.user.User;
 import utils.DateParser;
+import utils.Point;
 
 public class ScenarioStatistics {
 	public static void main(String[] args) {
@@ -20,9 +21,9 @@ public class ScenarioStatistics {
 		// create users
 		User alice = null, bob = null, charles = null;
 		try {
-			alice = new User("Alice", cardVisitorFactory.createCard("NO_CARD"));
-			bob = new User("Bob", cardVisitorFactory.createCard("VLIBRE_CARD"));
-			charles = new User("Charles", cardVisitorFactory.createCard("VMAX_CARD"));
+			alice = new User("Alice", new Point(0,0), cardVisitorFactory.createCard("NO_CARD"));
+			bob = new User("Bob", new Point(0,0), cardVisitorFactory.createCard("VLIBRE_CARD"));
+			charles = new User("Charles", new Point(0,0), cardVisitorFactory.createCard("VMAX_CARD"));
 		} catch (InvalidCardTypeException e) {
 			System.out.println("Invalid card type given.");
 		}
@@ -62,10 +63,18 @@ public class ScenarioStatistics {
 					DateParser.parse((20 + i) + "/01/2000T09:00:00").plusMinutes(timeSpent)));
 		}
 
+		System.out.println("\n\n");
+		
 		for (Station s : stations) {
-			System.out.println(n.displayStation(s.getId()));
+			System.out.println(n.displayStation(s.getId()) + "\n");
 		}
+		
+		System.out.println("\n\n");
+		
+		System.out.println(n);
 
+		System.out.println("\n\n");
+		
 		System.out.println(alice.displayStats());
 		System.out.println(bob.displayStats());
 		System.out.println(charles.displayStats());
