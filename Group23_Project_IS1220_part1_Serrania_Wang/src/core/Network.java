@@ -90,9 +90,9 @@ public class Network extends Observable {
 		// some are plus stations others are standard stations
 		for (int i = 0; i < numberOfStations; i++) {
 			if (i < numberOfStations * percentageOfPlusStations) {
-				addStation("PLUS");
+				addStation("PLUS", numberOfParkingSlotsPerStation);
 			} else {
-				addStation("STANDARD");
+				addStation("STANDARD", numberOfParkingSlotsPerStation);
 			}
 		}
 
@@ -191,7 +191,8 @@ public class Network extends Observable {
 	}
 
 	/**
-	 * Add a new user with a specific card type and random coordinates to the network.
+	 * Add a new user with a specific card type and random coordinates to the
+	 * network.
 	 * 
 	 * @param name
 	 * @param cardType
@@ -204,7 +205,7 @@ public class Network extends Observable {
 		double x = ThreadLocalRandom.current().nextDouble(0, side);
 		double y = ThreadLocalRandom.current().nextDouble(0, side);
 		Point coordinates = new Point(x, y);
-		
+
 		try {
 			CardVisitor card = cardFactory.createCard(cardType);
 			User user = new User(name, coordinates, card);
@@ -217,14 +218,15 @@ public class Network extends Observable {
 	}
 
 	/**
-	 * Add a new station (with random coordinates, 10 parking slots and online) to
-	 * the network.
+	 * Add a new station (with random coordinates) to the network.
 	 * 
 	 * @param type
+	 * @param numberOfParkingSlots
+	 * 
 	 * @return a String message saying if the adding happened, or if an error
 	 *         happened
 	 */
-	public String addStation(String type) {
+	public String addStation(String type, int numberOfParkingSlots) {
 		StationFactory stationFactory = new StationFactory();
 
 		double x = ThreadLocalRandom.current().nextDouble(0, side);
@@ -232,7 +234,7 @@ public class Network extends Observable {
 		Point coordinates = new Point(x, y);
 
 		try {
-			Station station = stationFactory.createStation(type, 10, coordinates, true);
+			Station station = stationFactory.createStation(type, numberOfParkingSlots, coordinates, true);
 			this.addStation(station);
 			return "Station " + station.getId() + " was created with " + station.getParkingSlots().size()
 					+ " parking slots, at point " + station.getCoordinates() + ", with online status "
@@ -393,7 +395,8 @@ public class Network extends Observable {
 	/**
 	 * Set station to online
 	 * 
-	 * @param stationId the station
+	 * @param stationId
+	 *            the station
 	 * @return a string message about the performed action
 	 */
 	public String setOnline(int stationId) {
@@ -649,7 +652,7 @@ public class Network extends Observable {
 	public HashMap<Integer, Station> getStations() {
 		return stations;
 	}
-	
+
 	public ArrayList<Integer> getStationIds() {
 		return new ArrayList<Integer>(stations.keySet());
 	}
@@ -661,7 +664,7 @@ public class Network extends Observable {
 	public ArrayList<Integer> getUserIds() {
 		return new ArrayList<Integer>(users.keySet());
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "Network " + name + ":";
