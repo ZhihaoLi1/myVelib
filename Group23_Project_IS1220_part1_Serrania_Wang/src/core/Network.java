@@ -146,23 +146,31 @@ public class Network extends Observable {
 	 */
 	public String planRide(double sourceX, double sourceY, double destinationX, double destinationY, int userId,
 			String policy, String bikeType) {
+		if (policy == null) {
+			return "A policy must be given to sort stations";
+		}
+		
 		if (sourceX < 0 || sourceX > side || sourceY < 0 || sourceY > side) {
 			return "Source coordinates out of bounds";
 		}
 		Point source = new Point(sourceX, sourceY);
 
 		if (destinationX < 0 || destinationX > side || destinationY < 0 || destinationY > side) {
-			return "Source coordinates out of bounds";
+			return "Destination coordinates out of bounds";
 		}
 		Point destination = new Point(destinationX, destinationY);
+		
 		User user = users.get(userId);
-
 		if (user == null)
-			return "No user found with id " + userId;
+			return "No user found with id " + userId + ".";
 
 		try {
+			String s = "";
+			if (user.getRidePlan() != null) {
+				s += "The previous ride plan was removed.\n";
+			}
 			RidePlan rp = createRidePlan(source, destination, user, policy, bikeType);
-			return "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. Your ride plan is:\n"
+			return s + "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. Your ride plan is:\n"
 					+ rp.toString();
 		} catch (InvalidBikeTypeException e) {
 			return e.getMessage();
@@ -218,7 +226,7 @@ public class Network extends Observable {
 			CardVisitor card = cardFactory.createCard(cardType);
 			User user = new User(name, coordinates, card);
 			this.addUser(user);
-			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
+			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType.toLowerCase()
 					+ ".";
 		} catch (InvalidCardTypeException e) {
 			return e.getMessage();
@@ -304,7 +312,7 @@ public class Network extends Observable {
 			return "No station found with id " + stationId;
 		try {
 			Bike b = rentBike(user, s, bikeType, rentalDate);
-			return user.getName() + " has sucessfully rented a " + b.getType() + " bike from station S" + s.getId()
+			return user.getName() + " has sucessfully rented a " + b.getType().toLowerCase() + " bike from station " + s.getId()
 					+ " at " + rentalDate + ".";
 		} catch (OngoingBikeRentalException e) {
 			return e.getMessage();
@@ -546,6 +554,8 @@ public class Network extends Observable {
 				// exception will be thrown here
 				b = station.rentBike(bikeType, rentalDate);
 				user.setBikeRental(new BikeRental(b, rentalDate));
+				
+				// Update the current date
 				this.currentDate = rentalDate;
 				return b;
 			}
@@ -572,18 +582,11 @@ public class Network extends Observable {
 			br.setReturnDate(returnDate);
 			// 2 users cannot return a bike at the same time at a specific station
 			synchronized (station) {
-				// if user completes ride plan (station that he is returning the bike to is the
-				// same as the destination station in ride plan)
-				// then the user's ride plan is set to null
-				if (user.getRidePlan() != null && station.equals(user.getRidePlan().getDestinationStation())) {
-					user.resetRidePlan();
-				}
-
 				// If station is offline, will throw OfflineStationException; if station is
 				// full, will throw FullStationException
 				station.returnBike(br, returnDate);
 
-				user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn());
+				int timeCreditAdded = user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn());
 				// Calculate the price of the ride. Throws InvalidBikeException or
 				// InvalidDatesException if the calculation couldn't be performed
 				try {
@@ -591,19 +594,26 @@ public class Network extends Observable {
 				} catch (InvalidBikeException | InvalidDatesException e) {
 					// As the operation couldn't be performed, rollback to the previous time credit
 					// status
-					user.getCard().removeTimeCredit(station.getBonusTimeCreditOnReturn());
+					user.getCard().removeTimeCredit(timeCreditAdded);
 					throw e;
 				}
 
+				// Add the amount of credits added to the total time credits stat of
+				// the user.
+				user.getStats().addTotalTimeCredits(timeCreditAdded);
 				// Now remove the time credit from the user's card
 				user.getCard().removeTimeCredit(br.getTimeCreditUsed());
+				
+				// if user completes ride plan (station that he is returning the bike to is the
+				// same as the destination station in ride plan)
+				// then the user's ride plan is set to null
+				if (user.getRidePlan() != null && station.equals(user.getRidePlan().getDestinationStation())) {
+					user.setRidePlan(null);
+				}
 
 				// increment station statistics
 				station.getStats().incrementTotalReturns();
 			}
-			// Add time credit to card and add the amount to the total time credits stat of
-			// the user.
-			user.getStats().addTotalTimeCredits(station.getBonusTimeCreditOnReturn());
 
 			// Update the user's stats
 			user.getStats().addTotalCharges(br.getPrice());
@@ -612,6 +622,8 @@ public class Network extends Observable {
 
 			// reset user bike rental
 			user.resetBikeRental();
+			
+			// Update the current date
 			this.currentDate = returnDate;
 
 			return br;
@@ -679,6 +691,7 @@ public class Network extends Observable {
 		String s = "Network " + name + ":";
 		s += "\nCreated: " + creationDate;
 		s += "\nCurrent date: " + currentDate;
+		s += "\nSide: " + side + "km";
 		s += "\n\n--------------------";
 		s += "\nUsers: ";
 		for (User user : users.values()) {

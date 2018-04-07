@@ -30,7 +30,7 @@ public class FastestPlan implements RidePlanStrategy {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		
-		switch (bikeType) {
+		switch (bikeType.toUpperCase()) {
 		case "ELEC":
 			bikeSpeed = 20;
 			break;

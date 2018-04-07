@@ -13,8 +13,10 @@ import core.station.Station;
 import utils.Point;
 
 /**
- * User of myVelib Network
+ * User of myVelib Network. A user can observe a station when it has a planned
+ * ride whose destination station is this station
  * 
+ * @see Observer
  * @author animato
  *
  */
@@ -27,9 +29,16 @@ public class User implements Observer {
 	private RidePlan ridePlan;
 	private UserStats stats;
 
-	public User(String name, CardVisitor card) {
-		this(name, null, card);
-	}
+	// Constructor
+
+	/**
+	 * Create a User with a name, given coordinates and card
+	 * 
+	 * @param name
+	 *            the name of the user
+	 * @param coordinates
+	 * @param card
+	 */
 
 	public User(String name, Point coordinates, CardVisitor card) {
 		id = UserIDGenerator.getInstance().getNextIDNumber();
@@ -39,9 +48,7 @@ public class User implements Observer {
 		this.stats = new UserStats();
 	}
 
-	public User(String name) throws InvalidCardTypeException {
-		this(name, null, new CardVisitorFactory().createCard("NO_CARD"));
-	}
+	// Core methods
 
 	/**
 	 * Notify user if given station is no longer online / no more parking slots left
@@ -53,19 +60,22 @@ public class User implements Observer {
 			throw new IllegalArgumentException("user update needs station as observable input.");
 		Station s = (Station) o;
 		this.ridePlan.getNetwork().notifyStationFull(this, s);
-		this.getRidePlan().getNetwork().notifyObservers("Station with id " + s.getId() + " is full and ride plan for " + this.getName() + " is cancelled. Please create a new one");
+		this.getRidePlan().getNetwork().notifyObservers("Station with id " + s.getId() + " is full and ride plan for "
+				+ this.getName() + " is cancelled. Please create a new one");
 		// reset ride plan
-		resetRidePlan();
+		setRidePlan(null);
 	}
 
 	/**
 	 * Display statistics of user
 	 * 
-	 * @return
+	 * @return the String representation of the user's stats
 	 */
 	public String displayStats() {
 		return "Stats of " + name + ": \n" + stats.toString();
 	}
+
+	// Getters / Setters
 
 	public String getName() {
 		return name;
@@ -111,17 +121,9 @@ public class User implements Observer {
 
 	public void setRidePlan(RidePlan ridePlan) {
 		if (this.ridePlan != null) {
-			// FIXME how to throw warning messages
-			System.out.println("there is an ongoing rideplan that will be squashed");
 			this.ridePlan.getDestinationStation().deleteObserver(this);
 		}
 		this.ridePlan = ridePlan;
-	}
-
-	public void resetRidePlan() {
-		// Stop observing
-		this.ridePlan.getDestinationStation().deleteObserver(this);
-		this.ridePlan = null;
 	}
 
 	public int getId() {
@@ -132,6 +134,17 @@ public class User implements Observer {
 		return stats;
 	}
 
+	// Equality check methods
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof User) {
+			User other = (User) o;
+			return this.getId() == other.getId();
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		String bikeRentalString;
@@ -139,9 +152,15 @@ public class User implements Observer {
 			bikeRentalString = "No bike rental";
 		else
 			bikeRentalString = bikeRental.toString();
-		
-		return "User [Id: " + id + "\nName: " + name + "\nCard: " + card + "\nCoordinates: " + coordinates + "\nBike rental: "
-				+ bikeRentalString + "]";
+
+		String ridePlanString;
+		if (ridePlan == null)
+			ridePlanString = "No ride plan";
+		else
+			ridePlanString = ridePlan.toString();
+
+		return "User [Id: " + id + "\nName: " + name + "\nCard: " + card + "\nCoordinates: " + coordinates
+				+ "\nBike rental: " + bikeRentalString + "\nRide plan: " + ridePlanString + "]";
 	}
 
 }

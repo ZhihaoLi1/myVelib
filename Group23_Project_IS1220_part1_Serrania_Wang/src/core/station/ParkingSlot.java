@@ -228,6 +228,6 @@ public class ParkingSlot {
 			type = "No bike";
 		else
 			type = bike.getType().toLowerCase();
-		return "Parking Slot [Type of bike: " + type + ", Working: " + working + "]";
+		return "Parking Slot [Id: " + id + ", Type of bike: " + type + ", Working: " + working + "]";
 	}
 }

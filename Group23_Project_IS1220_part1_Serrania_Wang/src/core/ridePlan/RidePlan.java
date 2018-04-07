@@ -141,13 +141,13 @@ public class RidePlan {
 
 	@Override
 	public String toString() {
-		String rp = "Source : " + source.toString() + "\n";
+		String rp = "Ride Plan [Source : " + source.toString() + "\n";
 		rp += "Destination : " + destination.toString() + "\n";
 		rp += "Source station : " + sourceStation.getCoordinates().toString() + "\n";
 		rp += "Source station Id: " + sourceStation.getId() + "\n";
 		rp += "Destination station: " + destinationStation.getCoordinates().toString() + "\n";
 		rp += "Destination station Id: " + destinationStation.getId() + "\n";
-		rp += "Policy : " + policy.toString().toLowerCase() + "\n";
+		rp += "Policy : " + policy.toString().toLowerCase() + "]";
 		return rp;
 	}
 }
