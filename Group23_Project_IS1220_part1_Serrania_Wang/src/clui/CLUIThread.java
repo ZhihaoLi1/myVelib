@@ -500,7 +500,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * @return
 	 */
 	public static String[] sanitizeInput(String input) {
-		String[] arguments = input.replaceAll("[^A-Za-z0-9 .:/]", "").trim().split(" ");
+		String[] arguments = input.replaceAll("[^A-Za-z0-9 .:/_]", "").trim().split(" ");
 		return arguments;
 	}
 	
