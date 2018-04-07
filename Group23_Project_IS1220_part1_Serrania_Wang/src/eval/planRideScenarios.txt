@@ -1,0 +1,19 @@
+# Plan Ride with each stategy 
+# setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes>
+# planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>
+
+setup velib 01/01/2000T10:00:00
+addUser velib Alice NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 1 FASTEST ELEC
+
+addUser velib Bob NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 2 SHORTEST MECH
+
+addUser velib Charles NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 3 PREFER_PLUS ELEC
+
+addUser velib David NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 4 AVOID_PLUS MECH
+
+addUser velib Elliot NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 5 PRESERVE_UNIFORMITY MECH

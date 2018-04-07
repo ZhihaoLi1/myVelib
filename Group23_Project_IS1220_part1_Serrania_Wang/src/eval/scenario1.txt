@@ -2,17 +2,10 @@
 # The first 5 stations are plus stations. 
 # This scenario is to test that the rent and return of bikes 
 # function correctly. Ensure that the prices are correct 
-# and timecredits used well. 
+# and timecredits used well. This scenario is based on the network 
+# that is already initalized in the CLUI.
 # We can also see the statistics of the different stations and users
-# 
-setup myVelib 01/01/2000T00:00:00
-addUser myVelib Alice NO_CARD
-addUser myVelib Bob VLIBRE_CARD
-addUser myVelib Charlie VMAX_CARD
-addUser myVelib Drew NO_CARD
-addUser myVelib Eliot VLIBRE_CARD
-addUser myVelib Francois VMAX_CARD
-display myVelib
+
 rentBike myVelib 01/01/2000T10:00:00 1 1 ELEC
 rentBike myVelib 01/01/2000T11:00:00 2 1 MECH
 rentBike myVelib 01/01/2000T12:00:00 3 2 MECH 

@@ -1,0 +1,31 @@
+# setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes>
+# Failure to rent bike, no correct bike is available (There are no bikes in this network)
+setup velib1 01/01/2000T10:00:00 1 1 5 0
+addUser velib1 Alice NO_CARD
+# This will not work
+rentBike velib1 01/01/2000T10:00:00 1 1 ELEC
+
+reset
+# All stations are full in this network.
+setup velib2 01/01/2000T10:00:00 10 10 5 100
+addUser velib2 Alice NO_CARD
+# Rent bike from station 1
+rentBike velib2 01/01/2000T10:00:00 1 1 ELEC
+# Return bike to another station. The station is full. It should not work
+returnBike velib2 02/01/2000T10:00:00 1 1
+
+reset
+# Offline stations. Rent and Return fails. Wrong stationId or UserId fails
+setup velib3 01/01/2000T10:00:00 10 10 5 75
+addUser velib3 Alice NO_CARD
+offline velib3 1
+# Rent from station 1 fails 
+rentBike velib3 01/01/2000T10:00:00 1 1 ELEC
+# Rent from another station 
+rentBike velib3 01/01/2000T10:00:00 1 2 ELEC
+# Return to station 1 fails
+returnBike velib3 02/01/2000T10:00:00 1 1
+# Fails to rent bike from inexistant station
+rentBike velib3 01/01/2000T10:00:00 1 99 ELEC
+# Fails to rent bike for inexistant user 
+rentBike velib3 01/01/2000T10:00:00 99 1 ELEC
