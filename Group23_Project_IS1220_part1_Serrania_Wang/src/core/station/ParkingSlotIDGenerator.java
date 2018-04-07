@@ -1,9 +1,8 @@
 package core.station;
 
 /**
- * ID Generator for parking slots
- * 
- * Follows the singleton pattern
+ * ID Generator for parking slot ids <br>
+ * Implements the singleton pattern
  * 
  * @author animato
  *
@@ -29,6 +28,9 @@ public class ParkingSlotIDGenerator {
 		return counter;
 	}
 	
+	/**
+	 * Used when running tests, to make sure the app starts in a clean state
+	 */
 	public void reset() {
 		counter = 0;
 	}

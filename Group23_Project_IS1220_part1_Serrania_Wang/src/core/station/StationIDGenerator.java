@@ -1,11 +1,10 @@
 package core.station;
 
 /**
- * ID Generator for stations
+ * ID Generator for station ids <br>
+ * Implements the singleton pattern
  * 
- * Follows the singleton pattern
- * 
- * @author animato
+ * @author matto
  *
  */
 public class StationIDGenerator {
@@ -29,6 +28,9 @@ public class StationIDGenerator {
 		return counter;
 	}
 	
+	/**
+	 * Used when running tests, to make sure the app starts in a clean state
+	 */
 	public void reset() {
 		counter = 0;
 	}

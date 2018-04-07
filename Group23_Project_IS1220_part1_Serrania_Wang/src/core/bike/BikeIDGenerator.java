@@ -1,9 +1,8 @@
 package core.bike;
 
 /**
- * ID Generator for parking slots
- * 
- * Follows the singleton pattern
+ * ID Generator for bike ids <br>
+ * Implements the singleton pattern
  * 
  * @author animato
  *

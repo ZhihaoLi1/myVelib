@@ -1,5 +1,12 @@
 package core.user;
 
+/**
+ * ID Generator for user ids <br>
+ * Implements the singleton pattern
+ * 
+ * @author matto
+ *
+ */
 public class UserIDGenerator {
 	private static UserIDGenerator instance = null;
 	private int counter = 0;
@@ -21,6 +28,9 @@ public class UserIDGenerator {
 		return counter;
 	}
 	
+	/**
+	 * Used when running tests, to make sure the app starts in a clean state
+	 */
 	public void reset() {
 		counter = 0;
 	}
