@@ -20,4 +20,8 @@ public class UserIDGenerator {
 		counter++;
 		return counter;
 	}
+	
+	public void reset() {
+		counter = 0;
+	}
 }

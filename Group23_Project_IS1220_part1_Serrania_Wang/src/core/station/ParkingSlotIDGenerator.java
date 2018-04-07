@@ -28,4 +28,8 @@ public class ParkingSlotIDGenerator {
 		counter++;
 		return counter;
 	}
+	
+	public void reset() {
+		counter = 0;
+	}
 }
