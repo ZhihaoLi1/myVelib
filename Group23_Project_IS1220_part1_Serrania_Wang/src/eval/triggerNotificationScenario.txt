@@ -1,0 +1,14 @@
+# Test scenario to ensure user gets the notification 
+# when the destination station chosen by the rideplan
+# is no longer available. 
+# Setup is done with only two stations for simplicity 
+
+setup velib 01/01/2000T00:00:00 2 10 4 6
+addUser velib Alice NO_CARD
+planRide velib 1.0 1.0 3.0 3.0 1 FASTEST MECH
+# Set all stations to offline
+offline velib 1
+offline velib 2
+# should recieve notification in command line
+# clean up
+deleteNetwork velib
