@@ -137,16 +137,17 @@ public class CLUIThread extends Thread implements Observer {
 			// <nstations> <nslots> <sidearea> <nbikes>
 			String name = args[0];
 			if (hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " already exists.");
-			LocalDateTime commandDate = DateParser.parse(args[1]);
+			LocalDateTime creationDate = DateParser.parse(args[1]);
 			int nstations = Integer.parseInt(args[2]);
 			int nslots = Integer.parseInt(args[3]);
 			double sidearea = Double.parseDouble(args[4]);
 			int nbikes = Integer.parseInt(args[5]);
 			// FIXME ? not percentage but number ? 
-			double percentageOfBikes = nbikes / (nslots*nstations);
+			double percentageOfBikes = (float) nbikes / (nslots*nstations);
 			if (percentageOfBikes > 1) throw new IncorrectArgumentException("Total number of bikes exceeds the total number of slots");
 			// By default 50% of plus stations, 50% of elec bikes
-			Network n = new Network(name , nstations, nslots, sidearea, percentageOfBikes, 0.5, 0.5, commandDate);
+			System.out.println("TESTTESTSET: " + percentageOfBikes);
+			Network n = new Network(name , nstations, nslots, sidearea, percentageOfBikes, 0.5, 0.5, creationDate);
 			// add this clui to the observers of network 
 			n.addObserver(this);
 			networks.put(name, n);
