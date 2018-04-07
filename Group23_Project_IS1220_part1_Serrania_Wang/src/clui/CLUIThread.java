@@ -133,6 +133,8 @@ public class CLUIThread extends Thread implements Observer {
 				// add this clui to the observers of network 
 				n.addObserver(this);
 				networks.put(name, n);
+				
+				return "Network " + args[0] + " has been sucessfully created with " + n.getStationIds().size() + " stations (ids: " + n.getStationIds() + ")."; 
 			} catch(DateTimeParseException e) {
 				throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
 			}
@@ -153,9 +155,10 @@ public class CLUIThread extends Thread implements Observer {
 			// add this clui to the observers of network 
 			n.addObserver(this);
 			networks.put(name, n);
+			
+			return "Network " + args[0] + " has been sucessfully created with " + n.getStationIds().size() + " stations (ids: " + n.getStationIds() + ")."; 
 		}
 		
-		return "Network " + args[0] + " has been sucessfully created."; 
 	}
 		
 	/**
@@ -506,13 +509,14 @@ public class CLUIThread extends Thread implements Observer {
 	
 	@Override
 	public void run() {
-		System.out.println("Welcome to MyVelib. Please enter your command");
 		System.out.println("Setting up an inital network named myVelib... It has 5 users, 10 stations.");
 		RunCommandsFromFile.run("src/eval/my_velib.ini", this);
 		System.out.println("============= Setup Complete ===========");
+		System.out.println("\nWelcome to MyVelib. Please enter your command.");
 		String userInput = "";
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		while(!userInput.equals("stop")) {
+			System.out.print(">>> ");
 			userInput = reader.nextLine(); // Scans for user input
 			System.out.println(parseUserInput(userInput));
 			System.out.println("\n");
