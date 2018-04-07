@@ -1,9 +1,11 @@
 package core.station.stationSort;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import core.station.InvalidTimeSpanException;
 import core.station.Station;
 
 /**
@@ -25,13 +27,14 @@ public class LeastOccupiedSort implements SortingStrategy {
 	 *            the end of the time span the calculation is done over
 	 * @return the sorted list of stations
 	 */
-	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) {
+	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
 		ArrayList<Station> sortedStations = new ArrayList<Station>(stations);
 
 		// Selection sort of the ArrayList
 		double minOccRate;
 		double curOccRate;
 		int minOccRateIndex;
+		
 		for (int i = 0; i < stations.size(); i++) {
 			minOccRate = stations.get(i).getStats().getOccupationRate(startDate, endDate);
 			minOccRateIndex = i;

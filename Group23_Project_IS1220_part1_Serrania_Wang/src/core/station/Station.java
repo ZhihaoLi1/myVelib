@@ -188,7 +188,7 @@ public abstract class Station extends Observable {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+	public double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
 		return stats.getOccupationRate(startDate, endDate);
 	}
 
@@ -199,7 +199,7 @@ public abstract class Station extends Observable {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) {
+	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
 		return "Occupation rate between " + startDate + " and " + endDate + ": "
 				+ computeOccupationRate(startDate, endDate);
 	}

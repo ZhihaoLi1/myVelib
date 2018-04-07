@@ -45,7 +45,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 		} else {
 			throw new IllegalArgumentException("The given time credit to add is negative: " + timeCredit);
 		}
-	};
+	}
 
 	/**
 	 * Removes time credit from the card.
@@ -69,7 +69,7 @@ public abstract class CardWithTimeCreditVisitor implements CardVisitor {
 		} else {
 			throw new IllegalArgumentException("The given time credit to remove is negative: " + timeCredit);
 		}
-	};
+	}
 
 	public int getTimeCredit() {
 		return timeCredit;

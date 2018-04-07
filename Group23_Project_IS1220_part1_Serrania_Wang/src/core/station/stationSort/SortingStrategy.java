@@ -3,6 +3,7 @@ package core.station.stationSort;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import core.station.InvalidTimeSpanException;
 import core.station.Station;
 
 /**
@@ -24,5 +25,5 @@ public interface SortingStrategy {
 	 *            the start of the time span the calculation is done over
 	 * @return the sorted list of stations
 	 */
-	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate);
+	public ArrayList<Station> sort(ArrayList<Station> stations, LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException;
 }

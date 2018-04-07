@@ -29,6 +29,7 @@ import core.ridePlan.ShortestPlan;
 import core.station.BikeNotFoundException;
 import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
+import core.station.InvalidTimeSpanException;
 import core.station.OfflineStationException;
 import core.station.ParkingSlotIDGenerator;
 import core.station.Station;
@@ -181,11 +182,18 @@ public class Network extends Observable {
 	 * @return String listing the sorted stations
 	 */
 	public String sortStation(String policy) {
+		if (policy == null) {
+			return "A policy must be given to sort stations";
+		}
 		try {
 			ArrayList<Station> sortedStations = createStationSort(policy);
-			return "Here are the stations, in the order corresponding to the" + policy + " policy:\n"
+			return "Here are the stations, in the order corresponding to the" + policy.toLowerCase() + " policy:\n"
 					+ sortedStations.toString();
 		} catch (InvalidSortingPolicyException e) {
+			return e.getMessage();
+		} catch (InvalidTimeSpanException e) {
+			return e.getMessage();
+		} catch (IllegalArgumentException e) {
 			return e.getMessage();
 		}
 	}
@@ -356,7 +364,7 @@ public class Network extends Observable {
 		String res = s.displayStats();
 		try {
 			res += "\n" + s.displayOccupationRate(creationDate, currentDate);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidTimeSpanException e) {
 			res += "\n" + e.getMessage();
 		}
 		return res;
@@ -422,7 +430,7 @@ public class Network extends Observable {
 	 */
 	public void addStation(Station station) throws IllegalArgumentException {
 		if (station == null) {
-			throw new IllegalArgumentException("Station given is null in addStation");
+			throw new IllegalArgumentException("Station given is null in addStation.");
 		}
 		// verify that the coordinates of station is within the network.
 		this.stations.put(station.getId(), station);
@@ -438,7 +446,7 @@ public class Network extends Observable {
 	 */
 	public void addUser(User user) throws IllegalArgumentException {
 		if (user == null) {
-			throw new IllegalArgumentException("User given is null in addUser");
+			throw new IllegalArgumentException("User given is null in addUser.");
 		}
 		this.users.put(user.getId(), user);
 	}
@@ -460,7 +468,8 @@ public class Network extends Observable {
 	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType)
 			throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
-			throw new IllegalArgumentException("All input values of planRide must not be null");
+			throw new IllegalArgumentException("All input values of createRidePlan must not be null");
+		
 		RidePlan rp = null;
 		switch (policy.toUpperCase()) {
 		case "SHORTEST":
@@ -493,7 +502,7 @@ public class Network extends Observable {
 	 * @param policy
 	 * @return the sorted list of stations
 	 */
-	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException {
+	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException, InvalidTimeSpanException {
 		if (policy == null)
 			throw new IllegalArgumentException("All input values of createStationSort must not be null");
 		ArrayList<Station> sortedStations = null;

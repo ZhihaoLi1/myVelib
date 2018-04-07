@@ -26,11 +26,6 @@ public class ElecBike implements Bike {
 	// Equality check methods
 
 	@Override
-	public int hashCode() {
-		return id;
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (o instanceof ElecBike) {
 			ElecBike other = (ElecBike) o;

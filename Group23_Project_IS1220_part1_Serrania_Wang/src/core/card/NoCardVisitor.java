@@ -76,6 +76,8 @@ public class NoCardVisitor implements CardVisitor {
 		return 0;
 	}
 	
+
+	
 	@Override
 	public String toString() {
 		return "No card";
