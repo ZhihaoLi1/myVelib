@@ -570,10 +570,6 @@
         <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_QDtV4B1bEeiqPZcfH4EsOA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_QEMeER1bEeiqPZcfH4EsOA"/>
       </children>
-      <children xmi:type="notation:Shape" xmi:id="_JNP3sB5IEeifK9AiyA8KnA" type="Property_ClassAttributeLabel">
-        <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_JLbSwB5IEeifK9AiyA8KnA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_JNP3sR5IEeifK9AiyA8KnA"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_8uZNkB_4EeiavoZQ4tUkrw" type="Property_ClassAttributeLabel">
         <element xmi:type="uml:Property" href="myVelibUMLModel.uml#_8rlKIB_4EeiavoZQ4tUkrw"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_8uZNkR_4EeiavoZQ4tUkrw"/>
