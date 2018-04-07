@@ -211,7 +211,7 @@ public abstract class Station extends Observable {
 	 * @return a String representing the stats
 	 */
 	public String displayStats() {
-		return "Station [id: " + this.id + ", " + stats.toString() + "]";
+		return "Stats of Station " + this.id + ":\n" + stats.toString() + "]";
 	}
 
 	// Getters / Setters
@@ -327,8 +327,8 @@ public abstract class Station extends Observable {
 
 	@Override
 	public String toString() {
-		String s = "Station [id: " + this.id + "\n";
-		s += "ParkingSlots: " + this.parkingSlots.toString() + "\n";
+		String s = "Station [Id: " + this.id + "\n";
+		s += "Parking Slots: " + this.parkingSlots.toString() + "\n";
 		s += "Coordinates: " + this.coordinates.toString() + "\n";
 		s += "Online: " + this.online + "]";
 		return s;

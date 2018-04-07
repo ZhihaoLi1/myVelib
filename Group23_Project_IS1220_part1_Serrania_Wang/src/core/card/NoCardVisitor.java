@@ -75,4 +75,9 @@ public class NoCardVisitor implements CardVisitor {
 	public int removeTimeCredit(int timeCredit) {
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "No card";
+	}
 }

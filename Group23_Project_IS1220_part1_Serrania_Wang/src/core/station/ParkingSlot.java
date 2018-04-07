@@ -227,7 +227,7 @@ public class ParkingSlot {
 		if (bike == null)
 			type = "No bike";
 		else
-			type = bike.getType();
-		return "ParkingSlot [Type of bike: " + type + ", Working: " + working + "]";
+			type = bike.getType().toLowerCase();
+		return "Parking Slot [Type of bike: " + type + ", Working: " + working + "]";
 	}
 }

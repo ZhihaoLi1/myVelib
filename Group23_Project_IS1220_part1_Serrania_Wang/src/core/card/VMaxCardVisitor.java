@@ -51,7 +51,7 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 			throw new InvalidDatesException(rental);
 		}
 		long nMinutes = Duration.between(rental.getRentDate(), rental.getReturnDate()).toMinutes();
-		
+
 		int timeCreditUsed = 0;
 		int remainingTimeCredit = getTimeCredit();
 
@@ -68,7 +68,7 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 				nMinutes -= 60;
 			}
 			rental.setTimeCreditUsed(timeCreditUsed);
-			
+
 			if (nMinutes <= 60) {
 				rental.setPrice(0);
 				return rental.getPrice();
@@ -78,5 +78,10 @@ public class VMaxCardVisitor extends CardWithTimeCreditVisitor implements CardVi
 		} else {
 			throw new InvalidBikeException(rental);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "VMax card: [time credit: " + getTimeCredit() + "]";
 	}
 }

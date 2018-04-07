@@ -120,7 +120,14 @@ public class BikeRental implements Rental {
 
 	@Override
 	public String toString() {
-		return "BikeRental: [Bike: " + bike + ", rentDate: " + rentDate + ", returnDate: " + returnDate
-				+ ", timeSpent: " + timeSpent + "]";
+		String s = "BikeRental [Bike: " + bike + ", rentDate: " + rentDate;
+		if (returnDate != null) {
+			s += ", returnDate: " + returnDate;
+			s += ", timeSpent: " + timeSpent;
+			s += ", price: " + price;
+			s += ", timeCreditUsed: " + timeCreditUsed;
+		}
+		s+= "]";
+		return s;
 	}
 }

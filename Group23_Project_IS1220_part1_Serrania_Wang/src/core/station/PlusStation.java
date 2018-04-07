@@ -43,8 +43,8 @@ public class PlusStation extends Station {
 	
 	@Override
 	public String toString() {
-		String s = "Plus Station [id: " + super.getId() + "\n";
-		s += "ParkingSlots: " + super.getParkingSlots().toString() + "\n";
+		String s = "Plus Station [Id: " + super.getId() + "\n";
+		s += "Parking Slots: " + super.getParkingSlots().toString() + "\n";
 		s += "Coordinates: " + super.getCoordinates().toString() + "\n";
 		s += "Online: " + super.getOnline() + "]";
 		return s;

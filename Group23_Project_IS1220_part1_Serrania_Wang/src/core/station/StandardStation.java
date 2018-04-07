@@ -41,8 +41,8 @@ public class StandardStation extends Station {
 	
 	@Override
 	public String toString() {
-		String s = "Standard Station [id: " + super.getId() + "\n";
-		s += "ParkingSlots: " + super.getParkingSlots().toString() + "\n";
+		String s = "Standard Station [Id: " + super.getId() + "\n";
+		s += "Parking Slots: " + super.getParkingSlots().toString() + "\n";
 		s += "Coordinates: " + super.getCoordinates().toString() + "\n";
 		s += "Online: " + super.getOnline() + "]";
 		return s;

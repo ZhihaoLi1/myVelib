@@ -42,6 +42,6 @@ public class ElecBike implements Bike {
 
 	@Override
 	public String toString() {
-		return "Bike [id: " + id + ", type: " + type + "]";
+		return "Bike [id: " + id + ", type: " + type.toLowerCase() + "]";
 	}
 }

@@ -74,6 +74,6 @@ public class StationStats {
 
 	@Override
 	public String toString() {
-		return "total rentals: " + this.totalRentals + ", total returns: " + this.totalReturns;
+		return "Total rentals: " + this.totalRentals + "\nTotal returns: " + this.totalReturns;
 	}
 }

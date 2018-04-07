@@ -667,12 +667,12 @@ public class Network extends Observable {
 		String s = "Network " + name + ":";
 		s += "\nCreated: " + creationDate;
 		s += "\nCurrent date: " + currentDate;
-		s += "\n--------------------";
+		s += "\n\n--------------------";
 		s += "\nUsers: ";
 		for (User user : users.values()) {
 			s += "\n\n" + user.toString();
 		}
-		s += "\n--------------------";
+		s += "\n\n--------------------";
 		s += "\nStations: ";
 		for (Station station : stations.values()) {
 			s += "\n\n" + station.toString();

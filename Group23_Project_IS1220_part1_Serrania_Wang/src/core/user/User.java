@@ -67,11 +67,6 @@ public class User implements Observer {
 		return "Stats of " + name + ": \n" + stats.toString();
 	}
 
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -135,6 +130,18 @@ public class User implements Observer {
 
 	public UserStats getStats() {
 		return stats;
+	}
+
+	@Override
+	public String toString() {
+		String bikeRentalString;
+		if (bikeRental == null)
+			bikeRentalString = "No bike rental";
+		else
+			bikeRentalString = bikeRental.toString();
+		
+		return "User [Id: " + id + "\nName: " + name + "\nCard: " + card + "\nCoordinates: " + coordinates + "\nBike rental: "
+				+ bikeRentalString + "]";
 	}
 
 }

@@ -105,4 +105,9 @@ public class VLibreCardVisitor extends CardWithTimeCreditVisitor implements Card
 			throw new InvalidBikeException(rental);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "VLibre card: [time credit: " + getTimeCredit() + "]";
+	}
 }
