@@ -305,11 +305,7 @@ public abstract class Station extends Observable {
 	 */
 	public boolean hasCorrectBikeType(String bikeType) {
 		for (ParkingSlot ps : parkingSlots) {
-<<<<<<< c248d015d4d0fc9936aca0e8650451ddd200d4ed
-			if (ps.hasBike() && ps.getBike().getType().equals(bikeType) && ps.isWorking()) {
-=======
 			if (ps.hasBike() && ps.getBike().getType().equals(bikeType.toUpperCase()) && ps.isWorking()) {
->>>>>>> Refactor(*): Add javadoc, lint
 				return true;
 			}
 		}
