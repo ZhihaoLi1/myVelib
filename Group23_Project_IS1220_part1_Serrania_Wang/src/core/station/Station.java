@@ -146,6 +146,7 @@ public abstract class Station extends Observable {
 	 * @param o
 	 *            the observer user to add
 	 */
+	@Override
 	public void addObserver(Observer o) {
 		if (this.observers.add(o)) {
 			// System.out.println(o.toString() + " is observing station S" + this.id);
@@ -161,6 +162,7 @@ public abstract class Station extends Observable {
 	 * @param o
 	 *            the observer to remove
 	 */
+	@Override
 	public void deleteObserver(Observer o) {
 		if (this.observers.remove(o)) {
 			// System.out.println("Observer" + o.toString() + "stopped observing this
@@ -173,6 +175,7 @@ public abstract class Station extends Observable {
 	/**
 	 * Notify all observers
 	 */
+	@Override
 	public void notifyObservers() {
 		Set<Observer> copyObservers = new HashSet<Observer>(observers);
 		for (Observer observer : copyObservers) {
@@ -188,7 +191,7 @@ public abstract class Station extends Observable {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
+	private double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
 		return stats.getOccupationRate(startDate, endDate);
 	}
 
@@ -265,7 +268,7 @@ public abstract class Station extends Observable {
 				try {
 					ParkingSlot ps = parkingSlots.get(i);
 					synchronized (ps) {
-						// Throws Exception if bike couldn't be set
+						// Throws OccupiedParkingSlotException if bike couldn't be set
 						ps.setBike(b, date);
 						// If the station is full after adding the bike, notification should be sent to
 						// users

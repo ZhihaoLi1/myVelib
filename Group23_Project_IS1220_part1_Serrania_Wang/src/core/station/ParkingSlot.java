@@ -178,7 +178,7 @@ public class ParkingSlot {
 	 * 
 	 * @return the new status name
 	 */
-	public ParkingSlotStatusName calculateStatusName() {
+	private ParkingSlotStatusName calculateStatusName() {
 		if (!isWorking()) {
 			return ParkingSlotStatusName.OUT_OF_ORDER;
 		}
@@ -197,7 +197,7 @@ public class ParkingSlot {
 	 * @param date
 	 *            the date at which the status changes takes place
 	 */
-	public void changeStatus(LocalDateTime date) {
+	private void changeStatus(LocalDateTime date) {
 		if (hasChanged) {
 			setStatus(calculateStatusName(), date);
 			hasChanged = false;

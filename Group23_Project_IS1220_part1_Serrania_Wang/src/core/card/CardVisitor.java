@@ -1,6 +1,6 @@
 package core.card;
 
-import core.bike.InvalidBikeTypeException;
+import core.rentals.Rental;
 import core.rentals.BikeRental;
 
 /**

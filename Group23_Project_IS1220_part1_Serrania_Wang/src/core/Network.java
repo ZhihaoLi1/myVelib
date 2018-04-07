@@ -565,8 +565,8 @@ public class Network extends Observable {
 	/**
 	 * Returns the bike of a user to the given station at the given time
 	 * 
-	 * @param userId
-	 * @param stationId
+	 * @param user
+	 * @param station
 	 * @param returnDate
 	 * @return String (either an error message or a confirmation message)
 	 */
@@ -643,7 +643,8 @@ public class Network extends Observable {
 	}
 	
 	/**
-	 * reset id generators
+	 * Reset ID generators
+	 * 
 	 * @return
 	 */
 	public static String reset() {
@@ -654,6 +655,7 @@ public class Network extends Observable {
 	}
 
 	// Getters / Setters
+	
 	public String getName() {
 		return name;
 	}

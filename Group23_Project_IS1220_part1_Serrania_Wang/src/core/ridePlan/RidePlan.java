@@ -43,7 +43,7 @@ public class RidePlan {
 	 * @throws InvalidBikeTypeException
 	 *             if the bikeType of the rental is not recognized by the system
 	 */
-	public int approximateTime() throws InvalidBikeTypeException {
+	public double approximateTime() throws InvalidBikeTypeException {
 		double walkingSpeed = 4; // km/h
 		double bikeSpeed = 0;
 		switch (bikeType) {
@@ -62,7 +62,7 @@ public class RidePlan {
 		totalTime += sourceStation.getCoordinates().distance(destinationStation.getCoordinates()) / bikeSpeed;
 		totalTime += destinationStation.getCoordinates().distance(destination) / walkingSpeed;
 
-		return (int) Math.floor(totalTime * 60);
+		return totalTime;
 	}
 
 	// Getters / Setters
