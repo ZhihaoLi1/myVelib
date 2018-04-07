@@ -110,6 +110,10 @@ public class CLUIThread extends Thread implements Observer {
 		}
 	}
 	
+	public static void verifyArgumentLength(int expectedLength, int argumentLength) throws IncorrectArgumentException {
+		if (expectedLength != argumentLength) throw new IncorrectArgumentException("Number of arguments is incorrect.");
+	}
+	
 	/**
 	 * 
 	 * @param args <name> <dateTime> or  <name> <dateTime> <nstations> <nslots> <sidearea> <nbikes>
@@ -117,6 +121,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String setup(String[] args) throws IncorrectArgumentException {
+		// Cannot be done with verifyArgumentLength because there are 2 possible lengths
 		if (args.length != 2 && args.length != 6) throw new IncorrectArgumentException("Number of arguments is incorrect.");
 		if (args.length == 2) {
 			String name = args[0];
@@ -131,7 +136,6 @@ public class CLUIThread extends Thread implements Observer {
 			} catch(DateTimeParseException e) {
 				throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
 			}
-			
 		} else {
 			// <nstations> <nslots> <sidearea> <nbikes>
 			String name = args[0];
@@ -161,12 +165,10 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String addUser(String[] args) throws IncorrectArgumentException {
-		if (args.length == 3) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			return networks.get(name).addUser(args[1], args[2]);
-		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
+		verifyArgumentLength(3, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		return networks.get(name).addUser(args[1], args[2]);
 	}
 	
 	/**
@@ -176,16 +178,14 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String offline(String[] args) throws IncorrectArgumentException {
-		if (args.length == 2) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				return networks.get(name).setOffline(Integer.parseInt(args[1]));
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("StationID needs to be an integer.");
-			}
+		verifyArgumentLength(2, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			return networks.get(name).setOffline(Integer.parseInt(args[1]));
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("StationID needs to be an integer.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -195,16 +195,14 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String online(String[] args) throws IncorrectArgumentException {
-		if (args.length == 2) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				return networks.get(name).setOnline(Integer.parseInt(args[1]));
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("StationID needs to be an integer.");
-			}
+		verifyArgumentLength(2, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			return networks.get(name).setOnline(Integer.parseInt(args[1]));
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("StationID needs to be an integer.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -214,23 +212,21 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String rentBike(String[] args) throws IncorrectArgumentException {
-		if (args.length == 5) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				LocalDateTime rentalDate= DateParser.parse(args[1]);
-				int userId = Integer.parseInt(args[2]);
-				int stationId = Integer.parseInt(args[3]);
-				String bikeType = args[4];
-				
-				return networks.get(name).rentBike(userId, stationId, bikeType, rentalDate);
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("StationID and UserId need to be integers.");
-			} catch(DateTimeParseException e) {
-				throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
-			}
+		verifyArgumentLength(5, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			LocalDateTime rentalDate= DateParser.parse(args[1]);
+			int userId = Integer.parseInt(args[2]);
+			int stationId = Integer.parseInt(args[3]);
+			String bikeType = args[4];
+			
+			return networks.get(name).rentBike(userId, stationId, bikeType, rentalDate);
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("StationID and UserId need to be integers.");
+		} catch(DateTimeParseException e) {
+			throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -240,21 +236,19 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String returnBike(String[] args) throws IncorrectArgumentException {
-		if (args.length == 4) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				LocalDateTime returnDate= DateParser.parse(args[1]);
-				int userId = Integer.parseInt(args[2]);
-				int stationId = Integer.parseInt(args[3]);
-				return networks.get(name).returnBike(userId, stationId, returnDate);
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("StationID and UserId need to be integers.");
-			} catch(DateTimeParseException e) {
-				throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
-			}
+		verifyArgumentLength(4, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			LocalDateTime returnDate= DateParser.parse(args[1]);
+			int userId = Integer.parseInt(args[2]);
+			int stationId = Integer.parseInt(args[3]);
+			return networks.get(name).returnBike(userId, stationId, returnDate);
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("StationID and UserId need to be integers.");
+		} catch(DateTimeParseException e) {
+			throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -264,17 +258,15 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String displayStation(String[] args) throws IncorrectArgumentException {
-		if (args.length == 2) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				int stationId = Integer.parseInt(args[1]);
-				return networks.get(name).displayStation(stationId);
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("StationID needs to be an integer.");
-			}
+		verifyArgumentLength(2, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			int stationId = Integer.parseInt(args[1]);
+			return networks.get(name).displayStation(stationId);
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("StationID needs to be an integer.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -284,17 +276,15 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String displayUser(String[] args) throws IncorrectArgumentException {
-		if (args.length == 2) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				int userId = Integer.parseInt(args[1]);
-				return networks.get(name).displayUser(userId);
-			} catch (NumberFormatException e) {
-				throw new IncorrectArgumentException("UserID needs to be an integer.");
-			}
+		verifyArgumentLength(2, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			int userId = Integer.parseInt(args[1]);
+			return networks.get(name).displayUser(userId);
+		} catch (NumberFormatException e) {
+			throw new IncorrectArgumentException("UserID needs to be an integer.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -304,12 +294,10 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String sortStation(String[] args) throws IncorrectArgumentException {
-		if (args.length == 2) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			return networks.get(name).sortStation(args[1]);
-		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
+		verifyArgumentLength(2, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		return networks.get(name).sortStation(args[1]);
 	}
 	
 	/**
@@ -319,13 +307,11 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String display(String[] args) throws IncorrectArgumentException {
-		if (args.length == 1) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			return networks.get(name).toString();
-		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
-	}	
+		verifyArgumentLength(1, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		return networks.get(name).toString();
+	}
 	
 	/**
 	 * 
@@ -334,13 +320,11 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String deleteNetwork(String[] args) throws IncorrectArgumentException {
-		if (args.length == 1) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			networks.remove(name);
-			return "Sucessfully removed network " + args[0] + ".";
-		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
+		verifyArgumentLength(1, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		networks.remove(name);
+		return "Sucessfully removed network " + args[0] + ".";
 	}
 
 	/**
@@ -350,23 +334,21 @@ public class CLUIThread extends Thread implements Observer {
 	 * @throws IncorrectArgumentException
 	 */
 	public String planRide(String[] args) throws IncorrectArgumentException {
-		if (args.length == 8) {
-			String name = args[0];
-			if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
-			try {
-				double sourceX = Double.parseDouble(args[1]);
-				double sourceY = Double.parseDouble(args[2]);
-				double destinationX = Double.parseDouble(args[3]);
-				double destinationY = Double.parseDouble(args[4]);
-				int userId = Integer.parseInt(args[5]);
-				String policy = args[6];
-				String bikeType = args[7];
-				return networks.get(name).planRide(sourceX, sourceY, destinationX, destinationY, userId, policy, bikeType);
-			} catch(NumberFormatException e) {
-				throw new IncorrectArgumentException("Arguments incorrectly entered, please refer to usage below.");
-			}
+		verifyArgumentLength(8, args.length);
+		String name = args[0];
+		if (!hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " does not exist.");
+		try {
+			double sourceX = Double.parseDouble(args[1]);
+			double sourceY = Double.parseDouble(args[2]);
+			double destinationX = Double.parseDouble(args[3]);
+			double destinationY = Double.parseDouble(args[4]);
+			int userId = Integer.parseInt(args[5]);
+			String policy = args[6];
+			String bikeType = args[7];
+			return networks.get(name).planRide(sourceX, sourceY, destinationX, destinationY, userId, policy, bikeType);
+		} catch(NumberFormatException e) {
+			throw new IncorrectArgumentException("Arguments incorrectly entered, please refer to usage below.");
 		}
-		throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
@@ -387,19 +369,14 @@ public class CLUIThread extends Thread implements Observer {
 		String message="";
 		Commands command; 
 		
-		String[] inputs = userInput.split(" ");
+		String[] inputs = sanitizeInput(userInput);
 		
-
 		String commandRaw = inputs[0];
 	    try {
 	    		command = Commands.valueOf(commandRaw);
 	    } catch (IllegalArgumentException ex) {  
 	        	return "Invalid Command. Type help to have a comprenhensive overview of the different commands";
 	    }
-	    
-	    if (inputs.length < 2 && command != Commands.help && command != Commands.reset) {
-			return "All commands requires network to be specified. Type help for the arguments required for each command.";
-		}
 
 		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
 
@@ -513,6 +490,18 @@ public class CLUIThread extends Thread implements Observer {
 
 	    }
 	    return message;
+	}
+	
+	/**
+	 * Sanitizes input : removes spaces at the beginning and at the end. 
+	 * removes also any special characters 
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public static String[] sanitizeInput(String input) {
+		String[] arguments = input.replaceAll("[^A-Za-z0-9 .:/]", "").trim().split(" ");
+		return arguments;
 	}
 	
 	@Override
