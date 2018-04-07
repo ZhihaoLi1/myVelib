@@ -3,6 +3,8 @@ package core;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.ThreadLocalRandom;
 
 import core.bike.Bike;
@@ -28,13 +30,16 @@ import core.station.BikeNotFoundException;
 import core.station.FullStationException;
 import core.station.InvalidStationTypeException;
 import core.station.OfflineStationException;
+import core.station.ParkingSlotIDGenerator;
 import core.station.Station;
 import core.station.StationFactory;
+import core.station.StationIDGenerator;
 import core.station.stationSort.InvalidSortingPolicyException;
 import core.station.stationSort.LeastOccupiedSort;
 import core.station.stationSort.MostUsedSort;
 import core.user.BikeRentalNotFoundException;
 import core.user.User;
+import core.user.UserIDGenerator;
 import utils.Point;
 
 /**
@@ -45,7 +50,7 @@ import utils.Point;
  * @author animato
  *
  */
-public class Network {
+public class Network extends Observable {
 
 	private String name;
 	private double side = 10;
@@ -56,7 +61,9 @@ public class Network {
 
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
-
+	
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
+	
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
@@ -398,7 +405,6 @@ public class Network {
 
 	// Core methods - Internal methods
 	//
-
 	/**
 	 * Add station to network
 	 * 
@@ -607,6 +613,17 @@ public class Network {
 		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName()
 				+ " is cancelled. Please create a new one";
 	}
+	
+	/**
+	 * reset id generators
+	 * @return
+	 */
+	public static String reset() {
+		StationIDGenerator.getInstance().reset();
+		UserIDGenerator.getInstance().reset();
+		ParkingSlotIDGenerator.getInstance().reset();
+		return "Sucessfully reset ID generators";
+	}
 
 	// Getters / Setters
 	public String getName() {
@@ -657,5 +674,21 @@ public class Network {
 			s += "\n\n" + station.toString();
 		}
 		return s;
+	}
+	
+	@Override
+	public void addObserver(Observer o ) {
+		if (!this.observers.contains(o)) {
+			this.observers.add(o);
+		}
+	}
+	
+	/**
+	 * Called user update is called. 
+	 */
+	public void notifyObservers(String message) {
+		for (Observer o: this.observers) {
+			o.update(this, message);
+		}
 	}
 }

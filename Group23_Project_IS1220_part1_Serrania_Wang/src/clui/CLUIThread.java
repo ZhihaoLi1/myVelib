@@ -3,12 +3,14 @@ package clui;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 import core.Network;
 import utils.DateParser;
 
-public class CLUIThread extends Thread {
+public class CLUIThread extends Thread implements Observer {
 	private HashMap<String, Network> networks = new HashMap<String, Network>();
 	
 	private String helpMessage = "\n =========== Help =========== \n"
@@ -22,7 +24,8 @@ public class CLUIThread extends Thread {
 			+ "displayStation <network name> <stationId> \n"
 			+ "displayUser <network name> <userId> \n"
 			+ "sortStation <network name> <sortPolicy> \n"
-			+ "display <network name> \n";
+			+ "display <network name> \n"
+			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>";
 	
 	private String setupUsage = "\n =========== setup usage =========== \n" +
 			"option 1: \n" +
@@ -94,7 +97,7 @@ public class CLUIThread extends Thread {
 			+ "Delete network from CLUI \n";
 
 	private String planRideUsage = "\n =========== planRide usage =========== \n"
-			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType> \n"
+			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>\n"
 			+ "planRide myVelib 1.0 1.0 3.0 3.0 1 FASTEST MECH \n"
 			+ "The types of ridePlan policies are: FASTEST, SHORTEST, PREFER_PLUS, AVOID_PLUS, PRESERVE_UNIFORMITY \n"
 			+ "This command sets a ride plan for the user and he/she is notified when the destination stations goes offline or become unavailable. \n";
@@ -115,6 +118,7 @@ public class CLUIThread extends Thread {
 	 */
 	public String setup(String[] args) throws IncorrectArgumentException {
 		if (args.length != 2 && args.length != 6) throw new IncorrectArgumentException("Number of arguments is incorrect.");
+		Network.reset();
 		if (args.length == 2) {
 			String name = args[0];
 			try {
@@ -122,6 +126,8 @@ public class CLUIThread extends Thread {
 				// verify name is not already taken 
 				if (hasNetwork(name)) throw new IncorrectArgumentException("Network " + name + " already exists.");
 				Network n = new Network(name, 10, 10, 4, 0.75, 0.5, 0.5, creationDate);
+				// add this clui to the observers of network 
+				n.addObserver(this);
 				networks.put(name, n);
 			} catch(DateTimeParseException e) {
 				throw new IncorrectArgumentException("DateTime format should be like the following dd/MM/uuuuTHH:mm:ss.");
@@ -141,6 +147,8 @@ public class CLUIThread extends Thread {
 			if (percentageOfBikes > 1) throw new IncorrectArgumentException("Total number of bikes exceeds the total number of slots");
 			// By default 50% of plus stations, 50% of elec bikes
 			Network n = new Network(name , nstations, nslots, sidearea, percentageOfBikes, 0.5, 0.5, commandDate);
+			// add this clui to the observers of network 
+			n.addObserver(this);
 			networks.put(name, n);
 		}
 		
@@ -508,5 +516,12 @@ public class CLUIThread extends Thread {
 			System.out.println(parseUserInput(userInput));
 		}
 		reader.close();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Network && arg instanceof String) {
+			System.out.println("======Notification========\n" + arg);
+		}
 	}
 }
