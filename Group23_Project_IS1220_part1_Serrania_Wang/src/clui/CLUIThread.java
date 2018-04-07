@@ -146,7 +146,6 @@ public class CLUIThread extends Thread implements Observer {
 			double percentageOfBikes = (float) nbikes / (nslots*nstations);
 			if (percentageOfBikes > 1) throw new IncorrectArgumentException("Total number of bikes exceeds the total number of slots");
 			// By default 50% of plus stations, 50% of elec bikes
-			System.out.println("TESTTESTSET: " + percentageOfBikes);
 			Network n = new Network(name , nstations, nslots, sidearea, percentageOfBikes, 0.5, 0.5, creationDate);
 			// add this clui to the observers of network 
 			n.addObserver(this);
