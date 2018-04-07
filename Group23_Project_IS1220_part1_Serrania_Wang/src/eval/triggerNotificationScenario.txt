@@ -9,6 +9,7 @@ planRide velib 1.0 1.0 3.0 3.0 1 FASTEST MECH
 # Set all stations to offline
 offline velib 1
 offline velib 2
-# should recieve notification in command line
+# should recieve notification in command line. 
+# The notification will not be in the result file as it is a notification, not a message.
 # clean up
 deleteNetwork velib

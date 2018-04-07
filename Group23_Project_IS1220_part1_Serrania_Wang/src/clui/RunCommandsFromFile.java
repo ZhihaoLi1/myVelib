@@ -6,13 +6,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Run clui commands from a text file. 
+ * Write the output from the stdout to a resultFile names appropriately.
+ * @author animato
+ *
+ */
 public class RunCommandsFromFile {
 
-	
-	public static void writeToFile(String line, String filename) throws IOException {
-
-	}
-	
+		
 	/**
 	 * Reads from file and writes to new file the result. 
 	 * @param filename

@@ -7,6 +7,11 @@ import org.junit.Test;
 import clui.CLUIThread;
 import clui.IncorrectArgumentException;
 
+/**
+ * Tests methods in CLUI for sanitizing input
+ * @author animato
+ *
+ */
 public class CLUITest {
 
 	@Test(expected = IncorrectArgumentException.class)

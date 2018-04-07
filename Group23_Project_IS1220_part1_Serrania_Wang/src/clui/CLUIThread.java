@@ -10,6 +10,11 @@ import java.util.Scanner;
 import core.Network;
 import utils.DateParser;
 
+/**
+ * A thread that runs commands from the command line user interface.
+ * @author animato
+ *
+ */
 public class CLUIThread extends Thread implements Observer {
 	private HashMap<String, Network> networks = new HashMap<String, Network>();
 	
@@ -102,6 +107,11 @@ public class CLUIThread extends Thread implements Observer {
 			+ "The types of ridePlan policies are: FASTEST, SHORTEST, PREFER_PLUS, AVOID_PLUS, PRESERVE_UNIFORMITY \n"
 			+ "This command sets a ride plan for the user and he/she is notified when the destination stations goes offline or become unavailable. \n";
 	
+	/**
+	 * Test if a network exists in currect clui
+	 * @param name
+	 * @return true if the name provided is the name of an existing network
+	 */
 	public Boolean hasNetwork(String name) {
 		if (networks.get(name) == null) {
 			return false;
@@ -110,12 +120,18 @@ public class CLUIThread extends Thread implements Observer {
 		}
 	}
 	
+	/**
+	 * Compares expectedLength and argumentLength and throws IncorrectArgumentException if different.
+	 * @param expectedLength
+	 * @param argumentLength
+	 * @throws IncorrectArgumentException if expectedLength different from argumentLength
+	 */
 	public static void verifyArgumentLength(int expectedLength, int argumentLength) throws IncorrectArgumentException {
 		if (expectedLength != argumentLength) throw new IncorrectArgumentException("Number of arguments is incorrect.");
 	}
 	
 	/**
-	 * 
+	 * setup a network. either default or with more options
 	 * @param args <name> <dateTime> or  <name> <dateTime> <nstations> <nslots> <sidearea> <nbikes>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -162,7 +178,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 		
 	/**
-	 * 
+	 * Add user to specified network
 	 * @param args <name> <username> <cardType>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -175,7 +191,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * set a station to offline in specified network
 	 * @param args <name> <stationId>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -192,7 +208,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * set a station to online in specified network
 	 * @param args <name> <stationId>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -209,7 +225,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * Rent bike for a user from station at date
 	 * @param args <name> <DateTime> <userId> <stationId> <bikeType>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -233,7 +249,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * return a bike from user to a station at given date
 	 * @param args <name> <DateTime> <userId> <stationId>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -255,7 +271,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * display statistics of a station 
 	 * @param args <name> <stationId>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -273,7 +289,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * display statistics of a user
 	 * @param args <name> <userId>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -291,7 +307,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * Display the list of stations sorted by given policy
 	 * @param args <name> <sortPolicy>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -304,7 +320,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * display all different attributes of the network
 	 * @param args <name>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -317,7 +333,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
-	 * 
+	 * delete given network from this clui
 	 * @param args <name>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -331,7 +347,7 @@ public class CLUIThread extends Thread implements Observer {
 	}
 
 	/**
-	 * 
+	 * plan a ride for a user given source and destination, as well as policy and bike type.
 	 * @param args <name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>
 	 * @return
 	 * @throws IncorrectArgumentException
@@ -507,6 +523,9 @@ public class CLUIThread extends Thread implements Observer {
 		return arguments;
 	}
 	
+	/**
+	 * Runs the clui until the user types in exit
+	 */
 	@Override
 	public void run() {
 		System.out.println("Setting up an inital network named myVelib... It has 5 users, 10 stations.");
@@ -515,7 +534,7 @@ public class CLUIThread extends Thread implements Observer {
 		System.out.println("\nWelcome to MyVelib. Please enter your command.");
 		String userInput = "";
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		while(!userInput.equals("stop")) {
+		while(!userInput.equals("exit")) {
 			System.out.print(">>> ");
 			userInput = reader.nextLine(); // Scans for user input
 			System.out.println(parseUserInput(userInput));
@@ -523,7 +542,10 @@ public class CLUIThread extends Thread implements Observer {
 		}
 		reader.close();
 	}
-
+	
+	/**
+	 * Prints out notification.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof Network && arg instanceof String) {
