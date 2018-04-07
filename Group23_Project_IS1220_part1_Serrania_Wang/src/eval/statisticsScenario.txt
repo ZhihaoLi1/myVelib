@@ -1,0 +1,57 @@
+# Setup default velib network and add 6 different users
+# The first 5 stations are plus stations. 
+# This scenario is to test that the rent and return of bikes 
+# function correctly. Ensure that the prices are correct 
+# and timecredits used well. This scenario is based on the network 
+# that is already initalized in the CLUI.
+# We can also see the statistics of the different stations and users
+
+setup velib 01/01/2000T00:00:00
+addUser velib Alice NO_CARD
+addUser velib Bob VLIBRE_CARD
+addUser velib Charlie VMAX_CARD
+addUser velib Drew NO_CARD
+addUser velib Eliot VLIBRE_CARD
+
+# Rent from station 2, 3 => pump up least occupied
+rentBike velib 01/01/2000T10:00:00 1 2 ELEC
+rentBike velib 01/01/2000T11:00:00 2 2 MECH
+rentBike velib 01/01/2000T12:00:00 3 2 MECH 
+rentBike velib 01/01/2000T13:00:00 4 2 ELEC 
+rentBike velib 01/01/2000T14:00:00 5 2 ELEC
+# Return to station 4, 5, 6
+returnBike velib 01/01/2000T15:00:00 1 4
+returnBike velib 01/01/2000T16:00:00 2 5 
+returnBike velib 01/01/2000T17:00:00 3 6 
+returnBike velib 01/01/2000T18:00:00 4 5 
+returnBike velib 01/01/2000T19:00:00 5 4
+# Rent and return to station 1 only => pump up the most used stats
+rentBike velib 02/01/2000T10:00:00 1 1 MECH
+returnBike velib 02/01/2000T14:03:00 1 1
+rentBike velib 02/01/2000T14:30:00 2 1 MECH
+returnBike velib 02/01/2000T14:45:00 2 1
+rentBike velib 02/01/2000T14:50:00 3 1 ELEC
+returnBike velib 02/01/2000T16:00:00 3 1
+
+displayStation velib 1
+displayStation velib 2
+displayStation velib 3
+displayStation velib 4
+# This should not work, there's not station 99
+displayStation velib 99
+
+displayUser velib 1
+displayUser velib 2
+displayUser velib 3
+displayUser velib 4
+displayUser velib 5
+# This should not work, there's not user 99
+displayStation user 99
+
+sortStation velib MOST_USED
+sortStation velib LEAST_OCCUPIED
+# this should fail, no LEAST_USED policy
+sortStation velib LEAST_USED
+
+# clean up
+deleteNetwork velib

@@ -118,7 +118,6 @@ public class CLUIThread extends Thread implements Observer {
 	 */
 	public String setup(String[] args) throws IncorrectArgumentException {
 		if (args.length != 2 && args.length != 6) throw new IncorrectArgumentException("Number of arguments is incorrect.");
-		Network.reset();
 		if (args.length == 2) {
 			String name = args[0];
 			try {
@@ -371,6 +370,15 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
+	 * Delete all networks, reset ID generator
+	 */
+	public String reset() {
+		Network.reset();
+		this.networks = new HashMap<String, Network>();
+		return "All networks deleted, reseted ID generator.";
+	}
+	
+	/**
 	 * Parses the user input and calls the correct method to execute the command
 	 * @param userInput
 	 * @return
@@ -389,14 +397,18 @@ public class CLUIThread extends Thread implements Observer {
 	        	return "Invalid Command. Type help to have a comprenhensive overview of the different commands";
 	    }
 	    
-	    if (inputs.length < 2 && command != Commands.help) {
+	    if (inputs.length < 2 && command != Commands.help && command != Commands.reset) {
 			return "All commands requires network to be specified. Type help for the arguments required for each command.";
 		}
 
 		String[] arguments = java.util.Arrays.copyOfRange(inputs, 1, inputs.length);
 
 	    switch (command) {
+	    case reset:
+	    		message = this.reset();
+	    		break;
 	    case runtest:
+	    		this.reset();
 	    		RunCommandsFromFile.run(arguments[0], this);
 	    		break;
 	    case help:
@@ -514,6 +526,7 @@ public class CLUIThread extends Thread implements Observer {
 		while(!userInput.equals("stop")) {
 			userInput = reader.nextLine(); // Scans for user input
 			System.out.println(parseUserInput(userInput));
+			System.out.println("\n");
 		}
 		reader.close();
 	}

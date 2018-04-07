@@ -14,5 +14,6 @@ public enum Commands {
 	help,
 	runtest,
 	deleteNetwork,
-	planRide
+	planRide,
+	reset
 }

@@ -19,7 +19,7 @@ public class RunCommandsFromFile {
 				// ignores empty lines or lines starting with #
 				if (line.length() > 0 && !line.substring(0, 1).equals("#")) {
 					message = clui.parseUserInput(line);
-					System.out.println(message);
+					System.out.println(message + "\n");
 				}
 			}
 		} catch (IOException e) {
