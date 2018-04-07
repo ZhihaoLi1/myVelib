@@ -1,0 +1,46 @@
+# Attention, this scenario is not meant to be run by runtest command
+
+# standard setup
+setup VELIB 01/01/2000T10:00:00
+
+# add one user. Please note his ID 
+addUser VELIB Adam VLIBRE_CARD
+
+#### I)
+
+# Plan a ride with adam. Please note source station ID and destination station ID
+planRide VELIB <sourceX> <sourceY> <destinationX> <destinationY> <UserID> FASTEST MECH
+
+
+# Rent a bike from source station
+rentBike VELIB 02/01/2000T10:00:00 <UserID> <StationID> MECH
+
+# Return the bike to destination station 2h 30 mins later
+returnBike VELIB 02/01/2000T12:30:00 <UserID> <StationID>
+
+# Ensure that the price is indeed 2 euros. 
+
+#### II) 
+# To test time credits: display the network to find the plus stations and plan a ride that ends near a plus station.
+display VELIB
+
+# Plan a ride with adam. Please note source station ID and destination station ID
+planRide VELIB <sourceX> <sourceY> <destinationX> <destinationY> <UserID> PREFER_PLUS MECH
+
+# Rent a bike from source station
+rentBike VELIB 03/01/2000T10:00:00 <UserID> <StationID> MECH
+
+# Return the bike to destination station 1h later
+returnBike VELIB 03/01/2000T11:00:00 <UserID> <StationID>
+
+# Ensure that the price is 0 Euro, check how many credits he has earned
+displayUser VELIB <UserID>
+
+# Take another trip 
+# Rent a bike from source station
+rentBike VELIB 04/01/2000T10:00:00 <UserID> <StationID> MECH
+
+# Return the bike to destination station 1h 5mins later
+returnBike VELIB 04/01/2000T11:05:00 <UserID> <StationID>
+
+# Ensure that the price is still 0 Euro, and 5 time credit is used.
