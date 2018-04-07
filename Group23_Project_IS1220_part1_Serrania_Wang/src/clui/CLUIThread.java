@@ -132,7 +132,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * setup a network. either default or with more options
-	 * @param args <name> <dateTime> or  <name> <dateTime> <nstations> <nslots> <sidearea> <nbikes>
+	 * @param args [name] [dateTime] or  [name] [dateTime] [nstations] [nslots] [sidearea] [nbikes]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -179,7 +179,7 @@ public class CLUIThread extends Thread implements Observer {
 		
 	/**
 	 * Add user to specified network
-	 * @param args <name> <username> <cardType>
+	 * @param args [name] [username] [cardType]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -192,7 +192,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * set a station to offline in specified network
-	 * @param args <name> <stationId>
+	 * @param args [name] [stationId]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -209,7 +209,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * set a station to online in specified network
-	 * @param args <name> <stationId>
+	 * @param args [name] [stationId]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -226,7 +226,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * Rent bike for a user from station at date
-	 * @param args <name> <DateTime> <userId> <stationId> <bikeType>
+	 * @param args [name] [DateTime] [userId] [stationId] [bikeType]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -250,7 +250,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * return a bike from user to a station at given date
-	 * @param args <name> <DateTime> <userId> <stationId>
+	 * @param args [name] [DateTime] [userId] [stationId]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -272,7 +272,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * display statistics of a station 
-	 * @param args <name> <stationId>
+	 * @param args [name] [stationId]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -290,7 +290,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * display statistics of a user
-	 * @param args <name> <userId>
+	 * @param args [name] [userId]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -308,7 +308,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * Display the list of stations sorted by given policy
-	 * @param args <name> <sortPolicy>
+	 * @param args [name] [sortPolicy]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -321,7 +321,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * display all different attributes of the network
-	 * @param args <name>
+	 * @param args [name]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -334,7 +334,7 @@ public class CLUIThread extends Thread implements Observer {
 	
 	/**
 	 * delete given network from this clui
-	 * @param args <name>
+	 * @param args [name]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
@@ -348,7 +348,7 @@ public class CLUIThread extends Thread implements Observer {
 
 	/**
 	 * plan a ride for a user given source and destination, as well as policy and bike type.
-	 * @param args <name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>
+	 * @param args [name] [sourceX] [sourceY] [destinationX] [destinationY] [userId] [policy] [bikeType]
 	 * @return
 	 * @throws IncorrectArgumentException
 	 */
