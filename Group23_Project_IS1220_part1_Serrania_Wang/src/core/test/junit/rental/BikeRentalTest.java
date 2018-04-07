@@ -18,17 +18,11 @@ public class BikeRentalTest {
 	 * Test that the constructor does work as planned in normal conditions
 	 */
 	@Test
-	public void testConstructor() {
+	public void testConstructor() throws InvalidBikeTypeException {
 		BikeFactory bikeFactory = new BikeFactory();
-		try {
-			BikeRental br = new BikeRental(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000T09:00:00"));
-			assertTrue(br.getBike() instanceof MechBike);
-			assertEquals(br.getRentDate(), LocalDateTime.of(2000, 1, 1, 9, 0, 0));
-		} catch (InvalidBikeTypeException e){
-			fail("InvalidBikeTypeException thrown");
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown");
-		}
+		BikeRental br = new BikeRental(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000T09:00:00"));
+		assertTrue(br.getBike() instanceof MechBike);
+		assertEquals(br.getRentDate(), LocalDateTime.of(2000, 1, 1, 9, 0, 0));
 	}
 	
 	/**
@@ -40,28 +34,22 @@ public class BikeRentalTest {
 		try {
 			BikeRental br = new BikeRental(null, DateParser.parse("01/01/2000T09:00:00"));
 			fail("IllegalArgumentException should have been thrown");
-		} catch (IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 	
 	@Test
-	public void testEquals() {
+	public void testEquals() throws InvalidBikeTypeException {
 		BikeFactory bikeFactory = new BikeFactory();
-		try {
-			BikeRental br1 = new BikeRental(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000T09:00:00"));
-			BikeRental br2 = new BikeRental(bikeFactory.createBike("ELEC"), DateParser.parse("01/01/2000T09:00:00"));
-			BikeRental br3 = new BikeRental(br1.getBike(), DateParser.parse("01/01/2000T09:00:00"));
-			
-			assertEquals(br1, br1);
-			assertNotEquals(br1, br2);
-			assertEquals(br1, br3);
-		} catch (InvalidBikeTypeException e){
-			fail("InvalidBikeTypeException thrown");
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown");
-		}
 		
+		BikeRental br1 = new BikeRental(bikeFactory.createBike("MECH"), DateParser.parse("01/01/2000T09:00:00"));
+		BikeRental br2 = new BikeRental(bikeFactory.createBike("ELEC"), DateParser.parse("01/01/2000T09:00:00"));
+		BikeRental br3 = new BikeRental(br1.getBike(), DateParser.parse("01/01/2000T09:00:00"));
+		
+		assertEquals(br1, br1);
+		assertNotEquals(br1, br2);
+		assertEquals(br1, br3);
 	}
 
 }

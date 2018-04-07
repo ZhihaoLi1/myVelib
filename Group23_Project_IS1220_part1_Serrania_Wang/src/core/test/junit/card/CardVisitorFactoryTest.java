@@ -12,34 +12,22 @@ import core.card.VLibreCardVisitor;
 import core.card.VMaxCardVisitor;
 
 public class CardVisitorFactoryTest {
+	CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
 
 	/**
 	 * Test that the type of the created card corresponds to the given type.
 	 */
 	@Test
-	public void testCreateCard() {
-		CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+	public void testCreateCard() throws InvalidCardTypeException {
 		
-		try {
-			CardVisitor nc = cardVisitorFactory.createCard("NO_CARD");
-			assertTrue(nc instanceof NoCardVisitor);
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException thrown");
-		}
+		CardVisitor nc = cardVisitorFactory.createCard("NO_CARD");
+		assertTrue(nc instanceof NoCardVisitor);
+
+		CardVisitor vlc = cardVisitorFactory.createCard("VLIBRE_CARD");
+		assertTrue(vlc instanceof VLibreCardVisitor);
 		
-		try {
-			CardVisitor vlc = cardVisitorFactory.createCard("VLIBRE_CARD");
-			assertTrue(vlc instanceof VLibreCardVisitor);
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException thrown");
-		}
-		
-		try {
-			CardVisitor vmc = cardVisitorFactory.createCard("VMAX_CARD");
-			assertTrue(vmc instanceof VMaxCardVisitor);
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException thrown");
-		}
+		CardVisitor vmc = cardVisitorFactory.createCard("VMAX_CARD");
+		assertTrue(vmc instanceof VMaxCardVisitor);
 	}
 	
 	/**

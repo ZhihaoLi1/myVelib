@@ -2,6 +2,7 @@ package core.test.junit.bike;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import core.bike.Bike;
@@ -9,60 +10,30 @@ import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
 
 public class BikeTest {
+	Bike mb, mb2, eb, eb2;
 
-	/**
-	 * Test equality between bikes Different id = different bikes. Same Id, same
-	 * bike
-	 */
-	@Test
-	public void testEquals() {
-		BikeFactory bikeFactory = new BikeFactory();
+	BikeFactory bikeFactory = new BikeFactory();
 
-		try {
-			Bike eb = bikeFactory.createBike("ELEC");
-			Bike eb2 = bikeFactory.createBike("ELEC");
-
-			assertTrue(eb.equals(eb));
-			assertTrue(!eb.equals(eb2));
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
-
-		try {
-			Bike mb = bikeFactory.createBike("MECH");
-			Bike mb2 = bikeFactory.createBike("MECH");
-
-			assertTrue(mb.equals(mb));
-			assertTrue(!mb.equals(mb2));
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
+	@Before
+	public void initialize() throws InvalidBikeTypeException {
+		mb = bikeFactory.createBike("MECH");
+		mb2 = bikeFactory.createBike("MECH");
+		eb = bikeFactory.createBike("ELEC");
+		eb2 = bikeFactory.createBike("ELEC");
 	}
 
 	/**
-	 * Test equality of hashcodes between bikes Different id = different bikes. Same
-	 * Id, same bike
+	 * Test equality between bikes <br>
+	 * Different id = different bikes. Same Id, same bike
 	 */
 	@Test
-	public void testHashCodes() {
-		BikeFactory bikeFactory = new BikeFactory();
+	public void testEquals() {
+		assertEquals(eb, eb);
+		assertNotEquals(eb, eb2);
 
-		try {
-			Bike eb = bikeFactory.createBike("ELEC");
-			Bike eb2 = bikeFactory.createBike("ELEC");
+		assertEquals(mb, mb);
+		assertNotEquals(mb, mb2);
 
-			assertTrue(eb.hashCode() != eb2.hashCode());
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
-
-		try {
-			Bike mb = bikeFactory.createBike("MECH");
-			Bike mb2 = bikeFactory.createBike("MECH");
-
-			assertTrue(mb.hashCode() != mb2.hashCode());
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
+		assertNotEquals(mb, eb);
 	}
 }

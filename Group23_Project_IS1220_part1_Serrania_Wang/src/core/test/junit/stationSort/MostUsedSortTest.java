@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import core.station.InvalidStationTypeException;
+import core.station.InvalidTimeSpanException;
 import core.station.Station;
 import core.station.StationFactory;
 import core.station.stationSort.MostUsedSort;
@@ -22,7 +23,7 @@ import utils.Point;
 public class MostUsedSortTest {
 
 	@Test
-	public void testSort() {
+	public void testSort() throws InvalidTimeSpanException, InvalidStationTypeException {
 		ArrayList<Station> stations = new ArrayList<Station>();
 		SortingStrategy mostUsedSort = new MostUsedSort();
 
@@ -30,19 +31,15 @@ public class MostUsedSortTest {
 
 		StationFactory stationFactory = new StationFactory();
 		Station station1 = null, station2 = null, station3 = null;
-		try {
-			station1 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
-			station2 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
-			station3 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+		
+		station1 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
+		station2 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
+		station3 = stationFactory.createStation("STANDARD", 2, new Point(0, 0), true);
 
 		stations.add(station1);
 		stations.add(station2);
 		stations.add(station3);
 
-		System.out.println(stations.size());
 		stations.get(1).getStats().incrementTotalReturns();
 
 		stations.get(0).getStats().incrementTotalRentals();

@@ -49,35 +49,22 @@ public class RidePlanPlusStationsTest {
 	static Station sourceStation, plusDestStation, standardDestStation;
 
 	@BeforeClass
-	public static void initialize() {
-		try {
-			sourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
-			plusDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.8), true);
-			standardDestStation = stationFactory.createStation("STANDARD", 10, new Point(9, 9.5), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+	public static void initialize() throws InvalidStationTypeException, InvalidCardTypeException, InvalidBikeTypeException {
+		sourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
+		plusDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.8), true);
+		standardDestStation = stationFactory.createStation("STANDARD", 10, new Point(9, 9.5), true);
 
-		try {
-			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException was thrown");
-		}
+		bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 
-		try {
-			// Plus and Standard destinations are the same distance away
-			n.addStation(sourceStation);
-			n.addStation(plusDestStation);
-			n.addStation(standardDestStation);
+		// Plus and Standard destinations are the same distance away
+		n.addStation(sourceStation);
+		n.addStation(plusDestStation);
+		n.addStation(standardDestStation);
 
-			// add one bike to all stations : They are all Mechanical.
-			sourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			standardDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			plusDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} 
+		// add one bike to all stations : They are all Mechanical.
+		sourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		standardDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		plusDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 	}
 
@@ -85,13 +72,8 @@ public class RidePlanPlusStationsTest {
 	/**
 	 * Choose the right station Avoid plus stations
 	 */
-	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = null;
-		try {
-			bobRidePlan = (new AvoidPlusPlan()).planRide(source, destination, bob, "MECH", n);
-		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException was thrown");
-		}
+	public void avoidPlusStationsWhenPlanningRide() throws NoValidStationFoundException {
+		RidePlan bobRidePlan = (new AvoidPlusPlan()).planRide(source, destination, bob, "MECH", n);
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, sourceStation, standardDestStation,
 				"AVOID_PLUS", "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
@@ -101,13 +83,8 @@ public class RidePlanPlusStationsTest {
 	/**
 	 * Choose the closest station (standard station)
 	 */
-	public void preferPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = null;
-		try {
-			bobRidePlan = (new PreferPlusPlan()).planRide(source, destination, bob, "MECH", n);
-		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException was thrown");
-		}
+	public void preferPlusStationsWhenPlanningRide() throws NoValidStationFoundException {
+		RidePlan bobRidePlan = (new PreferPlusPlan()).planRide(source, destination, bob, "MECH", n);
 		RidePlan preferPlusRidePlan = new RidePlan(source, destination, sourceStation, plusDestStation,
 				"PREFER_PLUS", "MECH", n);
 		assertTrue(bobRidePlan.equals(preferPlusRidePlan));

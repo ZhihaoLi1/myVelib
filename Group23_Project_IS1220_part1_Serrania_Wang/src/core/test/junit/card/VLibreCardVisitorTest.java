@@ -10,6 +10,7 @@ import org.junit.Test;
 import core.bike.Bike;
 import core.bike.BikeFactory;
 import core.bike.InvalidBikeTypeException;
+import core.card.CardVisitor;
 import core.card.CardVisitorFactory;
 import core.card.InvalidBikeException;
 import core.card.InvalidCardTypeException;
@@ -25,17 +26,18 @@ import utils.DateParser;
  *
  */
 public class VLibreCardVisitorTest {
-
-	public static CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
-	public VLibreCardVisitor card;
+	
+	CardVisitorFactory cardVisitorFactory = new CardVisitorFactory();
+	BikeFactory bikeFactory = new BikeFactory();
+	
+	CardVisitor card;
+	Bike eBike, mBike;
 
 	@Before
-	public void initializeCard() {
-		try {
-			card = (VLibreCardVisitor) cardVisitorFactory.createCard("VLIBRE_CARD");
-		} catch (InvalidCardTypeException e) {
-			fail();
-		}
+	public void initialize() throws InvalidCardTypeException, InvalidBikeTypeException {
+		card = cardVisitorFactory.createCard("VLIBRE_CARD");
+		mBike = bikeFactory.createBike("MECH");
+		eBike = bikeFactory.createBike("ELEC");
 	}
 	
 	/**
@@ -43,11 +45,7 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void testAddTimeCredit() {
-		try {
-			card.addTimeCredit(10);
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown when it shouldn't have");
-		}
+		card.addTimeCredit(10);
 		assertEquals(card.getTimeCredit(), 10);
 	}
 
@@ -59,13 +57,13 @@ public class VLibreCardVisitorTest {
 	public void whenNegativeTimeCreditGivenThenThrowException() {
 		try {
 			card.addTimeCredit(-10);
-			fail("Should have thrown IllegalArgumentException exception");
+			fail("Should have thrown IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		try {
 			card.removeTimeCredit(-10);
-			fail("Should have thrown IllegalArgumentException exception");
+			fail("Should have thrown IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
@@ -77,11 +75,8 @@ public class VLibreCardVisitorTest {
 	 */
 	@Test
 	public void whenNegativeTimeCreditLeftThenThrowException() {
-		try {
-			card.addTimeCredit(10);
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown when it shouldn't have");
-		}
+		card.addTimeCredit(10);
+		
 		try {
 			card.removeTimeCredit(20);
 			fail("Should have thrown IllegalArgumentException exception");
@@ -120,108 +115,71 @@ public class VLibreCardVisitorTest {
 	 * 0€ with 60 minutes of time credit removed (0 minutes left). <br>
 	 */
 	@Test
-	public void testVisit() {
+	public void testVisit() throws InvalidBikeException, InvalidDatesException {
 		LocalDateTime rentDate = DateParser.parse("01/01/2000T00:00:00");
-
-		Bike mBike = null;
-		try {
-			mBike = new BikeFactory().createBike("MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
 		BikeRental mRental = new BikeRental(mBike, rentDate);
 
-		try {
-			mRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
-			assertTrue(mRental.accept(card) == 1);
+		mRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
+		assertTrue(mRental.accept(card) == 1);
 
-			card.addTimeCredit(40);
-			mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
-			assertTrue(mRental.accept(card) == 0);
-			assertTrue(mRental.getTimeCreditUsed() == 0);
+		card.addTimeCredit(40);
+		mRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
+		assertTrue(mRental.accept(card) == 0);
+		assertTrue(mRental.getTimeCreditUsed() == 0);
 
-			mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
-			assertTrue(mRental.accept(card) == 0);
-			assertTrue(mRental.getTimeCreditUsed() == 30);
-			card.removeTimeCredit(30);
+		mRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
+		assertTrue(mRental.accept(card) == 0);
+		assertTrue(mRental.getTimeCreditUsed() == 30);
+		card.removeTimeCredit(30);
 
-			card.addTimeCredit(50);
-			mRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
-			assertTrue(mRental.accept(card) == 0);
-			assertTrue(mRental.getTimeCreditUsed() == 0);
-		} catch (InvalidBikeException e) {
-			fail("Invalid bike type given to visitor");
-		} catch (InvalidDatesException e) {
-			fail("Invalid dates given to visitor");
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown when it shouldn't have");
-		}
+		card.addTimeCredit(50);
+		mRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
+		assertTrue(mRental.accept(card) == 0);
+		assertTrue(mRental.getTimeCreditUsed() == 0);
 
-		Bike eBike = null;
-		try {
-			eBike = new BikeFactory().createBike("ELEC");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
 		BikeRental eRental = new BikeRental(eBike, rentDate);
 
-		try {
-			// Reset time credit
-			card.removeTimeCredit(card.getTimeCredit());
-			
-			eRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
-			assertTrue(eRental.accept(card) == 3);
+		// Reset time credit to start over from a clean card
+		card.removeTimeCredit(card.getTimeCredit());
+		
+		eRental.setReturnDate(DateParser.parse("01/01/2000T02:00:00"));
+		assertTrue(eRental.accept(card) == 3);
 
-			card.addTimeCredit(80);
-			eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
-			assertTrue(eRental.accept(card) == 0);
-			assertTrue(eRental.getTimeCreditUsed() == 50);
-			card.removeTimeCredit(50);
-			
-			eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
-			assertTrue(eRental.accept(card) == 1);
-			assertTrue(eRental.getTimeCreditUsed() == 30);
-			card.removeTimeCredit(30);
+		card.addTimeCredit(80);
+		eRental.setReturnDate(DateParser.parse("01/01/2000T00:50:00"));
+		assertTrue(eRental.accept(card) == 0);
+		assertTrue(eRental.getTimeCreditUsed() == 50);
+		card.removeTimeCredit(50);
+		
+		eRental.setReturnDate(DateParser.parse("01/01/2000T01:30:00"));
+		assertTrue(eRental.accept(card) == 1);
+		assertTrue(eRental.getTimeCreditUsed() == 30);
+		card.removeTimeCredit(30);
 
-			eRental.setReturnDate(DateParser.parse("01/01/2000T05:30:00"));
-			assertTrue(eRental.accept(card) == 11);
-			assertTrue(eRental.getTimeCreditUsed() == 0);
+		eRental.setReturnDate(DateParser.parse("01/01/2000T05:30:00"));
+		assertTrue(eRental.accept(card) == 11);
+		assertTrue(eRental.getTimeCreditUsed() == 0);
 
-			card.addTimeCredit(60);
-			eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
-			assertTrue(eRental.accept(card) == 0);
-			assertTrue(eRental.getTimeCreditUsed() == 60);
-			card.removeTimeCredit(60);
+		card.addTimeCredit(60);
+		eRental.setReturnDate(DateParser.parse("01/01/2000T01:00:00"));
+		assertTrue(eRental.accept(card) == 0);
+		assertTrue(eRental.getTimeCreditUsed() == 60);
+		card.removeTimeCredit(60);
 			
-		} catch (InvalidBikeException e) {
-			fail("Invalid bike type given to visitor");
-		} catch (InvalidDatesException e) {
-			fail("Invalid dates given to visitor");
-		} catch (IllegalArgumentException e) {
-			fail("IllegalArgumentException thrown when it shouldn't have");
-		}
 	}
 
 	/**
 	 * Test that giving a rental whose dates are not filled throws an
-	 * IllegalArgumentException.
+	 * InvalidDatesException.
 	 */
 	@Test
-	public void whenInvalidDatesAreGivenThenThrowException() {
-		Bike mBike = null;
-		try {
-			mBike = new BikeFactory().createBike("MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
+	public void whenInvalidDatesAreGivenThenThrowException() throws InvalidBikeException {
 		BikeRental rental = new BikeRental(mBike, null);
 		try {
 			rental.accept(card);
 			fail("Visitor should have thrown InvalidDatesException");
 		} catch (InvalidDatesException e) {
 			assertTrue(true);
-		} catch (InvalidBikeException e) {
-			fail("Visitor should have thrown InvalidDatesException");
 		}
 	}
 }

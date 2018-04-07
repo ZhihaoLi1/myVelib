@@ -55,82 +55,52 @@ public class RidePlanShortestOrFastestPathTest {
 	static Station sourceStationS, destStationS, sourceStationF, destStationF;
 
 	@BeforeClass
-	public static void initialize() {
-		try {
-			sourceStationS = stationFactory.createStation("STANDARD", 10, new Point(3, 3), true);
-			destStationS = stationFactory.createStation("STANDARD", 10, new Point(7, 7), true);
-			sourceStationF = stationFactory.createStation("STANDARD", 10, new Point(0, 2), true);
-			destStationF = stationFactory.createStation("STANDARD", 10, new Point(9, 10), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+	public static void initialize()
+			throws InvalidStationTypeException, InvalidCardTypeException, InvalidBikeTypeException {
+		sourceStationS = stationFactory.createStation("STANDARD", 10, new Point(3, 3), true);
+		destStationS = stationFactory.createStation("STANDARD", 10, new Point(7, 7), true);
+		sourceStationF = stationFactory.createStation("STANDARD", 10, new Point(0, 2), true);
+		destStationF = stationFactory.createStation("STANDARD", 10, new Point(9, 10), true);
 
-		try {
-			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException was thrown");
-		}
+		bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 
-		try {
+		n.addStation(sourceStationS);
+		n.addStation(destStationS);
+		n.addStation(sourceStationF);
+		n.addStation(destStationF);
 
-			n.addStation(sourceStationS);
-			n.addStation(destStationS);
-			n.addStation(sourceStationF);
-			n.addStation(destStationF);
-
-			// add one bike to source and destination stations : They are all Mechanical.
-			sourceStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			destStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			sourceStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			destStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
-
+		// add one bike to source and destination stations : They are all Mechanical.
+		sourceStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		destStationS.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		sourceStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		destStationF.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 	}
 
-	@Test
 	/**
 	 * Choose a the source station as source station and dest station as dest
 	 * station not the other way round
 	 */
-	public void chooseCorrectStationsWhenPlanningShortestRide() {
-		RidePlan bobRidePlan = null;
-		try {
-			bobRidePlan = n.createRidePlan(source, destination, bob, "SHORTEST", "MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} catch (InvalidRidePlanPolicyException e) {
-			fail("InvalidRidePlanPolicyException was thrown");
-		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException was thrown");
-		}
+	@Test
+	public void chooseCorrectStationsWhenPlanningShortestRide()
+			throws InvalidBikeTypeException, InvalidRidePlanPolicyException, NoValidStationFoundException {
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, "SHORTEST", "MECH");
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationS, destStationS, "SHORTEST", "MECH", n);
 		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
 	@Test
-	public void chooseCorrectStationsWhenPlanningFastestRide() {
-		RidePlan bobRidePlan = null;
-		try {
-			bobRidePlan = n.createRidePlan(source, destination, bob, "FASTEST", "MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		} catch (InvalidRidePlanPolicyException e) {
-			fail("InvalidRidePlanPolicyException was thrown");
-		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException was thrown");
-		}
+	public void chooseCorrectStationsWhenPlanningFastestRide()
+			throws InvalidBikeTypeException, InvalidRidePlanPolicyException, NoValidStationFoundException {
+		RidePlan bobRidePlan = n.createRidePlan(source, destination, bob, "FASTEST", "MECH");
 		RidePlan sRidePlan = new RidePlan(source, destination, sourceStationF, destStationF, "FASTEST", "MECH", n);
 		assertTrue(bobRidePlan.equals(sRidePlan));
 	}
 
-	@Test
 	/**
 	 * Verify that giving a bike type that is not present to a ShortestPlan throws
 	 * an NoValidStationFoundException
 	 */
+	@Test
 	public void whenBikeTypeIsNotPresentInShortestThenThrowException() {
 		try {
 			// There are no elec bikes in this system, so this should throw the exception
@@ -148,27 +118,28 @@ public class RidePlanShortestOrFastestPathTest {
 		}
 	}
 
-	@Test
 	/**
 	 * Verify that giving a bike type that is not present to a FastestPlan throws an
-	 * InvalidBikeTypeException (because for this specific plan, we need the type of bike to know the bike's speed)
+	 * InvalidBikeTypeException (because for this specific plan, we need the type of
+	 * bike to know the bike's speed)
 	 */
-	public void whenBikeTypeIsNotPresentInAvoidPlusStationsThenThrowException() {
+	@Test
+	public void whenBikeTypeIsNotPresentInAvoidPlusStationsThenThrowException()
+			throws NoValidStationFoundException, InvalidBikeTypeException {
 		try {
-			// There are no elec bikes in this system, so this should throw the exception
+			// There are no elec bikes in this system, so this should throw the
+			// NoValidStationFoundException exception
 			(new FastestPlan()).planRide(source, destination, bob, "ELEC", n);
-			fail("InvalidBikeTypeException should have been thrown");
+			fail("NoValidStationFoundException should have been thrown");
 		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException thrown");
-		} catch (InvalidBikeTypeException e) {
 			assertTrue(true);
 		}
 
 		try {
+			// The nope bike type does not exist, so the InvalidBikeTypeException should be
+			// thrown here because we cannot compute the bike's speed
 			(new FastestPlan()).planRide(source, destination, bob, "NOPE", n);
-			fail("NoValidStationFoundException should have been thrown");
-		} catch (NoValidStationFoundException e) {
-			assertTrue(true);
+			fail("InvalidBikeTypeException should have been thrown");
 		} catch (InvalidBikeTypeException e) {
 			assertTrue(true);
 		}

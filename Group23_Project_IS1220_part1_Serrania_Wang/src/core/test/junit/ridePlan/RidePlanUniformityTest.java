@@ -62,45 +62,32 @@ public class RidePlanUniformityTest {
 	static Station fullerDestStation;
 
 	@BeforeClass
-	public static void initialize() {
-		try {
-			emptierSourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
-			emptierDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.8), true);
-			fullerSourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.11), true);
-			fullerDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.7), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+	public static void initialize() throws InvalidStationTypeException, InvalidBikeTypeException, InvalidCardTypeException {
+		emptierSourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
+		emptierDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.8), true);
+		fullerSourceStation = stationFactory.createStation("PLUS", 10, new Point(0, 0.11), true);
+		fullerDestStation = stationFactory.createStation("PLUS", 10, new Point(9, 9.7), true);
 
-		try {
-			bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException was thrown");
-		}
+		bob = new User("bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
 
-		try {
-			// Plus and Standard destinations are the same distance away
-			n.addStation(emptierSourceStation);
-			n.addStation(emptierDestStation);
-			n.addStation(fullerSourceStation);
-			n.addStation(fullerDestStation);
+		// Plus and Standard destinations are the same distance away
+		n.addStation(emptierSourceStation);
+		n.addStation(emptierDestStation);
+		n.addStation(fullerSourceStation);
+		n.addStation(fullerDestStation);
 
-			// add bikes to all stations : They are all Mechanical.
-			emptierSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		// add bikes to all stations : They are all Mechanical.
+		emptierSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		fullerSourceStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			emptierDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		emptierDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
-			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
+		fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		fullerDestStation.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
 
 	}
 
@@ -108,13 +95,8 @@ public class RidePlanUniformityTest {
 	/**
 	 * Verify that the right stations are chosen, corresponding to the strategy
 	 */
-	public void avoidPlusStationsWhenPlanningRide() {
-		RidePlan bobRidePlan = null;
-		try {
-			bobRidePlan = (new PreserveUniformityPlan()).planRide(source, destination, bob, "MECH", n);
-		} catch (NoValidStationFoundException e) {
-			fail("NoValidStationFoundException was thrown");
-		}
+	public void avoidPlusStationsWhenPlanningRide() throws NoValidStationFoundException {
+		RidePlan bobRidePlan = (new PreserveUniformityPlan()).planRide(source, destination, bob, "MECH", n);
 		RidePlan avoidPlusRidePlan = new RidePlan(source, destination, fullerSourceStation, emptierDestStation,
 				"PRESERVE_UNIFORMITY", "MECH", n);
 		assertTrue(bobRidePlan.equals(avoidPlusRidePlan));
@@ -132,11 +114,18 @@ public class RidePlanUniformityTest {
 		} catch (NoValidStationFoundException e) {
 			assertTrue(true);
 		}
-
+	}
+	
+	@Test
+	/**
+	 * Verify that giving a null bike type, throw an
+	 * IllegalArgumentException
+	 */
+	public void whenBikeTypeIsNotNullThenThrowException() throws NoValidStationFoundException {
 		try {
 			(new PreserveUniformityPlan()).planRide(source, destination, bob, null, n);
 			fail("NoValidStationFoundException should have been thrown");
-		} catch (NoValidStationFoundException e) {
+		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}

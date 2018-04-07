@@ -16,22 +16,14 @@ public class BikeFactoryTest {
 	 * Test that the type of the created bike corresponds to the given type.
 	 */
 	@Test
-	public void testCreateBike() {
+	public void testCreateBike() throws InvalidBikeTypeException {
 		BikeFactory bikeFactory = new BikeFactory();
 		
-		try {
-			Bike mb = bikeFactory.createBike("MECH");
-			assertTrue(mb instanceof MechBike);
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
+		Bike mb = bikeFactory.createBike("MECH");
+		assertTrue(mb instanceof MechBike);
 		
-		try {
-			Bike eb = bikeFactory.createBike("ELEC");
-			assertTrue(eb instanceof ElecBike);
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException thrown");
-		}
+		Bike eb = bikeFactory.createBike("ELEC");
+		assertTrue(eb instanceof ElecBike);
 	}
 	
 	/**

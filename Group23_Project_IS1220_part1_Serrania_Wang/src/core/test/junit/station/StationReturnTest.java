@@ -39,30 +39,19 @@ public class StationReturnTest {
 	static Station s, emptyS, fullS;
 
 	@Before
-	public void fillStationAndNetwork() {
-		try {
-			s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
-			emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
-			fullS = stationFactory.createStation("PLUS", 0, new Point(0, 0.2), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+	public void fillStationAndNetwork()
+			throws InvalidStationTypeException, InvalidBikeTypeException, InvalidCardTypeException {
+		s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
+		emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
+		fullS = stationFactory.createStation("PLUS", 0, new Point(0, 0.2), true);
 
-		try {
-			bob = new User("Bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
-			alice = new User("Alice", new Point(5, 2), cardVisitorFactory.createCard("NO_CARD"));
-		} catch (InvalidCardTypeException e) {
-			fail("InvalidCardTypeException was thrown");
-		}
+		bob = new User("Bob", new Point(0, 0), cardVisitorFactory.createCard("NO_CARD"));
+		alice = new User("Alice", new Point(5, 2), cardVisitorFactory.createCard("NO_CARD"));
 
 		// add bikes to stations
-		try {
-			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			s.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
+		s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		s.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 
 		// add user and station to network
 		n.addUser(bob);
@@ -71,36 +60,21 @@ public class StationReturnTest {
 	}
 
 	@Test
-	public void stationHasOneMoreBikeOfTheDesiredKindAfterReturn() {
-		try {
-			Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
-			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T09:00:00")),
-					DateParser.parse("01/01/2000T10:00:00"));
-		} catch (FullStationException e) {
-			fail("FullStationException thrown");
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
-		} catch (BikeNotFoundException e) {
-			fail("BikeNotFoundException thrown");
-		}
-		
+	public void stationHasOneMoreBikeOfTheDesiredKindAfterReturn()
+			throws FullStationException, OfflineStationException, BikeNotFoundException {
+		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
+		emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T09:00:00")),
+				DateParser.parse("01/01/2000T10:00:00"));
+
 		int numMechBikes = emptyS.getNumberOfBikes("MECH");
 		int numElecBikes = emptyS.getNumberOfBikes("ELEC");
 		assertEquals(1, numMechBikes);
 		assertEquals(0, numElecBikes);
 
-		try {
-			Bike b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:00:00"));
-			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
-					DateParser.parse("01/01/2000T11:00:00"));
-		} catch (FullStationException e) {
-			fail("FullStationException thrown");
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
-		} catch (BikeNotFoundException e) {
-			fail("BikeNotFoundException thrown");
-		}
-		
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:00:00"));
+		emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
+				DateParser.parse("01/01/2000T11:00:00"));
+
 		numMechBikes = emptyS.getNumberOfBikes("MECH");
 		numElecBikes = emptyS.getNumberOfBikes("ELEC");
 		assertEquals(1, numMechBikes);
@@ -108,46 +82,32 @@ public class StationReturnTest {
 	}
 
 	@Test
-	public void whenStationIsFullThenThrowException() {
+	public void whenStationIsFullThenThrowException() throws InvalidBikeTypeException, OfflineStationException {
 		Bike b = null;
 
-		try {
-			b = bikeFactory.createBike("MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
-		
+		b = bikeFactory.createBike("MECH");
+
 		try {
 			fullS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
 					DateParser.parse("01/01/2000T11:00:00"));
 			fail("FullStationException should have been thrown");
 		} catch (FullStationException e) {
 			assertTrue(true);
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
 		}
 	}
 
 	@Test
-	public void whenStationIsOfflineThenThrowException() {
-		Bike b = null;
+	public void whenStationIsOfflineThenThrowException() throws InvalidBikeTypeException, FullStationException {
+		Bike b = bikeFactory.createBike("MECH");
 
-		try {
-			b = bikeFactory.createBike("MECH");
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
-		
 		emptyS.setOnline(false);
 
 		try {
 			emptyS.returnBike(new BikeRental(b, DateParser.parse("01/01/2000T10:00:00")),
 					DateParser.parse("01/01/2000T11:00:00"));
-			fail("FullStationException should have been thrown");
-		} catch (FullStationException e) {
-			fail("FullStationException thrown");
+			fail("OfflineStationException should have been thrown");
 		} catch (OfflineStationException e) {
 			assertTrue(true);
-		} 
+		}
 	}
 }

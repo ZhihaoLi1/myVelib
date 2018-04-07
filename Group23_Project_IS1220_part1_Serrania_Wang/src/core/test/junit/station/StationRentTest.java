@@ -42,80 +42,57 @@ public class StationRentTest {
 	Station s, emptyS;
 
 	@Before
-	public void fillStationAndNetwork() {
-		try {
-			s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
-			emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException was thrown");
-		}
+	public void fillStationAndNetwork() throws InvalidStationTypeException, InvalidBikeTypeException {
+		s = stationFactory.createStation("PLUS", 10, new Point(0, 0.1), true);
+		emptyS = stationFactory.createStation("PLUS", 10, new Point(0, 0.2), true);
 		
 		// add bikes to stations
-		try {
-			s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
-			s.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
-		} catch (InvalidBikeTypeException e) {
-			fail("InvalidBikeTypeException was thrown");
-		}
+		s.addBike(bikeFactory.createBike("MECH"), LocalDateTime.now());
+		s.addBike(bikeFactory.createBike("ELEC"), LocalDateTime.now());
 	}
 
 	@Test
-	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() {
+	public void stationHasOneLessBikeOfTheDesiredKindAfterRent() throws BikeNotFoundException, OfflineStationException {
 		int mechBikes = s.getNumberOfBikes("MECH");
 		int elecBikes = s.getNumberOfBikes("ELEC");
-		Bike b = null;
-		try {
-			b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
-		} catch (BikeNotFoundException e) {
-			fail("BikeNotFoundException thrown");
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
-		}
+		
+		Bike b = s.rentBike("MECH", DateParser.parse("01/01/2000T09:00:00"));
+		
 		int remainingMechBikes = s.getNumberOfBikes("MECH");
 		int remainingElecBikes = s.getNumberOfBikes("ELEC");
+		
 		assertTrue(b instanceof MechBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes);
 		
-		try {
-			b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:05:00"));
-		} catch (BikeNotFoundException e) {
-			fail("BikeNotFoundException thrown");
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
-		}
+		b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:05:00"));
+		
 		remainingMechBikes = s.getNumberOfBikes("MECH");
 		remainingElecBikes = s.getNumberOfBikes("ELEC");
+		
 		assertTrue(b instanceof ElecBike);
 		assertEquals(mechBikes, remainingMechBikes + 1);
 		assertEquals(elecBikes, remainingElecBikes + 1);
-		
-		
 	}
 	
 	@Test
-	public void whenStationIsOfflineThenThrowException() {
+	public void whenStationIsOfflineThenThrowException() throws BikeNotFoundException {
 		s.setOnline(false);
-
 		try {
 			Bike b = s.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
 			fail("OfflineStationException should have been thrown");
-		} catch (BikeNotFoundException e) {
-			fail("BikeNotFoundException thrown");
 		} catch (OfflineStationException e) {
 			assertTrue(true);
 		}
 	}
 	
 	@Test
-	public void whenStationDoesNotHaveBikeThenThrowException() {
+	public void whenStationDoesNotHaveBikeThenThrowException() throws OfflineStationException {
 		try {
 			Bike b = emptyS.rentBike("ELEC", DateParser.parse("01/01/2000T10:10:00"));
 			fail("BikeNotFoundException should have been thrown");
 		} catch (BikeNotFoundException e) {
 			assertTrue(true);
-		} catch (OfflineStationException e) {
-			fail("OfflineStationException thrown");
 		}
 	}
 }

@@ -22,7 +22,7 @@ import utils.DateParser;
 import utils.Point;
 
 /**
- * Test creation of network and methods of Network
+ * Test rent and return methods of Network
  * 
  * @author animato
  *
@@ -39,7 +39,7 @@ public class NetworkTest {
 		Network n = new Network("testNetwork", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -149,7 +149,7 @@ public class NetworkTest {
 		Network n = new Network("testRental", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -180,7 +180,7 @@ public class NetworkTest {
 		Network n = new Network("testRental", 10, 0, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -202,7 +202,7 @@ public class NetworkTest {
 		Network n = new Network("testRental", 10, 0, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -230,12 +230,12 @@ public class NetworkTest {
 	@Test
 	public void returnBikeTest() {
 		// Initialization
-		Network n = new Network("testRental", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
+		Network n = new Network("testReturn", 10, 10, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 
 		// Create a new user with no card
 		User alice = null;
 		try {
-			alice = new User("alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -273,7 +273,7 @@ public class NetworkTest {
 		// Create a new user with a VLibreCard
 		User bob = null;
 		try {
-			bob = new User("Bob", new CardVisitorFactory().createCard("VLIBRE_CARD"));
+			bob = new User("Bob", new Point(0,0), new CardVisitorFactory().createCard("VLIBRE_CARD"));
 		} catch (InvalidCardTypeException e) {
 			e.printStackTrace();
 		}
@@ -324,10 +324,10 @@ public class NetworkTest {
 	@Test
 	public void whenStationIsFullThenNoBikeRentalIsReturned() {
 		// Initialization: create stations with no parking slots (and thus all stations are full)
-		Network n = new Network("testRental", 10, 0, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
+		Network n = new Network("testReturn", 10, 0, 10.0, 0.80, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}
@@ -341,14 +341,11 @@ public class NetworkTest {
 		} catch (OngoingBikeRentalException e) {
 			fail("OngoingBikeRentalException thrown");
 		}
-		System.out.println(alice);
 
 		// Try to return a bike at the first station listed in the list of stations
 		n.returnBike(alice.getId(), n.getStationIds().get(0), DateParser.parse("01/01/2000T10:00:00"));
 
-		// Verify that Alice does not have a Bike rental
-		System.out.println(n);
-		System.out.println(alice);
+		// Verify that Alice still has a Bike rental
 		assertNotEquals(alice.getBikeRental(), null);
 		assertEquals(alice.getStats().getTotalRides(), 0);
 	}
@@ -358,11 +355,11 @@ public class NetworkTest {
 	 */
 	@Test
 	public void whenStationIsOfflineThenNoBikeRentalIsReturned() {
-		// Initialization: create stations with 10 parking slots and no bikes
-		Network n = new Network("testRental", 10, 0, 10.0, 0.0, 0.5, 0.5, LocalDateTime.now());
+		// Initialization: create stations with 10 parking slots
+		Network n = new Network("testReturn", 10, 10, 10.0, 0.0, 0.5, 0.5, LocalDateTime.now());
 		User alice = null;
 		try {
-			alice = new User("Alice");
+			alice = new User("Alice", new Point(0,0), (new CardVisitorFactory()).createCard("NO_CARD"));
 		} catch (InvalidCardTypeException e) {
 			fail("InvalidCardTypeException thrown");
 		}

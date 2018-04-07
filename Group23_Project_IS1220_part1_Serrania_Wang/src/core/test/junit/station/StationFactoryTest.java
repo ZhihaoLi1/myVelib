@@ -18,26 +18,18 @@ import utils.Point;
 
 public class StationFactoryTest {
 
+	StationFactory stationFactory = new StationFactory();
+
 	/**
 	 * Test that the type of the created station corresponds to the given type.
 	 */
 	@Test
-	public void testCreateBike() {
-		StationFactory stationFactory = new StationFactory();
+	public void testCreateBike() throws InvalidStationTypeException {		
+		Station mb = stationFactory.createStation("STANDARD", 10, new Point(0, 0), true);
+		assertTrue(mb instanceof StandardStation);
 		
-		try {
-			Station mb = stationFactory.createStation("STANDARD", 10, new Point(0, 0), true);
-			assertTrue(mb instanceof StandardStation);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException thrown");
-		}
-		
-		try {
-			Station eb = stationFactory.createStation("PLUS", 10, new Point(0, 0), true);
-			assertTrue(eb instanceof PlusStation);
-		} catch (InvalidStationTypeException e) {
-			fail("InvalidStationTypeException thrown");
-		}
+		Station eb = stationFactory.createStation("PLUS", 10, new Point(0, 0), true);
+		assertTrue(eb instanceof PlusStation);
 	}
 	
 	/**
@@ -45,8 +37,6 @@ public class StationFactoryTest {
 	 */
 	@Test
 	public void whenWrongBikeTypeGivenThenThrowException() {
-		StationFactory stationFactory = new StationFactory();
-		
 		try {
 			Station mb = stationFactory.createStation(null, 10, new Point(0, 0), true);
 			fail("InvalidBikeTypeException should have been thrown");

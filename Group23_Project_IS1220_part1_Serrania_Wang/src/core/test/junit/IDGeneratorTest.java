@@ -28,6 +28,10 @@ public class IDGeneratorTest {
 			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
 			assertEquals(gen2.getNextIDNumber(), i * 2);
 		}
+		
+		gen1.reset();
+		assertEquals(gen1.getNextIDNumber(), 1);
+		assertEquals(gen2.getNextIDNumber(), 2);
 	}
 	
 	/**
@@ -58,6 +62,10 @@ public class IDGeneratorTest {
 			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
 			assertEquals(gen2.getNextIDNumber(), i * 2);
 		}
+		
+		gen1.reset();
+		assertEquals(gen1.getNextIDNumber(), 1);
+		assertEquals(gen2.getNextIDNumber(), 2);
 	}
 	
 	/**
@@ -73,5 +81,9 @@ public class IDGeneratorTest {
 			assertEquals(gen1.getNextIDNumber(), i * 2 - 1);
 			assertEquals(gen2.getNextIDNumber(), i * 2);
 		}
+		
+		gen1.reset();
+		assertEquals(gen1.getNextIDNumber(), 1);
+		assertEquals(gen2.getNextIDNumber(), 2);
 	}
 }
