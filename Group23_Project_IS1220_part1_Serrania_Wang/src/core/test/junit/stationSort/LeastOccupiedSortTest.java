@@ -1,4 +1,4 @@
-package core.test.junit.station;
+package core.test.junit.stationSort;
 
 import static org.junit.Assert.*;
 

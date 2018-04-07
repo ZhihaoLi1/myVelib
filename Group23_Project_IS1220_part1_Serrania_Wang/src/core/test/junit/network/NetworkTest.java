@@ -1,4 +1,4 @@
-package core.test.junit;
+package core.test.junit.network;
 
 import static org.junit.Assert.*;
 
@@ -68,7 +68,6 @@ public class NetworkTest {
 		assertEquals(n.getUsers().size(), 1);
 
 		// When a wrong card type is given, no new user should be added
-
 		n.addUser("Bob", "Adzfzg");
 		assertEquals(n.getUsers().size(), 1);
 	}

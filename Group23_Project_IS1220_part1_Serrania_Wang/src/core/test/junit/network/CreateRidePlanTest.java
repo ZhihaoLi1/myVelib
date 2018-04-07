@@ -1,4 +1,4 @@
-package core.test.junit.ridePlan;
+package core.test.junit.network;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +30,7 @@ import utils.Point;
  * @author animato
  *
  */
-public class RidePlanStrategyTest {
+public class CreateRidePlanTest {
 
 	// create a network
 	static Network n = new Network("EmptyNetwork", 0, 0, 4, 0, 0, 0, LocalDateTime.now());
