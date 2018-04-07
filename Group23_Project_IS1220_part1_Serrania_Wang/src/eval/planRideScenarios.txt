@@ -17,3 +17,6 @@ planRide velib 1.0 1.0 3.0 3.0 4 AVOID_PLUS MECH
 
 addUser velib Elliot NO_CARD
 planRide velib 1.0 1.0 3.0 3.0 5 PRESERVE_UNIFORMITY MECH
+
+# clean
+deleteNetwork velib
