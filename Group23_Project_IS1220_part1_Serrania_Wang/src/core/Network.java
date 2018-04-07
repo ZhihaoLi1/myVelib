@@ -191,7 +191,7 @@ public class Network extends Observable {
 	}
 
 	/**
-	 * Add a new user with a specific card type to the network.
+	 * Add a new user with a specific card type and random coordinates to the network.
 	 * 
 	 * @param name
 	 * @param cardType
@@ -201,9 +201,13 @@ public class Network extends Observable {
 	public String addUser(String name, String cardType) {
 		CardVisitorFactory cardFactory = new CardVisitorFactory();
 
+		double x = ThreadLocalRandom.current().nextDouble(0, side);
+		double y = ThreadLocalRandom.current().nextDouble(0, side);
+		Point coordinates = new Point(x, y);
+		
 		try {
 			CardVisitor card = cardFactory.createCard(cardType);
-			User user = new User(name, card);
+			User user = new User(name, coordinates, card);
 			this.addUser(user);
 			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType
 					+ ".";
