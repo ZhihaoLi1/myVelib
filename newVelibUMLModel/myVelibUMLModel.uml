@@ -192,6 +192,9 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2egHMDqvEeiq7oif9SBHhA" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2egHMTqvEeiq7oif9SBHhA" value="1"/>
     </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_4R17wDttEeiApuuYDTB6aA" name="timeCreditAdded" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_Vc_5cB5FEeifK9AiyA8KnA" client="_45PLsBorEeirWtz6voJnbw" supplier="_49NfEB5EEeifK9AiyA8KnA" contract="_49NfEB5EEeifK9AiyA8KnA"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_WvKE4B5FEeifK9AiyA8KnA" name="accept" visibility="public">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_WvKE4R5FEeifK9AiyA8KnA" name="visitor" type="_yQvZQBohEeirWtz6voJnbw"/>
@@ -588,6 +591,7 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_XQs2EDttEeiApuuYDTB6aA" name="reset"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_vYgtMB1pEeiqPZcfH4EsOA" name="Observer">
     <ownedOperation xmi:type="uml:Operation" xmi:id="_z92aQDqtEeiq7oif9SBHhA" name="update">
@@ -841,6 +845,11 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TS51UDshEeiW-NTEUt__Eg"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TS51UTshEeiW-NTEUt__Eg" value="1"/>
     </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_AokyoDttEeiApuuYDTB6aA" name="main">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DOsgUDttEeiApuuYDTB6aA" name="args">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_XeA6YDqeEeiW-NTEUt__Eg" name="CLUIThread">
     <ownedAttribute xmi:type="uml:Property" xmi:id="_1VqNoDqgEeiW-NTEUt__Eg" name="addUserUsage" visibility="private">
@@ -892,13 +901,9 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R6QnYTshEeiW-NTEUt__Eg"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_R6ROcDshEeiW-NTEUt__Eg" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_Sl920jshEeiW-NTEUt__Eg" name="runcommandsfromfile" type="_RV03UDqiEeiW-NTEUt__Eg" association="_Sl9PwDshEeiW-NTEUt__Eg">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Sl920zshEeiW-NTEUt__Eg"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Sl-d4DshEeiW-NTEUt__Eg" value="1"/>
-    </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_WMlYMjshEeiW-NTEUt__Eg" name="network" type="_JbcBYB1bEeiqPZcfH4EsOA" association="_WMkKEDshEeiW-NTEUt__Eg">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WMlYMzshEeiW-NTEUt__Eg"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WMl_QDshEeiW-NTEUt__Eg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WMl_QDshEeiW-NTEUt__Eg" value="*"/>
     </ownedAttribute>
     <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_4VVmMDshEeiW-NTEUt__Eg" client="_XeA6YDqeEeiW-NTEUt__Eg" supplier="_vYgtMB1pEeiqPZcfH4EsOA" contract="_vYgtMB1pEeiqPZcfH4EsOA"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_GRJwUDqfEeiW-NTEUt__Eg" name="sanitizeInput">
@@ -1053,9 +1058,25 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_ZL9o4DttEeiApuuYDTB6aA" name="help">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_bzRCUDttEeiApuuYDTB6aA" name="arguments">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_ddKYUDttEeiApuuYDTB6aA" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_evs-QDttEeiApuuYDTB6aA" name="listNetworks">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_evs-QTttEeiApuuYDTB6aA" name="arguments">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_evs-QjttEeiApuuYDTB6aA" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_RV03UDqiEeiW-NTEUt__Eg" name="RunCommandsFromFile">
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_a80mwDqiEeiW-NTEUt__Eg" name="run">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_a80mwDqiEeiW-NTEUt__Eg" name="run" isStatic="true">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_c7HfcDqiEeiW-NTEUt__Eg" name="filename">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
@@ -1147,12 +1168,6 @@
     </eAnnotations>
     <ownedEnd xmi:type="uml:Property" xmi:id="_R6ROcTshEeiW-NTEUt__Eg" name="cluithread" type="_XeA6YDqeEeiW-NTEUt__Eg" association="_R6OyMDshEeiW-NTEUt__Eg"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Association" xmi:id="_Sl9PwDshEeiW-NTEUt__Eg" memberEnd="_Sl920jshEeiW-NTEUt__Eg _Sl-d4TshEeiW-NTEUt__Eg">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Sl920DshEeiW-NTEUt__Eg" source="org.eclipse.papyrus">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Sl920TshEeiW-NTEUt__Eg" key="nature" value="UML_Nature"/>
-    </eAnnotations>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_Sl-d4TshEeiW-NTEUt__Eg" name="cluithread" type="_XeA6YDqeEeiW-NTEUt__Eg" association="_Sl9PwDshEeiW-NTEUt__Eg"/>
-  </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_TS4AIDshEeiW-NTEUt__Eg" memberEnd="_TS5OQjshEeiW-NTEUt__Eg _TS51UjshEeiW-NTEUt__Eg">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_TS5OQDshEeiW-NTEUt__Eg" source="org.eclipse.papyrus">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_TS5OQTshEeiW-NTEUt__Eg" key="nature" value="UML_Nature"/>
@@ -1174,6 +1189,7 @@
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_tK4qgDsiEeiW-NTEUt__Eg" name="notifyObserver"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_qKaHADttEeiApuuYDTB6aA" client="_XeA6YDqeEeiW-NTEUt__Eg" supplier="_RV03UDqiEeiW-NTEUt__Eg"/>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_6XrN0B_4EeiavoZQ4tUkrw">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6X0-0B_4EeiavoZQ4tUkrw" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
