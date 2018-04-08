@@ -1,0 +1,32 @@
+# Fail setup command -> wrong date format
+setup velib 01-01-2000T00:00:00
+# Correct implementation
+setup velib 01/01/2000T00:00:00
+# Fail addUser -> incorrect card type
+addUser velib Alice none
+# Correct implementation
+addUser velib Alice NO_CARD
+# Fail to set station online -> incorrect id
+online velib 99
+# Correct implementation
+online velib 1
+# Fail to set station offline -> incorrect id
+offline velib 99
+# Correct implementation
+offline velib 1
+# Fail to rent bike -> station 1 offline
+rentBike velib 01/01/2000T12:00:00 1 1 MECH 
+# Fail to return bike -> user does not have a bike rental 
+returnBike velib 01/01/2000T12:00:00 1 1 
+# Fail to display station -> incorrect id
+displayStation velib 99
+# Fail to display user -> incorrect id
+displayUser velib 99
+# Fail to delete network -> incorrect network name
+deleteNetwork myVelib
+# Fail to plan ride -> incorrect policy
+planRide velib 1.0 1.0 2.4 3.2 1 SLOWEST MECH
+# Fail to plan ride -> incorrect bikeType
+planRide velib 1.0 1.0 2.4 3.2 1 FASTEST SUPERDUPER
+# Fail to plan ride -> incorrect out of bounds coordinates 
+planRide velib 99.0 99.0 2.4 3.2 1 FASTEST MECH
