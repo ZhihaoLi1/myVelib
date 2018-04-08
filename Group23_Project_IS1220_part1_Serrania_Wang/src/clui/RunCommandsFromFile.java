@@ -23,16 +23,18 @@ public class RunCommandsFromFile {
 	 */
 	public static void run(String filename, CLUIThread clui) {
 		String message = "";
+		String trimmedFilename = filename.substring(0, filename.length()-4);
 		FileReader file = null;
 		BufferedReader reader = null;
 		FileWriter writer = null;
-		File outputFile = new File(filename.substring(0, filename.length()-4) + "Result.txt");
+		File outputFile = new File("src/eval/" + trimmedFilename + "Result.txt");
 		
 		try {
-			file = new FileReader(filename);
+			file = new FileReader("src/eval/" + filename);
 			reader = new BufferedReader(file);
 			String line = "";
 			
+			System.out.println("Reading scenario file " + filename);
 			outputFile.createNewFile();
 			// creates a FileWriter Object
 			writer = new FileWriter(outputFile, true);
@@ -46,6 +48,7 @@ public class RunCommandsFromFile {
 					System.out.println(message + "\n");
 				}
 			}
+			System.out.println("Scenario completed! Results were stored in " + trimmedFilename + "Result.txt");
 		} catch (FileNotFoundException e) {
 			System.out.print("File not found. If scenario file is in eval folder, the filepath should be src/eval/filename> \n");
 		} catch (IOException e) {
