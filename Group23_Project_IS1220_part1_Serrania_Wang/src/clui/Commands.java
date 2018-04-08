@@ -15,5 +15,6 @@ public enum Commands {
 	runtest,
 	deleteNetwork,
 	planRide,
-	reset
+	reset,
+	listNetworks,
 }

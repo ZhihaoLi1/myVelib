@@ -1,7 +1,7 @@
 package clui;
 
 /**
- * create clui thread and runs it.
+ * Create clui thread and run it.
  * @author animato
  *
  */
