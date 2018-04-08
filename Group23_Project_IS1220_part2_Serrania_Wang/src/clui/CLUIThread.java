@@ -44,6 +44,7 @@ public class CLUIThread extends Thread implements Observer {
 			+ "  runtest <scenarioFilePath>\n" 
 			+ "  help\n" 
 			+ "  help <commandName>\n"
+			+ "  exit\n"
 			+ "\nType help <commandName> to get details about a command.";
 
 	public final static String setupUsage = "\n =========== setup usage =========== \n" + "Option 1: \n"
@@ -101,7 +102,7 @@ public class CLUIThread extends Thread implements Observer {
 	public final static String displayUsage = "\n =========== display usage =========== \n"
 			+ "display <networkName> \n\n" + "Displays the details of the network \n";
 
-	public final static String runtestUsage = "\n =========== display usage =========== \n"
+	public final static String runtestUsage = "\n =========== runtest usage =========== \n"
 			+ "runtest <scenarioFilePath> \n\n" + "Runs the given test scenario. \n"
 			+ "Initially available test scenarios are: failRentReturnScenario.txt, planRideScenario.txt,\n"
 			+ "statisticsScenario.txt, triggerNotificationScenario.txt, failingCommandsScenario.txt\n";
@@ -533,6 +534,9 @@ public class CLUIThread extends Thread implements Observer {
 			break;
 		case runtest:
 			this.reset();
+			if (arguments.length == 0) {
+				return "runtest needs to be given a filename as first argument.\n" + CLUIThread.runtestUsage;
+			}
 			RunCommandsFromFile.run(arguments[0], this);
 			break;
 		case help:
@@ -668,9 +672,13 @@ public class CLUIThread extends Thread implements Observer {
 		System.out.println("\nWelcome to MyVelib. Please enter your command.");
 		String userInput = "";
 		Scanner reader = new Scanner(System.in); // Reading from System.in
-		while (!userInput.equals("exit")) {
+		while (true) {
 			System.out.print(">>> ");
 			userInput = reader.nextLine(); // Scans for user input
+			if (userInput.equals("exit")) {
+				System.out.println("Thank you for using Velib! We hope to see you later!");
+				break;
+			}
 			System.out.println(parseUserInput(userInput));
 			System.out.println("\n");
 		}
