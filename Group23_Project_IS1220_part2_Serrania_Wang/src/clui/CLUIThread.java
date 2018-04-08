@@ -41,7 +41,7 @@ public class CLUIThread extends Thread implements Observer {
 			+ "  display <networkName> \n"
 			+ "  sortStation <networkName> <sortPolicy> \n"
 			+ "\nTest command:\n"
-			+ "  runTest <scenarioFilePath>\n" 
+			+ "  runtest <scenarioFilePath>\n" 
 			+ "  help\n" 
 			+ "  help <commandName>\n"
 			+ "\nType help <commandName> to get details about a command.";
@@ -104,7 +104,7 @@ public class CLUIThread extends Thread implements Observer {
 	public final static String runtestUsage = "\n =========== display usage =========== \n"
 			+ "runtest <scenarioFilePath> \n\n" + "Runs the given test scenario. \n"
 			+ "Initially available test scenarios are: failRentReturnScenario.txt, planRideScenario.txt,\n"
-			+ "statisticsScenario.txt, triggerNotificationScenario.txt \n";
+			+ "statisticsScenario.txt, triggerNotificationScenario.txt, failingCommandsScenario.txt\n";
 
 	public final static String deleteNetworkUsage = "\n =========== deleteNetwork usage =========== \n"
 			+ "deleteNetwork <networkName> \n\n" + "Delete network from CLUI \n";
@@ -458,10 +458,15 @@ public class CLUIThread extends Thread implements Observer {
 	}
 
 	/**
+<<<<<<< 0783e261f6ca62c95e439a9c07796ab1c63ced00:Group23_Project_IS1220_part1_Serrania_Wang/src/clui/CLUIThread.java
 	 * 
 	 * @param arguments
 	 * 			array of arguments given the the command line
 	 * @return A message to be printed in sdtout
+=======
+	 * Delete all networks, reset ID generator
+	 * @return A message to be printed in stdout
+>>>>>>> Refactor(*): Rename project:Group23_Project_IS1220_part2_Serrania_Wang/src/clui/CLUIThread.java
 	 */
 	public String help(String[] arguments) {
 		if (arguments.length == 1) {

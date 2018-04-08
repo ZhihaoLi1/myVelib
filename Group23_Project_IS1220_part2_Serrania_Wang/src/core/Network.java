@@ -211,7 +211,7 @@ public class Network extends Observable {
 		}
 		try {
 			ArrayList<Station> sortedStations = createStationSort(policy);
-			return "Here are the stations, in the order corresponding to the" + policy.toLowerCase() + " policy:\n"
+			return "Here are the stations, in the order corresponding to the " + policy.toLowerCase() + " policy:\n"
 					+ sortedStations.toString();
 		} catch (InvalidSortingPolicyException e) {
 			return e.getMessage();
