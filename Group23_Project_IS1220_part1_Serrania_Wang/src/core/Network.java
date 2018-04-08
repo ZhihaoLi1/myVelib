@@ -62,21 +62,28 @@ public class Network extends Observable {
 
 	private HashMap<Integer, Station> stations = new HashMap<Integer, Station>();
 	private HashMap<Integer, User> users = new HashMap<Integer, User>();
-	
+
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
-	
+
 	/**
 	 * Creates the network (stations, parking slots and bikes)
 	 * 
 	 * @param name
+	 *            the name of the network
 	 * @param numberOfStations
+	 *            the number of stations in the network
 	 * @param numberOfParkingSlotsPerStation
+	 *            the number of parking slots in the station
 	 * @param side
-	 *            in km
+	 *            side of the network, in km
 	 * @param percentageOfBikes
+	 *            percentage of bikes in the network
 	 * @param percentageOfPlusStations
+	 *            percentage of plus stations in the network
 	 * @param percentageOfElecBikes
+	 *            percentage of elec bikes in the network
 	 * @param creationDate
+	 *            date of creation of the network
 	 * 
 	 */
 	public Network(String name, int numberOfStations, int numberOfParkingSlotsPerStation, double side,
@@ -136,12 +143,19 @@ public class Network extends Observable {
 	 * and returns a message depending on what happened (success or error).
 	 * 
 	 * @param sourceX
+	 *            the x coordinate of the source station
 	 * @param sourceY
+	 *            the y coordinate of the source station
 	 * @param destinationX
+	 *            the x coordinate of the destination station
 	 * @param destinationY
+	 *            the y coordinate of the destination station
 	 * @param userId
+	 *            the id of the user the plan is created for
 	 * @param policy
+	 *            the policy used to plan the ride
 	 * @param bikeType
+	 *            the type of bike the user wants to use
 	 * @return String describing the ride plan, or the error that happened.
 	 */
 	public String planRide(double sourceX, double sourceY, double destinationX, double destinationY, int userId,
@@ -149,7 +163,7 @@ public class Network extends Observable {
 		if (policy == null) {
 			return "A policy must be given to sort stations";
 		}
-		
+
 		if (sourceX < 0 || sourceX > side || sourceY < 0 || sourceY > side) {
 			return "Source coordinates out of bounds";
 		}
@@ -159,7 +173,7 @@ public class Network extends Observable {
 			return "Destination coordinates out of bounds";
 		}
 		Point destination = new Point(destinationX, destinationY);
-		
+
 		User user = users.get(userId);
 		if (user == null)
 			return "No user found with id " + userId + ".";
@@ -170,7 +184,8 @@ public class Network extends Observable {
 				s += "The previous ride plan for " + user.getName() + "was removed.\n";
 			}
 			RidePlan rp = createRidePlan(source, destination, user, policy, bikeType);
-			return s + user.getName() + " has subscribed to the destination station of this ride plan. They will be notified if the destination station becomes unavailable. Their ride plan is:\n"
+			return s + user.getName()
+					+ " has subscribed to the destination station of this ride plan. They will be notified if the destination station becomes unavailable. Their ride plan is:\n"
 					+ rp.toString();
 		} catch (InvalidBikeTypeException e) {
 			return e.getMessage();
@@ -187,6 +202,7 @@ public class Network extends Observable {
 	 * message).
 	 * 
 	 * @param policy
+	 *            the policy used to sort stations
 	 * @return String listing the sorted stations
 	 */
 	public String sortStation(String policy) {
@@ -211,7 +227,9 @@ public class Network extends Observable {
 	 * network.
 	 * 
 	 * @param name
+	 *            the name of the user
 	 * @param cardType
+	 *            the type of card used
 	 * @return a String message saying if the adding happened, or if an error
 	 *         happened
 	 */
@@ -226,8 +244,8 @@ public class Network extends Observable {
 			CardVisitor card = cardFactory.createCard(cardType);
 			User user = new User(name, coordinates, card);
 			this.addUser(user);
-			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: " + cardType.toLowerCase()
-					+ ".";
+			return "User " + user.getName() + " (id: " + user.getId() + ") was added with card of type: "
+					+ cardType.toLowerCase() + ".";
 		} catch (InvalidCardTypeException e) {
 			return e.getMessage();
 		}
@@ -237,7 +255,9 @@ public class Network extends Observable {
 	 * Add a new station (with random coordinates) to the network.
 	 * 
 	 * @param type
+	 *            the type of station
 	 * @param numberOfParkingSlots
+	 *            the number of parking slots of the station
 	 * 
 	 * @return a String message saying if the adding happened, or if an error
 	 *         happened
@@ -264,12 +284,15 @@ public class Network extends Observable {
 	 * Add a new station to the network.
 	 * 
 	 * @param type
+	 *            the type of the station
 	 * @param x
 	 *            the x coordinate of the station
 	 * @param y
 	 *            the y coordinate of the station
 	 * @param numberOfParkingSlots
+	 *            the number of parking slots of the station
 	 * @param online
+	 *            the initial online status of the station
 	 * @return a String message saying if the adding happened, or if an error
 	 *         happened
 	 */
@@ -297,8 +320,13 @@ public class Network extends Observable {
 	 * corresponding message to be passed on to the CLUI
 	 * 
 	 * @param userId
+	 *            the id of the user renting a bike
 	 * @param stationId
+	 *            the id of the station where the bike is rented
 	 * @param bikeType
+	 *            the type of bike the user wants
+	 * @param rentalDate
+	 *            the date at which the bike is returned
 	 * @return String (either an error message or a confirmation message)
 	 */
 	public String rentBike(int userId, int stationId, String bikeType, LocalDateTime rentalDate) {
@@ -312,8 +340,8 @@ public class Network extends Observable {
 			return "No station found with id " + stationId;
 		try {
 			Bike b = rentBike(user, s, bikeType, rentalDate);
-			return user.getName() + " has sucessfully rented a " + b.getType().toLowerCase() + " bike from station " + s.getId()
-					+ " at " + rentalDate + ".";
+			return user.getName() + " has sucessfully rented a " + b.getType().toLowerCase() + " bike from station "
+					+ s.getId() + " at " + rentalDate + ".";
 		} catch (OngoingBikeRentalException e) {
 			return e.getMessage();
 		} catch (OfflineStationException e) {
@@ -328,8 +356,11 @@ public class Network extends Observable {
 	 * on to the CLUI
 	 * 
 	 * @param userId
+	 *            the id of the user returning a bike
 	 * @param stationId
+	 *            the id of the station where the bike is returned
 	 * @param returnDate
+	 *            the date at which the bike is returned
 	 * @return String (either an error message or a confirmation message)
 	 */
 	public String returnBike(int userId, int stationId, LocalDateTime returnDate) {
@@ -367,7 +398,8 @@ public class Network extends Observable {
 	 * Display statistics of a station
 	 * 
 	 * @param stationId
-	 * @return a String representing the stats of a station
+	 *            the id of the station
+	 * @return a String representing the stats of a station (or an error message)
 	 */
 	public String displayStation(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -386,7 +418,8 @@ public class Network extends Observable {
 	 * Display user statistics
 	 * 
 	 * @param userId
-	 * @return a string representing the stats of a user
+	 *            the id of the user
+	 * @return a string representing the stats of a user (or an error message)
 	 */
 	public String displayUser(int userId) {
 		User u = this.users.get(userId);
@@ -399,7 +432,8 @@ public class Network extends Observable {
 	 * Set station to offline
 	 * 
 	 * @param stationId
-	 * @return a string message about the performed action
+	 *            the id of the station
+	 * @return a string message about the performed action (success / failure)
 	 */
 	public String setOffline(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -416,8 +450,8 @@ public class Network extends Observable {
 	 * Set station to online
 	 * 
 	 * @param stationId
-	 *            the station
-	 * @return a string message about the performed action
+	 *            the id of the station
+	 * @return a string message about the performed action (success / failure)
 	 */
 	public String setOnline(int stationId) {
 		Station s = this.stations.get(stationId);
@@ -430,8 +464,20 @@ public class Network extends Observable {
 		return "Station " + stationId + " is set to online.";
 	}
 
+	/**
+	 * Reset ID generators
+	 * 
+	 * @return a String describing the result of the action
+	 */
+	public static String reset() {
+		StationIDGenerator.getInstance().reset();
+		UserIDGenerator.getInstance().reset();
+		ParkingSlotIDGenerator.getInstance().reset();
+		return "Sucessfully reset ID generators";
+	}
+
 	// Core methods - Internal methods
-	//
+
 	/**
 	 * Add station to network
 	 * 
@@ -468,20 +514,29 @@ public class Network extends Observable {
 	 * well as the type of bike the user wants and the policy they want to follow.
 	 * 
 	 * @param source
+	 *            the source point of the ride plan
 	 * @param destination
+	 *            the destination point of the ride plan
 	 * @param user
+	 *            the user for which the ride plan is calculated
 	 * @param policy
+	 *            the policy used to calculate the ride plan
 	 * @param bikeType
-	 * @return rideplan Object
+	 *            the type of bike the user wants
+	 * @return a RidePlan containing data about the calculated ride plan
 	 * @throws NoValidStationFoundException
+	 *             when no station satifying the policy and bikeType required are
+	 *             found
 	 * @throws InvalidBikeTypeException
+	 *             when the given bike type is not recognized by the system
 	 * @throws InvalidRidePlanPolicyException
+	 *             when the given policy is not recognized by the system
 	 */
 	public RidePlan createRidePlan(Point source, Point destination, User user, String policy, String bikeType)
 			throws NoValidStationFoundException, InvalidBikeTypeException, InvalidRidePlanPolicyException {
 		if (source == null || destination == null || user == null || policy == null || bikeType == null)
 			throw new IllegalArgumentException("All input values of createRidePlan must not be null");
-		
+
 		RidePlan rp = null;
 		switch (policy.toUpperCase()) {
 		case "SHORTEST":
@@ -512,9 +567,16 @@ public class Network extends Observable {
 	 * Sorts the stations of the network according to a given policy.
 	 * 
 	 * @param policy
+	 *            the policy used to sort stations
 	 * @return the sorted list of stations
+	 * @throws InvalidSortingPolicyException
+	 *             when the given policy is not recognized by the system
+	 * @throws InvalidTimeSpanException
+	 *             when the policy uses the dates and the end date is earlier than
+	 *             the start date
 	 */
-	public ArrayList<Station> createStationSort(String policy) throws InvalidSortingPolicyException, InvalidTimeSpanException {
+	public ArrayList<Station> createStationSort(String policy)
+			throws InvalidSortingPolicyException, InvalidTimeSpanException {
 		if (policy == null)
 			throw new IllegalArgumentException("All input values of createStationSort must not be null");
 		ArrayList<Station> sortedStations = null;
@@ -537,9 +599,13 @@ public class Network extends Observable {
 	 * Completes the operation for renting a bike, returns the bike that is rented
 	 * 
 	 * @param user
+	 *            the user renting a bike
 	 * @param station
+	 *            the station where the bike is rented
 	 * @param bikeType
+	 *            the type of bike the user wants
 	 * @param rentalDate
+	 *            the date at which the bike is returned
 	 * @return the bike that was rented
 	 * @throws OngoingBikeRentalException
 	 *             if the user already has a bikeRental
@@ -558,7 +624,7 @@ public class Network extends Observable {
 				// exception will be thrown here
 				b = station.rentBike(bikeType, rentalDate);
 				user.setBikeRental(new BikeRental(b, rentalDate));
-				
+
 				// Update the current date
 				this.currentDate = rentalDate;
 				return b;
@@ -570,9 +636,22 @@ public class Network extends Observable {
 	 * Returns the bike of a user to the given station at the given time
 	 * 
 	 * @param user
+	 *            the user returning a bike
 	 * @param station
+	 *            the station where the bike is returned
 	 * @param returnDate
-	 * @return String (either an error message or a confirmation message)
+	 *            the date at which the bike is returned
+	 * @return the completed BikeRental object
+	 * @throws BikeRentalNotFoundException
+	 *             when the user does not have a bike rental
+	 * @throws FullStationException
+	 *             when the station is full
+	 * @throws OfflineStationException
+	 *             when the station is offline
+	 * @throws InvalidBikeException
+	 *             when the bike of the rental does not allow price calculation
+	 * @throws InvalidDatesException
+	 *             when the dates of the rental do not allow for price calculation
 	 */
 	public BikeRental returnBike(User user, Station station, LocalDateTime returnDate)
 			throws BikeRentalNotFoundException, FullStationException, OfflineStationException, InvalidBikeException,
@@ -590,11 +669,11 @@ public class Network extends Observable {
 				// full, will throw FullStationException
 				station.returnBike(br, returnDate);
 
-				// Store how much time credit should be added if the return succeeds 
+				// Store how much time credit should be added if the return succeeds
 				// and virtually add it to calculate the right price.
 				// (This amount will be substracted if the operation fails).
 				br.setTimeCreditAdded(user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn()));
-				
+
 				// Calculate the price of the ride. Throws InvalidBikeException or
 				// InvalidDatesException if the calculation couldn't be performed
 				try {
@@ -611,7 +690,7 @@ public class Network extends Observable {
 				user.getStats().addTotalTimeCredits(br.getTimeCreditAdded());
 				// Now remove the time credit from the user's card
 				user.getCard().removeTimeCredit(br.getTimeCreditUsed());
-				
+
 				// if user completes ride plan (station that he is returning the bike to is the
 				// same as the destination station in ride plan)
 				// then the user's ride plan is set to null
@@ -630,7 +709,7 @@ public class Network extends Observable {
 
 			// reset user bike rental
 			user.resetBikeRental();
-			
+
 			// Update the current date
 			this.currentDate = returnDate;
 
@@ -638,32 +717,36 @@ public class Network extends Observable {
 		}
 	}
 
-	/**
-	 * Send to CLI that station is full, and a ridePlan is cancelled
-	 * 
-	 * @param user
-	 * @param station
-	 * @return
-	 */
-	public String notifyStationFull(User user, Station station) {
-		return "Station with id " + station.getId() + " is full and ride plan for " + user.getName()
-				+ " is cancelled. Please create a new one";
+	// Observer pattern for the UIs that listen to the network's events
+
+	@Override
+	public void addObserver(Observer o) {
+		if (!this.observers.contains(o)) {
+			this.observers.add(o);
+		}
 	}
-	
+
+	@Override
+	public void deleteObserver(Observer o) {
+		if (!this.observers.contains(o)) {
+			this.observers.remove(o);
+		}
+	}
+
 	/**
-	 * Reset ID generators
+	 * Called user update is called
 	 * 
-	 * @return
+	 * @param message
+	 *            the message to send to observers
 	 */
-	public static String reset() {
-		StationIDGenerator.getInstance().reset();
-		UserIDGenerator.getInstance().reset();
-		ParkingSlotIDGenerator.getInstance().reset();
-		return "Sucessfully reset ID generators";
+	public void notifyObservers(String message) {
+		for (Observer o : this.observers) {
+			o.update(this, message);
+		}
 	}
 
 	// Getters / Setters
-	
+
 	public String getName() {
 		return name;
 	}
@@ -713,21 +796,5 @@ public class Network extends Observable {
 			s += "\n\n" + station.toString();
 		}
 		return s;
-	}
-	
-	@Override
-	public void addObserver(Observer o ) {
-		if (!this.observers.contains(o)) {
-			this.observers.add(o);
-		}
-	}
-	
-	/**
-	 * Called user update is called. 
-	 */
-	public void notifyObservers(String message) {
-		for (Observer o: this.observers) {
-			o.update(this, message);
-		}
 	}
 }

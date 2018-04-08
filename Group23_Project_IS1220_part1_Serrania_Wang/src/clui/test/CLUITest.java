@@ -15,8 +15,13 @@ import clui.IncorrectArgumentException;
 public class CLUITest {
 
 	@Test(expected = IncorrectArgumentException.class)
-	public void verifyArgumentLengthTest() throws IncorrectArgumentException {
+	public void whenWrongNumberIsGivenThenThrowException() throws IncorrectArgumentException {
 		CLUIThread.verifyArgumentLength(4, 6);
+	}
+	
+	@Test
+	public void verifyArgumentLengthTest() throws IncorrectArgumentException {
+		CLUIThread.verifyArgumentLength(6, 6);
 	}
 	
 	@Test

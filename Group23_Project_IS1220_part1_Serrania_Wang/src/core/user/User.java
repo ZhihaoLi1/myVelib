@@ -37,7 +37,9 @@ public class User implements Observer {
 	 * @param name
 	 *            the name of the user
 	 * @param coordinates
+	 *            the user's coordinates
 	 * @param card
+	 *            the catd of the user
 	 */
 
 	public User(String name, Point coordinates, CardVisitor card) {
@@ -59,9 +61,8 @@ public class User implements Observer {
 		if (!(o instanceof Station))
 			throw new IllegalArgumentException("User update needs station as observable input.");
 		Station s = (Station) o;
-		this.ridePlan.getNetwork().notifyStationFull(this, s);
-		this.getRidePlan().getNetwork().notifyObservers("Ride plan for "
-				+ this.getName() + " is cancelled. Please create a new one.");
+		this.getRidePlan().getNetwork()
+				.notifyObservers("Ride plan for " + this.getName() + " is cancelled. Please create a new one.");
 		// reset ride plan
 		setRidePlan(null);
 	}

@@ -35,10 +35,10 @@ public class StationStats {
 	 * Calculates the occupation rate of a station for a given time period. It is
 	 * defined as the mean of occupation rates of all parking slots in the station.
 	 * 
-	 * @param startDate
-	 * @param endDate
+	 * @param startDate the start date for the calculation
+	 * @param endDate the end date for the calculation
 	 * @return the occupation rate of the station
-	 * @throws IllegalArgumentException
+	 * @throws InvalidTimeSpanException
 	 *             if the startDate or endDate is null, or if startDate == endDate
 	 */
 	public double getOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {

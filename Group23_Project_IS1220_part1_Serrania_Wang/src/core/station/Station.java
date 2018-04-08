@@ -42,9 +42,13 @@ public abstract class Station extends Observable {
 	 * online status
 	 * 
 	 * @param numberOfParkingSlots
+	 *            the number of parking slots of the station
 	 * @param coordinates
+	 *            the coordinates of the station
 	 * @param online
+	 *            the initial online status of the station
 	 * @param bonusTimeCreditOnReturn
+	 *            the amount of time credit the station gives when returning a bike
 	 */
 	public Station(int numberOfParkingSlots, Point coordinates, Boolean online, int bonusTimeCreditOnReturn) {
 		super();
@@ -191,7 +195,8 @@ public abstract class Station extends Observable {
 	 * @param startDate
 	 * @param endDate
 	 */
-	private double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
+	private double computeOccupationRate(LocalDateTime startDate, LocalDateTime endDate)
+			throws InvalidTimeSpanException {
 		return stats.getOccupationRate(startDate, endDate);
 	}
 
@@ -202,7 +207,8 @@ public abstract class Station extends Observable {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate) throws InvalidTimeSpanException {
+	public String displayOccupationRate(LocalDateTime startDate, LocalDateTime endDate)
+			throws InvalidTimeSpanException {
 		return "Occupation rate between " + startDate + " and " + endDate + ": "
 				+ computeOccupationRate(startDate, endDate);
 	}

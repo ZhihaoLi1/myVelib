@@ -78,7 +78,7 @@ public class ParkingSlot {
 			throw new IllegalArgumentException("Invalid status given");
 		}
 
-		if (startDate == null || endDate == null) {
+		if (startDate == null || endDate == null || startDate.until(endDate, ChronoUnit.SECONDS) < 0) {
 			throw new IllegalArgumentException("Invalid date given");
 		}
 
@@ -219,6 +219,15 @@ public class ParkingSlot {
 
 		this.currentStatus = new ParkingSlotStatus(newStatusName, date);
 		this.statusHistory.add(this.currentStatus);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ParkingSlot) {
+			ParkingSlot other = (ParkingSlot) o;
+			return other.id == this.id;
+		}
+		return false;
 	}
 
 	@Override

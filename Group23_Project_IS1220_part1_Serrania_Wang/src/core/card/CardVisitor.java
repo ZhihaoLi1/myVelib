@@ -41,7 +41,7 @@ public interface CardVisitor {
 
 	/**
 	 * Gets the time credit currently on the card
-	 * 
+	 * @return the time credit on the card
 	 */
 	public int getTimeCredit();
 	

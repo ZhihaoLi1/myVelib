@@ -83,6 +83,7 @@ public class SortStationTest {
 	/**
 	 * When an null policy is given an IllegalArgumentException should be
 	 * thrown
+	 * 
 	 */
 	@Test
 	public void whenNullPolicyIsGivenThenThrowException() throws InvalidTimeSpanException, InvalidSortingPolicyException {
