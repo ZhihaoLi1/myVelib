@@ -2,6 +2,7 @@ package clui;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,6 +46,8 @@ public class RunCommandsFromFile {
 					System.out.println(message + "\n");
 				}
 			}
+		} catch (FileNotFoundException e) {
+			System.out.print("File not found. If scenario file is in eval folder, the filepath should be src/eval/filename> \n");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		} finally {
