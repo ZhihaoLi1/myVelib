@@ -157,6 +157,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [sidearea] [nbikes]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException 
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String setup(String[] args) throws IncorrectArgumentException {
 		// Cannot be done with verifyArgumentLength because there are 2 possible lengths
@@ -213,6 +214,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [username] [cardType]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String addUser(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(3, args.length);
@@ -229,6 +231,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [stationId]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String offline(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(2, args.length);
@@ -249,6 +252,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [stationId]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String online(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(2, args.length);
@@ -269,6 +273,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [DateTime] [userId] [stationId] [bikeType]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String rentBike(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(5, args.length);
@@ -296,6 +301,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [DateTime] [userId] [stationId]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String returnBike(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(4, args.length);
@@ -321,6 +327,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [stationId]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String displayStation(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(2, args.length);
@@ -342,6 +349,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [userId]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String displayUser(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(2, args.length);
@@ -363,6 +371,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name] [sortPolicy]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String sortStation(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(2, args.length);
@@ -379,6 +388,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String display(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(1, args.length);
@@ -395,6 +405,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [name]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String deleteNetwork(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(1, args.length);
@@ -414,6 +425,7 @@ public class CLUIThread extends Thread implements Observer {
 	 *            [policy] [bikeType]
 	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
+	 * 				if the input arguments cannot be parsed correctly
 	 */
 	public String planRide(String[] args) throws IncorrectArgumentException {
 		verifyArgumentLength(8, args.length);
@@ -437,6 +449,7 @@ public class CLUIThread extends Thread implements Observer {
 	/**
 	 * Delete all networks, reset ID generator
 	 * @return A message to be printed in sdtout
+	 * 
 	 */
 	public String reset() {
 		Network.reset();
@@ -445,7 +458,9 @@ public class CLUIThread extends Thread implements Observer {
 	}
 
 	/**
-	 * Delete all networks, reset ID generator
+	 * 
+	 * @param arguments
+	 * 			array of arguments given the the command line
 	 * @return A message to be printed in sdtout
 	 */
 	public String help(String[] arguments) {
@@ -494,6 +509,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * Parses the user input and calls the correct method to execute the command
 	 * 
 	 * @param userInput
+	 * 			user input in the clui
 	 * @return A message to be printed in sdtout
 	 */
 	public String parseUserInput(String userInput) {
@@ -633,6 +649,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * also any special characters
 	 * 
 	 * @param input
+	 * 			user input in the clui
 	 * @return A message to be printed in sdtout
 	 */
 	public static String[] sanitizeInput(String input) {
