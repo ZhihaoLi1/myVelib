@@ -20,6 +20,6 @@ public class OngoingBikeRentalException extends Exception {
 	
 	@Override
 	public String getMessage() {
-		return user.getName() + "already rented a bike. He cannot rent another one at the moment.";
+		return user.getName() + " already rented a bike. He cannot rent another one at the moment.";
 	}
 }

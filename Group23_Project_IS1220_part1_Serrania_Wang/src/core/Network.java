@@ -167,10 +167,10 @@ public class Network extends Observable {
 		try {
 			String s = "";
 			if (user.getRidePlan() != null) {
-				s += "The previous ride plan was removed.\n";
+				s += "The previous ride plan for " + user.getName() + "was removed.\n";
 			}
 			RidePlan rp = createRidePlan(source, destination, user, policy, bikeType);
-			return s + "You have subscribed to the destination station of this ride plan. You will be notified if the destination station becomes unavailable. Your ride plan is:\n"
+			return s + user.getName() + " has subscribed to the destination station of this ride plan. They will be notified if the destination station becomes unavailable. Their ride plan is:\n"
 					+ rp.toString();
 		} catch (InvalidBikeTypeException e) {
 			return e.getMessage();
@@ -343,7 +343,11 @@ public class Network extends Observable {
 			return "No station found with id " + stationId;
 		try {
 			BikeRental br = returnBike(user, station, returnDate);
-			return user.getName() + " should pay " + br.getPrice() + " euros for this ride which lasted "
+			String s = "";
+			if (br.getTimeCreditAdded() > 0) {
+				s += br.getTimeCreditAdded() + " minutes of time credit were added to " + user.getName() + "'s card.\n";
+			}
+			return s + user.getName() + " should pay " + br.getPrice() + " euro(s) for this ride which lasted "
 					+ br.getTimeSpent() + " minutes. (" + br.getTimeCreditUsed() + " minutes of time credit used)."
 					+ " Thank you for choosing MyVelib, have a wonderful day!";
 		} catch (InvalidDatesException e) {
@@ -586,7 +590,11 @@ public class Network extends Observable {
 				// full, will throw FullStationException
 				station.returnBike(br, returnDate);
 
-				int timeCreditAdded = user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn());
+				// Store how much time credit should be added if the return succeeds 
+				// and virtually add it to calculate the right price.
+				// (This amount will be substracted if the operation fails).
+				br.setTimeCreditAdded(user.getCard().addTimeCredit(station.getBonusTimeCreditOnReturn()));
+				
 				// Calculate the price of the ride. Throws InvalidBikeException or
 				// InvalidDatesException if the calculation couldn't be performed
 				try {
@@ -594,13 +602,13 @@ public class Network extends Observable {
 				} catch (InvalidBikeException | InvalidDatesException e) {
 					// As the operation couldn't be performed, rollback to the previous time credit
 					// status
-					user.getCard().removeTimeCredit(timeCreditAdded);
+					user.getCard().removeTimeCredit(br.getTimeCreditAdded());
 					throw e;
 				}
 
 				// Add the amount of credits added to the total time credits stat of
 				// the user.
-				user.getStats().addTotalTimeCredits(timeCreditAdded);
+				user.getStats().addTotalTimeCredits(br.getTimeCreditAdded());
 				// Now remove the time credit from the user's card
 				user.getCard().removeTimeCredit(br.getTimeCreditUsed());
 				

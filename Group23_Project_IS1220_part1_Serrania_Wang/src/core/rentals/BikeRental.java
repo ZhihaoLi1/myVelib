@@ -9,10 +9,10 @@ import core.card.InvalidBikeException;
 import core.card.InvalidDatesException;
 
 /**
- * Contains information of a rental Bike, date of rent, and user who rented it.
+ * Contains information about a bike rental (Bike and rent date). <br>
  * Other information is added to it when the bike rental ends (date of return,
- * time spent, price of the ride, timeCredit used) Concrete visitor for the
- * visitor pattern used to calculate the price of a rental.
+ * time spent, price of the ride, timeCredit used and timeCredit added) <br>
+ * Concrete visitor for the visitor pattern used to calculate the price of a rental.
  * 
  * @see Rental
  * @author animato
@@ -25,6 +25,7 @@ public class BikeRental implements Rental {
 	private LocalDateTime returnDate;
 	private long timeSpent; // in minutes, inferred from returnDate and rentDate
 	private double price; // price of the rental, in euros
+	private int timeCreditAdded; // time credit added when returning to the station
 	private int timeCreditUsed; // time credit used to pay part of the rental, in minutes
 
 	// Constructor
@@ -100,6 +101,14 @@ public class BikeRental implements Rental {
 
 	public void setTimeCreditUsed(int timeCreditUsed) {
 		this.timeCreditUsed = timeCreditUsed;
+	}
+	
+	public int getTimeCreditAdded() {
+		return timeCreditAdded;
+	}
+
+	public void setTimeCreditAdded(int timeCreditAdded) {
+		this.timeCreditAdded = timeCreditAdded;
 	}
 
 	// Equality check methods

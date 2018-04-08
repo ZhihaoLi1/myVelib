@@ -214,7 +214,7 @@ public abstract class Station extends Observable {
 	 * @return a String representing the stats
 	 */
 	public String displayStats() {
-		return "Stats of Station " + this.id + ":\n" + stats.toString() + "]";
+		return "Stats of Station " + this.id + ":\n" + stats.toString();
 	}
 
 	// Getters / Setters

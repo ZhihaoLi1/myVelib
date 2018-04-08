@@ -58,9 +58,9 @@ public class UserStats {
 	@Override 
 	public String toString() {
 		String stats = "Total number of rides: " + totalRides + "\n";
-		stats += "Total credits accumulated: " + totalTimeCredits + "\n";
-		stats += "Total amount spent: " + totalCharges + "\n";
-		stats += "Total time spent: " + totalTimeSpent + "\n";
+		stats += "Total credits accumulated: " + totalTimeCredits + " minutes\n";
+		stats += "Total amount spent: " + totalCharges + " euro(s)\n";
+		stats += "Total time spent of rides: " + totalTimeSpent + " minutes\n";
 		return stats;
 	}
 

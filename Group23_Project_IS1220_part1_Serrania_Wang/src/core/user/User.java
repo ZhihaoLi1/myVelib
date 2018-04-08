@@ -57,11 +57,11 @@ public class User implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (!(o instanceof Station))
-			throw new IllegalArgumentException("user update needs station as observable input.");
+			throw new IllegalArgumentException("User update needs station as observable input.");
 		Station s = (Station) o;
 		this.ridePlan.getNetwork().notifyStationFull(this, s);
-		this.getRidePlan().getNetwork().notifyObservers("Station with id " + s.getId() + " is full and ride plan for "
-				+ this.getName() + " is cancelled. Please create a new one");
+		this.getRidePlan().getNetwork().notifyObservers("Ride plan for "
+				+ this.getName() + " is cancelled. Please create a new one.");
 		// reset ride plan
 		setRidePlan(null);
 	}

@@ -20,6 +20,6 @@ public class BikeRentalNotFoundException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "User " + userId + " has no ongoing bike rental.";
+		return "User " + userId + " has no ongoing bike rental. They cannot return a bike.";
 	}
 }
