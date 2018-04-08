@@ -5,6 +5,9 @@ addUser velib1 Alice NO_CARD
 # This will not work
 rentBike velib1 01/01/2000T10:00:00 1 1 ELEC
 
+# cleanup 
+reset
+
 # All stations are full in this network.
 setup velib2 01/01/2000T10:00:00 10 10 5 100
 addUser velib2 Alice NO_CARD
@@ -12,6 +15,9 @@ addUser velib2 Alice NO_CARD
 rentBike velib2 01/01/2000T10:00:00 1 1 ELEC
 # Return bike to another station. The station is full. It should not work
 returnBike velib2 02/01/2000T10:00:00 1 2
+
+# cleanup 
+reset
 
 # Offline stations. Rent and Return fails. Wrong stationId or UserId fails
 setup velib3 01/01/2000T10:00:00 10 10 5 75
@@ -29,6 +35,4 @@ rentBike velib3 01/01/2000T10:00:00 1 99 ELEC
 rentBike velib3 01/01/2000T10:00:00 99 1 ELEC
 
 # cleanup 
-deleteNetwork velib1
-deleteNetwork velib2
-deleteNetwork velib3
+reset
