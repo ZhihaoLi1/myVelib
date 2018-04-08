@@ -1141,7 +1141,6 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Dependency" xmi:id="_x4yfUDq6Eeiq7oif9SBHhA" client="_85s78B1WEeiqPZcfH4EsOA" supplier="_r-7wADq6Eeiq7oif9SBHhA"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_0RKr8Dq6Eeiq7oif9SBHhA" name="Class1"/>
   <packagedElement xmi:type="uml:Association" xmi:id="_R6OyMDshEeiW-NTEUt__Eg" memberEnd="_R6QnYDshEeiW-NTEUt__Eg _R6ROcTshEeiW-NTEUt__Eg">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_R6QAUDshEeiW-NTEUt__Eg" source="org.eclipse.papyrus">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_R6QAUTshEeiW-NTEUt__Eg" key="nature" value="UML_Nature"/>
