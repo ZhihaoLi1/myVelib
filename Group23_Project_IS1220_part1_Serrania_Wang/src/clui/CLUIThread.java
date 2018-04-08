@@ -122,6 +122,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * Test if a network exists in current clui
 	 * 
 	 * @param name
+	 * 			name of a network
 	 * @return true if the name provided is the name of an existing network
 	 */
 	public Boolean hasNetwork(String name) {
@@ -137,7 +138,9 @@ public class CLUIThread extends Thread implements Observer {
 	 * IncorrectArgumentException if different.
 	 * 
 	 * @param expectedLength
+	 * 				expected length of arguments
 	 * @param argumentLength
+	 * 				actual length of arguments
 	 * @throws IncorrectArgumentException
 	 *             if expectedLength different from argumentLength
 	 */
@@ -152,8 +155,8 @@ public class CLUIThread extends Thread implements Observer {
 	 * @param args
 	 *            [name] [dateTime] or [name] [dateTime] [nstations] [nslots]
 	 *            [sidearea] [nbikes]
-	 * @return
-	 * @throws IncorrectArgumentException
+	 * @return A message to be printed in sdtout
+	 * @throws IncorrectArgumentException 
 	 */
 	public String setup(String[] args) throws IncorrectArgumentException {
 		// Cannot be done with verifyArgumentLength because there are 2 possible lengths
@@ -208,7 +211,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [username] [cardType]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String addUser(String[] args) throws IncorrectArgumentException {
@@ -224,7 +227,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [stationId]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String offline(String[] args) throws IncorrectArgumentException {
@@ -244,7 +247,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [stationId]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String online(String[] args) throws IncorrectArgumentException {
@@ -264,7 +267,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [DateTime] [userId] [stationId] [bikeType]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String rentBike(String[] args) throws IncorrectArgumentException {
@@ -291,7 +294,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [DateTime] [userId] [stationId]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String returnBike(String[] args) throws IncorrectArgumentException {
@@ -316,7 +319,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [stationId]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String displayStation(String[] args) throws IncorrectArgumentException {
@@ -337,7 +340,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [userId]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String displayUser(String[] args) throws IncorrectArgumentException {
@@ -358,7 +361,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name] [sortPolicy]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String sortStation(String[] args) throws IncorrectArgumentException {
@@ -374,7 +377,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String display(String[] args) throws IncorrectArgumentException {
@@ -390,7 +393,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * 
 	 * @param args
 	 *            [name]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String deleteNetwork(String[] args) throws IncorrectArgumentException {
@@ -409,7 +412,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * @param args
 	 *            [name] [sourceX] [sourceY] [destinationX] [destinationY] [userId]
 	 *            [policy] [bikeType]
-	 * @return
+	 * @return A message to be printed in sdtout
 	 * @throws IncorrectArgumentException
 	 */
 	public String planRide(String[] args) throws IncorrectArgumentException {
@@ -433,6 +436,7 @@ public class CLUIThread extends Thread implements Observer {
 
 	/**
 	 * Delete all networks, reset ID generator
+	 * @return A message to be printed in sdtout
 	 */
 	public String reset() {
 		Network.reset();
@@ -442,6 +446,7 @@ public class CLUIThread extends Thread implements Observer {
 
 	/**
 	 * Delete all networks, reset ID generator
+	 * @return A message to be printed in sdtout
 	 */
 	public String help(String[] arguments) {
 		if (arguments.length == 1) {
@@ -489,7 +494,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * Parses the user input and calls the correct method to execute the command
 	 * 
 	 * @param userInput
-	 * @return
+	 * @return A message to be printed in sdtout
 	 */
 	public String parseUserInput(String userInput) {
 		String message = "";
@@ -628,7 +633,7 @@ public class CLUIThread extends Thread implements Observer {
 	 * also any special characters
 	 * 
 	 * @param input
-	 * @return
+	 * @return A message to be printed in sdtout
 	 */
 	public static String[] sanitizeInput(String input) {
 		String[] arguments = input.replaceAll("[^A-Za-z0-9 .:/_]", "").trim().split(" ");
