@@ -18,97 +18,112 @@ import utils.DateParser;
 public class CLUIThread extends Thread implements Observer {
 	private HashMap<String, Network> networks = new HashMap<String, Network>();
 	
-	private String helpMessage = "\n =========== Help =========== \n"
-			+ "setup <network name> <dateTime> \n"
-			+ "setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n"
-			+ "addUser <network name> <user name> <typeOfCard> \n"
-			+ "offline <network name> <stationId> \n"
-			+ "online <network name> <stationId> \n"
-			+ "rentBike <network name> <timeOfRental> <userId> <stationId> <bikeType> \n"
-			+ "returnBike <network name> <timeOfRental> <userId> <stationId> \n"
-			+ "displayStation <network name> <stationId> \n"
-			+ "displayUser <network name> <userId> \n"
-			+ "sortStation <network name> <sortPolicy> \n"
-			+ "display <network name> \n"
-			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>";
+	public final static String helpMessage = "\n =========== Help =========== \n"
+			+ "setup <networkName> <dateTime> \n"
+			+ "setup <networkName> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n"
+			+ "deleteNetwork <networkName>\n"
+			+ "reset\n"
+			+ "addUser <networkName> <userName> <typeOfCard> \n"
+			+ "offline <networkName> <stationId> \n"
+			+ "online <networkName> <stationId> \n"
+			+ "rentBike <networkName> <timeOfRental> <userId> <stationId> <bikeType> \n"
+			+ "returnBike <networkName> <timeOfReturn> <userId> <stationId> \n"
+			+ "displayStation <networkName> <stationId> \n"
+			+ "displayUser <networkName> <userId> \n"
+			+ "sortStation <networkName> <sortPolicy> \n"
+			+ "planRide <networkName> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>\n"
+			+ "runTest <scenarioFilePath>\n"
+			+ "display <networkName> \n"
+			+ "help\n"
+			+ "help <commandName>";
 	
-	private String setupUsage = "\n =========== setup usage =========== \n" +
-			"option 1: \n" +
-			"setup <network name> <dateTime> \n"+ 
+	public final static String setupUsage = "\n =========== setup usage =========== \n" +
+			"Option 1: \n" +
+			"setup <networkName> <dateTime> \n\n"+ 
 			"Example: setup myVelib 01/01/2000T00:00:00 \n" +
 			"This creates a myVelib network with given name and \n" + 
 			"consisting of 10 stations each of which has \n" +
 			"10 parking slots and such that stations are arranged \n" +
 			"on a square grid whose of side 4km and initially populated \n" +
-			"with a 75% bikes randomly distributed over the 10 stations \n" +
-			"option 2: \n" + 
-			"setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n" +
+			"with 75 bikes randomly distributed over the 10 stations.\n" +
+			"Half of the stations are plus stations, half are standard stations.\n" +
+			"Half of the bikes are elec bikes, half are mech bikes.\n\n" +
+			"Option 2: \n" + 
+			"setup <myvelibnetworkname> <dateTime> <nstations> <nslots> <sidearea> <nbikes> \n\n" +
 			"Example: setup myVelib 01/01/2000T00:00:00 10 10 4 75 \n" +
 			"This creates a myVelib network with given name and consisting of <nstations> stations \n" +
 			"each of which has <nslots> parking slots and such that stations \n" + 
 			"are arranged on a square grid whose of side <sidearea>km and initially populated \n" +
-			"with a <nbikes> bikes randomly distributed over the stations \n";
+			"with <nbikes> bikes randomly distributed over the stations \n" +
+			"Half of the stations are plus stations, half are standard stations.\n" +
+			"Half of the bikes are elec bikes, half are mech bikes.\n\n";
 	
-	private String addUserUsage = "\n =========== addUser usage =========== \n"
-			+ "addUser <network name> <user name> <typeOfCard> \n"
+	public final static String resetUsage = "\n =========== reset usage =========== \n" +
+			"reset \n\n"+ 
+			"Resets CLUI to a clean state (without any network)\n"; 
+	
+	public final static String addUserUsage = "\n =========== addUser usage =========== \n"
+			+ "addUser <networkName> <userName> <typeOfCard> \n\n"
 			+ "Example: addUser myVelib John NO_CARD \n"
 			+ "Adds John to the myVelib Network and he does not have a card. \n"
 			+ "The different card types are: NO_CARD, VLIBRE_CARD, VMAX_CARD. \n";
 	
-	private String offlineUsage = "\n =========== offline usage =========== \n"
-			+ "offline <network name> <stationId> \n"
+	public final static String offlineUsage = "\n =========== offline usage =========== \n"
+			+ "offline <networkName> <stationId> \n\n"
 			+ "Example: offline myVelib 1 \n"
 			+ "Set a station to offline \n";
 
-	private String onlineUsage = "\n =========== online usage =========== \n"
-			+ "online <network name> <stationId> \n"
+	public final static String onlineUsage = "\n =========== online usage =========== \n"
+			+ "online <networkName> <stationId> \n\n"
 			+ "Example: online myVelib 1 \n"
 			+ "Set a station to online \n";
 
-	private String rentBikeUsage = "\n =========== rentBike usage =========== \n"
-			+ "rentBike <network name> <timeOfRental> <userId> <stationId> <bikeType> \n"
+	public final static String rentBikeUsage = "\n =========== rentBike usage =========== \n"
+			+ "rentBike <networkName> <timeOfRental> <userId> <stationId> <bikeType> \n\n"
 			+ "Example: rentBike myVelib 01/01/2000T00:00:00 1 1 ELEC \n"
 			+ "Rent a bike from a station in given network for user <userId>. \n"
 			+ "Types of Bike: ELEC, MECH \n";
 	
-	private String returnBikeUsage = "\n =========== returnBike usage =========== \n"
-			+ "returnBike <network name> <timeOfRental> <userId> <stationId> \n"
+	public final static String returnBikeUsage = "\n =========== returnBike usage =========== \n"
+			+ "returnBike <networkName> <timeOfRental> <userId> <stationId> \n\n"
 			+ "Example: returnBike myVelib 02/01/2000T00:00:00 1 1 \n"
 			+ "Return a bike to a station in given network for user <userId>. \n";
 	
-	private String displayStationUsage = "\n =========== displayStation usage =========== \n"
-			+ "displayStation <network name> <stationId> \n"
+	public final static String displayStationUsage = "\n =========== displayStation usage =========== \n"
+			+ "displayStation <networkName> <stationId> \n\n"
 			+ "Displays the statistics of a station \n";
 	
-	private String displayUserUsage = "\n =========== displayUser usage =========== \n"
-			+ "displayUser <network name> <userId> \n"
+	public final static String displayUserUsage = "\n =========== displayUser usage =========== \n"
+			+ "displayUser <networkName> <userId> \n\n"
 			+ "Displays the statistics of a user \n";
 	
-	private String sortStationUsage = "\n =========== displayUser usage =========== \n"
-			+ "sortStation <network name> <sortPolicy> \n"
+	public final static String sortStationUsage = "\n =========== displayUser usage =========== \n"
+			+ "sortStation <networkName> <sortPolicy> \n\n"
 			+ "Example: sortStation myVelib LEAST_OCCUPIED \n"
 			+ "Types of policies: LEAST_OCCUPIED, MOST_USED";
 	
-	private String displayUsage = "\n =========== display usage =========== \n"
-			+ "display <network name> \n"
+	public final static String displayUsage = "\n =========== display usage =========== \n"
+			+ "display <networkName> \n\n"
 			+ "Displays the details of the network \n";
 	
-	private String runtestUsage = "\n =========== display usage =========== \n"
-			+ "runtest <scenario filepath> \n"
-			+ "Runs the test scenario. \n";
+	public final static String runtestUsage = "\n =========== display usage =========== \n"
+			+ "runtest <scenarioFilePath> \n\n"
+			+ "Runs the given test scenario. \n"
+			+ "Initially available test scenarios are: failRentReturnScenario.txt, planRideScenario.txt,\n"
+			+ "statisticsScenario.txt, triggerNotificationScenario.txt \n";
 
-	private String deleteNetworkUsage = "\n =========== deleteNetwork usage =========== \n"
-			+ "deleteNetwork <network name> \n"
+	public final static String deleteNetworkUsage = "\n =========== deleteNetwork usage =========== \n"
+			+ "deleteNetwork <networkName> \n\n"
 			+ "Delete network from CLUI \n";
 
-	private String planRideUsage = "\n =========== planRide usage =========== \n"
-			+ "planRide <network name> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>\n"
+	public final static String planRideUsage = "\n =========== planRide usage =========== \n"
+			+ "planRide <networkName> <sourceX> <sourceY> <destinationX> <destinationY> <userId> <policy> <bikeType>\n\n"
 			+ "planRide myVelib 1.0 1.0 3.0 3.0 1 FASTEST MECH \n"
 			+ "The types of ridePlan policies are: FASTEST, SHORTEST, PREFER_PLUS, AVOID_PLUS, PRESERVE_UNIFORMITY \n"
-			+ "This command sets a ride plan for the user and he/she is notified when the destination stations goes offline or become unavailable. \n";
+			+ "This command sets a ride plan for the user and they are notified when the destination stations goes offline or becomes unavailable. \n";
 	
 	/**
-	 * Test if a network exists in currect clui
+	 * Test if a network exists in current clui
 	 * @param name
 	 * @return true if the name provided is the name of an existing network
 	 */
@@ -165,7 +180,7 @@ public class CLUIThread extends Thread implements Observer {
 			int nbikes = Integer.parseInt(args[5]);
 			// FIXME ? not percentage but number ? 
 			double percentageOfBikes = (float) nbikes / (nslots*nstations);
-			if (percentageOfBikes > 1) throw new IncorrectArgumentException("Total number of bikes exceeds the total number of slots");
+			if (percentageOfBikes > 1) throw new IncorrectArgumentException("Total number of bikes exceeds the total number of slots.");
 			// By default 50% of plus stations, 50% of elec bikes
 			Network n = new Network(name , nstations, nslots, sidearea, percentageOfBikes, 0.5, 0.5, creationDate);
 			// add this clui to the observers of network 
@@ -380,6 +395,51 @@ public class CLUIThread extends Thread implements Observer {
 	}
 	
 	/**
+	 * Delete all networks, reset ID generator
+	 */
+	public String help(String[] arguments) {
+		if (arguments.length == 1) {
+			Commands commandName;
+			try {
+	    		commandName = Commands.valueOf(arguments[0]);
+		    } catch (IllegalArgumentException ex) {  
+		        return CLUIThread.helpMessage;
+		    }
+			switch (commandName) {
+		    case reset:
+		    		return CLUIThread.resetUsage;
+		    case runtest:
+		    		return CLUIThread.runtestUsage;
+		    case setup:
+		    		return CLUIThread.setupUsage;		    		
+		    case addUser:
+		    		return CLUIThread.addUserUsage;		    
+		    case offline:
+		    		return CLUIThread.offlineUsage;
+		    case online:
+		    		return CLUIThread.onlineUsage;
+		    case rentBike:
+		    		return CLUIThread.rentBikeUsage;
+		    case returnBike:
+		    		return CLUIThread.returnBikeUsage;
+		    case displayStation:
+		    		return CLUIThread.displayStationUsage;
+		    case displayUser:
+		    		return CLUIThread.displayUserUsage;
+		    case sortStation:
+		    		return CLUIThread.sortStationUsage;
+		    case display:
+		    		return CLUIThread.displayUsage;
+		    case deleteNetwork:
+		    		return CLUIThread.deleteNetworkUsage;
+		    case planRide:
+		    		return CLUIThread.planRideUsage;
+		    }
+		}
+		return CLUIThread.helpMessage;
+	}
+	
+	/**
 	 * Parses the user input and calls the correct method to execute the command
 	 * @param userInput
 	 * @return
@@ -408,7 +468,7 @@ public class CLUIThread extends Thread implements Observer {
 	    		RunCommandsFromFile.run(arguments[0], this);
 	    		break;
 	    case help:
-	    		message = helpMessage;
+	    		message = this.help(arguments);
 	    		break;
 	    case setup:
 	    		try {
