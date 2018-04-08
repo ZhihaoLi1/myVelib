@@ -1,5 +1,6 @@
 # Fail setup command -> wrong date format
 setup velib 01-01-2000T00:00:00
+
 # Correct implementation
 setup velib 01/01/2000T00:00:00
 # Fail addUser -> incorrect card type
@@ -30,3 +31,12 @@ planRide velib 1.0 1.0 2.4 3.2 1 SLOWEST MECH
 planRide velib 1.0 1.0 2.4 3.2 1 FASTEST SUPERDUPER
 # Fail to plan ride -> incorrect out of bounds coordinates 
 planRide velib 99.0 99.0 2.4 3.2 1 FASTEST MECH
+
+
+# Parsing failures 
+# Fail -> station Id should be an int 
+online velib station1
+# Fail -> coordinates should be float
+planRide velib startx starty 2.4 3.2 1 FASTEST MECH
+# Fail -> Forget to indicate network name
+displayUser 1
