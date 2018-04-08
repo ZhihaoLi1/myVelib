@@ -198,6 +198,7 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_yBbx4B1WEeiqPZcfH4EsOA" name="Station" visibility="public" isAbstract="true">
+    <generalization xmi:type="uml:Generalization" xmi:id="_bHEqUDsjEeiW-NTEUt__Eg" general="_Bjq-ADsiEeiW-NTEUt__Eg"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_4WXToB1WEeiqPZcfH4EsOA" name="parkingSlots" visibility="private" type="_85s78B1WEeiqPZcfH4EsOA">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P3L5oB1XEeiqPZcfH4EsOA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P3RZMB1XEeiqPZcfH4EsOA" value="*"/>
